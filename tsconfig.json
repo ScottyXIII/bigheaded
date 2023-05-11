@@ -1,5 +1,9 @@
 {
   "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"],
+    },
     "target": "ESNext",
     "useDefineForClassFields": true,
     "module": "ESNext",
@@ -14,11 +18,5 @@
     "noUnusedParameters": true,
     "noImplicitReturns": true,
     "skipLibCheck": true
-  },
-  "include": ["src"],
-  "paths": {
-    "@scenes": ["src/scenes/*"],
-    "@config": ["src/config/*"],
-    "@classes": ["src/classes/*"]
   }
 }

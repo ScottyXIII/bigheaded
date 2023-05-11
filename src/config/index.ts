@@ -1,6 +1,6 @@
 import { WEBGL } from "phaser";
 
-import GameScene from "@scenes/game-scene";
+import { GameScene } from "@/scenes/game-scene";
 
 const canvas = document.getElementById("game") as HTMLCanvasElement;
 

@@ -1,21 +1,21 @@
-import { Scene, GameObjects } from "phaser";
+import { Scene, GameObjects } from 'phaser';
 
-class GameScene extends Scene {
+export class GameScene extends Scene {
   private textbox: GameObjects.Text | undefined;
 
   constructor() {
-    super("scene-game");
+    super('scene-game');
   }
 
   create() {
     this.textbox = this.add.text(
       window.innerWidth / 2,
       window.innerHeight / 2,
-      "Welcome to Phaser x Vite!",
+      'Welcome to Phaser x Vite!',
       {
-        color: "#FFF",
-        fontFamily: "monospace",
-        fontSize: "26px",
+        color: '#FFF',
+        fontFamily: 'monospace',
+        fontSize: '26px',
       }
     );
 
@@ -30,5 +30,3 @@ class GameScene extends Scene {
     this.textbox.rotation += 0.0005 * delta;
   }
 }
-
-export default GameScene;
