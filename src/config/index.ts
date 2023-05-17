@@ -12,8 +12,14 @@ export const config = {
   physics: {
     default: "arcade",
     arcade: {
-      gravity: { y: 0 },
-      // debug: true
+      gravity: { x: 0, y: 0 },
+      checkCollision: {
+        left: true,
+        right: true,
+        up: true,
+        down: true,
+      },
+      debug: true,
     },
   },
   scene: [GameScene],
