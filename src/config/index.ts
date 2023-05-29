@@ -1,8 +1,8 @@
-import { WEBGL } from "phaser";
+import { WEBGL } from 'phaser';
 
-import { GameScene } from "@/scenes/game-scene";
+import { GameScene } from '@/scenes/game-scene';
 
-const canvas = document.getElementById("game") as HTMLCanvasElement;
+const canvas = document.getElementById('game') as HTMLCanvasElement;
 
 export const config = {
   type: WEBGL,
@@ -10,7 +10,7 @@ export const config = {
   height: window.innerHeight,
   canvas,
   physics: {
-    default: "arcade",
+    default: 'arcade',
     arcade: {
       gravity: { x: 0, y: 0 },
       checkCollision: {
