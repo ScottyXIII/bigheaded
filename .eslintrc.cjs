@@ -4,7 +4,7 @@ module.exports = {
     es2021: true,
   },
   extends: [
-    'airbnb-base',
+    'airbnb-base', 'prettier',
   ],
   settings: {
     'import/resolver': {
@@ -18,14 +18,16 @@ module.exports = {
   },
   parser: '@typescript-eslint/parser',
   parserOptions: {
-    ecmaVersion: 15,
+    ecmaVersion: 'latest',
     sourceType: 'module',
   },
   plugins: [
+    'prettier',
     '@typescript-eslint',
   ],
   rules: {
     'import/extensions': 0, // don't require file ext in imports
     'import/no-extraneous-dependencies': ['error', { devDependencies: true }], // stop eslint complaining about deps vs devDeps
-  },
+  },  
+  ignorePatterns: ['dist'],
 };
