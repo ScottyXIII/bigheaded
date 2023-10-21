@@ -8,8 +8,8 @@ window.onload = () => {
   const game = new Game(config);
   resize(config);
 
-  window.onresize = config2 => {
-    resize(config2);
+  window.onresize = newConfig => {
+    resize(newConfig);
     game.events.emit('resize');
   };
 };
