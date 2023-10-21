@@ -1,4 +1,4 @@
-export function resize(config: any) {
+function resize(config: any) {
   const canvas: any = document.querySelector('canvas');
   const windowWidth = window.innerWidth;
   const windowHeight = window.innerHeight;
@@ -13,3 +13,5 @@ export function resize(config: any) {
     canvas.style.height = `${windowHeight}px`;
   }
 }
+
+export default resize;
