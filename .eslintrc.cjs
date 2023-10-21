@@ -3,16 +3,12 @@ module.exports = {
     browser: true,
     es2021: true,
   },
-  extends: [
-    'airbnb-base', 'prettier',
-  ],
+  extends: ['airbnb-base', 'prettier'],
   settings: {
     'import/resolver': {
       alias: {
         extensions: ['.ts'],
-        map: [
-          ['@', './src'],
-        ],
+        map: [['@', './src']],
       },
     },
   },
@@ -21,13 +17,10 @@ module.exports = {
     ecmaVersion: 'latest',
     sourceType: 'module',
   },
-  plugins: [
-    'prettier',
-    '@typescript-eslint',
-  ],
+  plugins: ['prettier', '@typescript-eslint'],
   rules: {
     'import/extensions': 0, // don't require file ext in imports
     'import/no-extraneous-dependencies': ['error', { devDependencies: true }], // stop eslint complaining about deps vs devDeps
-  },  
+  },
   ignorePatterns: ['dist'],
 };
