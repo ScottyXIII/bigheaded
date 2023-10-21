@@ -6,10 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "preview": "vite preview",
-    "lint": "eslint **/*.ts --fix",
-    "lint2": "eslint . --fix",
-    "lint3": "prettier --log-level silent --write \"**/*.{js,ts,md,json}\""
+    "build:preview": "vite preview",
+    "lint": "eslint . --ext .js,.ts,.cjs --fix && prettier --log-level silent --write \"**/*.{js,ts,md,json,html,css}\""
   },
   "devDependencies": {
     "@types/node": "^20.8.7",
