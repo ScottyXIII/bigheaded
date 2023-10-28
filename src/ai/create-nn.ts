@@ -27,11 +27,9 @@ const createNN = (layerUnits = [2, 6, 6, 3]) => {
   network.summary();
   network.compile({ optimizer: 'adam', loss: 'meanSquaredError' });
 
-  return {
-    network,
-  };
+  return network;
 };
 
 export default createNN;
 
-// const { network } = createNN([2,128,128,3]);
+// const network = createNN([2,128,128,3]);
