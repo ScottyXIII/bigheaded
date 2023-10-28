@@ -9,7 +9,7 @@ import * as tf from '@tensorflow/tfjs';
 const createNN = (layerUnits = [2, 6, 6, 3]) => {
   const inputShape = [layerUnits[0]];
   const layerSizes = layerUnits.slice(1);
-  const layers = layerSizes.reduce((acc: any, units, index) => {
+  const layers = layerSizes.reduce((acc: tf.layers.Layer[], units, index) => {
     const isFirst = index === 0;
     const isLast = index === layerSizes.length - 1;
     return [
