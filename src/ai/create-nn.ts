@@ -32,4 +32,4 @@ const createNN = (layerUnits = [2, 6, 6, 3]) => {
 
 export default createNN;
 
-// const network = createNN([2,128,128,3]);
+// const network = createNN([2, 128, 128, 3]);
