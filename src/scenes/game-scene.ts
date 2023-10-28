@@ -3,6 +3,8 @@ import { Scene, GameObjects } from 'phaser';
 class GameScene extends Scene {
   private textbox: GameObjects.Text | undefined;
 
+  private sun: GameObjects.Image | undefined;
+
   constructor() {
     super('scene-game');
   }
@@ -59,8 +61,7 @@ class GameScene extends Scene {
       },
     );
 
-    // const sun =
-    this.matter.add.image(
+    this.sun = this.matter.add.image(
       window.innerWidth / 2,
       window.innerHeight / 2,
       'sun',
@@ -83,11 +84,12 @@ class GameScene extends Scene {
   }
 
   update(_time: number, delta: number) {
-    if (!this.textbox) {
+    if (!this.textbox || !this.sun) {
       return;
     }
 
     this.textbox.rotation += 0.0005 * delta;
+    this.sun.rotation -= 0.0005 * delta;
   }
 }
 
