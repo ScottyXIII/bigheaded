@@ -16,7 +16,7 @@ class GameScene extends Scene {
   }
 
   create() {
-    // this.matter.world.setBounds();
+    this.matter.world.setBounds();
     this.matter.add.mouseSpring();
 
     this.textbox = this.add.text(
