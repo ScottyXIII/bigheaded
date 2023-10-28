@@ -31,39 +31,55 @@ class GameScene extends Scene {
     );
     this.textbox.setOrigin(0.5, 0.5);
 
-    this.matter.add.imageStack('alien', 0, 0, 500, 10, 10, 0, 0, {
-      // mass: 1,
-      restitution: 0.1,
-      // ignorePointer: true,
-      friction: 0,
-      frictionAir: 0,
-      frictionStatic: 0,
-      shape: 'circle',
-      plugin: {
-        attractors: [
-          (bodyA: any, bodyB: any) => ({
-            x: (bodyA.position.x - bodyB.position.x) * 0.000000001,
-            y: (bodyA.position.y - bodyB.position.y) * 0.000000001,
-          }),
-        ],
+    this.matter.add.imageStack(
+      'alien',
+      0,
+      window.innerWidth / 2,
+      window.innerHeight / 2,
+      10,
+      10,
+      0,
+      0,
+      {
+        // mass: 1,
+        restitution: 0.1,
+        // ignorePointer: true,
+        friction: 0,
+        frictionAir: 0,
+        frictionStatic: 0,
+        shape: 'circle',
+        plugin: {
+          attractors: [
+            (bodyA: any, bodyB: any) => ({
+              x: (bodyA.position.x - bodyB.position.x) * 0.00000000001,
+              y: (bodyA.position.y - bodyB.position.y) * 0.00000000001,
+            }),
+          ],
+        },
       },
-    });
+    );
 
     // const sun =
-    this.matter.add.image(400, 200, 'sun', 0, {
-      shape: {
-        type: 'circle',
-        radius: 64,
+    this.matter.add.image(
+      window.innerWidth / 2,
+      window.innerHeight / 2,
+      'sun',
+      0,
+      {
+        shape: {
+          type: 'circle',
+          radius: 64,
+        },
+        plugin: {
+          attractors: [
+            (bodyA: any, bodyB: any) => ({
+              x: (bodyA.position.x - bodyB.position.x) * 0.000000001,
+              y: (bodyA.position.y - bodyB.position.y) * 0.000000001,
+            }),
+          ],
+        },
       },
-      plugin: {
-        attractors: [
-          (bodyA: any, bodyB: any) => ({
-            x: (bodyA.position.x - bodyB.position.x) * 0.0000001,
-            y: (bodyA.position.y - bodyB.position.y) * 0.0000001,
-          }),
-        ],
-      },
-    });
+    );
   }
 
   update(_time: number, delta: number) {
