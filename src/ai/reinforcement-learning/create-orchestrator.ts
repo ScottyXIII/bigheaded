@@ -5,7 +5,7 @@ import createNN from './create-nn';
 const createOrchestrator = (scene: Phaser.Scene) => {
   const { samples, addSample } = createMemory();
   const model = createNN();
-  // scene.restart();
+
   scene.sys.game.scene.start('scene-game');
 
   return { samples, addSample, model };
