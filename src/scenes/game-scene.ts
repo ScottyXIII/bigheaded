@@ -1,6 +1,6 @@
 import { Scene, GameObjects } from 'phaser';
 
-export class GameScene extends Scene {
+class GameScene extends Scene {
   private textbox: GameObjects.Text | undefined;
 
   constructor() {
@@ -30,3 +30,5 @@ export class GameScene extends Scene {
     this.textbox.rotation += 0.0005 * delta;
   }
 }
+
+export default GameScene;
