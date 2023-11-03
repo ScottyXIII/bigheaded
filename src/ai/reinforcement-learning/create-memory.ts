@@ -7,20 +7,23 @@ type SampleType = {
   nextState: tf.Tensor;
 };
 
-const maxLength = 500;
+const createMemory = (maxLength = 500) => {
+  const samples: SampleType[] = [];
 
-const samples: SampleType[] = [];
-
-const addSample = (newSample: SampleType) => {
-  samples.push(newSample);
-  if (samples.length > maxLength) {
-    const { state, nextState } = samples.shift() || {};
-    state?.dispose();
-    nextState?.dispose();
-  }
+  const addSample = (newSample: SampleType) => {
+    samples.push(newSample);
+    if (samples.length > maxLength) {
+      const { state, nextState } = samples.shift() || {};
+      state?.dispose();
+      nextState?.dispose();
+    }
+  };
+  return {
+    samples,
+    addSample,
+  };
 };
 
-export {
-  samples, // singleton
-  addSample,
-};
+export default createMemory;
+
+// const memory = createMemory(400);
