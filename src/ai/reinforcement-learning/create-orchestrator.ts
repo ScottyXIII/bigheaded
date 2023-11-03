@@ -1,11 +1,12 @@
-import Phaser, { Scene } from 'phaser';
+import Phaser from 'phaser';
 import createMemory from './create-memory';
 import createNN from './create-nn';
 
 const createOrchestrator = (scene: Phaser.Scene) => {
   const { samples, addSample } = createMemory();
   const model = createNN();
-  scene.restart();
+  // scene.restart();
+  scene.sys.game.scene.start('scene-game');
 
   return { samples, addSample, model };
 };
