@@ -16,7 +16,7 @@ export class GameScene extends Scene {
         color: '#FFF',
         fontFamily: 'monospace',
         fontSize: '26px',
-      }
+      },
     );
 
     this.textbox.setOrigin(0.5, 0.5);

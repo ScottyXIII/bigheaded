@@ -6,12 +6,21 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "preview": "vite preview"
+    "build:preview": "vite preview",
+    "lint": "eslint . --ext .js,.ts,.cjs --fix && prettier --log-level silent --write \"**/*.{js,ts,md,json,html,css}\""
   },
   "devDependencies": {
-    "@types/node": "^20.8.6",
+    "@types/node": "^20.8.7",
+    "@typescript-eslint/eslint-plugin": "^6.8.0",
+    "@typescript-eslint/parser": "^6.8.0",
+    "eslint": "^8.52.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-import-resolver-alias": "^1.1.2",
+    "eslint-plugin-import": "^2.28.1",
+    "eslint-plugin-prettier": "^5.0.1",
     "typescript": "^5.2.2",
-    "vite": "^4.4.11"
+    "vite": "^4.5.0"
   },
   "dependencies": {
     "phaser": "^3.60.0"

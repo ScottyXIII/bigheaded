@@ -1,26 +1,41 @@
 import { WEBGL } from 'phaser';
 
-import { GameScene } from '@/scenes/game-scene';
+import GameScene from '@/scenes/game-scene';
 
 const canvas = document.getElementById('game') as HTMLCanvasElement;
 
-export const config = {
+const config = {
   type: WEBGL,
   width: window.innerWidth,
   height: window.innerHeight,
   canvas,
   physics: {
-    default: 'arcade',
-    arcade: {
-      gravity: { x: 0, y: 0 },
-      checkCollision: {
-        left: true,
-        right: true,
-        up: true,
-        down: true,
+    default: 'matter', // 'arcade',
+    // arcade: {
+    //   gravity: { x: 0, y: 1 },
+    //   checkCollision: {
+    //     left: true,
+    //     right: true,
+    //     up: true,
+    //     down: true,
+    //   },
+    //   debug: true,
+    // },
+    matter: {
+      enableSleeping: true,
+      gravity: {
+        y: 0,
       },
-      debug: true,
+      plugins: {
+        attractors: true,
+      },
+      debug: {
+        showBody: true,
+        showStaticBody: true,
+      },
     },
   },
   scene: [GameScene],
 };
+
+export default config;
