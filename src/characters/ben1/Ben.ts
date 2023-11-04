@@ -60,11 +60,9 @@ class Bob1 extends Phaser.GameObjects.Container {
 
     this.headScale += 0.00005 * this.headScaleDirection * delta;
 
-    const vec = new Phaser.Math.Vector2(0, this.headScale * 180).rotate(
+    this.neck.pointA = new Phaser.Math.Vector2(0, this.headScale * 180).rotate(
       this.head.rotation,
     );
-
-    this.neck.pointA = vec;
   }
 }
 
