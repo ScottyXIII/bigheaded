@@ -12,6 +12,7 @@ class GameScene extends Scene {
       'ball',
       'https://labs.phaser.io/assets/sprites/shinyball.png',
     );
+    this.load.image('block', 'https://labs.phaser.io/assets/sprites/block.png');
   }
 
   create() {
@@ -36,19 +37,31 @@ class GameScene extends Scene {
       friction: 0.005,
       restitution: 0.6,
     });
-    const ballB = this.matter.add.image(400, 200, 'ball', undefined, {
-      shape: 'circle',
+    const ballB = this.matter.add.image(400, 200, 'block', undefined, {
+      shape: 'rectangle',
       friction: 0.005,
       restitution: 0.6,
     });
-
-    console.log({ ballA, ballB });
 
     this.matter.add.constraint(
       ballA.body?.gameObject,
       ballB.body?.gameObject,
       100,
       0.01,
+      {
+        pointA: { x: 0, y: 0 },
+        pointB: { x: -30, y: 0 },
+      },
+    );
+    this.matter.add.constraint(
+      ballA.body?.gameObject,
+      ballB.body?.gameObject,
+      100,
+      0.01,
+      {
+        pointA: { x: 0, y: 0 },
+        pointB: { x: 30, y: 0 },
+      },
     );
   }
 
