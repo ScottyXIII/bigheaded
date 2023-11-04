@@ -39,7 +39,7 @@ class GameScene extends Scene {
       friction: 0.005,
       restitution: 0.6,
     });
-    ballA.setScale(0.5);
+    ballA.setScale(0.4);
     const ballB = this.matter.add.image(400, 200, 'body1', undefined, {
       shape: 'rectangle',
       friction: 0.005,
@@ -49,21 +49,31 @@ class GameScene extends Scene {
     this.matter.add.constraint(
       ballA.body?.gameObject,
       ballB.body?.gameObject,
-      150,
+      200,
       0.01,
       {
-        pointA: { x: 0, y: 0 },
+        pointA: { x: 20, y: -5 },
         pointB: { x: -60, y: 0 },
       },
     );
     this.matter.add.constraint(
       ballA.body?.gameObject,
       ballB.body?.gameObject,
-      150,
+      200,
       0.01,
       {
-        pointA: { x: 0, y: 0 },
+        pointA: { x: -20, y: -5 },
         pointB: { x: 60, y: 0 },
+      },
+    );
+    this.matter.add.constraint(
+      ballA.body?.gameObject,
+      ballB.body?.gameObject,
+      50,
+      0.01,
+      {
+        pointA: { x: 0, y: 20 },
+        pointB: { x: 0, y: -50 },
       },
     );
   }
