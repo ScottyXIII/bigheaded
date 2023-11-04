@@ -7,6 +7,13 @@ class GameScene extends Scene {
     super('scene-game');
   }
 
+  preload() {
+    this.load.image(
+      'ball',
+      'https://labs.phaser.io/assets/sprites/shinyball.png',
+    );
+  }
+
   create() {
     this.textbox = this.add.text(
       window.innerWidth / 2,
