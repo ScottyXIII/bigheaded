@@ -7,6 +7,21 @@ const toggleDebug = (scene: Scene) => {
   scene.matter.world.debugGraphic.clear();
 };
 
+const smoothMoveCameraTowards = (
+  scene: Scene,
+  target: GameObjects.Image | undefined,
+  smoothFactor = 0,
+) => {
+  if (!target) return;
+  const cam = scene.cameras.main;
+  cam.scrollX =
+    smoothFactor * cam.scrollX +
+    (1 - smoothFactor) * (target.x - cam.width * 0.5);
+  cam.scrollY =
+    smoothFactor * cam.scrollY +
+    (1 - smoothFactor) * (target.y - cam.height * 0.6);
+};
+
 class GameScene extends Scene {
   private ben: Ben1 | undefined;
 
@@ -22,20 +37,18 @@ class GameScene extends Scene {
 
   create() {
     // toggle debug GFX
-    toggleDebug(this);
+    // toggleDebug(this);
     this.input.keyboard?.on('keydown-CTRL', () => toggleDebug(this));
 
     this.matter.world.setBounds();
     this.matter.add.mouseSpring();
 
-    // setTimeout(() => {
     this.ben = new Ben1(this, 500, 500);
-    // }, 500);
 
     this.textbox = this.add.text(
       window.innerWidth / 2,
       window.innerHeight / 2,
-      'Welcome to Phaser x Vite!',
+      'Big Ed!',
       {
         color: '#FFF',
         fontFamily: 'monospace',
@@ -54,6 +67,8 @@ class GameScene extends Scene {
     this.textbox.rotation += 0.0005 * delta;
 
     this.ben.update();
+
+    smoothMoveCameraTowards(this, this.ben.head, 0.9);
   }
 }
 
