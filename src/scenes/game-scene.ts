@@ -48,7 +48,7 @@ class GameScene extends Scene {
       ballA.body?.gameObject,
       ballB.body?.gameObject,
       100,
-      0.2,
+      0.01,
     );
   }
 
