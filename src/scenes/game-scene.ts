@@ -13,6 +13,8 @@ class GameScene extends Scene {
       'https://labs.phaser.io/assets/sprites/shinyball.png',
     );
     this.load.image('block', 'https://labs.phaser.io/assets/sprites/block.png');
+    this.load.image('head1', 'public/head1.png');
+    this.load.image('body1', 'public/body1.png');
   }
 
   create() {
@@ -32,13 +34,13 @@ class GameScene extends Scene {
     this.matter.world.setBounds();
     this.matter.add.mouseSpring();
 
-    const ballA = this.matter.add.image(420, 100, 'ball', undefined, {
+    const ballA = this.matter.add.image(420, 100, 'head1', undefined, {
       shape: 'circle',
       friction: 0.005,
       restitution: 0.6,
     });
-    ballA.setScale(2);
-    const ballB = this.matter.add.image(400, 200, 'block', undefined, {
+    ballA.setScale(0.5);
+    const ballB = this.matter.add.image(400, 200, 'body1', undefined, {
       shape: 'rectangle',
       friction: 0.005,
       restitution: 0.6,
@@ -47,21 +49,21 @@ class GameScene extends Scene {
     this.matter.add.constraint(
       ballA.body?.gameObject,
       ballB.body?.gameObject,
-      100,
+      150,
       0.01,
       {
         pointA: { x: 0, y: 0 },
-        pointB: { x: -30, y: 0 },
+        pointB: { x: -60, y: 0 },
       },
     );
     this.matter.add.constraint(
       ballA.body?.gameObject,
       ballB.body?.gameObject,
-      100,
+      150,
       0.01,
       {
         pointA: { x: 0, y: 0 },
-        pointB: { x: 30, y: 0 },
+        pointB: { x: 60, y: 0 },
       },
     );
   }
