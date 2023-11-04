@@ -1,11 +1,14 @@
 import * as Phaser from 'phaser';
 
+const HEAD_SCALE_MIN = 0.15;
+const HEAD_SCALE_MAX = 1.5;
+
 class Bob1 extends Phaser.GameObjects.Container {
   public head: Phaser.GameObjects.Image | undefined;
 
   private torso: Phaser.GameObjects.Image | undefined;
 
-  private headSize = 0.2;
+  private headScale = HEAD_SCALE_MIN;
 
   private headScaleDirection = 1; // 1 or minus 1
 
@@ -32,7 +35,7 @@ class Bob1 extends Phaser.GameObjects.Container {
       friction: 0.005,
       restitution: 1,
     });
-    this.head.setScale(0.1);
+    this.head.setScale(HEAD_SCALE_MIN);
 
     this.neck = this.scene.matter.add.constraint(
       this.head.body?.gameObject,
@@ -40,7 +43,7 @@ class Bob1 extends Phaser.GameObjects.Container {
       0,
       0.5,
       {
-        pointA: { x: 0, y: this.headSize * 180 },
+        pointA: { x: 0, y: this.headScale * 180 },
         pointB: { x: 0, y: -80 },
         damping: 0,
         angularStiffness: 0,
@@ -50,13 +53,14 @@ class Bob1 extends Phaser.GameObjects.Container {
 
   update(_time: number, delta: number) {
     if (!this.head || !this.torso || !this.neck) return;
-    this.head.setScale(this.headSize);
-    if (this.headSize > 1.5) this.headScaleDirection = -1;
-    if (this.headSize < 0.1) this.headScaleDirection = 1;
 
-    this.headSize += 0.00005 * this.headScaleDirection * delta;
+    this.head.setScale(this.headScale);
+    if (this.headScale > HEAD_SCALE_MAX) this.headScaleDirection = -1;
+    if (this.headScale < HEAD_SCALE_MIN) this.headScaleDirection = 1;
 
-    const vec = new Phaser.Math.Vector2(0, this.headSize * 180).rotate(
+    this.headScale += 0.00005 * this.headScaleDirection * delta;
+
+    const vec = new Phaser.Math.Vector2(0, this.headScale * 180).rotate(
       this.head.rotation,
     );
 
