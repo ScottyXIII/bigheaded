@@ -66,7 +66,7 @@ class GameScene extends Scene {
 
     this.textbox.rotation += 0.005 * delta;
 
-    this.ben.update();
+    this.ben.update(_time, delta);
 
     smoothMoveCameraTowards(this, this.ben.head, 0.9);
   }
