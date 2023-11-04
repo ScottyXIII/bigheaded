@@ -53,7 +53,7 @@ class GameScene extends Scene {
 
     this.textbox.rotation += 0.0005 * delta;
 
-    // this.ben.update();
+    this.ben.update();
   }
 }
 
