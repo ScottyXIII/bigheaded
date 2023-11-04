@@ -1,0 +1,9 @@
+{
+  "recommendations": [
+    "dbaeumer.vscode-eslint",
+    "EditorConfig.EditorConfig",
+    "naumovs.color-highlight",
+    "waderyan.gitblame",
+    "oderwat.indent-rainbow"
+  ]
+}

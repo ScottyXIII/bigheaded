@@ -1,4 +1,4 @@
-export function resize(config: any) {
+function resize(config: any) {
   const canvas: any = document.querySelector('canvas');
   const windowWidth = window.innerWidth;
   const windowHeight = window.innerHeight;
@@ -6,10 +6,12 @@ export function resize(config: any) {
   const gameRatio = config.width / config.height;
 
   if (windowRatio < gameRatio) {
-    canvas.style.width = windowWidth + 'px';
-    canvas.style.height = windowWidth / gameRatio + 'px';
+    canvas.style.width = `${windowWidth}px`;
+    canvas.style.height = `${windowWidth / gameRatio}px`;
   } else {
-    canvas.style.width = windowHeight * gameRatio + 'px';
-    canvas.style.height = windowHeight + 'px';
+    canvas.style.width = `${windowHeight * gameRatio}px`;
+    canvas.style.height = `${windowHeight}px`;
   }
 }
+
+export default resize;
