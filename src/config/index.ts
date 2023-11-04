@@ -19,10 +19,10 @@ const config = {
       plugins: {
         attractors: true,
       },
-      // debug: {
-      //   showBody: true,
-      //   showStaticBody: true,
-      // },
+      debug: {
+        showBody: true,
+        showStaticBody: true,
+      },
     },
   },
   scene: [GameScene],
