@@ -37,6 +37,7 @@ class GameScene extends Scene {
       friction: 0.005,
       restitution: 0.6,
     });
+    ballA.setScale(2);
     const ballB = this.matter.add.image(400, 200, 'block', undefined, {
       shape: 'rectangle',
       friction: 0.005,
