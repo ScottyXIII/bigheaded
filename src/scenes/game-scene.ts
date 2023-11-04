@@ -43,7 +43,7 @@ class GameScene extends Scene {
     this.matter.world.setBounds();
     this.matter.add.mouseSpring();
 
-    this.ben = new Ben1(this, 500, 500);
+    this.ben = new Ben1(this, 500, 900);
 
     this.textbox = this.add.text(
       window.innerWidth / 2,
@@ -59,12 +59,18 @@ class GameScene extends Scene {
     this.textbox.setOrigin(0.5, 0.5);
   }
 
+  // preUpdate() {
+  //   this.ben?.preUpdate();
+
+  //   console.log('pre');
+  // }
+
   update(_time: number, delta: number) {
     if (!this.textbox || !this.ben) {
       return;
     }
 
-    this.textbox.rotation += 0.0005 * delta;
+    this.textbox.rotation += 0.005 * delta;
 
     this.ben.update();
 
