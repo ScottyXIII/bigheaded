@@ -59,12 +59,6 @@ class GameScene extends Scene {
     this.textbox.setOrigin(0.5, 0.5);
   }
 
-  // preUpdate() {
-  //   this.ben?.preUpdate();
-
-  //   console.log('pre');
-  // }
-
   update(_time: number, delta: number) {
     if (!this.textbox || !this.ben) {
       return;

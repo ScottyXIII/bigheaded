@@ -51,7 +51,7 @@ class Bob1 extends Phaser.GameObjects.Container {
   update() {
     if (!this.head || !this.torso || !this.neck) return;
     this.head.setScale(this.headSize);
-    if (this.headSize > 1.3) this.headScaleDirection = -1;
+    if (this.headSize > 1.5) this.headScaleDirection = -1;
     if (this.headSize < 0.4) this.headScaleDirection = 1;
 
     this.headSize += 0.001 * this.headScaleDirection;
