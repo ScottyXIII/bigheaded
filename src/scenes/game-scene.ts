@@ -50,7 +50,7 @@ class GameScene extends Scene {
       ballA.body?.gameObject,
       ballB.body?.gameObject,
       200,
-      0.01,
+      0.005,
       {
         pointA: { x: 20, y: -5 },
         pointB: { x: -60, y: 0 },
@@ -60,7 +60,7 @@ class GameScene extends Scene {
       ballA.body?.gameObject,
       ballB.body?.gameObject,
       200,
-      0.01,
+      0.005,
       {
         pointA: { x: -20, y: -5 },
         pointB: { x: 60, y: 0 },
@@ -70,7 +70,7 @@ class GameScene extends Scene {
       ballA.body?.gameObject,
       ballB.body?.gameObject,
       50,
-      0.01,
+      0.005,
       {
         pointA: { x: 0, y: 20 },
         pointB: { x: 0, y: -50 },
