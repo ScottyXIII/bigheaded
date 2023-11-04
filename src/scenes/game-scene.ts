@@ -20,6 +20,29 @@ class GameScene extends Scene {
     );
 
     this.textbox.setOrigin(0.5, 0.5);
+
+    this.matter.world.setBounds();
+    this.matter.add.mouseSpring();
+
+    const ballA = this.matter.add.image(420, 100, 'ball', undefined, {
+      shape: 'circle',
+      friction: 0.005,
+      restitution: 0.6,
+    });
+    const ballB = this.matter.add.image(400, 200, 'ball', undefined, {
+      shape: 'circle',
+      friction: 0.005,
+      restitution: 0.6,
+    });
+
+    console.log({ ballA, ballB });
+
+    this.matter.add.constraint(
+      ballA.body?.gameObject,
+      ballB.body?.gameObject,
+      100,
+      0.2,
+    );
   }
 
   update(_time: number, delta: number) {
