@@ -1,6 +1,10 @@
 import * as Phaser from 'phaser';
 
 class Bob1 extends Phaser.GameObjects.Container {
+  private head: Phaser.GameObjects.Image | undefined;
+
+  private headSize = 0.1;
+
   static preload(scene: Phaser.Scene) {
     scene.load.image('head1', '/head1.png');
     scene.load.image('body1', '/body1.png');
@@ -11,12 +15,12 @@ class Bob1 extends Phaser.GameObjects.Container {
 
     this.scene = scene;
 
-    const head = this.scene.matter.add.image(x, y, 'head1', undefined, {
+    this.head = this.scene.matter.add.image(x, y, 'head1', undefined, {
       shape: 'circle',
       friction: 0.005,
       restitution: 0.6,
     });
-    head.setScale(0.4);
+    this.head.setScale(0.4);
     const body = this.scene.matter.add.image(x, y + 100, 'body1', undefined, {
       shape: 'rectangle',
       friction: 0.005,
@@ -24,7 +28,7 @@ class Bob1 extends Phaser.GameObjects.Container {
     });
 
     this.scene.matter.add.constraint(
-      head.body?.gameObject,
+      this.head.body?.gameObject,
       body.body?.gameObject,
       200,
       0.005,
@@ -34,7 +38,7 @@ class Bob1 extends Phaser.GameObjects.Container {
       },
     );
     this.scene.matter.add.constraint(
-      head.body?.gameObject,
+      this.head.body?.gameObject,
       body.body?.gameObject,
       200,
       0.005,
@@ -44,7 +48,7 @@ class Bob1 extends Phaser.GameObjects.Container {
       },
     );
     this.scene.matter.add.constraint(
-      head.body?.gameObject,
+      this.head.body?.gameObject,
       body.body?.gameObject,
       50,
       0.005,
@@ -57,10 +61,10 @@ class Bob1 extends Phaser.GameObjects.Container {
     // console.log('created ben!');
   }
 
-  // eslint-disable-next-line class-methods-use-this
   update() {
-    // eslint-disable-next-line no-useless-return
-    // if (!this.scene) return;
+    if (!this.head) return;
+    this.head.setScale(this.headSize);
+    this.headSize += 0.001;
   }
 }
 
