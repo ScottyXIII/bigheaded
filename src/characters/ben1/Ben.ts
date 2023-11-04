@@ -3,9 +3,11 @@ import * as Phaser from 'phaser';
 class Bob1 extends Phaser.GameObjects.Container {
   public head: Phaser.GameObjects.Image | undefined;
 
-  private mybody: Phaser.GameObjects.Image | undefined;
+  private torso: Phaser.GameObjects.Image | undefined;
 
   private headSize = 0.2;
+
+  private headScaleDirection = 1; // 1 or minus 1
 
   private neck: Phaser.Types.Physics.Matter.MatterConstraintConfig;
 
@@ -19,46 +21,26 @@ class Bob1 extends Phaser.GameObjects.Container {
 
     this.scene = scene;
 
-    this.mybody = this.scene.matter.add.image(x, y + 100, 'body1', undefined, {
+    this.torso = this.scene.matter.add.image(x, y + 100, 'body1', undefined, {
       shape: 'rectangle',
       friction: 0.005,
-      restitution: 0.6,
+      restitution: 0.1,
     });
 
     this.head = this.scene.matter.add.image(x, y, 'head1', undefined, {
       shape: 'circle',
       friction: 0.005,
-      restitution: 0.6,
+      restitution: 1,
     });
     this.head.setScale(0.4);
 
-    // this.scene.matter.add.constraint(
-    //   this.head.body?.gameObject,
-    //   body.body?.gameObject,
-    //   200,
-    //   0.0001,
-    //   {
-    //     pointA: { x: 20, y: 10 },
-    //     pointB: { x: -60, y: -40 },
-    //   },
-    // );
-    // this.scene.matter.add.constraint(
-    //   this.head.body?.gameObject,
-    //   body.body?.gameObject,
-    //   200,
-    //   0.0001,
-    //   {
-    //     pointA: { x: -20, y: 10 },
-    //     pointB: { x: 60, y: -40 },
-    //   },
-    // );
     this.neck = this.scene.matter.add.constraint(
       this.head.body?.gameObject,
-      this.mybody.body?.gameObject,
+      this.torso.body?.gameObject,
       0,
-      0.1,
+      0.5,
       {
-        pointA: { x: 0, y: 40 },
+        pointA: { x: 0, y: this.headSize * 180 },
         pointB: { x: 0, y: -80 },
         damping: 0,
         angularStiffness: 0,
@@ -67,27 +49,18 @@ class Bob1 extends Phaser.GameObjects.Container {
   }
 
   update() {
-    if (!this.head || !this.mybody || !this.neck) return;
+    if (!this.head || !this.torso || !this.neck) return;
     this.head.setScale(this.headSize);
-    this.headSize += 0.001;
+    if (this.headSize > 1.3) this.headScaleDirection = -1;
+    if (this.headSize < 0.4) this.headScaleDirection = 1;
 
-    // this.scene.matter.world.removeConstraint(this.neck);
+    this.headSize += 0.001 * this.headScaleDirection;
 
-    // this.neck = this.scene.matter.add.constraint(
-    //   this.head.body?.gameObject,
-    //   this.body.body?.gameObject,
-    //   0,
-    //   0.1,
-    //   {
-    //     pointA: { x: 0, y: this.headSize * 200 },
-    //     pointB: { x: 0, y: -80 },
-    //     damping: 0,
-    //     angularStiffness: 0,
-    //   },
-    // );
+    const vec = new Phaser.Math.Vector2(0, this.headSize * 180).rotate(
+      this.head.rotation,
+    );
 
-    // this.neck.pointA = { x: 0, y: this.headSize * -1 };
-    console.log(this.neck.pointA);
+    this.neck.pointA = vec;
   }
 }
 
