@@ -32,7 +32,7 @@ class Bob1 extends Phaser.GameObjects.Container {
       friction: 0.005,
       restitution: 1,
     });
-    this.head.setScale(0.4);
+    this.head.setScale(0.1);
 
     this.neck = this.scene.matter.add.constraint(
       this.head.body?.gameObject,
@@ -52,9 +52,9 @@ class Bob1 extends Phaser.GameObjects.Container {
     if (!this.head || !this.torso || !this.neck) return;
     this.head.setScale(this.headSize);
     if (this.headSize > 1.5) this.headScaleDirection = -1;
-    if (this.headSize < 0.4) this.headScaleDirection = 1;
+    if (this.headSize < 0.1) this.headScaleDirection = 1;
 
-    this.headSize += 0.0001 * this.headScaleDirection * delta;
+    this.headSize += 0.00005 * this.headScaleDirection * delta;
 
     const vec = new Phaser.Math.Vector2(0, this.headSize * 180).rotate(
       this.head.rotation,
