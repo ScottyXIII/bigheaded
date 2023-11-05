@@ -31,8 +31,10 @@ class Brain {
     // else use NN to predict next action
     return tf.tidy(() => {
       const logits = this.predict(state);
+      // @ts-ignore
       const sigmoid = tf.sigmoid(logits);
       const probs = tf.div(sigmoid, tf.sum(sigmoid));
+      // @ts-ignore
       return tf.multinomial(probs, 1).dataSync()[0] - 1;
     });
   }
