@@ -2,6 +2,10 @@ import Phaser from 'phaser';
 import createMemory from './create-memory';
 import createNN from './create-nn';
 
+const MIN_EPSILON = 0.01;
+const MAX_EPSILON = 0.2;
+const LAMBDA = 0.01;
+
 const createOrchestrator = (scene: Phaser.Scene, calculateReward: Function) => {
   const { samples, addSample } = createMemory();
   const model = createNN();
