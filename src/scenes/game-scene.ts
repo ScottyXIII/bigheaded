@@ -1,6 +1,30 @@
 import { Scene, GameObjects } from 'phaser';
+import Ben1 from '../characters/ben1/Ben';
+
+const toggleDebug = (scene: Scene) => {
+  // eslint-disable-next-line no-param-reassign
+  scene.matter.world.drawDebug = !scene.matter.world.drawDebug;
+  scene.matter.world.debugGraphic.clear();
+};
+
+const smoothMoveCameraTowards = (
+  scene: Scene,
+  target: GameObjects.Image | undefined,
+  smoothFactor = 0,
+) => {
+  if (!target) return;
+  const cam = scene.cameras.main;
+  cam.scrollX =
+    smoothFactor * cam.scrollX +
+    (1 - smoothFactor) * (target.x - cam.width * 0.5);
+  cam.scrollY =
+    smoothFactor * cam.scrollY +
+    (1 - smoothFactor) * (target.y - cam.height * 0.6);
+};
 
 class GameScene extends Scene {
+  private ben: Ben1 | undefined;
+
   private textbox: GameObjects.Text | undefined;
 
   private sun: GameObjects.Image | undefined;
@@ -10,21 +34,23 @@ class GameScene extends Scene {
   }
 
   preload() {
-    this.load.image('sun', 'https://labs.phaser.io/assets/tests/space/sun.png');
-    this.load.image(
-      'alien',
-      'https://labs.phaser.io/assets/sprites/space-baddie.png',
-    );
+    Ben1.preload(this);
   }
 
   create() {
+    // toggle debug GFX
+    // toggleDebug(this);
+    this.input.keyboard?.on('keydown-CTRL', () => toggleDebug(this));
+
     this.matter.world.setBounds();
     this.matter.add.mouseSpring();
+
+    this.ben = new Ben1(this, window.innerWidth / 2, window.innerHeight / 2);
 
     this.textbox = this.add.text(
       window.innerWidth / 2,
       window.innerHeight / 2,
-      'Welcome to Phaser x Vite!',
+      'Big Ed!',
       {
         color: '#FFF',
         fontFamily: 'monospace',
@@ -84,12 +110,15 @@ class GameScene extends Scene {
   }
 
   update(_time: number, delta: number) {
-    if (!this.textbox || !this.sun) {
+    if (!this.textbox || !this.ben) {
       return;
     }
 
-    this.textbox.rotation += 0.0005 * delta;
-    this.sun.rotation -= 0.0005 * delta;
+    this.textbox.rotation += 0.005 * delta;
+
+    this.ben.update(_time, delta);
+
+    smoothMoveCameraTowards(this, this.ben.head, 0.9);
   }
 }
 
