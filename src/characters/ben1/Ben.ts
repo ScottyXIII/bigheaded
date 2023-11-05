@@ -1,11 +1,13 @@
 import * as Phaser from 'phaser';
-
-// const { Body } = Phaser.Physics.Matter.Matter;
+import * as tf from '@tensorflow/tfjs';
+import Brain from '@/ai/reinforcement-learning/Brain';
 
 const HEAD_SCALE_MIN = 0.15;
 const HEAD_SCALE_MAX = 1.5;
 
 class Bob1 extends Phaser.GameObjects.Container {
+  private brain: Brain;
+
   public head: Phaser.GameObjects.Image | undefined;
 
   private torso: Phaser.GameObjects.Image | undefined;
@@ -25,6 +27,8 @@ class Bob1 extends Phaser.GameObjects.Container {
     super(scene, x, y);
 
     this.scene = scene;
+
+    this.brain = new Brain([2, 6, 6, 3]);
 
     this.torso = this.scene.matter.add.image(x, y + 100, 'body1', undefined, {
       shape: 'rectangle',
@@ -67,6 +71,8 @@ class Bob1 extends Phaser.GameObjects.Container {
     this.neck.pointA = new Phaser.Math.Vector2(0, this.headScale * 180).rotate(
       this.head.rotation,
     );
+
+    console.log('choose', this.brain.choose(tf.tensor2d([2, 3], [1, 2]), 0.5));
   }
 
   action(data: number) {
