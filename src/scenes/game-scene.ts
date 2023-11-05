@@ -43,7 +43,7 @@ class GameScene extends Scene {
     this.matter.world.setBounds();
     this.matter.add.mouseSpring();
 
-    this.ben = new Ben1(this, 500, 900);
+    this.ben = new Ben1(this, window.innerWidth / 2, window.innerHeight / 2);
 
     this.textbox = this.add.text(
       window.innerWidth / 2,
