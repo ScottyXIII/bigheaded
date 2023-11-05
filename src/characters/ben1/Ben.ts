@@ -71,6 +71,8 @@ class Bob1 extends Phaser.GameObjects.Container {
 
   action(data: number) {
     if (!this.head) return;
+
+    // @ts-ignore
     Phaser.Physics.Matter.Matter.Body.applyForce(
       this.head.body,
       this.head.getTopRight(),
