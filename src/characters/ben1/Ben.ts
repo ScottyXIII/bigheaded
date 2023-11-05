@@ -56,7 +56,7 @@ class Bob1 extends Phaser.GameObjects.Container {
       },
     );
 
-    setTimeout(() => this.action(1), 5_000);
+    // setTimeout(() => this.action(1), 5_000);
   }
 
   update(_time: number, delta: number) {
@@ -72,17 +72,24 @@ class Bob1 extends Phaser.GameObjects.Container {
       this.head.rotation,
     );
 
-    console.log('choose', this.brain.choose(tf.tensor2d([2, 3], [1, 2]), 0.5));
+    const nnInput = tf.tensor2d([2, 3], [1, 2]);
+    const eps = 1;
+    const actionData = this.brain.choose(nnInput, eps);
+    this.action(actionData);
+
+    // console.log('choose', actionData);
   }
 
   action(data: number) {
-    if (!this.head) return;
+    if (!this.torso) return;
+
+    const actionDirection = { x: data / 2, y: 0 };
 
     // @ts-ignore
     Phaser.Physics.Matter.Matter.Body.applyForce(
-      this.head.body,
-      this.head.getTopRight(),
-      { x: 0, y: -2 },
+      this.torso.body,
+      this.torso.getCenter(),
+      actionDirection,
     );
   }
 }
