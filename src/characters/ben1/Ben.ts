@@ -1,5 +1,7 @@
 import * as Phaser from 'phaser';
 
+// const { Body } = Phaser.Physics.Matter.Matter;
+
 const HEAD_SCALE_MIN = 0.15;
 const HEAD_SCALE_MAX = 1.5;
 
@@ -49,6 +51,8 @@ class Bob1 extends Phaser.GameObjects.Container {
         angularStiffness: 0,
       },
     );
+
+    setTimeout(() => this.action(1), 5_000);
   }
 
   update(_time: number, delta: number) {
@@ -62,6 +66,15 @@ class Bob1 extends Phaser.GameObjects.Container {
 
     this.neck.pointA = new Phaser.Math.Vector2(0, this.headScale * 180).rotate(
       this.head.rotation,
+    );
+  }
+
+  action(data: number) {
+    if (!this.head) return;
+    Phaser.Physics.Matter.Matter.Body.applyForce(
+      this.head.body,
+      this.head.getTopRight(),
+      { x: 0, y: -2 },
     );
   }
 }
