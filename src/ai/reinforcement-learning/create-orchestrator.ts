@@ -8,13 +8,12 @@ const LAMBDA = 0.01;
 
 const createOrchestrator = (scene: Phaser.Scene, calculateReward: Function) => {
   const { samples, addSample } = createMemory();
-  const model = createNN();
 
   scene.sys.game.scene.start('scene-game');
 
   calculateReward(scene);
 
-  return { samples, addSample, model };
+  return { samples, addSample };
 };
 
 export default createOrchestrator;
