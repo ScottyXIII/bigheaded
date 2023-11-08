@@ -18,7 +18,7 @@ const createOrchestrator = async (
   scene: Phaser.Scene,
   calculateReward: Function,
 ) => {
-  const { inputSize, outputSize, network, train } = await createNN({
+  const { network, train } = await createNN({
     indexedDbName: config.indexedDbName,
     layerUnits: config.layerUnits,
   });
@@ -35,40 +35,41 @@ const createOrchestrator = async (
     // get random samples from memory
     const batch = getSamples(config.batchSize);
 
-    // Predict the values of each action at each state
-    const qsa = batch.map(({ state }) => network.predict(state) as tf.Tensor);
+    // convert batch into x y values
+    const out = batch.map(({ state, action, reward, nextState }) => {
+      // Predict the value of historical action for current state
+      const currentQ = network.predict(state) as tf.Tensor;
 
-    // Predict the values of each action at each next state
-    const qsad = batch.map(
-      ({ nextState }) => network.predict(nextState) as tf.Tensor,
-    );
+      // Predict the value of historical action for next state
+      const nextQ = network.predict(nextState) as tf.Tensor;
 
-    const x: tf.TensorLike = [];
-    const y: tf.TensorLike = [];
+      const value = nextQ.max().dataSync() as unknown as number;
 
-    // Update the states rewards with the discounted next states rewards
-    batch.forEach(({ state, action, reward, nextState }, index) => {
-      const currentQ = qsa[index];
-      currentQ[action] = nextState
-        ? reward + config.rewardDiscountRate * qsad[index].max().dataSync()
-        : reward;
-      x.push(state.dataSync());
-      y.push(currentQ.dataSync());
+      // Update the states rewards with the discounted next states rewards
+      const discountedReward = reward + config.rewardDiscountRate * value;
+
+      // @ts-expect-error
+      currentQ[action] = discountedReward; // seems a bit weird?
+
+      // extract values
+      const xValue = state.dataSync() as unknown as number; // state
+      const yValue = currentQ.dataSync() as unknown as number; // action
+
+      // free up gpu memory
+      currentQ.dispose();
+      nextQ.dispose();
+
+      return {
+        xValue,
+        yValue,
+      };
     });
 
-    // Clean unused tensors
-    qsa.forEach(state => state.dispose());
-    qsad.forEach(state => state.dispose());
-
-    // Reshape the batches to be fed to the network
-    const xBatch = tf.tensor2d(x, [x.length, inputSize]);
-    const yBatch = tf.tensor2d(y, [y.length, outputSize]);
+    const x = out.map(({ xValue }) => xValue);
+    const y = out.map(({ yValue }) => yValue);
 
     // Learn the Q(s, a) values given associated discounted rewards
-    await train(xBatch, yBatch);
-
-    xBatch.dispose();
-    yBatch.dispose();
+    await train(x, y);
   };
 
   return { samples, addSample, replay };
