@@ -4,6 +4,8 @@ import createMemory from './create-memory';
 import createNN from './create-nn';
 import config from './config';
 
+const { maxEpsilon, minEpsilon, lambda } = config;
+
 // const orch = createOrchestrator(this.scene, () => {
 //   if (position >= 0.5) {
 //     return 100;
@@ -24,30 +26,49 @@ const createOrchestrator = async (
   scene: Phaser.Scene,
   calculateReward: Function,
 ) => {
-  const { network, train } = await createNN({
+  const { predict, choose, train } = await createNN({
     indexedDbName: config.indexedDbName,
     layerUnits: config.layerUnits,
   });
 
-  const { samples, addSample, getSamples } = createMemory(
-    config.memoryMaxLength,
-  );
+  let steps = 0;
+  let exploration = maxEpsilon;
 
-  scene.sys.game.scene.start('scene-game');
+  const { addSample, getSamples } = createMemory(config.memoryMaxLength);
 
-  calculateReward(scene);
+  const run = (state: tf.Tensor, nextState: tf.Tensor) => {
+    const action = choose(state, exploration);
+
+    // update scene here with action
+
+    // then get next state? probs state = last state?
+
+    const reward = calculateReward(scene);
+
+    addSample({ state, action, reward, nextState });
+
+    steps += 1;
+
+    // Exponentially decay the exploration parameter
+    exploration =
+      minEpsilon + (maxEpsilon - minEpsilon) * Math.exp(-lambda * steps);
+
+    if (steps >= config.maxStepsPerGame) {
+      scene.sys.game.scene.start('scene-game'); // note: this must initialise things in random positions
+    }
+  };
 
   const replay = async () => {
     // get random samples from memory
     const batch = getSamples(config.batchSize);
 
-    // convert batch into x y values
+    // convert batch into x y (qsa) values
     const out = batch.map(({ state, action, reward, nextState }) => {
       // Predict the value of historical action for current state
-      const currentQ = network.predict(state) as tf.Tensor;
+      const currentQ = predict(state) as tf.Tensor;
 
       // Predict the value of historical action for next state
-      const nextQ = network.predict(nextState) as tf.Tensor;
+      const nextQ = predict(nextState) as tf.Tensor;
 
       const value = nextQ.max().dataSync() as unknown as number;
 
@@ -71,14 +92,14 @@ const createOrchestrator = async (
       };
     });
 
-    const x = out.map(({ xValue }) => xValue);
-    const y = out.map(({ yValue }) => yValue);
+    const x = out.map(({ xValue }) => xValue); // states
+    const y = out.map(({ yValue }) => yValue); // actions
 
     // Learn the Q(s, a) values given associated discounted rewards
     await train(x, y);
   };
 
-  return { samples, addSample, replay };
+  return { run, replay };
 };
 
 export default createOrchestrator;

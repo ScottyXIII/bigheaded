@@ -23,7 +23,6 @@ const createMemory = (maxLength = 500) => {
   const getSamples = (nSamples: number) => sampleSize(samples, nSamples);
 
   return {
-    samples,
     addSample,
     getSamples,
   };

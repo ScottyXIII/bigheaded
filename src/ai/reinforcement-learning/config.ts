@@ -8,6 +8,7 @@ export default {
   ],
   batchSize: 100,
   memoryMaxLength: 500,
+  maxStepsPerGame: 500,
   rewardDiscountRate: 0.95, // between 0 and 1
   minEpsilon: 0.01, // between 0 and 1
   maxEpsilon: 0.2, // between 0 and 1
