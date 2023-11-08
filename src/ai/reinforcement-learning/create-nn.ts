@@ -2,13 +2,20 @@ import * as tf from '@tensorflow/tfjs';
 
 // create a simple dense keras NN
 // layerUnits:
-// 2 inputs
-// 6 units in first layer
-// 6 units in second layer
-// 3 outputs
+//   2 inputs
+//   6 units in first layer
+//   6 units in second layer
+//   3 outputs
+//
+// const network = createNN([2, 128, 128, 3]);
+
 const createNN = (layerUnits = [2, 6, 6, 3]) => {
-  const inputShape = [layerUnits[0]];
+  const inputSize = layerUnits[0];
+  const outputSize = layerUnits[layerUnits.length - 1];
   const layerSizes = layerUnits.slice(1);
+
+  const inputShape = [inputSize];
+
   const layers = layerSizes.reduce((acc: tf.layers.Layer[], units, index) => {
     const isFirst = index === 0;
     const isLast = index === layerSizes.length - 1;
@@ -27,9 +34,28 @@ const createNN = (layerUnits = [2, 6, 6, 3]) => {
   network.summary();
   network.compile({ optimizer: 'adam', loss: 'meanSquaredError' });
 
-  return network;
+  const predict = (states: tf.Tensor | tf.Tensor[]) =>
+    tf.tidy(() => network.predict(states));
+
+  const train = async (xBatch: tf.Tensor[], yBatch: tf.Tensor[]) => {
+    await network.fit(xBatch, yBatch);
+  };
+
+  const save = async () => network.save('indexeddb://testnn-v0');
+
+  const load = async () => {
+    // const modelsInfo = await tf.io.listModels();
+    // if (MODEL_SAVE_PATH_ in modelsInfo) {
+    //   console.log(`Loading existing model...`);
+    //   const model = await tf.loadLayersModel(MODEL_SAVE_PATH_);
+    //   console.log(`Loaded model from ${MODEL_SAVE_PATH_}`);
+    //   return new SaveablePolicyNetwork(model);
+    // } else {
+    //   throw new Error(`Cannot find model at ${MODEL_SAVE_PATH_}.`);
+    // }
+  };
+
+  return { inputSize, outputSize, network, predict, train, save, load };
 };
 
 export default createNN;
-
-// const network = createNN([2, 128, 128, 3]);
