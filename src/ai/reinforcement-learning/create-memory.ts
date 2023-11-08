@@ -29,5 +29,3 @@ const createMemory = (maxLength = 500) => {
 };
 
 export default createMemory;
-
-// const memory = createMemory(400);
