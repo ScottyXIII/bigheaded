@@ -34,10 +34,10 @@ const makeNN = (layerUnits = [2, 6, 6, 3]) => {
   return network;
 };
 
-const createNN = async (
+const createNN = async ({
   indexedDbName = 'testnn-v0',
   layerUnits = [2, 6, 6, 3],
-) => {
+}) => {
   const modelSavePath = `indexeddb://${indexedDbName}`;
   const inputSize = layerUnits[0];
   const outputSize = layerUnits[layerUnits.length - 1];
