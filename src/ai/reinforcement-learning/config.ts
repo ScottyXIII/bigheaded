@@ -6,7 +6,7 @@ export default {
     128,
     3, // 3 outputs
   ],
-  batchSize: 100,
+  batchSize: 100, // number of samples to get during training
   memoryMaxLength: 500,
   maxStepsPerGame: 500,
   rewardDiscountRate: 0.95, // between 0 and 1
