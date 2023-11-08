@@ -9,12 +9,9 @@ import * as tf from '@tensorflow/tfjs';
 //
 // const network = createNN('testnn-v0', [2, 128, 128, 3]);
 
-const createNN = (indexedDbName = 'testnn-v0', layerUnits = [2, 6, 6, 3]) => {
-  const modelSavePath = `indexeddb://${indexedDbName}`;
+const makeNN = (layerUnits = [2, 6, 6, 3]) => {
   const inputSize = layerUnits[0];
-  const outputSize = layerUnits[layerUnits.length - 1];
   const layerSizes = layerUnits.slice(1);
-
   const inputShape = [inputSize];
 
   const layers = layerSizes.reduce((acc: tf.layers.Layer[], units, index) => {
@@ -34,6 +31,23 @@ const createNN = (indexedDbName = 'testnn-v0', layerUnits = [2, 6, 6, 3]) => {
 
   network.summary();
   network.compile({ optimizer: 'adam', loss: 'meanSquaredError' });
+  return network;
+};
+
+const createNN = async (
+  indexedDbName = 'testnn-v0',
+  layerUnits = [2, 6, 6, 3],
+) => {
+  const modelSavePath = `indexeddb://${indexedDbName}`;
+  const inputSize = layerUnits[0];
+  const outputSize = layerUnits[layerUnits.length - 1];
+
+  // load model from indexeddb or create a new one
+  const modelsInfo = await tf.io.listModels();
+  const network =
+    modelSavePath in modelsInfo
+      ? await tf.loadLayersModel(modelSavePath)
+      : makeNN(layerUnits);
 
   const predict = (states: tf.Tensor | tf.Tensor[]) =>
     tf.tidy(() => network.predict(states));
@@ -44,19 +58,7 @@ const createNN = (indexedDbName = 'testnn-v0', layerUnits = [2, 6, 6, 3]) => {
 
   const save = async () => network.save(modelSavePath);
 
-  const load = async () => {
-    const modelsInfo = await tf.io.listModels();
-    if (modelSavePath in modelsInfo) {
-      console.log(`Loading existing model...`);
-      const model = await tf.loadLayersModel(modelSavePath);
-      console.log(`Loaded model from ${modelSavePath}`);
-      // return new SaveablePolicyNetwork(model);
-    } else {
-      throw new Error(`Cannot find model at ${modelSavePath}.`);
-    }
-  };
-
-  return { inputSize, outputSize, network, predict, train, save, load };
+  return { inputSize, outputSize, network, predict, train, save };
 };
 
 export default createNN;
