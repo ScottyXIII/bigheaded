@@ -2,17 +2,23 @@ import * as tf from '@tensorflow/tfjs';
 import Phaser from 'phaser';
 import createMemory from './create-memory';
 import createNN from './create-nn';
+import config from './config';
 
-const config = {
-  indexedDbName: 'megabrain-v0',
-  layerUnits: [2, 128, 128, 3], // 2 inputs, 3 outputs
-  batchSize: 100,
-  memoryMaxLength: 500,
-  rewardDiscountRate: 0.95, // between 0 and 1
-  minEpsilon: 0.01, // between 0 and 1
-  maxEpsilon: 0.2, // between 0 and 1
-  lambda: 0.01,
-};
+// const orch = createOrchestrator(this.scene, () => {
+//   if (position >= 0.5) {
+//     return 100;
+//   }
+//   if (position >= 0.25) {
+//     return 20;
+//   }
+//   if (position >= 0.1) {
+//     return 10;
+//   }
+//   if (position >= 0) {
+//     return 5;
+//   }
+//   return 0;
+// });
 
 const createOrchestrator = async (
   scene: Phaser.Scene,
@@ -76,19 +82,3 @@ const createOrchestrator = async (
 };
 
 export default createOrchestrator;
-
-// const orch = createOrchestrator(this.scene, () => {
-//   if (position >= 0.5) {
-//     return 100;
-//   }
-//   if (position >= 0.25) {
-//     return 20;
-//   }
-//   if (position >= 0.1) {
-//     return 10;
-//   }
-//   if (position >= 0) {
-//     return 5;
-//   }
-//   return 0;
-// });
