@@ -52,13 +52,24 @@ const createNN = async ({
   const predict = (states: tf.Tensor | tf.Tensor[]) =>
     tf.tidy(() => network.predict(states));
 
-  const train = async (xBatch: tf.Tensor[], yBatch: tf.Tensor[]) => {
+  const train = async (x: number[], y: number[]) => {
+    // Reshape the batches to be fed to the network
+    const xBatch = tf.tensor2d(x, [x.length, inputSize]);
+    const yBatch = tf.tensor2d(y, [y.length, outputSize]);
+
+    // train the network
     await network.fit(xBatch, yBatch);
+
+    // free up gpu memory
+    xBatch.dispose();
+    yBatch.dispose();
   };
 
   const save = async () => network.save(modelSavePath);
 
-  return { inputSize, outputSize, network, predict, train, save };
+  const remove = async () => tf.io.removeModel(modelSavePath);
+
+  return { inputSize, outputSize, network, predict, train, save, remove };
 };
 
 export default createNN;
