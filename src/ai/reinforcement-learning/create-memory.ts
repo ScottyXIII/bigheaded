@@ -1,4 +1,5 @@
 import * as tf from '@tensorflow/tfjs';
+import { sampleSize } from 'lodash';
 
 type SampleType = {
   state: tf.Tensor;
@@ -18,9 +19,13 @@ const createMemory = (maxLength = 500) => {
       nextState?.dispose();
     }
   };
+
+  const getSamples = (nSamples: number) => sampleSize(samples, nSamples);
+
   return {
     samples,
     addSample,
+    getSamples,
   };
 };
 
