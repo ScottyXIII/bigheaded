@@ -1,31 +1,19 @@
 import { Scene, GameObjects } from 'phaser';
+import toggleDebug from '@/helpers/toggleDebug';
+import smoothMoveCameraTowards from '@/helpers/smoothMoveCameraTowards';
+import parallax from '@/objects/parallax';
+import Ball from '@/objects/ball';
 import Ben1 from '../characters/ben1/Ben';
 
-const toggleDebug = (scene: Scene) => {
-  // eslint-disable-next-line no-param-reassign
-  scene.matter.world.drawDebug = !scene.matter.world.drawDebug;
-  scene.matter.world.debugGraphic.clear();
-};
-
-const smoothMoveCameraTowards = (
-  scene: Scene,
-  target: GameObjects.Image | undefined,
-  smoothFactor = 0,
-) => {
-  if (!target) return;
-  const cam = scene.cameras.main;
-  cam.scrollX =
-    smoothFactor * cam.scrollX +
-    (1 - smoothFactor) * (target.x - cam.width * 0.5);
-  cam.scrollY =
-    smoothFactor * cam.scrollY +
-    (1 - smoothFactor) * (target.y - cam.height * 0.6);
-};
+const cx = window.innerWidth / 2;
+const cy = window.innerHeight / 2;
 
 class GameScene extends Scene {
   public ben: Ben1 | undefined;
 
   private textbox: GameObjects.Text | undefined;
+
+  private ball: Ball | undefined;
 
   constructor() {
     super('scene-game');
@@ -33,6 +21,11 @@ class GameScene extends Scene {
 
   preload() {
     Ben1.preload(this);
+
+    const { preLoad } = parallax(this);
+    preLoad();
+
+    Ball.preload(this);
   }
 
   create() {
@@ -42,6 +35,9 @@ class GameScene extends Scene {
 
     this.matter.world.setBounds();
     this.matter.add.mouseSpring();
+
+    const { create } = parallax(this);
+    create();
 
     this.ben = new Ben1(this, window.innerWidth / 2, window.innerHeight / 2);
 
@@ -55,13 +51,14 @@ class GameScene extends Scene {
         fontSize: '26px',
       },
     );
+
+    this.ball = new Ball(this, cx, cy);
+
     this.textbox.setOrigin(0.5, 0.5);
   }
 
   update(_time: number, delta: number) {
-    if (!this.textbox || !this.ben) {
-      return;
-    }
+    if (!this.textbox || !this.ben || !this.ball) return;
 
     this.textbox.rotation += 0.005 * delta;
 
