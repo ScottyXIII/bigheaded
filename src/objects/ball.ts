@@ -12,11 +12,13 @@ class Ball extends Phaser.GameObjects.Container {
 
     this.scene = scene;
 
-    this.ball = this.scene.matter.add.image(x, y, 'tennisball', undefined, {
-      shape: 'circle',
-      friction: 0.005,
-      restitution: 1,
-    });
+    this.ball = this.scene.matter.add
+      .image(x, y, 'tennisball', undefined, {
+        shape: 'circle',
+        friction: 0.1,
+        restitution: 1.2,
+      })
+      .setScale(0.1);
   }
 }
 
