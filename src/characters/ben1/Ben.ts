@@ -1,5 +1,5 @@
 import * as Phaser from 'phaser';
-import * as tf from '@tensorflow/tfjs';
+// import * as tf from '@tensorflow/tfjs';
 // import Brain from '@/ai/reinforcement-learning/Brain';
 
 const HEAD_SCALE_MIN = 0.15;
