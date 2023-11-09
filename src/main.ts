@@ -53,7 +53,7 @@ window.onload = () => {
 
       const action = run(1, 2);
 
-      const xyForce = { x: action, y: 0 };
+      const xyForce = { x: action / 10, y: 0 };
 
       // @ts-ignore
       Phaser.Physics.Matter.Matter.Body.applyForce(
@@ -63,7 +63,7 @@ window.onload = () => {
       );
     };
 
-    setInterval(thing, 1_000);
+    setInterval(thing, 50);
 
     // @ts-ignore
     window.run = thing;
