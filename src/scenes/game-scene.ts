@@ -23,6 +23,7 @@ class GameScene extends Scene {
     const { create } = parallax(this);
     create();
 
+    // eslint-disable-next-line no-unused-vars
     const x = new Ball(this, cx, cy);
 
     this.textbox = this.add.text(cx, cy, 'Welcome to Phaser x Vite!', {
