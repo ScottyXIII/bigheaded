@@ -8,13 +8,13 @@ class GameScene extends Scene {
     super('scene-game');
   }
 
-  preLoad() {
-    console.log('hello');
+  preload() {
+    const { preLoad } = parallax(this);
+    preLoad();
   }
 
   create() {
-    const { preLoad, create } = parallax(this);
-    preLoad();
+    const { create } = parallax(this);
     create();
 
     this.textbox = this.add.text(
