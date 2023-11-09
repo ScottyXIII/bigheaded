@@ -20,6 +20,13 @@ class GameScene extends Scene {
   }
 
   create() {
+    // toggle debug GFX
+    // toggleDebug(this);
+    this.input.keyboard?.on('keydown-CTRL', () => toggleDebug(this));
+
+    this.matter.world.setBounds();
+    this.matter.add.mouseSpring();
+
     const { create } = parallax(this);
     create();
 
