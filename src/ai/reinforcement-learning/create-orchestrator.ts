@@ -31,16 +31,13 @@ const createOrchestrator = async (
 
   const { addSample, getSamples } = createMemory(memoryMaxLength);
 
-  const run = (state: tf.Tensor, nextState: tf.Tensor) => {
+  const run = (state: tf.Tensor) => {
     const action = choose(state, exploration);
 
-    // TODO: update scene here with action
+    // const reward = calculateReward(scene); // maybe of the last state?
 
-    // then get next state? probs state = last state?
-
-    const reward = calculateReward(scene); // maybe of the last state?
-
-    addSample({ state, action, reward, nextState });
+    addSample({ state, action });
+    // addSample({ state, action, reward, nextState });
 
     steps += 1;
 
