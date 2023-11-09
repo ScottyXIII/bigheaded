@@ -54,7 +54,7 @@ window.onload = () => {
 
         const action = run(1, 2);
 
-        const xyForce = { x: action / 10, y: 0 };
+        const xyForce = { x: action / 5, y: 0 };
 
         // @ts-ignore
         Phaser.Physics.Matter.Matter.Body.applyForce(
