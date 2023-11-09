@@ -1,10 +1,20 @@
 import * as tf from '@tensorflow/tfjs';
 import Phaser from 'phaser';
+import createModel from './create-model';
 import createMemory from './create-memory';
-import createNN from './create-nn';
 import config from './config';
 
-const { maxEpsilon, minEpsilon, lambda } = config;
+const {
+  indexedDbName,
+  layerUnits,
+  batchSize,
+  memoryMaxLength,
+  maxStepsPerGame,
+  rewardDiscountRate,
+  maxEpsilon,
+  minEpsilon,
+  lambda,
+} = config;
 
 // const orch = createOrchestrator(this.scene, () => {
 //   if (position >= 0.5) {
@@ -26,15 +36,15 @@ const createOrchestrator = async (
   scene: Phaser.Scene,
   calculateReward: Function,
 ) => {
-  const { predict, choose, train } = await createNN({
-    indexedDbName: config.indexedDbName,
-    layerUnits: config.layerUnits,
+  const { predict, choose, train } = await createModel({
+    indexedDbName,
+    layerUnits,
   });
 
   let steps = 0;
   let exploration = maxEpsilon;
 
-  const { addSample, getSamples } = createMemory(config.memoryMaxLength);
+  const { addSample, getSamples } = createMemory(memoryMaxLength);
 
   const run = (state: tf.Tensor, nextState: tf.Tensor) => {
     const action = choose(state, exploration);
@@ -53,14 +63,14 @@ const createOrchestrator = async (
     exploration =
       minEpsilon + (maxEpsilon - minEpsilon) * Math.exp(-lambda * steps);
 
-    if (steps >= config.maxStepsPerGame) {
+    if (steps >= maxStepsPerGame) {
       scene.sys.game.scene.start('scene-game'); // note: this must initialise things in random positions
     }
   };
 
   const replay = async () => {
     // get random samples from memory
-    const batch = getSamples(config.batchSize);
+    const batch = getSamples(batchSize);
 
     // convert batch into x y (qsa) values
     const out = batch.map(({ state, action, reward, nextState }) => {
@@ -73,7 +83,7 @@ const createOrchestrator = async (
       const value = nextQ.max().dataSync() as unknown as number;
 
       // Update the states rewards with the discounted next states rewards
-      const discountedReward = reward + config.rewardDiscountRate * value;
+      const discountedReward = reward + rewardDiscountRate * value;
 
       // @ts-expect-error
       currentQ[action] = discountedReward; // seems a bit weird?
