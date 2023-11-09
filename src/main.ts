@@ -20,13 +20,13 @@ window.onload = () => {
   (async () => {
     const { run, replay } = await createOrchestrator(
       currentScene,
+      // calculate state func
       () => {
-        // calculate state func
         // eslint-disable-next-line no-console
         console.log(currentScene.ben?.body?.position);
       },
+      // reward func
       () => {
-        // reward func
         //   if (position >= 0.5) {
         //     return 100;
         //   }
