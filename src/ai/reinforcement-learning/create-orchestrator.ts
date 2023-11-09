@@ -38,7 +38,7 @@ const createOrchestrator = async (
 
     // then get next state? probs state = last state?
 
-    const reward = calculateReward(scene);
+    const reward = calculateReward(scene); // maybe of the last state?
 
     addSample({ state, action, reward, nextState });
 
