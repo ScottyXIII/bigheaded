@@ -18,7 +18,7 @@ const {
 
 const createOrchestrator = async (
   scene: Phaser.Scene,
-  calculateState: Function,
+  _calculateState: Function,
   calculateReward: Function,
 ) => {
   const { inputSize, predict, choose, train } = await createModel({
