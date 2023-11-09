@@ -1,24 +1,39 @@
-const parallax = (assetName, path, imgCount) => {
+const parallax = (
+  assetName = 'background',
+  path = 'public/level/parallax/forest2022',
+  imgCount = 8,
+) => {
+  const images = Array.from({ length: imgCount }, (_, index) => ({
+    index: index + 1,
+    name: `${assetName}${index}`,
+    imagePath: `${path}/${index}.png`,
+  }));
+  const { width } = Phaser.scale;
+  const { height } = Phaser.scale;
+
   const preLoad = () => {
-    Array.from({ length: imgCount }).forEach(index => {
-      this.Phaser.load.image(`background${index}`, `${path}/${index}.png`);
+    images.forEach(({ name, imagePath }) => {
+      Phaser.load.image(name, imagePath);
     });
   };
 
-  const { width } = this.Phaser.scale;
-  const { height } = this.Phaser.scale;
-  for (let x = 1; x <= this.parallax.backgroundCount; x++) {
-    const scrollFactorX = 0.01 + x / 20;
-    const scrollFactorY = 0.01 + x / 50;
-    this.Phaser.add
-      .image(width, height, `background${x}`)
-      .setOrigin(0, 0)
-      .setScrollFactor(scrollFactorX, scrollFactorY)
-      .setPosition(0, 0)
-      .setSize(width, height);
-  }
+  // for (let x = 1; x <= this.parallax.backgroundCount; x++) {
 
-  return { preLoad };
+  // }
+  const create = () => {
+    images.forEach(({ index, name }) => {
+      const scrollFactorX = 0.01 + index / 20;
+      const scrollFactorY = 0.01 + index / 50;
+      this.Phaser.add
+        .image(width, height, `background${x}`)
+        .setOrigin(0, 0)
+        .setScrollFactor(scrollFactorX, scrollFactorY)
+        .setPosition(0, 0)
+        .setSize(width, height);
+    });
+  };
+
+  return { preLoad, create };
 };
 
 export default parallax;
