@@ -1,9 +1,10 @@
 import * as Phaser from 'phaser';
 
+const parallaxPath = '/level/parallax';
+
 const parallax = (
   scene: Phaser.Scene,
-  assetName = 'background',
-  path = '/level/parallax/forest2022',
+  assetName = 'forest2022',
   imgCount = 8,
 ) => {
   const images = Array.from({ length: imgCount }, (_, index) => {
@@ -11,7 +12,7 @@ const parallax = (
     return {
       index: indexPlus,
       name: `${assetName}${indexPlus}`,
-      imagePath: `${path}/${indexPlus}.png`,
+      imagePath: `${parallaxPath}/${assetName}/${indexPlus}.png`,
     };
   });
   const { width, height } = scene.scale;
