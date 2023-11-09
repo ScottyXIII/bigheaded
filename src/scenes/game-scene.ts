@@ -1,4 +1,5 @@
 import { Scene, GameObjects } from 'phaser';
+import parallax from '@/objects/parallax';
 
 class GameScene extends Scene {
   private textbox: GameObjects.Text | undefined;
@@ -8,6 +9,10 @@ class GameScene extends Scene {
   }
 
   create() {
+    const { preLoad, create } = parallax(this);
+    preLoad();
+    create();
+
     this.textbox = this.add.text(
       window.innerWidth / 2,
       window.innerHeight / 2,

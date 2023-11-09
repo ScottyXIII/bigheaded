@@ -35,4 +35,6 @@ const parallax = (
   return { preLoad, create };
 };
 
+//
+
 export default parallax;
