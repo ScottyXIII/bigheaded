@@ -24,8 +24,8 @@ const parallax = (
     images.forEach(({ index, name }) => {
       const scrollFactorX = 0.01 + index / 20;
       const scrollFactorY = 0.01 + index / 50;
-      this.Phaser.add
-        .image(width, height, `background${x}`)
+      Phaser.add
+        .image(width, height, name)
         .setOrigin(0, 0)
         .setScrollFactor(scrollFactorX, scrollFactorY)
         .setPosition(0, 0)
