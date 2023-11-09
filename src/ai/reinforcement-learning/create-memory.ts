@@ -22,7 +22,7 @@ const createMemory = (maxLength = 500) => {
       const { state } = samples.shift() || {};
       state?.dispose();
     }
-    console.log('save to memory', newSample, samples);
+    // console.log('save to memory', newSample, samples);
   };
 
   const getSamples = (

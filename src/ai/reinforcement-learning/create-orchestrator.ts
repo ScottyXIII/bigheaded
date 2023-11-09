@@ -47,6 +47,8 @@ const createOrchestrator = async (
 
     if (steps >= maxStepsPerGame) {
       scene.sys.game.scene.start('scene-game'); // note: this must initialise things in random positions
+      steps = 0;
+      // save and reset memory
     }
 
     return action;
