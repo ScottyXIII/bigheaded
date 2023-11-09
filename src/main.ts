@@ -26,6 +26,10 @@ window.onload = () => {
         () => {
           // eslint-disable-next-line no-console
           console.log(currentScene.ben?.body?.position);
+          // what the nn needs to know
+          // headsize
+          // isTouchingGround
+          // headAngle
         },
         // reward func
         () => {
@@ -55,6 +59,10 @@ window.onload = () => {
         const action = run(1, 2);
 
         const xyForce = { x: action / 5, y: 0 };
+        const head = ben?.head?.body as Phaser.Types.Physics.Matter.MatterBody;
+
+        // @ts-ignore
+        console.log(head?.angle);
 
         // @ts-ignore
         Phaser.Physics.Matter.Matter.Body.applyForce(
