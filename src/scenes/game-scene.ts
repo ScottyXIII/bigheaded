@@ -10,6 +10,8 @@ const cy = window.innerHeight / 2;
 class GameScene extends Scene {
   private textbox: GameObjects.Text | undefined;
 
+  private ball: Ball | undefined;
+
   constructor() {
     super('scene-game');
   }
@@ -32,8 +34,7 @@ class GameScene extends Scene {
     const { create } = parallax(this);
     create();
 
-    // eslint-disable-next-line no-unused-vars
-    const x = new Ball(this, cx, cy);
+    this.ball = new Ball(this, cx, cy);
 
     this.textbox = this.add.text(cx, cy, 'Welcome to Phaser x Vite!', {
       color: '#FFF',
@@ -45,11 +46,13 @@ class GameScene extends Scene {
   }
 
   update(_time: number, delta: number) {
-    if (!this.textbox) {
+    if (!this.textbox || !this.ball) {
       return;
     }
 
     this.textbox.rotation += 0.0005 * delta;
+
+    smoothMoveCameraTowards(this, this.ball.ball, 0.9);
   }
 }
 
