@@ -1,6 +1,6 @@
 import * as Phaser from 'phaser';
 
-const parallaxPath = '/level/parallax';
+const parallaxPath = './level/parallax';
 
 const parallax = (
   scene: Phaser.Scene,
