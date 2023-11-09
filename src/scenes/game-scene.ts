@@ -1,15 +1,11 @@
 import { Scene, GameObjects } from 'phaser';
+import toggleDebug from '@/helpers/toggleDebug';
+import smoothMoveCameraTowards from '@/helpers/smoothMoveCameraTowards';
 import parallax from '@/objects/parallax';
 import Ball from '@/objects/ball';
 
 const cx = window.innerWidth / 2;
 const cy = window.innerHeight / 2;
-
-const toggleDebug = (scene: Scene) => {
-  // eslint-disable-next-line no-param-reassign
-  scene.matter.world.drawDebug = !scene.matter.world.drawDebug;
-  scene.matter.world.debugGraphic.clear();
-};
 
 class GameScene extends Scene {
   private textbox: GameObjects.Text | undefined;
