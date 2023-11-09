@@ -3,7 +3,7 @@ import * as Phaser from 'phaser';
 const parallax = (
   scene: Phaser.Scene,
   assetName = 'background',
-  path = 'public/level/parallax/forest2022',
+  path = '/level/parallax/forest2022',
   imgCount = 8,
 ) => {
   const images = Array.from({ length: imgCount }, (_, index) => ({
@@ -15,6 +15,7 @@ const parallax = (
 
   const preLoad = () => {
     images.forEach(({ name, imagePath }) => {
+      console.log(imagePath);
       scene.load.image(name, imagePath);
     });
   };
