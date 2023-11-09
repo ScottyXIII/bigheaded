@@ -16,24 +16,9 @@ const {
   lambda,
 } = config;
 
-// const orch = createOrchestrator(this.scene, () => {
-//   if (position >= 0.5) {
-//     return 100;
-//   }
-//   if (position >= 0.25) {
-//     return 20;
-//   }
-//   if (position >= 0.1) {
-//     return 10;
-//   }
-//   if (position >= 0) {
-//     return 5;
-//   }
-//   return 0;
-// });
-
 const createOrchestrator = async (
   scene: Phaser.Scene,
+  calculateState: Function,
   calculateReward: Function,
 ) => {
   const { predict, choose, train } = await createModel({
@@ -49,7 +34,7 @@ const createOrchestrator = async (
   const run = (state: tf.Tensor, nextState: tf.Tensor) => {
     const action = choose(state, exploration);
 
-    // update scene here with action
+    // TODO: update scene here with action
 
     // then get next state? probs state = last state?
 
@@ -80,6 +65,7 @@ const createOrchestrator = async (
       // Predict the value of historical action for next state
       const nextQ = predict(nextState) as tf.Tensor;
 
+      // get some weird max value from next
       const value = nextQ.max().dataSync() as unknown as number;
 
       // Update the states rewards with the discounted next states rewards
@@ -88,7 +74,7 @@ const createOrchestrator = async (
       // @ts-expect-error
       currentQ[action] = discountedReward; // seems a bit weird?
 
-      // extract values
+      // extract values from state and action
       const xValue = state.dataSync() as unknown as number; // state
       const yValue = currentQ.dataSync() as unknown as number; // action
 

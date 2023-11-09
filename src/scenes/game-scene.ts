@@ -23,7 +23,7 @@ const smoothMoveCameraTowards = (
 };
 
 class GameScene extends Scene {
-  private ben: Ben1 | undefined;
+  public ben: Ben1 | undefined;
 
   private textbox: GameObjects.Text | undefined;
 
