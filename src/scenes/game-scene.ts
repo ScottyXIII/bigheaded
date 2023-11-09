@@ -1,5 +1,9 @@
 import { Scene, GameObjects } from 'phaser';
 import parallax from '@/objects/parallax';
+import Ball from '@/objects/ball';
+
+const cx = window.innerWidth / 2;
+const cy = window.innerHeight / 2;
 
 class GameScene extends Scene {
   private textbox: GameObjects.Text | undefined;
@@ -11,22 +15,21 @@ class GameScene extends Scene {
   preload() {
     const { preLoad } = parallax(this);
     preLoad();
+
+    Ball.preload(this);
   }
 
   create() {
     const { create } = parallax(this);
     create();
 
-    this.textbox = this.add.text(
-      window.innerWidth / 2,
-      window.innerHeight / 2,
-      'Welcome to Phaser x Vite!',
-      {
-        color: '#FFF',
-        fontFamily: 'monospace',
-        fontSize: '26px',
-      },
-    );
+    const x = new Ball(this, cx, cy);
+
+    this.textbox = this.add.text(cx, cy, 'Welcome to Phaser x Vite!', {
+      color: '#FFF',
+      fontFamily: 'monospace',
+      fontSize: '26px',
+    });
 
     this.textbox.setOrigin(0.5, 0.5);
   }

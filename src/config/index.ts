@@ -24,7 +24,7 @@ const config = {
     matter: {
       enableSleeping: true,
       gravity: {
-        y: 0,
+        y: 1,
       },
       plugins: {
         attractors: true,
