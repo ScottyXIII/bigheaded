@@ -9,8 +9,8 @@ type RecordType = {
 type SampleType = {
   state: tf.Tensor;
   action: number;
-  nextState: tf.Tensor;
   reward: number;
+  nextState: tf.Tensor;
 };
 
 const createMemory = (maxLength = 500) => {
