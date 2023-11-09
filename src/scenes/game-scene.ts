@@ -8,6 +8,10 @@ class GameScene extends Scene {
     super('scene-game');
   }
 
+  preLoad() {
+    console.log('hello');
+  }
+
   create() {
     const { preLoad, create } = parallax(this);
     preLoad();
