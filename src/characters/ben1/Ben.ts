@@ -1,12 +1,12 @@
 import * as Phaser from 'phaser';
 import * as tf from '@tensorflow/tfjs';
-import Brain from '@/ai/reinforcement-learning/Brain';
+// import Brain from '@/ai/reinforcement-learning/Brain';
 
 const HEAD_SCALE_MIN = 0.15;
 const HEAD_SCALE_MAX = 1.5;
 
 class Bob1 extends Phaser.GameObjects.Container {
-  private brain: Brain;
+  // private brain: Brain;
 
   public head: Phaser.GameObjects.Image | undefined;
 
@@ -28,7 +28,7 @@ class Bob1 extends Phaser.GameObjects.Container {
 
     this.scene = scene;
 
-    this.brain = new Brain([2, 6, 6, 3]);
+    // this.brain = new Brain([2, 6, 6, 3]);
 
     this.torso = this.scene.matter.add.image(x, y + 100, 'body1', undefined, {
       shape: 'rectangle',
@@ -72,10 +72,10 @@ class Bob1 extends Phaser.GameObjects.Container {
       this.head.rotation,
     );
 
-    const nnInput = tf.tensor2d([2, 3], [1, 2]);
-    const eps = 1;
-    const actionData = this.brain.choose(nnInput, eps);
-    this.action(actionData);
+    // const nnInput = tf.tensor2d([2, 3], [1, 2]);
+    // const eps = 1;
+    // const actionData = this.brain.choose(nnInput, eps);
+    // this.action(actionData);
 
     // console.log('choose', actionData);
   }
