@@ -1,4 +1,7 @@
+import * as Phaser from 'phaser';
+
 const parallax = (
+  scene: Phaser.Scene,
   assetName = 'background',
   path = 'public/level/parallax/forest2022',
   imgCount = 8,
@@ -8,23 +11,19 @@ const parallax = (
     name: `${assetName}${index}`,
     imagePath: `${path}/${index}.png`,
   }));
-  const { width } = Phaser.scale;
-  const { height } = Phaser.scale;
+  const { width, height } = scene.scale;
 
   const preLoad = () => {
     images.forEach(({ name, imagePath }) => {
-      Phaser.load.image(name, imagePath);
+      scene.load.image(name, imagePath);
     });
   };
 
-  // for (let x = 1; x <= this.parallax.backgroundCount; x++) {
-
-  // }
   const create = () => {
     images.forEach(({ index, name }) => {
       const scrollFactorX = 0.01 + index / 20;
       const scrollFactorY = 0.01 + index / 50;
-      Phaser.add
+      scene.add
         .image(width, height, name)
         .setOrigin(0, 0)
         .setScrollFactor(scrollFactorX, scrollFactorY)
