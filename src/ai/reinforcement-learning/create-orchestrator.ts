@@ -21,7 +21,7 @@ const createOrchestrator = async (
   calculateState: Function,
   calculateReward: Function,
 ) => {
-  const { predict, choose, train } = await createModel({
+  const { inputSize, predict, choose, train } = await createModel({
     indexedDbName,
     layerUnits,
   });
@@ -52,7 +52,7 @@ const createOrchestrator = async (
 
   const replay = async () => {
     // get random samples from memory
-    const batch = getSamples(batchSize);
+    const batch = getSamples(batchSize, calculateReward, inputSize);
 
     // convert batch into x y (qsa) values
     const out = batch.map(({ state, action, reward, nextState }) => {

@@ -24,11 +24,15 @@ const createMemory = (maxLength = 500) => {
     }
   };
 
-  const getSamples = (nSamples: number, calculateReward: Function) => {
+  const getSamples = (
+    nSamples: number,
+    calculateReward: Function,
+    inputSize: number,
+  ) => {
     // convert Records into Samples
-    const trainingData = samples.reduce((acc, sample) => {
+    const trainingData = samples.reduce((acc, sample, index) => {
       const { state, action } = sample;
-      const nextState = state; // TODO
+      const nextState = samples[index + 1].state || tf.zeros([inputSize]);
       const reward = calculateReward(nextState);
       const newSample = { state, action, reward, nextState };
       return [...acc, newSample];
