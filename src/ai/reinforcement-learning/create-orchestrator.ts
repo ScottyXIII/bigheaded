@@ -31,13 +31,13 @@ const createOrchestrator = async (
 
   const { addSample, getSamples } = createMemory(memoryMaxLength);
 
-  const run = (state: tf.Tensor) => {
+  // const run = (state: tf.Tensor) => {
+  const run = (position: number, velocity: number) => {
+    const state = tf.tensor2d([[position, velocity]]);
+
     const action = choose(state, exploration);
 
-    // const reward = calculateReward(scene); // maybe of the last state?
-
     addSample({ state, action });
-    // addSample({ state, action, reward, nextState });
 
     steps += 1;
 
@@ -48,6 +48,8 @@ const createOrchestrator = async (
     if (steps >= maxStepsPerGame) {
       scene.sys.game.scene.start('scene-game'); // note: this must initialise things in random positions
     }
+
+    return action;
   };
 
   const replay = async () => {

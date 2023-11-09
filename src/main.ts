@@ -1,4 +1,5 @@
 import './style.css';
+import * as Phaser from 'phaser';
 import { Game } from 'phaser';
 
 import config from '@/config';
@@ -43,8 +44,29 @@ window.onload = () => {
       },
     );
 
+    const thing = () => {
+      const currentScene = game.scene.scenes[0] as GameScene;
+
+      const { ben } = currentScene;
+
+      if (!ben?.torso) return;
+
+      const action = run(1, 2);
+
+      const xyForce = { x: action, y: 0 };
+
+      // @ts-ignore
+      Phaser.Physics.Matter.Matter.Body.applyForce(
+        ben.torso.body,
+        ben.torso.getCenter(),
+        xyForce,
+      );
+    };
+
+    setInterval(thing, 1_000);
+
     // @ts-ignore
-    window.run = run;
+    window.run = thing;
 
     // @ts-ignore
     window.replay = replay;

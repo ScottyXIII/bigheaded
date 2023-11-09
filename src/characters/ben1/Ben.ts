@@ -10,7 +10,7 @@ class Bob1 extends Phaser.GameObjects.Container {
 
   public head: Phaser.GameObjects.Image | undefined;
 
-  private torso: Phaser.GameObjects.Image | undefined;
+  public torso: Phaser.GameObjects.Image | undefined;
 
   private headScale = HEAD_SCALE_MIN;
 

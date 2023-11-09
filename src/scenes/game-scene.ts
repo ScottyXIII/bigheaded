@@ -56,10 +56,6 @@ class GameScene extends Scene {
       },
     );
     this.textbox.setOrigin(0.5, 0.5);
-
-    // setTimeout(() => {
-    //   this.sys.game.scene.start('scene-game');
-    // }, 10_000);
   }
 
   update(_time: number, delta: number) {
