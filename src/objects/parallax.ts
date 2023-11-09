@@ -6,18 +6,18 @@ const parallax = (
   path = '/level/parallax/forest2022',
   imgCount = 8,
 ) => {
-  const images = Array.from({ length: imgCount }, (_, index) => ({
-    index: index + 1,
-    name: `${assetName}${index}`,
-    imagePath: `${path}/${index}.png`,
-  }));
+  const images = Array.from({ length: imgCount }, (_, index) => {
+    const indexPlus = index + 1;
+    return {
+      index: indexPlus,
+      name: `${assetName}${indexPlus}`,
+      imagePath: `${path}/${indexPlus}.png`,
+    };
+  });
   const { width, height } = scene.scale;
 
   const preLoad = () => {
-    images.forEach(({ name, imagePath }) => {
-      console.log(imagePath);
-      scene.load.image(name, imagePath);
-    });
+    images.forEach(({ name, imagePath }) => scene.load.image(name, imagePath));
   };
 
   const create = () => {
@@ -35,7 +35,5 @@ const parallax = (
 
   return { preLoad, create };
 };
-
-//
 
 export default parallax;
