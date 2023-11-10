@@ -23,42 +23,8 @@ class TrainingZone extends Scene {
 
   constructor() {
     super('training-zone');
-  }
 
-  preload() {
-    Ben1.preload(this);
-
-    const { preLoad } = parallax(this);
-    preLoad();
-
-    Ball.preload(this);
-  }
-
-  async create() {
-    // toggle debug GFX
-    // toggleDebug(this);
-    this.input.keyboard?.on('keydown-CTRL', () => toggleDebug(this));
-
-    this.matter.world.setBounds();
-    this.matter.add.mouseSpring();
-
-    const { create } = parallax(this);
-    create();
-
-    this.ben = new Ben1(this, cx, cy);
-
-    this.textbox = this.add
-      .text(cx, cy, 'Training Zone!', {
-        color: '#FFF',
-        fontFamily: 'monospace',
-        fontSize: '26px',
-      })
-      .setOrigin(0.5, 0.5);
-
-    this.ball = new Ball(this, cx, cy);
-    this.ball = new Ball(this, cx, cy);
-
-    console.log('create training zone');
+    console.log('construct training zone');
 
     // setTimeout(() => this.sys.game.scene.start('training-zone'), 20000);
 
@@ -94,15 +60,51 @@ class TrainingZone extends Scene {
       this.sys.game.scene.start('training-zone');
     };
 
-    const { run, replay } = await createOrchestrator(
-      this,
-      calculateState,
-      calculateReward,
-      restartScene,
-    );
+    (async () => {
+      const { run, replay } = await createOrchestrator(
+        this,
+        calculateState,
+        calculateReward,
+        restartScene,
+      );
 
-    this.run = run;
-    this.replay = replay;
+      this.run = run;
+      this.replay = replay;
+    })();
+  }
+
+  preload() {
+    Ben1.preload(this);
+
+    const { preLoad } = parallax(this);
+    preLoad();
+
+    Ball.preload(this);
+  }
+
+  create() {
+    // toggle debug GFX
+    // toggleDebug(this);
+    this.input.keyboard?.on('keydown-CTRL', () => toggleDebug(this));
+
+    this.matter.world.setBounds();
+    this.matter.add.mouseSpring();
+
+    const { create } = parallax(this);
+    create();
+
+    this.ben = new Ben1(this, cx, cy);
+
+    this.textbox = this.add
+      .text(cx, cy, 'Training Zone!', {
+        color: '#FFF',
+        fontFamily: 'monospace',
+        fontSize: '26px',
+      })
+      .setOrigin(0.5, 0.5);
+
+    this.ball = new Ball(this, cx, cy);
+    this.ball = new Ball(this, cx, cy);
   }
 
   update(_time: number, delta: number) {
