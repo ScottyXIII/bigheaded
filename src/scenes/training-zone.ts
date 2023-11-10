@@ -85,8 +85,8 @@ class TrainingZone extends Scene {
 
     const restartScene = () => {
       // note: this must initialise things in random positions
-      this.sys.game.scene.stop('game-scene');
-      this.sys.game.scene.start('training-zone');
+      // this.sys.game.scene.stop('game-scene');
+      // this.sys.game.scene.start('training-zone');
     };
 
     const { run, replay } = await createOrchestrator(
@@ -117,7 +117,7 @@ class TrainingZone extends Scene {
       );
     };
 
-    setInterval(thing, 50);
+    // setInterval(thing, 50);
   }
 
   destroy() {
