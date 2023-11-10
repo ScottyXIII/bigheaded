@@ -19,38 +19,42 @@ window.onload = () => {
   setTimeout(() => {
     const currentScene = game.scene.scenes[0] as GameScene;
 
+    const calculateState = () => {
+      // eslint-disable-next-line no-console
+      console.log(currentScene.ben?.body?.position);
+      // what the nn needs to know
+      // headsize
+      // isTouchingGround
+      // headAngle
+    };
+
+    const calculateReward = () => {
+      //   if (position >= 0.5) {
+      //     return 100;
+      //   }
+      //   if (position >= 0.25) {
+      //     return 20;
+      //   }
+      //   if (position >= 0.1) {
+      //     return 10;
+      //   }
+      //   if (position >= 0) {
+      //     return 5;
+      //   }
+      //   return 0;
+    };
+
+    const restartScene = () => {
+      // note: this must initialise things in random positions
+      currentScene.sys.game.scene.start('training-zone');
+    }
+
     (async () => {
       const { run, replay } = await createOrchestrator(
         currentScene,
-        // calculate state func
-        () => {
-          // eslint-disable-next-line no-console
-          console.log(currentScene.ben?.body?.position);
-          // what the nn needs to know
-          // headsize
-          // isTouchingGround
-          // headAngle
-        },
-        // reward func
-        () => {
-          //   if (position >= 0.5) {
-          //     return 100;
-          //   }
-          //   if (position >= 0.25) {
-          //     return 20;
-          //   }
-          //   if (position >= 0.1) {
-          //     return 10;
-          //   }
-          //   if (position >= 0) {
-          //     return 5;
-          //   }
-          //   return 0;
-        },
-        () => {
-          // note: this must initialise things in random positions
-          currentScene.sys.game.scene.start('training-zone');
-        }
+        calculateState,
+        calculateReward,
+        restartScene,
       );
 
       const thing = () => {
@@ -77,12 +81,6 @@ window.onload = () => {
       };
 
       setInterval(thing, 50);
-
-      // @ts-ignore
-      window.run = thing;
-
-      // @ts-ignore
-      window.replay = replay;
     })();
   }, 1000);
 };
