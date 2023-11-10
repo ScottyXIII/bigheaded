@@ -31,10 +31,16 @@ class TrainingZone extends Scene {
     const calculateState = () => {
       // eslint-disable-next-line no-console
       console.log(this.ben?.body?.position);
+
+      // const head = this.ben?.head?.body as Phaser.Types.Physics.Matter.MatterBody;
+      // @ts-ignore
+      // console.log(head?.angle);
+
       // what the nn needs to know
       // headsize
       // isTouchingGround
       // headAngle
+      return [1, 2];
     };
 
     const calculateReward = () => {
@@ -56,7 +62,6 @@ class TrainingZone extends Scene {
     const restartScene = () => {
       console.log('restartScene');
       // note: this must initialise things in random positions
-      // this.sys.game.scene.stop('game-scene');
       this.sys.game.scene.start('training-zone');
     };
 
@@ -117,20 +122,8 @@ class TrainingZone extends Scene {
     smoothMoveCameraTowards(this, this.ben.head, 0.9);
 
     // neural network below
-
-    const action = this.run?.(1, 2);
-    // const head = this.ben?.head?.body as Phaser.Types.Physics.Matter.MatterBody;
-
-    // @ts-ignore
-    // console.log(head?.angle);
-
-    const xyForce = { x: action / 5, y: 0 };
-    // @ts-ignore
-    Phaser.Physics.Matter.Matter.Body.applyForce(
-      this.ben.torso?.body,
-      this.ben.torso?.getCenter(),
-      xyForce,
-    );
+    const action = this.run?.();
+    this.ben.enactAction(action);
   }
 }
 

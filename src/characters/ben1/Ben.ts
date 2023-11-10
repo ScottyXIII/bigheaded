@@ -80,16 +80,16 @@ class Bob1 extends Phaser.GameObjects.Container {
     // console.log('choose', actionData);
   }
 
-  action(data: number) {
+  enactAction(action: number) {
     if (!this.torso) return;
 
-    const actionDirection = { x: data / 10, y: 0 };
+    const xyForce = { x: action / 10, y: 0 };
 
     // @ts-ignore
     Phaser.Physics.Matter.Matter.Body.applyForce(
       this.torso.body,
       this.torso.getCenter(),
-      actionDirection,
+      xyForce,
     );
   }
 }

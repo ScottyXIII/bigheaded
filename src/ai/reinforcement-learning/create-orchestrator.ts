@@ -18,7 +18,7 @@ const {
 
 const createOrchestrator = async (
   scene: Phaser.Scene,
-  _calculateState: Function,
+  calculateState: Function,
   calculateReward: Function,
   restartScene: Function,
 ) => {
@@ -32,9 +32,9 @@ const createOrchestrator = async (
 
   const { addSample, getSamples } = createMemory(memoryMaxLength);
 
-  // const run = (state: tf.Tensor) => {
-  const run = (position: number, velocity: number) => {
-    const state = tf.tensor2d([[position, velocity]]);
+  const run = () => {
+    const inputs = calculateState();
+    const state = tf.tensor2d([inputs]);
 
     const action = choose(state, exploration);
 
