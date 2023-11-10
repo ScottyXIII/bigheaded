@@ -37,7 +37,7 @@ class TrainingZone extends Scene {
       return [headAngle, headScale, 3.69];
     };
 
-    const calculateReward = state => {
+    const calculateReward = (state: number[]) => {
       const [headAngle] = state;
       const reward = 1 - Math.abs(headAngle);
       console.log({ reward });
