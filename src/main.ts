@@ -47,6 +47,10 @@ window.onload = () => {
           //   }
           //   return 0;
         },
+        () => {
+          // note: this must initialise things in random positions
+          currentScene.sys.game.scene.start('training-zone');
+        }
       );
 
       const thing = () => {

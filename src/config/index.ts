@@ -1,6 +1,7 @@
 import { WEBGL } from 'phaser';
 
 import GameScene from '@/scenes/game-scene';
+import TrainingZone from '@/scenes/training-zone';
 
 const canvas = document.getElementById('game') as HTMLCanvasElement;
 
@@ -25,7 +26,7 @@ const config = {
       },
     },
   },
-  scene: [GameScene],
+  scene: [GameScene, TrainingZone],
 };
 
 export default config;

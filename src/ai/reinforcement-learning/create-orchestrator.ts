@@ -20,6 +20,7 @@ const createOrchestrator = async (
   scene: Phaser.Scene,
   _calculateState: Function,
   calculateReward: Function,
+  restartScene: Function,
 ) => {
   const { inputSize, predict, choose, train } = await createModel({
     indexedDbName,
@@ -46,7 +47,8 @@ const createOrchestrator = async (
       minEpsilon + (maxEpsilon - minEpsilon) * Math.exp(-lambda * steps);
 
     if (steps >= maxStepsPerGame) {
-      scene.sys.game.scene.start('scene-game'); // note: this must initialise things in random positions
+      restartScene();
+
       steps = 0;
       // TODO: save and reset memory
     }

@@ -8,7 +8,7 @@ import Ben1 from '../characters/ben1/Ben';
 const cx = window.innerWidth / 2;
 const cy = window.innerHeight / 2;
 
-class GameScene extends Scene {
+class TrainingZone extends Scene {
   public ben: Ben1 | undefined;
 
   private textbox: GameObjects.Text | undefined;
@@ -16,7 +16,7 @@ class GameScene extends Scene {
   private ball: Ball | undefined;
 
   constructor() {
-    super('scene-game');
+    super('training-zone');
   }
 
   preload() {
@@ -53,6 +53,7 @@ class GameScene extends Scene {
     );
 
     this.ball = new Ball(this, cx, cy);
+    this.ball = new Ball(this, cx, cy);
 
     this.textbox.setOrigin(0.5, 0.5);
   }
@@ -68,4 +69,4 @@ class GameScene extends Scene {
   }
 }
 
-export default GameScene;
+export default TrainingZone;
