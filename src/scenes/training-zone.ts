@@ -91,7 +91,7 @@ class TrainingZone extends Scene {
       console.log('restartScene');
       // note: this must initialise things in random positions
       // this.sys.game.scene.stop('game-scene');
-      // this.sys.game.scene.start('training-zone');
+      this.sys.game.scene.start('training-zone');
     };
 
     const { run, replay } = await createOrchestrator(
@@ -103,34 +103,7 @@ class TrainingZone extends Scene {
 
     this.run = run;
     this.replay = replay;
-
-    // const thing = () => {
-    //   const { ben } = this;
-
-    //   if (!ben?.torso) return;
-
-    //   const action = run(1, 2);
-
-    //   const xyForce = { x: action / 5, y: 0 };
-    //   const head = ben?.head?.body as Phaser.Types.Physics.Matter.MatterBody;
-
-    //   // @ts-ignore
-    //   console.log(head?.angle);
-
-    //   // @ts-ignore
-    //   Phaser.Physics.Matter.Matter.Body.applyForce(
-    //     ben.torso.body,
-    //     ben.torso.getCenter(),
-    //     xyForce,
-    //   );
-    // };
-
-    // setInterval(thing, 50);
   }
-
-  // destroy() {
-  //   console.log('destroy training zone', this);
-  // }
 
   update(_time: number, delta: number) {
     if (!this.textbox || !this.ben || !this.ball) return;
@@ -140,6 +113,22 @@ class TrainingZone extends Scene {
     this.ben.update(_time, delta);
 
     smoothMoveCameraTowards(this, this.ben.head, 0.9);
+
+    // neural network below
+
+    const action = this.run?.(1, 2);
+    // const head = this.ben?.head?.body as Phaser.Types.Physics.Matter.MatterBody;
+
+    // @ts-ignore
+    // console.log(head?.angle);
+
+    const xyForce = { x: action / 5, y: 0 };
+    // @ts-ignore
+    Phaser.Physics.Matter.Matter.Body.applyForce(
+      this.ben.torso?.body,
+      this.ben.torso?.getCenter(),
+      xyForce,
+    );
   }
 }
 
