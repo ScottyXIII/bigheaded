@@ -1,5 +1,4 @@
 import { WEBGL } from 'phaser';
-
 import GameScene from '@/scenes/game-scene';
 import TrainingZone from '@/scenes/training-zone';
 
@@ -26,7 +25,7 @@ const config = {
       },
     },
   },
-  scene: [GameScene, TrainingZone],
+  scene: [GameScene],
 };
 
 export default config;
