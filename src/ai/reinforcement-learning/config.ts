@@ -1,7 +1,7 @@
 export default {
   indexedDbName: 'megabrain-v0',
   layerUnits: [
-    2, // 2 inputs
+    3, // 3 inputs
     128,
     128,
     3, // 3 outputs

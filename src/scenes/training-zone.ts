@@ -1,4 +1,4 @@
-import * as Phaser from 'phaser';
+import * as tf from '@tensorflow/tfjs';
 import { Scene, GameObjects } from 'phaser';
 import toggleDebug from '@/helpers/toggleDebug';
 import smoothMoveCameraTowards from '@/helpers/smoothMoveCameraTowards';
@@ -29,45 +29,30 @@ class TrainingZone extends Scene {
     // setTimeout(() => this.sys.game.scene.start('training-zone'), 20000);
 
     const calculateState = () => {
-      // eslint-disable-next-line no-console
-      console.log(this.ben?.body?.position);
+      const headScale = this.ben?.headScale;
 
-      // const head = this.ben?.head?.body as Phaser.Types.Physics.Matter.MatterBody;
       // @ts-ignore
-      // console.log(head?.angle);
+      const headAngle = this.ben?.head?.body?.angle;
 
-      // what the nn needs to know
-      // headsize
-      // isTouchingGround
-      // headAngle
-      return [1, 2];
+      return [headAngle, headScale, 3.69];
     };
 
-    const calculateReward = () => {
-      //   if (position >= 0.5) {
-      //     return 100;
-      //   }
-      //   if (position >= 0.25) {
-      //     return 20;
-      //   }
-      //   if (position >= 0.1) {
-      //     return 10;q
-      //   }
-      //   if (position >= 0) {
-      //     return 5;
-      //   }
-      //   return 0;
+    const calculateReward = state => {
+      const [headAngle] = state;
+      const reward = 1 - Math.abs(headAngle);
+      console.log({ reward });
+      return reward;
     };
 
     const restartScene = () => {
-      console.log('restartScene');
       // note: this must initialise things in random positions
-      this.sys.game.scene.start('training-zone');
+      // this.sys.game.scene.start('training-zone');
+      this.scene.pause();
+      this.replay?.();
     };
 
     (async () => {
       const { run, replay } = await createOrchestrator(
-        this,
         calculateState,
         calculateReward,
         restartScene,

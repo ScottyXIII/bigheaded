@@ -34,7 +34,7 @@ const createMemory = (maxLength = 500) => {
     const trainingData = samples.reduce((acc, sample, index) => {
       const { state, action } = sample;
       const nextState = samples[index + 1].state || tf.zeros([inputSize]);
-      const reward = calculateReward(nextState);
+      const reward = calculateReward(nextState.dataSync() as unknown);
       const newSample = { state, action, reward, nextState };
       return [...acc, newSample];
     }, [] as SampleType[]);

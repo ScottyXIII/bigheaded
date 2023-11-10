@@ -1,5 +1,4 @@
 import * as tf from '@tensorflow/tfjs';
-import Phaser from 'phaser';
 import createModel from './create-model';
 import createMemory from './create-memory';
 import config from './config';
@@ -17,7 +16,6 @@ const {
 } = config;
 
 const createOrchestrator = async (
-  scene: Phaser.Scene,
   calculateState: Function,
   calculateReward: Function,
   restartScene: Function,
