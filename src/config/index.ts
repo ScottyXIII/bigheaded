@@ -25,7 +25,7 @@ const config = {
       },
     },
   },
-  scene: [GameScene],
+  scene: [GameScene, TrainingZone],
 };
 
 export default config;
