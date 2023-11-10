@@ -17,6 +17,10 @@ class TrainingZone extends Scene {
 
   private ball: Ball | undefined;
 
+  private run: Function | undefined;
+
+  private replay: Function | undefined;
+
   constructor() {
     super('training-zone');
   }
@@ -84,6 +88,7 @@ class TrainingZone extends Scene {
     };
 
     const restartScene = () => {
+      console.log('restartScene');
       // note: this must initialise things in random positions
       // this.sys.game.scene.stop('game-scene');
       // this.sys.game.scene.start('training-zone');
@@ -96,33 +101,36 @@ class TrainingZone extends Scene {
       restartScene,
     );
 
-    const thing = () => {
-      const { ben } = this;
+    this.run = run;
+    this.replay = replay;
 
-      if (!ben?.torso) return;
+    // const thing = () => {
+    //   const { ben } = this;
 
-      const action = run(1, 2);
+    //   if (!ben?.torso) return;
 
-      const xyForce = { x: action / 5, y: 0 };
-      const head = ben?.head?.body as Phaser.Types.Physics.Matter.MatterBody;
+    //   const action = run(1, 2);
 
-      // @ts-ignore
-      console.log(head?.angle);
+    //   const xyForce = { x: action / 5, y: 0 };
+    //   const head = ben?.head?.body as Phaser.Types.Physics.Matter.MatterBody;
 
-      // @ts-ignore
-      Phaser.Physics.Matter.Matter.Body.applyForce(
-        ben.torso.body,
-        ben.torso.getCenter(),
-        xyForce,
-      );
-    };
+    //   // @ts-ignore
+    //   console.log(head?.angle);
+
+    //   // @ts-ignore
+    //   Phaser.Physics.Matter.Matter.Body.applyForce(
+    //     ben.torso.body,
+    //     ben.torso.getCenter(),
+    //     xyForce,
+    //   );
+    // };
 
     // setInterval(thing, 50);
   }
 
-  destroy() {
-    console.log('destroy training zone', this);
-  }
+  // destroy() {
+  //   console.log('destroy training zone', this);
+  // }
 
   update(_time: number, delta: number) {
     if (!this.textbox || !this.ben || !this.ball) return;
