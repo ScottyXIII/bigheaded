@@ -60,6 +60,8 @@ const createOrchestrator = async (
 
     // convert batch into x y (qsa) values
     const out = batch.map(({ state, action, reward, nextState }) => {
+      console.log({ action, reward });
+
       // Predict the value of historical action for current state
       const currentQ = predict(state) as tf.Tensor;
 

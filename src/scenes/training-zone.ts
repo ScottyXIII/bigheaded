@@ -1,4 +1,3 @@
-import * as tf from '@tensorflow/tfjs';
 import { Scene, GameObjects } from 'phaser';
 import toggleDebug from '@/helpers/toggleDebug';
 import smoothMoveCameraTowards from '@/helpers/smoothMoveCameraTowards';
@@ -40,7 +39,6 @@ class TrainingZone extends Scene {
     const calculateReward = (state: number[]) => {
       const [headAngle] = state;
       const reward = 1 - Math.abs(headAngle);
-      console.log({ reward });
       return reward;
     };
 
