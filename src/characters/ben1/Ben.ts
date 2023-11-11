@@ -66,7 +66,7 @@ class Bob1 extends Phaser.GameObjects.Container {
     if (this.headScale > HEAD_SCALE_MAX) this.headScaleDirection = -1;
     if (this.headScale < HEAD_SCALE_MIN) this.headScaleDirection = 1;
 
-    this.headScale += 0.000005 * this.headScaleDirection * delta;
+    this.headScale += 0.00005 * this.headScaleDirection * delta;
 
     this.neck.pointA = new Phaser.Math.Vector2(0, this.headScale * 180).rotate(
       this.head.rotation,

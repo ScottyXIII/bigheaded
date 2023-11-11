@@ -20,7 +20,7 @@ const createOrchestrator = async (
   calculateReward: Function,
   restartScene: Function,
 ) => {
-  const { inputSize, predict, choose, train } = await createModel({
+  const { network, inputSize, predict, choose, train } = await createModel({
     indexedDbName,
     layerUnits,
   });
@@ -58,7 +58,8 @@ const createOrchestrator = async (
     // get random samples from memory
     const batch = getSamples(batchSize, calculateReward, inputSize);
 
-    console.log(batch.map(({ action, reward }) => ({ action, reward })));
+    const totalReward = batch.reduce((acc, { reward }) => acc + reward, 0);
+    console.log('totalReward', totalReward);
 
     // convert batch into x y (qsa) values
     const out = batch.map(({ state, action, reward, nextState }) => {
@@ -97,6 +98,7 @@ const createOrchestrator = async (
     const y = out.map(({ yValue }) => yValue); // actions
 
     // Learn the Q(s, a) values given associated discounted rewards
+    console.log('train', network);
     await train(x, y);
   };
 

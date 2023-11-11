@@ -14,7 +14,7 @@ class TrainingZone extends Scene {
 
   private textbox: GameObjects.Text | undefined;
 
-  private ball: Ball | undefined;
+  // private ball: Ball | undefined;
 
   private run: Function | undefined;
 
@@ -39,13 +39,16 @@ class TrainingZone extends Scene {
     const calculateReward = (state: number[]) => {
       const [headAngle] = state;
       const reward = 1 - Math.abs(headAngle);
-      return reward;
+      // return reward;
+      if (Math.abs(headAngle) < 0.1) return 1;
+      if (Math.abs(headAngle) < 0.2) return 0.5;
+      return 0;
     };
 
     const restartScene = () => {
       // note: this must initialise things in random positions
-      // this.sys.game.scene.start('training-zone');
-      this.scene.pause();
+      this.sys.game.scene.start('training-zone');
+      // this.scene.pause();
       this.replay?.();
     };
 
@@ -91,12 +94,12 @@ class TrainingZone extends Scene {
       })
       .setOrigin(0.5, 0.5);
 
-    this.ball = new Ball(this, cx, cy);
-    this.ball = new Ball(this, cx, cy);
+    // this.ball = new Ball(this, cx, cy);
+    // this.ball = new Ball(this, cx, cy);
   }
 
   update(_time: number, delta: number) {
-    if (!this.textbox || !this.ben || !this.ball) return;
+    if (!this.textbox || !this.ben) return;
 
     this.textbox.rotation += 0.005 * delta;
 

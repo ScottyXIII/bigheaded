@@ -55,6 +55,7 @@ const createModel = async ({
   const remove = async () => tf.io.removeModel(modelSavePath);
 
   return {
+    network,
     inputSize,
     predict,
     choose,
