@@ -19,12 +19,12 @@ class Parallax {
 
   private layers: Phaser.GameObjects.TileSprite[];
 
-  static preload(scene: Phaser.Scene, assetName = 'forest2022', imgCount = 8) {
+  static preload(scene: Phaser.Scene, assetName: string, imgCount: number) {
     const images = getImageData(assetName, imgCount);
     images.forEach(({ name, imagePath }) => scene.load.image(name, imagePath));
   }
 
-  constructor(scene: Phaser.Scene, assetName = 'forest2022', imgCount = 8) {
+  constructor(scene: Phaser.Scene, assetName: string, imgCount: number) {
     this.scene = scene;
 
     const { width, height } = scene.scale;
