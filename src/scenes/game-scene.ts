@@ -14,16 +14,11 @@ class GameScene extends Scene {
 
   private parallax: Parallax | undefined;
 
-  // private updateP: Function | undefined;
-
   constructor() {
     super('scene-game');
   }
 
   preload() {
-    // const { preLoad } = parallax(this);
-    // preLoad();
-
     Parallax.preload(this);
     Ball.preload(this);
   }
@@ -36,9 +31,6 @@ class GameScene extends Scene {
     this.matter.world.setBounds();
     this.matter.add.mouseSpring();
 
-    // const { create, update } = parallax(this);
-    // create();
-    // this.updateP = update;
     this.parallax = new Parallax(this);
 
     this.ball = new Ball(this, cx, cy);
