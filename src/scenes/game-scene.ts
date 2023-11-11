@@ -1,7 +1,7 @@
 import { Scene, GameObjects } from 'phaser';
 import toggleDebug from '@/helpers/toggleDebug';
 import smoothMoveCameraTowards from '@/helpers/smoothMoveCameraTowards';
-import parallax from '@/objects/parallax';
+import Parallax from '@/objects/Parallax';
 import Ball from '@/objects/ball';
 
 const cx = window.innerWidth / 2;
@@ -12,16 +12,19 @@ class GameScene extends Scene {
 
   private ball: Ball | undefined;
 
-  private updateP: Function | undefined;
+  private parallax: Parallax | undefined;
+
+  // private updateP: Function | undefined;
 
   constructor() {
     super('scene-game');
   }
 
   preload() {
-    const { preLoad } = parallax(this);
-    preLoad();
+    // const { preLoad } = parallax(this);
+    // preLoad();
 
+    Parallax.preload(this);
     Ball.preload(this);
   }
 
@@ -33,9 +36,10 @@ class GameScene extends Scene {
     this.matter.world.setBounds();
     this.matter.add.mouseSpring();
 
-    const { create, update } = parallax(this);
-    create();
-    this.updateP = update;
+    // const { create, update } = parallax(this);
+    // create();
+    // this.updateP = update;
+    this.parallax = new Parallax(this);
 
     this.ball = new Ball(this, cx, cy);
 
@@ -49,13 +53,13 @@ class GameScene extends Scene {
   }
 
   update(_time: number, delta: number) {
-    if (!this.textbox || !this.ball) return;
+    if (!this.parallax || !this.textbox || !this.ball) return;
 
     this.textbox.rotation += 0.0005 * delta;
 
     smoothMoveCameraTowards(this, this.ball.ball, 0.9);
 
-    this.updateP?.(this);
+    this.parallax.update();
   }
 }
 
