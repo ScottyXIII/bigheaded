@@ -3,16 +3,18 @@ import toggleDebug from '@/helpers/toggleDebug';
 import smoothMoveCameraTowards from '@/helpers/smoothMoveCameraTowards';
 import parallax from '@/objects/parallax';
 import Ball from '@/objects/ball';
+import Map from '@/map/Map';
 
 const cx = window.innerWidth / 2;
 const cy = window.innerHeight / 2;
 
 class GameScene extends Scene {
-  private ben: Ben1 | undefined;
 
   private textbox: GameObjects.Text | undefined;
 
   private ball: Ball | undefined;
+
+  private map: any;
 
   constructor() {
     super('scene-game');
@@ -22,6 +24,9 @@ class GameScene extends Scene {
     const { preLoad } = parallax(this);
     preLoad();
 
+    this.map = new Map(this);
+
+    this.map.preload();
     Ball.preload(this);
   }
 
@@ -30,14 +35,19 @@ class GameScene extends Scene {
     // toggleDebug(this);
     this.input.keyboard?.on('keydown-CTRL', () => toggleDebug(this));
 
-    this.matter.world.setBounds();
+   
     this.matter.add.mouseSpring();
 
     const { create } = parallax(this);
     create();
+    
+    this.map.create();
+    this.matter.world.setBounds(this.map.x, this.map.y, this.map.width, this.map.height);
 
-    this.ball = new Ball(this, cx, cy);
-
+    let playerPos = this.map.spawners.player;
+    
+    this.ball = new Ball(this, playerPos.x, playerPos.y);
+    
     this.textbox = this.add.text(cx, cy, 'Welcome to Phaser x Vite!', {
       color: '#FFF',
       fontFamily: 'monospace',

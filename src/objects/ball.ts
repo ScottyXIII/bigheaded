@@ -18,7 +18,8 @@ class Ball extends Phaser.GameObjects.Container {
         friction: 0.1,
         restitution: 1.2,
       })
-      .setScale(0.1);
+      .setScale(0.1)
+      .setDepth(10);
   }
 }
 
