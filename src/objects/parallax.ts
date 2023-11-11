@@ -21,20 +21,26 @@ const parallax = (
     images.forEach(({ name, imagePath }) => scene.load.image(name, imagePath));
   };
 
+  let bgs;
+
   const create = () => {
-    images.forEach(({ index, name }) => {
-      const scrollFactorX = 0.01 + index / 20;
-      const scrollFactorY = 0.01 + index / 50;
+    bgs = images.map(({ name }) =>
       scene.add
-        .image(width, height, name)
+        .tileSprite(0, 0, width, height, name)
         .setOrigin(0, 0)
-        .setScrollFactor(scrollFactorX, scrollFactorY)
+        .setScrollFactor(0, 0)
         .setPosition(0, 0)
-        .setSize(width, height);
+        .setSize(width, height),
+    );
+  };
+
+  const update = () => {
+    bgs.forEach((bg, i) => {
+      bg.tilePositionX = scene.cameras.main.scrollX * ((i + 1) / 10);
     });
   };
 
-  return { preLoad, create };
+  return { preLoad, create, update };
 };
 
 export default parallax;

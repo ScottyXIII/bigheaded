@@ -12,6 +12,8 @@ class GameScene extends Scene {
 
   private ball: Ball | undefined;
 
+  private updateP: Function | undefined;
+
   constructor() {
     super('scene-game');
   }
@@ -31,8 +33,9 @@ class GameScene extends Scene {
     this.matter.world.setBounds();
     this.matter.add.mouseSpring();
 
-    const { create } = parallax(this);
+    const { create, update } = parallax(this);
     create();
+    this.updateP = update;
 
     this.ball = new Ball(this, cx, cy);
 
@@ -46,13 +49,13 @@ class GameScene extends Scene {
   }
 
   update(_time: number, delta: number) {
-    if (!this.textbox || !this.ball) {
-      return;
-    }
+    if (!this.textbox || !this.ball) return;
 
     this.textbox.rotation += 0.0005 * delta;
 
     smoothMoveCameraTowards(this, this.ball.ball, 0.9);
+
+    this.updateP?.(this);
   }
 }
 
