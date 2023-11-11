@@ -19,7 +19,8 @@ class GameScene extends Scene {
   }
 
   preload() {
-    Parallax.preload(this, 'forest2022', 8);
+    // Parallax.preload(this, 'forest2022', 8);
+    Parallax.preload(this, 'mountain', 5);
     Ball.preload(this);
   }
 
@@ -31,7 +32,8 @@ class GameScene extends Scene {
     this.matter.world.setBounds();
     this.matter.add.mouseSpring();
 
-    this.parallax = new Parallax(this, 'forest2022', 8);
+    // this.parallax = new Parallax(this, 'forest2022', 8);
+    this.parallax = new Parallax(this, 'mountain', 5);
 
     this.ball = new Ball(this, cx, cy);
 

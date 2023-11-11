@@ -34,14 +34,15 @@ class Parallax {
       scene.add
         .tileSprite(0, 0, width, height, name)
         .setOrigin(0, 0)
-        .setScrollFactor(0, 0),
+        .setScrollFactor(0, 0)
+        .setTileScale(6),
     );
   }
 
   update() {
     for (let i = 0; i < this.layers.length; i += 1) {
       this.layers[i].tilePositionX =
-        this.scene.cameras.main.scrollX * ((i + 1) / 10);
+        this.scene.cameras.main.scrollX * ((i + 1) / (this.layers.length * 10));
     }
   }
 }
