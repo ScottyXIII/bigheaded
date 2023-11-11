@@ -35,7 +35,7 @@ class Parallax {
         .tileSprite(0, 0, width, height, name)
         .setOrigin(0, 0)
         .setScrollFactor(0, 0)
-        .setTileScale(6),
+        .setTileScale(height / this.scene.textures.get(name).source[0].height),
     );
   }
 
