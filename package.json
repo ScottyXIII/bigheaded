@@ -26,6 +26,6 @@
   "dependencies": {
     "@tensorflow/tfjs": "^4.13.0",
     "lodash": "^4.17.21",
-    "phaser": "^3.60.0"
+    "phaser": "^3.70.0"
   }
 }
