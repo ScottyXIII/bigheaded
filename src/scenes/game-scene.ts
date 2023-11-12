@@ -7,7 +7,7 @@ import Ball from '@/objects/ball';
 const cx = window.innerWidth / 2;
 const cy = window.innerHeight / 2;
 
-const parallaxName: ParallaxNames = 'blueforest';
+const parallaxName: ParallaxNames = 'forest2022';
 
 class GameScene extends Scene {
   private textbox: GameObjects.Text | undefined;
