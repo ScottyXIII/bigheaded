@@ -1,11 +1,13 @@
 import { Scene, GameObjects } from 'phaser';
 import toggleDebug from '@/helpers/toggleDebug';
 import smoothMoveCameraTowards from '@/helpers/smoothMoveCameraTowards';
-import Parallax from '@/objects/Parallax';
+import Parallax, { ParallaxNames } from '@/objects/Parallax';
 import Ball from '@/objects/ball';
 
 const cx = window.innerWidth / 2;
 const cy = window.innerHeight / 2;
+
+const parallaxName: ParallaxNames = 'blueforest';
 
 class GameScene extends Scene {
   private textbox: GameObjects.Text | undefined;
@@ -19,10 +21,8 @@ class GameScene extends Scene {
   }
 
   preload() {
-    // Parallax.preload(this, 'forest2022', 8);
-    // Parallax.preload(this, 'mountain', 5);
-    // Parallax.preload(this, 'blue-forest', 6);
-    Parallax.preload(this, 'super-mountain-dusk', 6);
+    Parallax.preload(this, parallaxName);
+
     Ball.preload(this);
   }
 
@@ -34,10 +34,7 @@ class GameScene extends Scene {
     this.matter.world.setBounds();
     this.matter.add.mouseSpring();
 
-    // this.parallax = new Parallax(this, 'forest2022', 8);
-    // this.parallax = new Parallax(this, 'mountain', 5);
-    this.parallax = new Parallax(this, 'blue-forest', 6);
-    this.parallax = new Parallax(this, 'super-mountain-dusk', 6);
+    this.parallax = new Parallax(this, parallaxName);
 
     this.ball = new Ball(this, cx, cy);
 
