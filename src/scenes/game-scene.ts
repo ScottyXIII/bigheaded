@@ -20,7 +20,9 @@ class GameScene extends Scene {
 
   preload() {
     // Parallax.preload(this, 'forest2022', 8);
-    Parallax.preload(this, 'mountain', 5);
+    // Parallax.preload(this, 'mountain', 5);
+    // Parallax.preload(this, 'blue-forest', 6);
+    Parallax.preload(this, 'super-mountain-dusk', 6);
     Ball.preload(this);
   }
 
@@ -33,7 +35,9 @@ class GameScene extends Scene {
     this.matter.add.mouseSpring();
 
     // this.parallax = new Parallax(this, 'forest2022', 8);
-    this.parallax = new Parallax(this, 'mountain', 5);
+    // this.parallax = new Parallax(this, 'mountain', 5);
+    this.parallax = new Parallax(this, 'blue-forest', 6);
+    this.parallax = new Parallax(this, 'super-mountain-dusk', 6);
 
     this.ball = new Ball(this, cx, cy);
 
