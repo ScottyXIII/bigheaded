@@ -3,22 +3,22 @@ import * as Phaser from 'phaser';
 const parallaxPath = './level/parallax';
 
 const parallaxConfig = {
-  blueforest: { assetName: 'blueforest', imgCount: 6 },
-  forest2022: { assetName: 'forest2022', imgCount: 8 },
-  mountain: { assetName: 'mountain', imgCount: 5 },
-  supermountaindusk: { assetName: 'supermountaindusk', imgCount: 6 },
+  blueforest: { imgCount: 6 },
+  forest2022: { imgCount: 8 },
+  mountain: { imgCount: 5 },
+  supermountaindusk: { imgCount: 6 },
 };
 
 export type ParallaxNames = keyof typeof parallaxConfig;
 
 const getImageData = (parallaxName: ParallaxNames) => {
-  const { assetName, imgCount } = parallaxConfig[parallaxName];
+  const { imgCount } = parallaxConfig[parallaxName];
   const images = Array.from({ length: imgCount }, (_, index) => {
     const indexPlus = index + 1;
     return {
       index: indexPlus,
-      name: `${assetName}-${indexPlus}`,
-      imagePath: `${parallaxPath}/${assetName}/${indexPlus}.png`,
+      name: `${parallaxName}-${indexPlus}`,
+      imagePath: `${parallaxPath}/${parallaxName}/${indexPlus}.png`,
     };
   });
   return images;
