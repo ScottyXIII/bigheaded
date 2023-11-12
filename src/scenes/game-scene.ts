@@ -1,20 +1,32 @@
-import { Scene, GameObjects } from 'phaser';
+import * as Phaser from 'phaser';
+
 import toggleDebug from '@/helpers/toggleDebug';
-import parallax from '@/objects/parallax';
+import smoothMoveCameraTowards from '@/helpers/smoothMoveCameraTowards';
+
+import Parallax, { ParallaxNames } from '@/objects/Parallax';
+import SpinText from '@/objects/SpinText';
+import Ball from '@/objects/Ball';
+import Ben from '@/characters/ben1/Ben';
 
 const cx = window.innerWidth / 2;
 const cy = window.innerHeight / 2;
 
-class GameScene extends Scene {
-  private textbox: GameObjects.Text | undefined;
+const parallaxName: ParallaxNames = 'supermountaindusk';
+
+class GameScene extends Phaser.Scene {
+  private parallax: Parallax | undefined;
+
+  private ball: Ball | undefined;
+
+  private spintext: SpinText | undefined;
 
   constructor() {
     super('scene-game');
   }
 
   preload() {
-    const { preLoad } = parallax(this);
-    preLoad();
+    Parallax.preload(this, parallaxName);
+    Ball.preload(this);
   }
 
   create() {
@@ -25,22 +37,18 @@ class GameScene extends Scene {
     this.matter.world.setBounds();
     this.matter.add.mouseSpring();
 
-    const { create } = parallax(this);
-    create();
-
-    this.textbox = this.add
-      .text(cx, cy, 'game-scene!', {
-        color: '#FFF',
-        fontFamily: 'monospace',
-        fontSize: '26px',
-      })
-      .setOrigin(0.5, 0.5);
+    this.parallax = new Parallax(this, parallaxName);
+    this.ball = new Ball(this, cx, cy);
+    this.spintext = new SpinText(this, cx, cy, 'Welcome to Phaser x Vite!');
   }
 
-  update(_time: number, delta: number) {
-    if (!this.textbox) return;
+  update(time: number, delta: number) {
+    if (!this.parallax || !this.spintext || !this.ball) return;
 
-    this.textbox.rotation += 0.005 * delta;
+    this.parallax.update();
+    this.spintext.update(time, delta);
+
+    smoothMoveCameraTowards(this, this.ball.ball, 0.9);
   }
 }
 
