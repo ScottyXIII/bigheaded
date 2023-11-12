@@ -10,11 +10,11 @@ const cy = window.innerHeight / 2;
 const parallaxName: ParallaxNames = 'supermountaindusk';
 
 class GameScene extends Scene {
-  private textbox: GameObjects.Text | undefined;
+  private parallax: Parallax | undefined;
 
   private ball: Ball | undefined;
 
-  private parallax: Parallax | undefined;
+  private textbox: GameObjects.Text | undefined;
 
   constructor() {
     super('scene-game');
