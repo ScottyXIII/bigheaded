@@ -2,7 +2,7 @@ import { Scene, GameObjects } from 'phaser';
 import toggleDebug from '@/helpers/toggleDebug';
 import smoothMoveCameraTowards from '@/helpers/smoothMoveCameraTowards';
 import Parallax, { ParallaxNames } from '@/objects/Parallax';
-import Ball from '@/objects/ball';
+import Ball from '@/objects/Ball';
 
 const cx = window.innerWidth / 2;
 const cy = window.innerHeight / 2;
