@@ -8,6 +8,7 @@ class Ball extends Phaser.GameObjects.Container {
 
   static preload(scene: Phaser.Scene) {
     scene.load.image('tennisball', '/tennisball.png');
+    scene.load.image('corona', '/blue.png');
   }
 
   constructor(scene: Phaser.Scene, x: number, y: number) {
@@ -29,6 +30,19 @@ class Ball extends Phaser.GameObjects.Container {
           this.scene.scene.restart();
         }
       })
+  }
+
+  update(_time: number, delta: number) {
+    let emitter  = this.scene.add.particles(0, 0, 'corona', {
+      blendMode: 'ADD',
+      speed: 1,
+      angle: { min: -30, max: 30 },
+      lifespan: 0.1,
+      quantity: 4,
+      scale: { start: 0.1, end: 0.01 },
+      x: this.ball.x,
+      y: this.ball.y
+    });
   }
 
   public grow(): void {

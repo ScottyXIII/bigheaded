@@ -93,7 +93,8 @@ class GameScene extends Scene {
     if (!this.textbox || !this.ball) {
       return;
     }
-
+    
+    this.ball.update(_time, delta);
     //this.textbox.rotation += 0.0005 * delta;
 
     smoothMoveCameraTowards(this, this.ball.ball, 0.9);
