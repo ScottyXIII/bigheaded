@@ -94,12 +94,12 @@ class Map {
     this.scene.matter.world.convertTilemapLayer(this.layers.foreground);
     this.scene.matter.world.convertTilemapLayer(this.layers.solidground);
 
-    this.spawners = {
-      player: this.map?.findObject('Spawner', obj => obj.name === 'player'),
-      zombie: this.getObjectFromLayer('Spawner', 'zombie'),
-      exit: this.getObjectFromLayer('Spawner', 'exit'),
-    };
+    this.setCollisionCategoryOnLayer(this.layers.solidground, 10);
 
+    this.spawners = {
+      player: this.map?.findObject('Spawner', obj => obj.name === 'Player'),
+      coins: this.getObjectFromLayer('CoinSpawner', 'Coin'),
+    };
   }
 
   getObjectFromLayer(layerName: string, objectNames: string) {
@@ -112,8 +112,8 @@ class Map {
     return obj;
   }
 
-  setCollisionCategoryOnLayer(layer: any, collisionCategory: any) {
-    layer.forEachTile(tile => {
+  setCollisionCategoryOnLayer(layer: any, collisionCategory: number) {
+    layer.forEachTile((tile: any) => {
       if (tile.physics.matterBody === undefined) return;
       tile.physics.matterBody.setCollisionCategory(collisionCategory);
     });

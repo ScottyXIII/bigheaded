@@ -16,6 +16,9 @@ class GameScene extends Scene {
 
   private map: any;
 
+  private coinGroup: any;
+  private coinPool: any;
+
   constructor() {
     super('scene-game');
   }
@@ -28,14 +31,18 @@ class GameScene extends Scene {
 
     this.map.preload();
     Ball.preload(this);
+
+    //coin 
+    this.load.spritesheet("coin", "coins.png", {
+      frameWidth: 16,
+      frameHeight: 16
+    });
   }
 
   create() {
     // toggle debug GFX
     // toggleDebug(this);
     this.input.keyboard?.on('keydown-CTRL', () => toggleDebug(this));
-
-   
     this.matter.add.mouseSpring();
 
     const { create } = parallax(this);
@@ -47,13 +54,39 @@ class GameScene extends Scene {
     let playerPos = this.map.spawners.player;
     
     this.ball = new Ball(this, playerPos.x, playerPos.y);
-    
-    this.textbox = this.add.text(cx, cy, 'Welcome to Phaser x Vite!', {
+
+     //coin animation
+     this.anims.create({
+      key: "rotate",
+      frames: this.anims.generateFrameNumbers("coin", {
+          start: 0,
+          end: 5
+      }),
+      frameRate: 15,
+      yoyo: true,
+      repeat: -1
+    });
+
+    this.map.spawners.coins.forEach((coin: any) => {
+      let sprite = this.matter.add.sprite(coin.x, coin.y, 'coin')
+      .play("rotate");
+
+      sprite.setOnCollide((data: any) => {
+        // add propper collision filters for now we're assuming any collision is the player
+        sprite.destroy();
+        this.ball?.grow();
+      })
+      
+    });
+
+    this.textbox = this.add.text(cx, cy, 'Collect all coins. You will die if you hit the walls. good luck!', {
       color: '#FFF',
       fontFamily: 'monospace',
       fontSize: '26px',
     });
-    this.textbox.setOrigin(0.5, 0.5);
+
+    this.textbox.setPosition(playerPos.x, playerPos.y);
+    this.textbox.setDepth(1000);
   }
 
   update(_time: number, delta: number) {
@@ -61,7 +94,7 @@ class GameScene extends Scene {
       return;
     }
 
-    this.textbox.rotation += 0.0005 * delta;
+    //this.textbox.rotation += 0.0005 * delta;
 
     smoothMoveCameraTowards(this, this.ball.ball, 0.9);
   }
