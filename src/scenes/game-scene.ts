@@ -1,12 +1,9 @@
 import * as Phaser from 'phaser';
-
 import toggleDebug from '@/helpers/toggleDebug';
 import smoothMoveCameraTowards from '@/helpers/smoothMoveCameraTowards';
-
 import Parallax, { ParallaxNames } from '@/objects/Parallax';
 import SpinText from '@/objects/SpinText';
 import Ball from '@/objects/Ball';
-import Ben from '@/characters/ben1/Ben';
 
 const cx = window.innerWidth / 2;
 const cy = window.innerHeight / 2;

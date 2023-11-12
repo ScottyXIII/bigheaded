@@ -1,18 +1,23 @@
-import { Scene, GameObjects } from 'phaser';
+import * as Phaser from 'phaser';
 import toggleDebug from '@/helpers/toggleDebug';
 import smoothMoveCameraTowards from '@/helpers/smoothMoveCameraTowards';
-import parallax from '@/objects/parallax';
-import Ball from '@/objects/ball';
+import Parallax, { ParallaxNames } from '@/objects/Parallax';
+import SpinText from '@/objects/SpinText';
+import Ball from '@/objects/Ball';
 import Ben1 from '@/characters/ben1/Ben';
 import createOrchestrator from '@/ai/reinforcement-learning/create-orchestrator';
 
 const cx = window.innerWidth / 2;
 const cy = window.innerHeight / 2;
 
-class TrainingZone extends Scene {
+const parallaxName: ParallaxNames = 'supermountaindusk';
+
+class TrainingZone extends Phaser.Scene {
+  private parallax: Parallax | undefined;
+
   public ben: Ben1 | undefined;
 
-  private textbox: GameObjects.Text | undefined;
+  private spintext: SpinText | undefined;
 
   // private ball: Ball | undefined;
 
@@ -20,10 +25,16 @@ class TrainingZone extends Scene {
 
   private replay: Function | undefined;
 
+  preload() {
+    Parallax.preload(this, parallaxName);
+    Ben1.preload(this);
+    Ball.preload(this);
+  }
+
   constructor() {
     super('training-zone');
 
-    console.log('construct training zone');
+    // console.log('construct training zone');
 
     // setTimeout(() => this.sys.game.scene.start('training-zone'), 20000);
 
@@ -38,7 +49,7 @@ class TrainingZone extends Scene {
 
     const calculateReward = (state: number[]) => {
       const [headAngle] = state;
-      const reward = 1 - Math.abs(headAngle);
+      // const reward = 1 - Math.abs(headAngle);
       // return reward;
       if (Math.abs(headAngle) < 0.1) return 1;
       if (Math.abs(headAngle) < 0.2) return 0.5;
@@ -64,15 +75,6 @@ class TrainingZone extends Scene {
     })();
   }
 
-  preload() {
-    Ben1.preload(this);
-
-    const { preLoad } = parallax(this);
-    preLoad();
-
-    Ball.preload(this);
-  }
-
   create() {
     // toggle debug GFX
     // toggleDebug(this);
@@ -81,29 +83,22 @@ class TrainingZone extends Scene {
     this.matter.world.setBounds();
     this.matter.add.mouseSpring();
 
-    const { create } = parallax(this);
-    create();
+    this.parallax = new Parallax(this, parallaxName);
 
     this.ben = new Ben1(this, cx, cy);
 
-    this.textbox = this.add
-      .text(cx, cy, 'Training Zone!', {
-        color: '#FFF',
-        fontFamily: 'monospace',
-        fontSize: '26px',
-      })
-      .setOrigin(0.5, 0.5);
+    this.spintext = new SpinText(this, cx, cy, 'Training Zone!');
 
     // this.ball = new Ball(this, cx, cy);
     // this.ball = new Ball(this, cx, cy);
   }
 
-  update(_time: number, delta: number) {
-    if (!this.textbox || !this.ben) return;
+  update(time: number, delta: number) {
+    if (!this.parallax || !this.spintext || !this.ben) return;
 
-    this.textbox.rotation += 0.005 * delta;
-
-    this.ben.update(_time, delta);
+    this.parallax.update();
+    this.spintext.update(time, delta);
+    this.ben.update(time, delta);
 
     smoothMoveCameraTowards(this, this.ben.head, 0.9);
 
