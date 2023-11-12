@@ -10,7 +10,7 @@ import createOrchestrator from '@/ai/reinforcement-learning/create-orchestrator'
 const cx = window.innerWidth / 2;
 const cy = window.innerHeight / 2;
 
-const parallaxName: ParallaxNames = 'supermountaindusk';
+const parallaxName: ParallaxNames = 'blueforest';
 
 class TrainingZone extends Phaser.Scene {
   private parallax: Parallax | undefined;
