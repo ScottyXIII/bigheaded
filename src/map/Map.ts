@@ -1,110 +1,99 @@
 import Phaser from "phaser";
 
-class Map {
+const ROOT_MAP_FOLDER = 'map';
 
-  private root : string = 'map';
-  private tilesSheet: Phaser.GameObjects.Image | undefined;
-  private tileMap: string | undefined;
-  private mapKey: string = "";
-  private tileSetName: string = "";
-  private parallax: Object = {};
-  private scene: Phaser.Scene;
-  private Phaser;
-  private layers: any = {};
-  private fileNames: Record<string, string>;
-  private map: Phaser.Tilemaps.Tilemap | undefined;
-  private tileset: Phaser.Tilemaps.Tileset | null | undefined;
+const TILE_WIDTH = 32;
+const TILE_HEIGHT = 32;
 
-  public spawners: any = {};
-  public height: integer = 0;
-  public width: integer = 0;
-  public x: integer = 0;
-  public y: integer = 0;
+const TILE_MARGIN = 0;
+const TILE_SPACING = 0;
 
-  constructor(scene: Phaser.Scene, mapFolderName = '', tileSheetName = '', mapDataName = '', backgroundCount = 1) {
-    this.Phaser = Phaser;
-    this.scene = scene;
+const MAP_KEY = ROOT_MAP_FOLDER;
+const TILE_SHEET_KEY = 'tileSheet';
+const TILE_SHEET_NAME = 'tiles'; // name of the tiles in the Tiled programme
 
-    this.fileNames = {
-      map: mapFolderName ?? 'level1',
-      tileSheet: tileSheetName ?? 'tileset.png',
-      mapData: mapDataName ?? 'mapData.json',
-      background: 'backgrounds',
-      //musicFile: Sound.MapMusicFileName
-    };
-    this.mapKey = `${mapFolderName}-${mapDataName}`;
-    this.tileSetName = 'tiles' // TileSet name set in the Tiled program.
-    this.parallax = {
-      backgroundCount: backgroundCount,
+const MAP_DATA_FILE = 'mapData.json';
+const TILE_SHEET_FILE_PATH = 'tileset.png';
+
+const mapConfig : any = {
+  layers : {
+    'Background' : {
+      depth: 0,
+    }, 
+    'Solidground' : {
+      collisions: true,
+      depth: 10,
+      collisionsCategory: 101,
+    },
+    'Forground' : {
+      depth: 20,
     }
   }
+};
+
+class Map {
+
+  private scene: Phaser.Scene;
+
+  private map: Phaser.Tilemaps.Tilemap | undefined;
+
+  private tileset: Phaser.Tilemaps.Tileset | null | undefined;
+
+  public layers: any = {};
+
+  public spawners: any = {};
+
+  public height: number = 0;
+
+  public width: number = 0;
+
+  public x: number = 0;
+
+  public y: number = 0;
   
-  preload() {
-    //this.scene.load.spritesheet('healthPack', 'sprites/healthpack.png', { frameWidth: 48, frameHeight: 48 });
-    //this.scene.load.spritesheet(Config.EXPLODING_BARRELS_TEXTURE, 'sprites/explosive-barrel.png', { frameWidth: 32, frameHeight: 32 });
-  
-    this.loadTileSheet();
-    this.loadMapData();
+  constructor(scene: Phaser.Scene) {
+    this.scene = scene;
   }
   
-  getMapPath() {
-    return this.root + '/' + this.fileNames.map;
+  preload(): void {
+    this.scene.load.image(TILE_SHEET_KEY, this.getFilePath(TILE_SHEET_FILE_PATH));
+    this.scene.load.tilemapTiledJSON(MAP_KEY, this.getFilePath(MAP_DATA_FILE));
   }
 
-  getMusicPath() {
-    return `${this.root}/${this.fileNames.musicFile}`;
+  getFilePath(filePath: string): string {
+    return `${ROOT_MAP_FOLDER}/${filePath}`;
+  }
+  
+  loadLayers(): void {
+    const layers = Object.keys(mapConfig.layers);
+    layers.forEach((layer: string) => {
+      const key = layer.toLowerCase();
+      this.layers[key] = this.map?.createLayer(layer, 'tiles');
+      
+      if (mapConfig.layers[layer].collisions === true) {
+        this.layers[key]?.setCollisionByProperty({collides: true});
+        this.scene.matter.world.convertTilemapLayer(this.layers[key]);
+      }
+
+      if (mapConfig.layers[layer].depth !== undefined) {
+        this.layers[key]?.setDepth(mapConfig.layers[layer].depth);
+      }
+
+      if (mapConfig.layers[layer].collisionsCategory !== undefined) {
+        this.setCollisionCategoryOnLayer(this.layers[key], mapConfig.layers[layer].collisionsCategory);
+      }
+    });
   }
 
-  getBackgroundPath() {
-    return `${this.root}/${this.fileNames.map}/${this.fileNames.background}`;
-  }
-
-  getTileSheetPath() {
-    return this.getMapPath() + '/tileset.png';
-  }
-
-  getMapDataPath() {
-    return this.getMapPath() + '/mapData.json';
-  }
-
-  loadTileSheet(key = 'tileSheet') {
-    this.scene.load.image(key, this.getTileSheetPath());
-  }
-
-  loadMapData() {
-    this.scene.load.tilemapTiledJSON(this.mapKey, this.getMapDataPath());
-  }
-
-  loadLayers() {
-    this.layers.background = this.map?.createLayer('Background', 'tiles'); 
-    this.layers.solidground = this.map?.createLayer('Solidground', 'tiles');
-   // this.layers.backgroundColourFront = this.map.createLayer('BackgroundColourFront', this.tileset)
-    //this.layers.background = this.map.createLayer('Background', this.tileset)
-    this.layers.foreground = this.map?.createLayer('Forground', 'tiles');
-    //this.layers.ladders = this.map.createLayer('Ladders', this.tileset)
-    //this.layers.toxicDamage = this.map.createLayer('ToxicDamage', this.tileset)
-
-    this.layers.solidground?.setCollisionByProperty({ collides: true });
-    
-    this.layers.background?.setDepth(0);
-    this.layers.solidground?.setDepth(10);
-    this.layers.foreground?.setDepth(20);
-    
-    this.scene.matter.world.convertTilemapLayer(this.layers.background);
-    this.scene.matter.world.convertTilemapLayer(this.layers.foreground);
-    this.scene.matter.world.convertTilemapLayer(this.layers.solidground);
-
+  loadObjectLayers(): void {
     this.spawners = {
       player: this.map?.findObject('Spawner', obj => obj.name === 'player'),
-      zombie: this.getObjectFromLayer('Spawner', 'zombie'),
-      exit: this.getObjectFromLayer('Spawner', 'exit'),
     };
-
   }
 
-  getObjectFromLayer(layerName: string, objectNames: string) {
-    let obj = this.map?.filterObjects(layerName, (obj) => obj.name === objectNames);
-    obj?.forEach((element, index, array) => {
+  getObjectFromLayer(layerName: string, objectNames: string): Phaser.Types.Tilemaps.TiledObject[] | undefined | null {
+    const obj = this.map?.filterObjects(layerName, (object) => object.name === objectNames);
+    obj?.forEach((element) => {
       element.properties?.map((data: any) => {
         element.properties[data.name ?? ''] = data.value ?? '';
       });
@@ -112,21 +101,22 @@ class Map {
     return obj;
   }
 
-  setCollisionCategoryOnLayer(layer: any, collisionCategory: any) {
+  setCollisionCategoryOnLayer(layer: any, collisionCategory: any): void {
     layer.forEachTile(tile => {
       if (tile.physics.matterBody === undefined) return;
       tile.physics.matterBody.setCollisionCategory(collisionCategory);
     });
   }
-
-  create() {
-    this.map = this.scene.make.tilemap({ key:  this.mapKey });
-    this.tileset = this.map?.addTilesetImage(this.tileSetName, 'tileSheet', 32, 32, 0, 0);
+  
+  create(): void {
+    this.map = this.scene.make.tilemap({key:  MAP_KEY});
+    this.tileset = this.map?.addTilesetImage(TILE_SHEET_NAME, TILE_SHEET_KEY, TILE_WIDTH, TILE_HEIGHT, TILE_MARGIN, TILE_SPACING);
     this.loadLayers();
-    this.x = this.layers.background.x;
-    this.y = this.layers.background.y
+    this.loadObjectLayers();
     this.height = this.layers.background.height;
     this.width = this.layers.background.width;
+    this.x = this.layers.background.x;
+    this.y = this.layers.background.y;
   }
 }
 
