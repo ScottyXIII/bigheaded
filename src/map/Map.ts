@@ -114,7 +114,7 @@ class Map {
   }
   
   create() {
-    this.map = this.scene.make.tilemap({key:  MAP_KEY});
+    this.map = this.scene.make.tilemap({key: ROOT_MAP_FOLDER});
     this.map?.addTilesetImage(TILE_SHEET_NAME, TILE_SHEET_KEY, this.tileWidth, this.tileHeight, TILE_MARGIN, TILE_SPACING);
     this.loadLayers();
     this.loadObjectLayers();
