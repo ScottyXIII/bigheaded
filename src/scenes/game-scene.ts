@@ -48,13 +48,6 @@ class GameScene extends Phaser.Scene {
 
     const { x, y } = this.map.spawners2[0];
     this.ben = new Ben1(this, x, y);
-
-    this.matter.world.setBounds(
-      this.map?.x,
-      this.map?.y,
-      this.map?.width,
-      this.map?.height,
-    );
   }
 
   update(time: number, delta: number) {
