@@ -30,29 +30,32 @@ class GameScene extends Phaser.Scene {
 
   preload() {
     Parallax.preload(this, parallaxName);
+    Map.preload(this);
     Ball.preload(this);
     Ben1.preload(this);
-    this.map?.preload();
   }
 
   create() {
     // toggle debug GFX
     // toggleDebug(this);
     this.input.keyboard?.on('keydown-CTRL', () => toggleDebug(this));
+
     this.matter.add.mouseSpring();
-    this.map?.create();
+
+    this.parallax = new Parallax(this, parallaxName);
+    this.map = new Map(this);
+    this.spintext = new SpinText(this, cx, cy, 'Welcome to Phaser x Vite!');
+    this.ball = new Ball(this, cx, cy);
+
     const playerPos = this.map?.spawners.player;
+    this.ben = new Ben1(this, playerPos.x, playerPos.y);
+
     this.matter.world.setBounds(
       this.map?.x,
       this.map?.y,
       this.map?.width,
       this.map?.height,
     );
-
-    this.parallax = new Parallax(this, parallaxName);
-    this.spintext = new SpinText(this, cx, cy, 'Welcome to Phaser x Vite!');
-    this.ball = new Ball(this, playerPos.x, playerPos.y);
-    this.ben = new Ben1(this, playerPos.x, playerPos.y);
   }
 
   update(time: number, delta: number) {

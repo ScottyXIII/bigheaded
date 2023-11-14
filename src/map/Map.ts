@@ -19,26 +19,28 @@ const setCollisionCategoryOnLayer = (
   });
 };
 
+type Layer = {
+  key: string;
+  tileLayer: Phaser.Tilemaps.TilemapLayer;
+  collisions: boolean;
+  collisionsCategory: number;
+  depth: number;
+};
+
 const mapConfig = {
   layers: {
     Background: {
       depth: 0,
-    },
+    } as Layer,
     Solidground: {
       collisions: true,
       depth: 10,
       collisionsCategory: 101,
-    },
+    } as Layer,
     Foreground: {
       depth: 20,
-    },
+    } as Layer,
   },
-};
-
-type Layer = {
-  key: string;
-  tileLayer: Phaser.Tilemaps.TilemapLayer;
-  collisionsCategory: number; // needed here?
 };
 
 class Map {
@@ -68,18 +70,19 @@ class Map {
 
   public y = 0;
 
-  preload() {
-    this.scene.load.image(TILE_SHEET_KEY, getFilePath(this.tileSheetFile));
-    this.scene.load.tilemapTiledJSON(
-      ROOT_MAP_FOLDER,
-      getFilePath(this.mapDataFile),
-    );
+  static preload(
+    scene: Phaser.Scene,
+    tileSheet = 'tileset.png',
+    mapData = 'mapData.json',
+  ) {
+    scene.load.image(TILE_SHEET_KEY, getFilePath(tileSheet));
+    scene.load.tilemapTiledJSON(ROOT_MAP_FOLDER, getFilePath(mapData));
   }
 
   constructor(
     scene: Phaser.Scene,
-    tileSheet: string = 'tileset.png',
-    mapData: string = 'mapData.json',
+    tileSheet = 'tileset.png',
+    mapData = 'mapData.json',
   ) {
     this.scene = scene;
     this.mapDataFile = mapData;
