@@ -48,10 +48,6 @@ class Map {
 
   private map: Phaser.Tilemaps.Tilemap | undefined; // TODO: dont call it map, as to not confuse with .map() array proto
 
-  private mapDataFile: string;
-
-  private tileSheetFile: string;
-
   private tileWidth = 32;
 
   private tileHeight = 32;
@@ -79,14 +75,27 @@ class Map {
     scene.load.tilemapTiledJSON(ROOT_MAP_FOLDER, getFilePath(mapData));
   }
 
-  constructor(
-    scene: Phaser.Scene,
-    tileSheet = 'tileset.png',
-    mapData = 'mapData.json',
-  ) {
+  constructor(scene: Phaser.Scene) {
     this.scene = scene;
-    this.mapDataFile = mapData;
-    this.tileSheetFile = tileSheet;
+    this.create();
+  }
+
+  create() {
+    this.map = this.scene.make.tilemap({ key: ROOT_MAP_FOLDER });
+    this.map?.addTilesetImage(
+      TILE_SHEET_NAME,
+      TILE_SHEET_KEY,
+      this.tileWidth,
+      this.tileHeight,
+      TILE_MARGIN,
+      TILE_SPACING,
+    );
+    this.loadLayers();
+    this.loadObjectLayers();
+    this.height = this.layers.background.height;
+    this.width = this.layers.background.width;
+    this.x = this.layers.background.x;
+    this.y = this.layers.background.y;
   }
 
   setTileDimensions(width: number, height: number) {
@@ -138,24 +147,6 @@ class Map {
       });
     });
     return obj;
-  }
-
-  create() {
-    this.map = this.scene.make.tilemap({ key: ROOT_MAP_FOLDER });
-    this.map?.addTilesetImage(
-      TILE_SHEET_NAME,
-      TILE_SHEET_KEY,
-      this.tileWidth,
-      this.tileHeight,
-      TILE_MARGIN,
-      TILE_SPACING,
-    );
-    this.loadLayers();
-    this.loadObjectLayers();
-    this.height = this.layers.background.height;
-    this.width = this.layers.background.width;
-    this.x = this.layers.background.x;
-    this.y = this.layers.background.y;
   }
 }
 
