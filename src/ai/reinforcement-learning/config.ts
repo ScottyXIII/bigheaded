@@ -2,8 +2,8 @@ export default {
   indexedDbName: 'megabrain-v0',
   layerUnits: [
     3, // 3 inputs
-    128,
-    128,
+    6,
+    6,
     3, // 3 outputs
   ],
   batchSize: 100, // number of samples to get during training

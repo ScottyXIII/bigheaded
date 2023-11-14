@@ -44,7 +44,9 @@ class TrainingZone extends Phaser.Scene {
       // @ts-ignore
       const headAngle = this.ben?.head?.body?.angle;
 
-      return [headAngle, headScale, 3.69];
+      const x = this.ben?.head?.body?.position.x;
+
+      return [headAngle, headScale, x];
     };
 
     const calculateReward = (state: number[]) => {

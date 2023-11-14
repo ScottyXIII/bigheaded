@@ -97,8 +97,12 @@ const createOrchestrator = async (
     const x = out.map(({ xValue }) => xValue); // states
     const y = out.map(({ yValue }) => yValue); // actions
 
-    // Learn the Q(s, a) values given associated discounted rewards
     console.log('train', network);
+    for (let i = 0; i < network.getWeights().length; i += 1) {
+      console.log(network.getWeights()[i].dataSync());
+    }
+
+    // Learn the Q(s, a) values given associated discounted rewards
     await train(x, y);
   };
 
