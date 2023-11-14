@@ -3,7 +3,7 @@ import toggleDebug from '@/helpers/toggleDebug';
 import smoothMoveCameraTowards from '@/helpers/smoothMoveCameraTowards';
 import parallax from '@/objects/parallax';
 import Ball from '@/objects/ball';
-import Ben1 from '@/characters/ben1/Ben';
+import Ben1 from '@/characters/Ben';
 
 const cx = window.innerWidth / 2;
 const cy = window.innerHeight / 2;
