@@ -54,11 +54,9 @@ class Map {
 
   public layers = {};
 
-  public spawners = {};
-
   public layers2: Layer[] = [];
 
-  public spawners2: Phaser.Types.Tilemaps.TiledObject[] = [];
+  public spawners: Phaser.Types.Tilemaps.TiledObject[] = [];
 
   public height = 0;
 
@@ -80,7 +78,7 @@ class Map {
   constructor(scene: Phaser.Scene) {
     this.scene = scene;
     this.map = this.scene.make.tilemap({ key: ROOT_MAP_FOLDER });
-    this.map?.addTilesetImage(
+    this.map.addTilesetImage(
       TILE_SHEET_NAME,
       TILE_SHEET_KEY,
       this.tileWidth,
@@ -128,11 +126,7 @@ class Map {
       obj => obj.name === 'player',
     );
 
-    this.spawners = {
-      player,
-    };
-
-    if (player) this.spawners2.push(player);
+    if (player) this.spawners.push(player);
   }
 }
 
