@@ -46,8 +46,8 @@ class GameScene extends Phaser.Scene {
     this.spintext = new SpinText(this, cx, cy, 'Welcome to Phaser x Vite!');
     this.ball = new Ball(this, cx, cy);
 
-    const playerPos = this.map?.spawners.player;
-    this.ben = new Ben1(this, playerPos.x, playerPos.y);
+    const { x, y } = this.map.spawners2[0];
+    this.ben = new Ben1(this, x, y);
 
     this.matter.world.setBounds(
       this.map?.x,
