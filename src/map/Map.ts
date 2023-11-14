@@ -86,17 +86,8 @@ class Map {
       TILE_MARGIN,
       TILE_SPACING,
     );
-    this.loadLayers();
-    this.loadObjectLayers();
-    this.height = this.layers.background.height;
-    this.width = this.layers.background.width;
-    this.x = this.layers.background.x;
-    this.y = this.layers.background.y;
 
-    this.scene.matter.world.setBounds(this.x, this.y, this.width, this.height);
-  }
-
-  loadLayers() {
+    // loadLayers
     const layers = Object.keys(mapConfig.layers);
     layers.forEach((layer: string) => {
       const key = layer.toLowerCase();
@@ -118,15 +109,17 @@ class Map {
         );
       }
     });
-  }
 
-  loadObjectLayers() {
-    const player = this.map?.findObject(
-      'Spawner',
-      obj => obj.name === 'player',
-    );
-
+    // loadObjectLayers
+    const player = this.map.findObject('Spawner', obj => obj.name === 'player');
     if (player) this.spawners.push(player);
+
+    this.height = this.layers.background.height;
+    this.width = this.layers.background.width;
+    this.x = this.layers.background.x;
+    this.y = this.layers.background.y;
+
+    this.scene.matter.world.setBounds(this.x, this.y, this.width, this.height);
   }
 }
 
