@@ -1,21 +1,24 @@
 import Phaser from "phaser";
+import { Interface } from "readline";
 
 const ROOT_MAP_FOLDER = 'map';
-
-const TILE_WIDTH = 32;
-const TILE_HEIGHT = 32;
 
 const TILE_MARGIN = 0;
 const TILE_SPACING = 0;
 
-const MAP_KEY = ROOT_MAP_FOLDER;
 const TILE_SHEET_KEY = 'tileSheet';
 const TILE_SHEET_NAME = 'tiles'; // name of the tiles in the Tiled programme
 
-const MAP_DATA_FILE = 'mapData.json';
-const TILE_SHEET_FILE_PATH = 'tileset.png';
+const FilePath = (filePath: string) => `${ROOT_MAP_FOLDER}/${filePath}`;
 
-const mapConfig : any = {
+const SetCollisionCategoryOnLayer = (layer: Phaser.Tilemaps.TilemapLayer | null, collisionCategory: number) => {
+  layer?.forEachTile(tile => {
+    if (tile.physics.matterBody === undefined) return;
+    tile.physics.matterBody.setCollisionCategory(collisionCategory);
+  });
+};
+
+const mapConfig : interface = {
   layers : {
     'Background' : {
       depth: 0,
@@ -25,7 +28,7 @@ const mapConfig : any = {
       depth: 10,
       collisionsCategory: 101,
     },
-    'Forground' : {
+    'Foreground' : {
       depth: 20,
     }
   }
@@ -37,34 +40,43 @@ class Map {
 
   private map: Phaser.Tilemaps.Tilemap | undefined;
 
-  private tileset: Phaser.Tilemaps.Tileset | null | undefined;
+  private mapDataFile: string;
 
-  public layers: any = {};
+  private tileSheetFile: string;
 
-  public spawners: any = {};
+  private tileWidth = 32;
 
-  public height: number = 0;
+  private tileHeight = 32;
 
-  public width: number = 0;
+  public layers = {};
 
-  public x: number = 0;
+  public spawners = {};
 
-  public y: number = 0;
+  public height = 0;
+
+  public width = 0;
+
+  public x = 0;
+
+  public y = 0;
   
-  constructor(scene: Phaser.Scene) {
+  constructor(scene: Phaser.Scene, tileSheet: string = "tileset.png", mapData: string = "mapData.json") {
     this.scene = scene;
+    this.mapDataFile = mapData;
+    this.tileSheetFile = tileSheet;
   }
   
-  preload(): void {
-    this.scene.load.image(TILE_SHEET_KEY, this.getFilePath(TILE_SHEET_FILE_PATH));
-    this.scene.load.tilemapTiledJSON(MAP_KEY, this.getFilePath(MAP_DATA_FILE));
+  setTileDimensions(width: number, height: number) {
+    this.tileWidth = width;
+    this.tileHeight = height;
+  } 
+
+  preload() {
+    this.scene.load.image(TILE_SHEET_KEY, FilePath(this.tileSheetFile));
+    this.scene.load.tilemapTiledJSON(ROOT_MAP_FOLDER, FilePath(this.mapDataFile));
   }
 
-  getFilePath(filePath: string): string {
-    return `${ROOT_MAP_FOLDER}/${filePath}`;
-  }
-  
-  loadLayers(): void {
+  loadLayers() {
     const layers = Object.keys(mapConfig.layers);
     layers.forEach((layer: string) => {
       const key = layer.toLowerCase();
@@ -80,12 +92,12 @@ class Map {
       }
 
       if (mapConfig.layers[layer].collisionsCategory !== undefined) {
-        this.setCollisionCategoryOnLayer(this.layers[key], mapConfig.layers[layer].collisionsCategory);
+        SetCollisionCategoryOnLayer(this.layers[key], mapConfig.layers[layer].collisionsCategory);
       }
     });
   }
 
-  loadObjectLayers(): void {
+  loadObjectLayers() {
     this.spawners = {
       player: this.map?.findObject('Spawner', obj => obj.name === 'player'),
     };
@@ -100,17 +112,10 @@ class Map {
     });
     return obj;
   }
-
-  setCollisionCategoryOnLayer(layer: any, collisionCategory: any): void {
-    layer.forEachTile(tile => {
-      if (tile.physics.matterBody === undefined) return;
-      tile.physics.matterBody.setCollisionCategory(collisionCategory);
-    });
-  }
-  
-  create(): void {
+ 
+  create() {
     this.map = this.scene.make.tilemap({key:  MAP_KEY});
-    this.tileset = this.map?.addTilesetImage(TILE_SHEET_NAME, TILE_SHEET_KEY, TILE_WIDTH, TILE_HEIGHT, TILE_MARGIN, TILE_SPACING);
+    this.map?.addTilesetImage(TILE_SHEET_NAME, TILE_SHEET_KEY, this.tileWidth, this.tileHeight, TILE_MARGIN, TILE_SPACING);
     this.loadLayers();
     this.loadObjectLayers();
     this.height = this.layers.background.height;
