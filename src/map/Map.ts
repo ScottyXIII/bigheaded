@@ -81,6 +81,7 @@ class Map {
   }
 
   create() {
+    console.log(this.scene);
     this.map = this.scene.make.tilemap({ key: ROOT_MAP_FOLDER });
     this.map?.addTilesetImage(
       TILE_SHEET_NAME,
