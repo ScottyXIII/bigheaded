@@ -42,8 +42,13 @@ class GameScene extends Phaser.Scene {
     this.matter.add.mouseSpring();
     this.map?.create();
     const playerPos = this.map?.spawners.player;
-    this.matter.world.setBounds(this.map?.x, this.map?.y, this.map?.width, this.map?.height);
-    
+    this.matter.world.setBounds(
+      this.map?.x,
+      this.map?.y,
+      this.map?.width,
+      this.map?.height,
+    );
+
     this.parallax = new Parallax(this, parallaxName);
     this.spintext = new SpinText(this, cx, cy, 'Welcome to Phaser x Vite!');
     this.ball = new Ball(this, playerPos.x, playerPos.y);
@@ -55,6 +60,7 @@ class GameScene extends Phaser.Scene {
 
     this.parallax.update();
     this.spintext.update(time, delta);
+    this.ben.update(time, delta);
 
     smoothMoveCameraTowards(this, this.ben.torso, 0.9);
   }

@@ -1,5 +1,4 @@
-import Phaser from "phaser";
-import { Interface } from "readline";
+import Phaser from 'phaser';
 
 const ROOT_MAP_FOLDER = 'map';
 
@@ -11,31 +10,33 @@ const TILE_SHEET_NAME = 'tiles'; // name of the tiles in the Tiled programme
 
 const FilePath = (filePath: string) => `${ROOT_MAP_FOLDER}/${filePath}`;
 
-const SetCollisionCategoryOnLayer = (layer: Phaser.Tilemaps.TilemapLayer | null, collisionCategory: number) => {
+const SetCollisionCategoryOnLayer = (
+  layer: Phaser.Tilemaps.TilemapLayer | null,
+  collisionCategory: number,
+) => {
   layer?.forEachTile(tile => {
     if (tile.physics.matterBody === undefined) return;
     tile.physics.matterBody.setCollisionCategory(collisionCategory);
   });
 };
 
-const mapConfig : interface = {
-  layers : {
-    'Background' : {
+const mapConfig: interface = {
+  layers: {
+    Background: {
       depth: 0,
-    }, 
-    'Solidground' : {
+    },
+    Solidground: {
       collisions: true,
       depth: 10,
       collisionsCategory: 101,
     },
-    'Foreground' : {
+    Foreground: {
       depth: 20,
-    }
-  }
+    },
+  },
 };
 
 class Map {
-
   private scene: Phaser.Scene;
 
   private map: Phaser.Tilemaps.Tilemap | undefined;
@@ -59,21 +60,28 @@ class Map {
   public x = 0;
 
   public y = 0;
-  
-  constructor(scene: Phaser.Scene, tileSheet: string = "tileset.png", mapData: string = "mapData.json") {
+
+  constructor(
+    scene: Phaser.Scene,
+    tileSheet: string = 'tileset.png',
+    mapData: string = 'mapData.json',
+  ) {
     this.scene = scene;
     this.mapDataFile = mapData;
     this.tileSheetFile = tileSheet;
   }
-  
+
   setTileDimensions(width: number, height: number) {
     this.tileWidth = width;
     this.tileHeight = height;
-  } 
+  }
 
   preload() {
     this.scene.load.image(TILE_SHEET_KEY, FilePath(this.tileSheetFile));
-    this.scene.load.tilemapTiledJSON(ROOT_MAP_FOLDER, FilePath(this.mapDataFile));
+    this.scene.load.tilemapTiledJSON(
+      ROOT_MAP_FOLDER,
+      FilePath(this.mapDataFile),
+    );
   }
 
   loadLayers() {
@@ -81,9 +89,9 @@ class Map {
     layers.forEach((layer: string) => {
       const key = layer.toLowerCase();
       this.layers[key] = this.map?.createLayer(layer, 'tiles');
-      
+
       if (mapConfig.layers[layer].collisions === true) {
-        this.layers[key]?.setCollisionByProperty({collides: true});
+        this.layers[key]?.setCollisionByProperty({ collides: true });
         this.scene.matter.world.convertTilemapLayer(this.layers[key]);
       }
 
@@ -92,7 +100,10 @@ class Map {
       }
 
       if (mapConfig.layers[layer].collisionsCategory !== undefined) {
-        SetCollisionCategoryOnLayer(this.layers[key], mapConfig.layers[layer].collisionsCategory);
+        SetCollisionCategoryOnLayer(
+          this.layers[key],
+          mapConfig.layers[layer].collisionsCategory,
+        );
       }
     });
   }
@@ -103,19 +114,32 @@ class Map {
     };
   }
 
-  getObjectFromLayer(layerName: string, objectNames: string): Phaser.Types.Tilemaps.TiledObject[] | undefined | null {
-    const obj = this.map?.filterObjects(layerName, (object) => object.name === objectNames);
-    obj?.forEach((element) => {
+  getObjectFromLayer(
+    layerName: string,
+    objectNames: string,
+  ): Phaser.Types.Tilemaps.TiledObject[] | undefined | null {
+    const obj = this.map?.filterObjects(
+      layerName,
+      object => object.name === objectNames,
+    );
+    obj?.forEach(element => {
       element.properties?.map((data: any) => {
         element.properties[data.name ?? ''] = data.value ?? '';
       });
     });
     return obj;
   }
-  
+
   create() {
-    this.map = this.scene.make.tilemap({key: ROOT_MAP_FOLDER});
-    this.map?.addTilesetImage(TILE_SHEET_NAME, TILE_SHEET_KEY, this.tileWidth, this.tileHeight, TILE_MARGIN, TILE_SPACING);
+    this.map = this.scene.make.tilemap({ key: ROOT_MAP_FOLDER });
+    this.map?.addTilesetImage(
+      TILE_SHEET_NAME,
+      TILE_SHEET_KEY,
+      this.tileWidth,
+      this.tileHeight,
+      TILE_MARGIN,
+      TILE_SPACING,
+    );
     this.loadLayers();
     this.loadObjectLayers();
     this.height = this.layers.background.height;
