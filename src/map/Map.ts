@@ -35,10 +35,16 @@ const mapConfig = {
   },
 };
 
+type Layer = {
+  key: string;
+  tileLayer: Phaser.Tilemaps.TilemapLayer;
+  collisionsCategory: number; // needed here?
+};
+
 class Map {
   private scene: Phaser.Scene;
 
-  private map: Phaser.Tilemaps.Tilemap | undefined;
+  private map: Phaser.Tilemaps.Tilemap | undefined; // TODO: dont call it map, as to not confuse with .map() array proto
 
   private mapDataFile: string;
 
@@ -49,6 +55,8 @@ class Map {
   private tileHeight = 32;
 
   public layers = {};
+
+  public layers2: Layer[];
 
   public spawners = {};
 
