@@ -68,6 +68,14 @@ class Map {
 
   public y = 0;
 
+  preload() {
+    this.scene.load.image(TILE_SHEET_KEY, getFilePath(this.tileSheetFile));
+    this.scene.load.tilemapTiledJSON(
+      ROOT_MAP_FOLDER,
+      getFilePath(this.mapDataFile),
+    );
+  }
+
   constructor(
     scene: Phaser.Scene,
     tileSheet: string = 'tileset.png',
@@ -81,14 +89,6 @@ class Map {
   setTileDimensions(width: number, height: number) {
     this.tileWidth = width;
     this.tileHeight = height;
-  }
-
-  preload() {
-    this.scene.load.image(TILE_SHEET_KEY, getFilePath(this.tileSheetFile));
-    this.scene.load.tilemapTiledJSON(
-      ROOT_MAP_FOLDER,
-      getFilePath(this.mapDataFile),
-    );
   }
 
   loadLayers() {
