@@ -20,7 +20,7 @@ const SetCollisionCategoryOnLayer = (
   });
 };
 
-const mapConfig: interface = {
+const mapConfig = {
   layers: {
     Background: {
       depth: 0,
