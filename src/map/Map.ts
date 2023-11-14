@@ -112,7 +112,7 @@ class Map {
     });
     return obj;
   }
- 
+  
   create() {
     this.map = this.scene.make.tilemap({key:  MAP_KEY});
     this.map?.addTilesetImage(TILE_SHEET_NAME, TILE_SHEET_KEY, this.tileWidth, this.tileHeight, TILE_MARGIN, TILE_SPACING);

@@ -14,7 +14,7 @@ class GameScene extends Scene {
 
   private ball: Ball | undefined;
 
-  private map: any;
+  private map: Map | undefined;
 
   constructor() {
     super('scene-game');
@@ -25,7 +25,7 @@ class GameScene extends Scene {
     const { preLoad } = parallax(this);
     preLoad();
 
-    this.map.preload();
+    this.map?.preload();
     Ball.preload(this);
   }
 
@@ -39,10 +39,10 @@ class GameScene extends Scene {
     const { create } = parallax(this);
     create();
     
-    this.map.create();
-    this.matter.world.setBounds(this.map.x, this.map.y, this.map.width, this.map.height);
+    this.map?.create();
+    this.matter.world.setBounds(this.map?.x, this.map?.y, this.map?.width, this.map?.height);
 
-    const playerPos = this.map.spawners.player;
+    const playerPos = this.map?.spawners.player;
     
     this.ball = new Ball(this, playerPos.x, playerPos.y);
     
