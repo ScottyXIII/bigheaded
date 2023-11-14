@@ -54,9 +54,11 @@ class Map {
 
   public layers = {};
 
-  public layers2: Layer[];
-
   public spawners = {};
+
+  public layers2: Layer[] = [];
+
+  public spawners2: Phaser.Types.Tilemaps.TiledObject[] = [];
 
   public height = 0;
 
@@ -81,7 +83,6 @@ class Map {
   }
 
   create() {
-    console.log(this.scene);
     this.map = this.scene.make.tilemap({ key: ROOT_MAP_FOLDER });
     this.map?.addTilesetImage(
       TILE_SHEET_NAME,
@@ -97,11 +98,6 @@ class Map {
     this.width = this.layers.background.width;
     this.x = this.layers.background.x;
     this.y = this.layers.background.y;
-  }
-
-  setTileDimensions(width: number, height: number) {
-    this.tileWidth = width;
-    this.tileHeight = height;
   }
 
   loadLayers() {
@@ -129,25 +125,21 @@ class Map {
   }
 
   loadObjectLayers() {
+    const player = this.map?.findObject(
+      'Spawner',
+      obj => obj.name === 'player',
+    );
+
     this.spawners = {
-      player: this.map?.findObject('Spawner', obj => obj.name === 'player'),
+      player,
     };
+
+    if (player) this.spawners2.push(player);
   }
 
-  getObjectFromLayer(
-    layerName: string,
-    objectNames: string,
-  ): Phaser.Types.Tilemaps.TiledObject[] | undefined | null {
-    const obj = this.map?.filterObjects(
-      layerName,
-      object => object.name === objectNames,
-    );
-    obj?.forEach(element => {
-      element.properties?.map((data: any) => {
-        element.properties[data.name ?? ''] = data.value ?? '';
-      });
-    });
-    return obj;
+  setTileDimensions(width: number, height: number) {
+    this.tileWidth = width;
+    this.tileHeight = height;
   }
 }
 
