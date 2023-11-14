@@ -1,6 +1,5 @@
 {
   "name": "bigheaded",
-  "private": true,
   "version": "0.0.1",
   "type": "module",
   "scripts": {
@@ -10,10 +9,10 @@
     "lint": "eslint . --ext .js,.ts,.cjs --fix && prettier --log-level silent --write \"**/*.{js,ts,md,json,html,css}\""
   },
   "devDependencies": {
-    "@types/node": "^20.8.10",
-    "@typescript-eslint/eslint-plugin": "^6.9.1",
-    "@typescript-eslint/parser": "^6.9.1",
-    "eslint": "^8.52.0",
+    "@types/node": "^20.9.0",
+    "@typescript-eslint/eslint-plugin": "^6.11.0",
+    "@typescript-eslint/parser": "^6.11.0",
+    "eslint": "^8.53.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-import-resolver-alias": "^1.1.2",
@@ -23,6 +22,6 @@
     "vite": "^4.5.0"
   },
   "dependencies": {
-    "phaser": "^3.60.0"
+    "phaser": "^3.70.0"
   }
 }
