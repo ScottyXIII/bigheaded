@@ -15,13 +15,13 @@ const parallaxName: ParallaxNames = 'supermountaindusk';
 class GameScene extends Phaser.Scene {
   private parallax: Parallax | undefined;
 
+  private map: Map | undefined;
+
   private spintext: SpinText | undefined;
 
   private ball: Ball | undefined;
 
   private ben: Ben1 | undefined;
-
-  private map: Map | undefined;
 
   constructor() {
     super('scene-game');
@@ -42,7 +42,7 @@ class GameScene extends Phaser.Scene {
     this.matter.add.mouseSpring();
 
     this.parallax = new Parallax(this, parallaxName);
-    this.map = new Map(this);
+    this.map = new Map(this, { player: Ben1 });
     this.spintext = new SpinText(this, cx, cy, 'Welcome to Phaser x Vite!');
     this.ball = new Ball(this, cx, cy);
 
@@ -51,9 +51,18 @@ class GameScene extends Phaser.Scene {
   }
 
   update(time: number, delta: number) {
-    if (!this.parallax || !this.spintext || !this.ball || !this.ben) return;
+    if (
+      !this.parallax ||
+      !this.map ||
+      !this.spintext ||
+      !this.ball ||
+      !this.ben
+    )
+      return;
 
     this.parallax.update();
+    this.map.update(time, delta);
+
     this.spintext.update(time, delta);
     this.ben.update(time, delta);
 

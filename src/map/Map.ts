@@ -75,7 +75,7 @@ class Map {
     scene.load.tilemapTiledJSON(ROOT_MAP_FOLDER, getFilePath(mapData));
   }
 
-  constructor(scene: Phaser.Scene) {
+  constructor(scene: Phaser.Scene, spawnerConfig: any) {
     this.scene = scene;
     this.map = this.scene.make.tilemap({ key: ROOT_MAP_FOLDER });
     this.map.addTilesetImage(
@@ -121,6 +121,8 @@ class Map {
 
     this.scene.matter.world.setBounds(this.x, this.y, this.width, this.height);
   }
+
+  update(time: number, delta: number) {}
 }
 
 export default Map;
