@@ -79,10 +79,6 @@ class Map {
 
   constructor(scene: Phaser.Scene) {
     this.scene = scene;
-    this.create();
-  }
-
-  create() {
     this.map = this.scene.make.tilemap({ key: ROOT_MAP_FOLDER });
     this.map?.addTilesetImage(
       TILE_SHEET_NAME,
