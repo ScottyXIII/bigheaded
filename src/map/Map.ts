@@ -8,15 +8,14 @@ const TILE_SPACING = 0;
 const TILE_SHEET_KEY = 'tileSheet';
 const TILE_SHEET_NAME = 'tiles'; // name of the tiles in the Tiled programme
 
-const FilePath = (filePath: string) => `${ROOT_MAP_FOLDER}/${filePath}`;
+const getFilePath = (filePath: string) => `${ROOT_MAP_FOLDER}/${filePath}`;
 
-const SetCollisionCategoryOnLayer = (
+const setCollisionCategoryOnLayer = (
   layer: Phaser.Tilemaps.TilemapLayer | null,
   collisionCategory: number,
 ) => {
   layer?.forEachTile(tile => {
-    if (tile.physics.matterBody === undefined) return;
-    tile.physics.matterBody.setCollisionCategory(collisionCategory);
+    tile.physics.matterBody?.setCollisionCategory?.(collisionCategory);
   });
 };
 
@@ -77,10 +76,10 @@ class Map {
   }
 
   preload() {
-    this.scene.load.image(TILE_SHEET_KEY, FilePath(this.tileSheetFile));
+    this.scene.load.image(TILE_SHEET_KEY, getFilePath(this.tileSheetFile));
     this.scene.load.tilemapTiledJSON(
       ROOT_MAP_FOLDER,
-      FilePath(this.mapDataFile),
+      getFilePath(this.mapDataFile),
     );
   }
 
@@ -100,7 +99,7 @@ class Map {
       }
 
       if (mapConfig.layers[layer].collisionsCategory !== undefined) {
-        SetCollisionCategoryOnLayer(
+        setCollisionCategoryOnLayer(
           this.layers[key],
           mapConfig.layers[layer].collisionsCategory,
         );
