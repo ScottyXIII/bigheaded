@@ -3,6 +3,7 @@ import toggleDebug from '@/helpers/toggleDebug';
 import smoothMoveCameraTowards from '@/helpers/smoothMoveCameraTowards';
 import parallax from '@/objects/parallax';
 import Ball from '@/objects/ball';
+import Ben1 from '@/characters/ben1/Ben';
 
 const cx = window.innerWidth / 2;
 const cy = window.innerHeight / 2;
@@ -11,6 +12,8 @@ class GameScene extends Scene {
   private textbox: GameObjects.Text | undefined;
 
   private ball: Ball | undefined;
+
+  private ben: Ben1 | undefined;
 
   constructor() {
     super('scene-game');
@@ -21,6 +24,7 @@ class GameScene extends Scene {
     preLoad();
 
     Ball.preload(this);
+    Ben1.preload(this);
   }
 
   create() {
@@ -43,16 +47,18 @@ class GameScene extends Scene {
     });
 
     this.textbox.setOrigin(0.5, 0.5);
+
+    this.ben = new Ben1(this, cx, cy);
   }
 
   update(_time: number, delta: number) {
-    if (!this.textbox || !this.ball) {
+    if (!this.textbox || !this.ball || !this.ben) {
       return;
     }
 
     this.textbox.rotation += 0.0005 * delta;
 
-    smoothMoveCameraTowards(this, this.ball.ball, 0.9);
+    smoothMoveCameraTowards(this, this.ben.torso, 0.9);
   }
 }
 
