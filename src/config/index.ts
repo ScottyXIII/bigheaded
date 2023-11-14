@@ -10,17 +10,7 @@ const config = {
   height: window.innerHeight,
   canvas,
   physics: {
-    default: 'matter', // 'arcade',
-    // arcade: {
-    //   gravity: { x: 0, y: 1 },
-    //   checkCollision: {
-    //     left: true,
-    //     right: true,
-    //     up: true,
-    //     down: true,
-    //   },
-    //   debug: true,
-    // },
+    default: 'matter',
     matter: {
       enableSleeping: true,
       gravity: {
