@@ -549,7 +549,7 @@
         {
          "draworder":"topdown",
          "id":4,
-         "name":"Spawner",
+         "name":"spawner",
          "objects":[
                 {
                  "height":0,
