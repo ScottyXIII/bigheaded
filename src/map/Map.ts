@@ -30,8 +30,6 @@ type LayersObjType = Record<string, Phaser.Tilemaps.TilemapLayer>;
 type SpawnersObjType = Record<string, Phaser.GameObjects.Group>;
 
 class Map {
-  private scene: Phaser.Scene;
-
   private level: Phaser.Tilemaps.Tilemap | undefined;
 
   private layers: LayersObjType = {};
@@ -44,21 +42,28 @@ class Map {
   }
 
   constructor(scene: Phaser.Scene, mapConfig: MapConfigType) {
-    this.scene = scene;
+    const {
+      tileWidth,
+      tileHeight,
+      tileMargin,
+      tileSpacing,
+      layerConfig,
+      spawnerConfig,
+    } = mapConfig;
 
     // load map
-    this.level = this.scene.make.tilemap({ key: 'level1' });
+    this.level = scene.make.tilemap({ key: 'level1' });
     this.level.addTilesetImage(
       'tiles',
       'tileSheet',
-      mapConfig.tileWidth,
-      mapConfig.tileHeight,
-      mapConfig.tileMargin,
-      mapConfig.tileSpacing,
+      tileWidth,
+      tileHeight,
+      tileMargin,
+      tileSpacing,
     );
 
     // load layers
-    this.layers = mapConfig.layerConfig.reduce(
+    this.layers = layerConfig.reduce(
       (acc, { tiledLayerName, depth, collisionCategory }) => {
         const layer = this.level?.createLayer(tiledLayerName, 'tiles');
 
@@ -68,7 +73,7 @@ class Map {
           .setCollisionByProperty({ collides: !!collisionCategory })
           .setDepth(depth);
 
-        this.scene.matter.world.convertTilemapLayer(layer);
+        scene.matter.world.convertTilemapLayer(layer);
 
         layer.forEachTile(tile => {
           // @ts-ignore
@@ -80,9 +85,9 @@ class Map {
     );
 
     // for each entry in the spawnerConfig, create a group
-    this.spawners = mapConfig.spawnerConfig.reduce(
+    this.spawners = spawnerConfig.reduce(
       (acc, { tiledObjectName, classType, maxSize, runChildUpdate }) => {
-        const group = this.scene.add.group({
+        const group = scene.add.group({
           maxSize,
           classType,
           runChildUpdate,
@@ -105,7 +110,7 @@ class Map {
 
     // set the world boundry same size as background
     const { x, y, width, height } = this.layers.background;
-    this.scene.matter.world.setBounds(x, y, width, height);
+    scene.matter.world.setBounds(x, y, width, height);
   }
 
   // update(time: number, delta: number) {}
