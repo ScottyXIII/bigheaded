@@ -13,8 +13,9 @@ const cy = window.innerHeight / 2;
 const parallaxName: ParallaxNames = 'supermountaindusk';
 
 const mapConfig = {
-  tiledMapJson: 'level/map/mapData1.json',
+  // parallaxName: 'supermountaindusk',
   tilesetPng: 'level/map/tileset1.png',
+  tiledMapJson: 'level/map/mapData1.json',
   tileWidth: 32,
   tileHeight: 32,
   tileMargin: 0,
@@ -59,7 +60,7 @@ class GameScene extends Phaser.Scene {
 
   preload() {
     Parallax.preload(this, parallaxName);
-    Map.preload(this);
+    Map.preload(this, mapConfig);
     Ball.preload(this);
     Ben1.preload(this);
   }
