@@ -110,8 +110,8 @@ class Map {
     // ) || { x: 0, y: 0 };
 
     // set the world boundry same size as background
-    const { x, y, width, height } = this.layers.background;
-    scene.matter.world.setBounds(x, y, width, height);
+    const { x, y, width, height } = this.layers.solidground;
+    scene.matter.world.setBounds(x, y, width, height, 512);
   }
 
   // update(time: number, delta: number) {}
