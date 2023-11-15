@@ -37,7 +37,7 @@ type SpawnersObjType = Record<
 class Map {
   private scene: Phaser.Scene;
 
-  private map: Phaser.Tilemaps.Tilemap | undefined; // TODO: dont call it map, as to not confuse with .map() array proto
+  private level: Phaser.Tilemaps.Tilemap | undefined;
 
   public spawners: SpawnersObjType = {};
 
@@ -50,25 +50,20 @@ class Map {
     this.scene = scene;
 
     // TODO: load map here
+    // this.level = ???;
 
     // for each entry in the spawnerConfig, create a group
     this.spawners = mapConfig.spawnerConfig.reduce(
       (acc, { tiledObjectName, classType, maxSize, runChildUpdate }) => {
-        if (!this.map) return acc;
-
         const group = this.scene.add.group({
           maxSize,
           classType,
           runChildUpdate,
         });
-        const { x, y } = this.map.findObject(
-          'Spawner',
-          obj => obj.name === tiledObjectName,
-        ) || { x: 0, y: 0 };
 
         return {
           ...acc,
-          [tiledObjectName]: { group, x, y },
+          [tiledObjectName]: group,
         };
       },
       {},
@@ -76,8 +71,13 @@ class Map {
 
     console.log(this.spawners);
 
-    const { x, y, width, height } = this.layers.background;
+    // const { x, y } = this.map.filterObjects(
+    //   'Spawner',
+    //   obj => obj.name === tiledObjectName,
+    // ) || { x: 0, y: 0 };
 
+    // set the world boundry same size as background
+    const { x, y, width, height } = this.layers.background;
     this.scene.matter.world.setBounds(x, y, width, height);
   }
 
