@@ -49,8 +49,18 @@ class Map {
   constructor(scene: Phaser.Scene, mapConfig: MapConfigType) {
     this.scene = scene;
 
-    // TODO: load map here
-    // this.level = ???;
+    // load map
+    this.level = this.scene.make.tilemap({ key: 'level1' });
+    this.level.addTilesetImage(
+      'tiles',
+      'tileSheet',
+      mapConfig.tileWidth,
+      mapConfig.tileHeight,
+      mapConfig.tileMargin,
+      mapConfig.tileSpacing,
+    );
+
+    // TODO: load layers
 
     // for each entry in the spawnerConfig, create a group
     this.spawners = mapConfig.spawnerConfig.reduce(
@@ -81,7 +91,7 @@ class Map {
     this.scene.matter.world.setBounds(x, y, width, height);
   }
 
-  update(time: number, delta: number) {}
+  // update(time: number, delta: number) {}
 }
 
 export default Map;
