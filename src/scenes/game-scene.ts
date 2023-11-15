@@ -42,7 +42,23 @@ class GameScene extends Phaser.Scene {
     this.matter.add.mouseSpring();
 
     this.parallax = new Parallax(this, parallaxName);
-    this.map = new Map(this, { player: Ben1 });
+
+    const spawnerConfig = [
+      {
+        tiledObjectName: 'player',
+        classType: Ben1,
+        maxSize: 1,
+        runChildUpdate: true,
+      },
+      {
+        tiledObjectName: 'item',
+        classType: Ball,
+        maxSize: 10,
+        runChildUpdate: false,
+      },
+    ];
+
+    this.map = new Map(this, spawnerConfig);
     this.spintext = new SpinText(this, cx, cy, 'Welcome to Phaser x Vite!');
     this.ball = new Ball(this, cx, cy);
 

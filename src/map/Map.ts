@@ -43,6 +43,15 @@ const mapConfig = {
   },
 };
 
+type SpawnerConfigType = {
+  tiledObjectName: string;
+  classType: any;
+  maxSize: number;
+  runChildUpdate: boolean;
+};
+
+type SpawnersObjType = Record<string, { group: Phaser.GameObjects.Group }>;
+
 class Map {
   private scene: Phaser.Scene;
 
@@ -56,7 +65,7 @@ class Map {
 
   public layers2: Layer[] = [];
 
-  public spawners: Phaser.Types.Tilemaps.TiledObject[] = [];
+  public spawners: SpawnersObjType = {};
 
   public height = 0;
 
@@ -75,8 +84,27 @@ class Map {
     scene.load.tilemapTiledJSON(ROOT_MAP_FOLDER, getFilePath(mapData));
   }
 
-  constructor(scene: Phaser.Scene, spawnerConfig: any) {
+  constructor(scene: Phaser.Scene, spawnerConfig: SpawnerConfigType[]) {
     this.scene = scene;
+
+    // for each entry in the spawnerConfig, create a group
+    this.spawners = spawnerConfig.reduce(
+      (acc, { tiledObjectName, classType, maxSize, runChildUpdate }) => {
+        const group = this.scene.add.group({
+          maxSize,
+          classType,
+          runChildUpdate,
+        });
+        const x = 1;
+        const y = 1;
+        return {
+          ...acc,
+          [tiledObjectName]: { group, x, y },
+        };
+      },
+      {},
+    );
+
     this.map = this.scene.make.tilemap({ key: ROOT_MAP_FOLDER });
     this.map.addTilesetImage(
       TILE_SHEET_NAME,
