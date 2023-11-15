@@ -77,8 +77,8 @@ class GameScene extends Phaser.Scene {
     this.spintext = new SpinText(this, cx, cy, 'Welcome to Phaser x Vite!');
     this.ball = new Ball(this, cx, cy);
 
-    const { group, x, y } = this.map.spawners.player;
-    this.ben = group.get(x, y);
+    const group = this.map.spawners.player;
+    this.ben = group.get(0, 0);
   }
 
   update(time: number, delta: number) {
@@ -92,7 +92,7 @@ class GameScene extends Phaser.Scene {
       return;
 
     this.parallax.update();
-    this.map.update(time, delta);
+    // this.map.update(time, delta);
 
     this.spintext.update(time, delta);
     this.ben.update(time, delta);
