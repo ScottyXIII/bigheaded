@@ -25,19 +25,16 @@ type MapConfigType = {
   spawnerConfig: SpawnerConfigType[];
 };
 
-type SpawnersObjType = Record<
-  string,
-  {
-    group: Phaser.GameObjects.Group;
-    x: number;
-    y: number;
-  }
->;
+type LayersObjType = Record<string, Phaser.Tilemaps.TilemapLayer>;
+
+type SpawnersObjType = Record<string, Phaser.GameObjects.Group>;
 
 class Map {
   private scene: Phaser.Scene;
 
   private level: Phaser.Tilemaps.Tilemap | undefined;
+
+  private layers: LayersObjType = {};
 
   public spawners: SpawnersObjType = {};
 
@@ -60,7 +57,23 @@ class Map {
       mapConfig.tileSpacing,
     );
 
-    // TODO: load layers
+    // load layers
+    this.layers = mapConfig.layerConfig.reduce(
+      (acc, { tiledLayerName, depth, collisionCategory }) => {
+        const layer = this.level?.createLayer(tiledLayerName, 'tiles');
+        layer
+          .setCollisionByProperty({ collides: !!collisionCategory })
+          .setDepth(depth);
+
+        this.scene.matter.world.convertTilemapLayer(layer);
+
+        layer.forEachTile(tile => {
+          tile.physics.matterBody?.setCollisionCategory?.(collisionCategory);
+        });
+        return { ...acc, [tiledLayerName]: layer };
+      },
+      {},
+    );
 
     // for each entry in the spawnerConfig, create a group
     this.spawners = mapConfig.spawnerConfig.reduce(
