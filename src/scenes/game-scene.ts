@@ -97,7 +97,7 @@ class GameScene extends Phaser.Scene {
     this.spintext.update(time, delta);
     this.ben.update(time, delta);
 
-    smoothMoveCameraTowards(this, this.ben.torso, 0.9);
+    smoothMoveCameraTowards(this, this.ben.head, 0.9);
   }
 }
 
