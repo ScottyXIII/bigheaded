@@ -19,10 +19,10 @@ const mapConfig = {
   tileHeight: 32,
   tileMargin: 0,
   tileSpacing: 0,
-  layers: [
-    { layerName: 'Background', depth: 0, collisionCategory: undefined },
-    { layerName: 'Solidground', depth: 10, collisionCategory: 0b101 },
-    { layerName: 'Foreground', depth: 20, collisionCategory: undefined },
+  layerConfig: [
+    { tiledLayerName: 'background', depth: 0, collisionCategory: undefined },
+    { tiledLayerName: 'solidground', depth: 10, collisionCategory: 0b101 },
+    { tiledLayerName: 'foreground', depth: 20, collisionCategory: undefined },
   ],
   spawnerConfig: [
     {
