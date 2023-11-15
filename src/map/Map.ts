@@ -61,6 +61,9 @@ class Map {
     this.layers = mapConfig.layerConfig.reduce(
       (acc, { tiledLayerName, depth, collisionCategory }) => {
         const layer = this.level?.createLayer(tiledLayerName, 'tiles');
+
+        if (!layer) return acc;
+
         layer
           .setCollisionByProperty({ collides: !!collisionCategory })
           .setDepth(depth);
@@ -68,6 +71,7 @@ class Map {
         this.scene.matter.world.convertTilemapLayer(layer);
 
         layer.forEachTile(tile => {
+          // @ts-ignore
           tile.physics.matterBody?.setCollisionCategory?.(collisionCategory);
         });
         return { ...acc, [tiledLayerName]: layer };
