@@ -12,6 +12,36 @@ const cy = window.innerHeight / 2;
 
 const parallaxName: ParallaxNames = 'supermountaindusk';
 
+const mapConfig = {
+  tiledMapJson: 'level/map/mapData1.json',
+  tilesetPng: 'level/map/tileset1.png',
+  tileWidth: 32,
+  tileHeight: 32,
+  tileMargin: 0,
+  tileSpacing: 0,
+  layers: [
+    { layerName: 'Background', depth: 0, collisionCategory: undefined },
+    { layerName: 'Solidground', depth: 10, collisionCategory: 0b101 },
+    { layerName: 'Foreground', depth: 20, collisionCategory: undefined },
+  ],
+  spawnerConfig: [
+    {
+      tiledObjectName: 'player',
+      classType: Ben1,
+      maxSize: 1,
+      runChildUpdate: true,
+      autoSpawn: true,
+    },
+    {
+      tiledObjectName: 'item',
+      classType: Ball,
+      maxSize: 10,
+      runChildUpdate: false,
+      autoSpawn: true,
+    },
+  ],
+};
+
 class GameScene extends Phaser.Scene {
   private parallax: Parallax | undefined;
 
@@ -42,28 +72,12 @@ class GameScene extends Phaser.Scene {
     this.matter.add.mouseSpring();
 
     this.parallax = new Parallax(this, parallaxName);
-
-    const spawnerConfig = [
-      {
-        tiledObjectName: 'player',
-        classType: Ben1,
-        maxSize: 1,
-        runChildUpdate: true,
-      },
-      {
-        tiledObjectName: 'item',
-        classType: Ball,
-        maxSize: 10,
-        runChildUpdate: false,
-      },
-    ];
-
-    this.map = new Map(this, spawnerConfig);
+    this.map = new Map(this, mapConfig);
     this.spintext = new SpinText(this, cx, cy, 'Welcome to Phaser x Vite!');
     this.ball = new Ball(this, cx, cy);
 
-    const { x, y } = this.map.spawners[0];
-    this.ben = new Ben1(this, x, y);
+    const { group, x, y } = this.map.spawners.player;
+    this.ben = group.get(x, y);
   }
 
   update(time: number, delta: number) {
