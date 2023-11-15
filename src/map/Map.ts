@@ -101,6 +101,7 @@ class Map {
       {},
     );
 
+    // eslint-disable-next-line no-console
     console.log(this);
 
     // const { x, y } = this.map.filterObjects(
