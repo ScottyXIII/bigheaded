@@ -96,7 +96,7 @@ class Map {
       {},
     );
 
-    console.log(this.spawners);
+    console.log(this);
 
     // const { x, y } = this.map.filterObjects(
     //   'Spawner',
