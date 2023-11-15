@@ -1,6 +1,6 @@
 import Phaser from 'phaser';
 
-const ROOT_MAP_FOLDER = 'map';
+const ROOT_MAP_FOLDER = 'level/map';
 
 const TILE_MARGIN = 0;
 const TILE_SPACING = 0;
@@ -112,6 +112,7 @@ class Map {
 
     // loadObjectLayers
     const player = this.map.findObject('Spawner', obj => obj.name === 'player');
+    console.log({ player });
     if (player) this.spawners.push(player);
 
     this.height = this.layers.background.height;
