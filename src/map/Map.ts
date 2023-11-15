@@ -54,7 +54,7 @@ class Map {
     scene.load.tilemapTiledJSON(ROOT_MAP_FOLDER, getFilePath(mapData));
   }
 
-  constructor(scene: Phaser.Scene, mapConfig: MapConfigType[]) {
+  constructor(scene: Phaser.Scene, mapConfig: MapConfigType) {
     this.scene = scene;
 
     // TODO: load map here
