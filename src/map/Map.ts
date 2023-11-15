@@ -15,8 +15,8 @@ type SpawnerConfigType = {
 };
 
 type MapConfigType = {
-  tiledMapJson: string;
   tilesetPng: string;
+  tiledMapJson: string;
   tileWidth: number;
   tileHeight: number;
   tileMargin: number;
@@ -39,19 +39,11 @@ class Map {
 
   private map: Phaser.Tilemaps.Tilemap | undefined; // TODO: dont call it map, as to not confuse with .map() array proto
 
-  public layers = {};
-
-  public layers2: Layer[] = [];
-
   public spawners: SpawnersObjType = {};
 
-  static preload(
-    scene: Phaser.Scene,
-    tileSheet = 'tileset.png',
-    mapData = 'mapData.json',
-  ) {
-    scene.load.image(TILE_SHEET_KEY, getFilePath(tileSheet));
-    scene.load.tilemapTiledJSON(ROOT_MAP_FOLDER, getFilePath(mapData));
+  static preload(scene: Phaser.Scene, mapConfig: MapConfigType) {
+    scene.load.image('tileSheet', mapConfig.tilesetPng);
+    scene.load.tilemapTiledJSON('level1', mapConfig.tiledMapJson);
   }
 
   constructor(scene: Phaser.Scene, mapConfig: MapConfigType) {
@@ -60,7 +52,7 @@ class Map {
     // TODO: load map here
 
     // for each entry in the spawnerConfig, create a group
-    this.spawners = spawnerConfig.reduce(
+    this.spawners = mapConfig.spawnerConfig.reduce(
       (acc, { tiledObjectName, classType, maxSize, runChildUpdate }) => {
         if (!this.map) return acc;
 
