@@ -1,15 +1,17 @@
 import * as Phaser from 'phaser';
 import GameScene from '@/scenes/game-scene';
 
-const canvas = document.getElementById('game') as HTMLCanvasElement;
-const gameWidth = 16 * 60;
-const gameheight = 9 * 60;
+// 16:9 horizontal sizes
+// - 360p = 640✕360
+// - 480p = 854✕480
+// - 720p = 1280×720
+// - 1080p = 1920✕1080
 
 const config: Phaser.Types.Core.GameConfig = {
   type: Phaser.WEBGL,
-  width: gameWidth,
-  height: gameheight,
-  canvas,
+  width: 1280,
+  height: 720,
+  canvas: document.getElementById('game') as HTMLCanvasElement,
   physics: {
     default: 'matter',
     matter: {
