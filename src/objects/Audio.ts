@@ -37,9 +37,10 @@ class Audio {
   }
 
   playAudio(key: string) {
-    if (this.audio[key] !== undefined && this.audioConfig[key] !== undefined)
+    if (!!this.audio[key] && !!this.audioConfig[key]) {
       this.audio[key].loop = this.audioConfig[key].loop;
-    this.audio[key].play();
+      this.audio[key].play();
+    }
   }
 
   // update(time: number, delta: number) {}
