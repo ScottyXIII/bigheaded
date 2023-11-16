@@ -1,62 +1,83 @@
 import * as Phaser from 'phaser';
 import toggleDebug from '@/helpers/toggleDebug';
 import smoothMoveCameraTowards from '@/helpers/smoothMoveCameraTowards';
-import Map from '@/map/Map';
 import Parallax, { ParallaxNames } from '@/objects/Parallax';
+import Level from '@/objects/Level';
 import SpinText from '@/objects/SpinText';
+import Ben1 from '@/objects/Ben1';
 import Ball from '@/objects/Ball';
-import Ben1 from '@/characters/Ben1';
-
-const cx = window.innerWidth / 2;
-const cy = window.innerHeight / 2;
 
 const parallaxName: ParallaxNames = 'supermountaindusk';
+
+const levelConfig = {
+  tilesetPng: './level/tileset/tileset1.png',
+  tiledMapJson: './level/tiled-level/mapData1.json',
+  tileWidth: 32,
+  tileHeight: 32,
+  tileMargin: 0,
+  tileSpacing: 0,
+  layerConfig: [
+    { tiledLayerName: 'background', depth: 0 },
+    { tiledLayerName: 'solidground', depth: 10 },
+    { tiledLayerName: 'foreground', depth: 20 },
+  ],
+  spawnerConfig: [
+    {
+      tiledObjectName: 'spin',
+      classFactory: SpinText,
+      maxSize: 1,
+      runChildUpdate: true,
+      autoSpawn: true,
+    },
+    {
+      tiledObjectName: 'player',
+      classFactory: Ben1,
+      maxSize: 1,
+      runChildUpdate: true,
+      autoSpawn: true,
+    },
+    {
+      tiledObjectName: 'item',
+      classFactory: Ball,
+      maxSize: 10,
+      runChildUpdate: false,
+      autoSpawn: true,
+    },
+  ],
+};
 
 class GameScene extends Phaser.Scene {
   private parallax: Parallax | undefined;
 
-  private spintext: SpinText | undefined;
-
-  private ball: Ball | undefined;
-
-  private ben: Ben1 | undefined;
-
-  private map: Map | undefined;
+  private level: Level | undefined;
 
   constructor() {
     super('scene-game');
-    this.map = new Map(this);
   }
 
   preload() {
     Parallax.preload(this, parallaxName);
-    Ball.preload(this);
-    Ben1.preload(this);
-    this.map?.preload();
+    Level.preload(this, levelConfig);
   }
 
   create() {
     // toggle debug GFX
     // toggleDebug(this);
     this.input.keyboard?.on('keydown-CTRL', () => toggleDebug(this));
+
     this.matter.add.mouseSpring();
-    this.map?.create();
-    const playerPos = this.map?.spawners.player;
-    this.matter.world.setBounds(this.map?.x, this.map?.y, this.map?.width, this.map?.height);
-    
+
     this.parallax = new Parallax(this, parallaxName);
-    this.spintext = new SpinText(this, cx, cy, 'Welcome to Phaser x Vite!');
-    this.ball = new Ball(this, playerPos.x, playerPos.y);
-    this.ben = new Ben1(this, playerPos.x, playerPos.y);
+    this.level = new Level(this, levelConfig);
   }
 
-  update(time: number, delta: number) {
-    if (!this.parallax || !this.spintext || !this.ball || !this.ben) return;
+  update() {
+    if (!this.parallax || !this.level) return;
 
     this.parallax.update();
-    this.spintext.update(time, delta);
 
-    smoothMoveCameraTowards(this, this.ben.torso, 0.9);
+    const player = this.level.spawners.player.getChildren()[0] as Ben1;
+    smoothMoveCameraTowards(this, player.head, 0.9);
   }
 }
 
