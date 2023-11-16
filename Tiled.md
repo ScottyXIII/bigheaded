@@ -15,9 +15,9 @@ chmod +x Tiled-1.10.2_Linux_Qt-6_x86_64.AppImage
 
 ### Notes
 
-- in Tiled staticbodies must be drawn with polygon tool
-- in Tiled staticbodies must not be concave
-- in Tiled staticbodies must be drawn starting from top left corner, with points going clockwise
+- staticbodies must be drawn with polygon tool, in the "staticbodies" object layer
+- staticbodies must not be concave (this caveat could be removed with extra dev)
+- staticbodies must be drawn starting from top left corner, with points going clockwise
 
 if these rules are not followed;
 
