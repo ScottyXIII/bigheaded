@@ -78,10 +78,6 @@ class Level {
     }, {});
 
     // load staticbodies
-    // - in Tiled bodies must be polygons
-    // - in Tiled bodies must not be convex
-    // - in Tiled bodies must be drawn starting from top left corner
-    // if these rules are not followed, the level will break or shapes will be wrong
     const staticbody = this.level.getObjectLayer('staticbody')?.objects || [];
     for (let i = 0; i < staticbody.length; i += 1) {
       const { x, y, polygon } = staticbody[i];
