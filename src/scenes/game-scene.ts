@@ -1,7 +1,7 @@
 import * as Phaser from 'phaser';
 import toggleDebug from '@/helpers/toggleDebug';
 import smoothMoveCameraTowards from '@/helpers/smoothMoveCameraTowards';
-import Map from '@/map/Map';
+import Level from '@/map/Level';
 import Parallax, { ParallaxNames } from '@/objects/Parallax';
 import SpinText from '@/objects/SpinText';
 import Ball from '@/objects/Ball';
@@ -46,7 +46,7 @@ const mapConfig = {
 class GameScene extends Phaser.Scene {
   private parallax: Parallax | undefined;
 
-  private map: Map | undefined; // map is a reserved class
+  private map: Level | undefined;
 
   private spintext: SpinText | undefined;
 
@@ -56,7 +56,7 @@ class GameScene extends Phaser.Scene {
 
   preload() {
     Parallax.preload(this, parallaxName);
-    Map.preload(this, mapConfig);
+    Level.preload(this, mapConfig);
     Ball.preload(this);
     Ben1.preload(this);
   }
@@ -69,7 +69,7 @@ class GameScene extends Phaser.Scene {
     this.matter.add.mouseSpring();
 
     this.parallax = new Parallax(this, parallaxName);
-    this.map = new Map(this, mapConfig);
+    this.map = new Level(this, mapConfig);
     this.spintext = new SpinText(this, cx, cy, 'Welcome to Phaser x Vite!');
   }
 
@@ -82,6 +82,7 @@ class GameScene extends Phaser.Scene {
     const player =
       this.map.spawners.player.getChildren()[0] as Phaser.Physics.Matter.Image;
 
+    console.log(player.x, player.y);
     smoothMoveCameraTowards(this, player, 0.9);
   }
 }

@@ -29,7 +29,7 @@ type LayersObjType = Record<string, Phaser.Tilemaps.TilemapLayer>;
 
 type SpawnersObjType = Record<string, Phaser.GameObjects.Group>;
 
-class Map {
+class Level {
   private level: Phaser.Tilemaps.Tilemap | undefined;
 
   private layers: LayersObjType = {};
@@ -137,4 +137,4 @@ class Map {
   // update(time: number, delta: number) {}
 }
 
-export default Map;
+export default Level;
