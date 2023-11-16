@@ -79,11 +79,9 @@ class GameScene extends Phaser.Scene {
     this.parallax.update();
     this.spintext.update(time, delta);
 
-    const player =
-      this.map.spawners.player.getChildren()[0] as Phaser.Physics.Matter.Image;
+    const player = this.map.spawners.player.getChildren()[0] as Ben1;
 
-    console.log(player.x, player.y);
-    smoothMoveCameraTowards(this, player, 0.9);
+    smoothMoveCameraTowards(this, player.head, 0.9);
   }
 }
 
