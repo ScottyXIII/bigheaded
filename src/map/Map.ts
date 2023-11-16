@@ -79,6 +79,10 @@ class Map {
     );
 
     // load staticbodies
+    // - in Tiled bodies must be polygons
+    // - in Tiled bodies must not be convex
+    // - in Tiled bodies must be drawn starting from top left corner
+    // if these rules are not followed, the map will break or shapes will be wrong
     this.level.filterObjects('staticbodies', (obj: any) => {
       const { polygon, x, y } = obj;
       const poly = scene.add.polygon(0, 0, polygon, 0x0000ff, 0);
