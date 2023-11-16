@@ -97,7 +97,7 @@ class GameScene extends Phaser.Scene {
     this.level = new Level(this, levelConfig);
     this.audio = new Audio(this, soundConfig);
 
-    this.audio?.playAudio('music2');
+    this.audio.playAudio('music2');
   }
 
   update() {
