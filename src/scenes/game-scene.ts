@@ -10,8 +10,8 @@ import Ball from '@/objects/Ball';
 const parallaxName: ParallaxNames = 'supermountaindusk';
 
 const levelConfig = {
-  tilesetPng: 'level/map/tileset1.png',
-  tiledMapJson: 'level/map/mapData1.json',
+  tilesetPng: './level/tileset/tileset1.png',
+  tiledMapJson: './level/tiled-level/mapData1.json',
   tileWidth: 32,
   tileHeight: 32,
   tileMargin: 0,
