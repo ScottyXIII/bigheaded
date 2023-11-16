@@ -5,15 +5,12 @@ class SpinText extends Phaser.GameObjects.Container {
 
   // static preload(scene: Phaser.Scene) {}
 
-  constructor(
-    scene: Phaser.Scene,
-    x: number,
-    y: number,
-    text = 'Welcome to Phaser x Vite!',
-  ) {
+  constructor(scene: Phaser.Scene, x: number, y: number) {
     super(scene, x, y);
 
     this.scene = scene;
+
+    const text = 'Welcome to Phaser x Vite!';
 
     this.textbox = scene.add
       .text(x, y, text, {
