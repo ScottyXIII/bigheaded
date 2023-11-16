@@ -1,15 +1,15 @@
 import * as Phaser from 'phaser';
 import toggleDebug from '@/helpers/toggleDebug';
 import smoothMoveCameraTowards from '@/helpers/smoothMoveCameraTowards';
-import Level from '@/map/Level';
 import Parallax, { ParallaxNames } from '@/objects/Parallax';
+import Level from '@/objects/Level';
 import SpinText from '@/objects/SpinText';
+import Ben1 from '@/objects/Ben1';
 import Ball from '@/objects/Ball';
-import Ben1 from '@/characters/Ben1';
 
 const parallaxName: ParallaxNames = 'supermountaindusk';
 
-const mapConfig = {
+const levelConfig = {
   tilesetPng: 'level/map/tileset1.png',
   tiledMapJson: 'level/map/mapData1.json',
   tileWidth: 32,
@@ -49,7 +49,7 @@ const mapConfig = {
 class GameScene extends Phaser.Scene {
   private parallax: Parallax | undefined;
 
-  private map: Level | undefined;
+  private level: Level | undefined;
 
   constructor() {
     super('scene-game');
@@ -57,7 +57,7 @@ class GameScene extends Phaser.Scene {
 
   preload() {
     Parallax.preload(this, parallaxName);
-    Level.preload(this, mapConfig);
+    Level.preload(this, levelConfig);
   }
 
   create() {
@@ -68,15 +68,15 @@ class GameScene extends Phaser.Scene {
     this.matter.add.mouseSpring();
 
     this.parallax = new Parallax(this, parallaxName);
-    this.map = new Level(this, mapConfig);
+    this.level = new Level(this, levelConfig);
   }
 
   update() {
-    if (!this.parallax || !this.map) return;
+    if (!this.parallax || !this.level) return;
 
     this.parallax.update();
 
-    const player = this.map.spawners.player.getChildren()[0] as Ben1;
+    const player = this.level.spawners.player.getChildren()[0] as Ben1;
     smoothMoveCameraTowards(this, player.head, 0.9);
   }
 }

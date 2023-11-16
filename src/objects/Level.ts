@@ -13,7 +13,7 @@ type SpawnerConfigType = {
   autoSpawn: boolean;
 };
 
-type MapConfigType = {
+type LevelConfigType = {
   tilesetPng: string;
   tiledMapJson: string;
   tileWidth: number;
@@ -35,8 +35,8 @@ class Level {
 
   public spawners: SpawnersObjType = {};
 
-  static preload(scene: Phaser.Scene, mapConfig: MapConfigType) {
-    const { tilesetPng, tiledMapJson, spawnerConfig } = mapConfig;
+  static preload(scene: Phaser.Scene, levelConfig: LevelConfigType) {
+    const { tilesetPng, tiledMapJson, spawnerConfig } = levelConfig;
     scene.load.image('tileSheet', tilesetPng);
     scene.load.tilemapTiledJSON('level1', tiledMapJson);
     for (let i = 0; i < spawnerConfig.length; i += 1) {
@@ -45,7 +45,7 @@ class Level {
     }
   }
 
-  constructor(scene: Phaser.Scene, mapConfig: MapConfigType) {
+  constructor(scene: Phaser.Scene, levelConfig: LevelConfigType) {
     const {
       tileWidth,
       tileHeight,
@@ -53,9 +53,9 @@ class Level {
       tileSpacing,
       layerConfig,
       spawnerConfig,
-    } = mapConfig;
+    } = levelConfig;
 
-    // load map
+    // load tiles
     this.level = scene.make.tilemap({ key: 'level1' });
     this.level.addTilesetImage(
       'tiles',
@@ -81,7 +81,7 @@ class Level {
     // - in Tiled bodies must be polygons
     // - in Tiled bodies must not be convex
     // - in Tiled bodies must be drawn starting from top left corner
-    // if these rules are not followed, the map will break or shapes will be wrong
+    // if these rules are not followed, the level will break or shapes will be wrong
     const staticbody = this.level.getObjectLayer('staticbody')?.objects || [];
     for (let i = 0; i < staticbody.length; i += 1) {
       const { x, y, polygon } = staticbody[i];
