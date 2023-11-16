@@ -83,20 +83,20 @@ class Map {
     // - in Tiled bodies must not be convex
     // - in Tiled bodies must be drawn starting from top left corner
     // if these rules are not followed, the map will break or shapes will be wrong
-    this.level.filterObjects('staticbodies', (obj: any) => {
-      const { polygon, x, y } = obj;
-      const poly = scene.add.polygon(0, 0, polygon, 0x0000ff, 0);
+    const staticbodies =
+      this.level.getObjectLayer('staticbodies')?.objects || [];
+    for (let i = 0; i < staticbodies.length; i += 1) {
+      const { x, y, polygon } = staticbodies[i];
+      const poly = scene.add.polygon(0, 0, polygon, 0x0000ff, 0.5);
       const mb = scene.matter.add.gameObject(poly, {
         shape: { type: 'fromVerts', verts: polygon, flagInternal: true },
         isStatic: true,
         position: { x, y },
-      }) as any;
+      }) as Phaser.Physics.Matter.Image;
 
       mb.x += mb.width / 2;
       mb.y += mb.height / 2;
-
-      return true;
-    });
+    }
 
     // for each entry in the spawnerConfig, create a group
     this.spawners = spawnerConfig.reduce(
