@@ -2,8 +2,8 @@ import * as Phaser from 'phaser';
 import GameScene from '@/scenes/game-scene';
 
 const canvas = document.getElementById('game') as HTMLCanvasElement;
-const gameWidth = 16 * 50;
-const gameheight = 9 * 50;
+const gameWidth = 16 * 60;
+const gameheight = 9 * 60;
 
 const config: Phaser.Types.Core.GameConfig = {
   type: Phaser.WEBGL,
