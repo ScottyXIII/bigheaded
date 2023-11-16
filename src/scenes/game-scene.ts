@@ -60,12 +60,12 @@ const soundConfig = [
   },
   {
     key: 'music2',
-    filePath: 'audio/music/Sneaky-snititchp3',
+    filePath: 'audio/music/Sneaky-snitch.mp3',
     loop: true,
   },
   {
     key: 'music3',
-    filePath: 'audio/music/spspookp3',
+    filePath: 'audio/music/spook.mp3',
     loop: true,
   },
 ];
