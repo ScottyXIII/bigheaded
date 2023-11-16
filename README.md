@@ -13,4 +13,4 @@ trello board: https://trello.com/b/njkSeDet/game-off-2023-bigheaded
 fluffing-a-duck.mp3: https://www.chosic.com/download-audio/27248/
 sneaky-snitch.mp3: https://www.chosic.com/download-audio/39325/
 Spook.mp3: https://www.chosic.com/download-audio/45515/
-punch.wav: tps://www.chosic.com
+punch.wav: https://www.chosic.com/
