@@ -50,22 +50,22 @@ const levelConfig = {
 const soundConfig = [
   {
     key: 'punch',
-    filePath: 'audio/sfx/punch.wav',
+    filePath: './audio/sfx/punch.wav',
     loop: false,
   },
   {
     key: 'music1',
-    filePath: 'audio/music/Fluffing-a-duck.mp3',
+    filePath: './audio/music/Fluffing-a-duck.mp3',
     loop: true,
   },
   {
     key: 'music2',
-    filePath: 'audio/music/Sneaky-snitch.mp3',
+    filePath: './audio/music/Sneaky-snitch.mp3',
     loop: true,
   },
   {
     key: 'music3',
-    filePath: 'audio/music/spook.mp3',
+    filePath: './audio/music/spook.mp3',
     loop: true,
   },
 ];
