@@ -10,7 +10,6 @@ import Ben1 from '@/characters/Ben1';
 const parallaxName: ParallaxNames = 'supermountaindusk';
 
 const mapConfig = {
-  // parallaxName: 'supermountaindusk',
   tilesetPng: 'level/map/tileset1.png',
   tiledMapJson: 'level/map/mapData1.json',
   tileWidth: 32,
