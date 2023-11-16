@@ -55,12 +55,12 @@ const soundConfig = [
   },
   {
     key: 'music1',
-    filePath: './audio/music/Fluffing-a-duck.mp3',
+    filePath: './audio/music/fluffing-a-duck.mp3',
     loop: true,
   },
   {
     key: 'music2',
-    filePath: './audio/music/Sneaky-snitch.mp3',
+    filePath: './audio/music/sneaky-snitch.mp3',
     loop: true,
   },
   {
