@@ -106,7 +106,7 @@ class GameScene extends Phaser.Scene {
     this.parallax.update();
 
     const player = this.level.spawners.player.getChildren()[0] as Ben1;
-    smoothMoveCameraTowards(this, player.head, 0.9);
+    smoothMoveCameraTowards(this, player.torso, 0.9);
   }
 }
 
