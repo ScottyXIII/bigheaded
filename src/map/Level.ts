@@ -8,7 +8,7 @@ type LayerConfigType = {
 
 type SpawnerConfigType = {
   tiledObjectName: string;
-  classType: any;
+  classFactory: any; // any class
   maxSize: number;
   runChildUpdate: boolean;
   autoSpawn: boolean;
@@ -37,8 +37,13 @@ class Level {
   public spawners: SpawnersObjType = {};
 
   static preload(scene: Phaser.Scene, mapConfig: MapConfigType) {
-    scene.load.image('tileSheet', mapConfig.tilesetPng);
-    scene.load.tilemapTiledJSON('level1', mapConfig.tiledMapJson);
+    const { tilesetPng, tiledMapJson, spawnerConfig } = mapConfig;
+    scene.load.image('tileSheet', tilesetPng);
+    scene.load.tilemapTiledJSON('level1', tiledMapJson);
+    for (let i = 0; i < spawnerConfig.length; i += 1) {
+      const { classFactory } = spawnerConfig[i];
+      classFactory.preload?.(scene);
+    }
   }
 
   constructor(scene: Phaser.Scene, mapConfig: MapConfigType) {
@@ -102,11 +107,11 @@ class Level {
     this.spawners = spawnerConfig.reduce(
       (
         acc,
-        { tiledObjectName, classType, maxSize, runChildUpdate, autoSpawn },
+        { tiledObjectName, classFactory, maxSize, runChildUpdate, autoSpawn },
       ) => {
         const group = scene.add.group({
           maxSize,
-          classType,
+          classType: classFactory,
           runChildUpdate,
         });
 

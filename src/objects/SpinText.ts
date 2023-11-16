@@ -3,11 +3,14 @@ import * as Phaser from 'phaser';
 class SpinText extends Phaser.GameObjects.Container {
   private textbox: Phaser.GameObjects.Text | undefined;
 
-  static preload(scene: Phaser.Scene) {
-    scene.load.image('tennisball', './tennisball.png');
-  }
+  // static preload(scene: Phaser.Scene) {}
 
-  constructor(scene: Phaser.Scene, x: number, y: number, text: string) {
+  constructor(
+    scene: Phaser.Scene,
+    x: number,
+    y: number,
+    text = 'Welcome to Phaser x Vite!',
+  ) {
     super(scene, x, y);
 
     this.scene = scene;

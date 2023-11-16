@@ -614,6 +614,18 @@
                  "width":0,
                  "x":-160,
                  "y":127
+                }, 
+                {
+                 "height":0,
+                 "id":21,
+                 "name":"spin",
+                 "point":true,
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":-481,
+                 "y":35
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -622,7 +634,7 @@
          "y":0
         }],
  "nextlayerid":8,
- "nextobjectid":21,
+ "nextobjectid":22,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.10.2",

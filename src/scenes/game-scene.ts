@@ -28,16 +28,23 @@ const mapConfig = {
   spawnerConfig: [
     {
       tiledObjectName: 'player',
-      classType: Ben1,
+      classFactory: Ben1,
       maxSize: 1,
       runChildUpdate: true,
       autoSpawn: true,
     },
     {
       tiledObjectName: 'item',
-      classType: Ball,
+      classFactory: Ball,
       maxSize: 10,
       runChildUpdate: false,
+      autoSpawn: true,
+    },
+    {
+      tiledObjectName: 'spin',
+      classFactory: SpinText,
+      maxSize: 1,
+      runChildUpdate: true,
       autoSpawn: true,
     },
   ],
@@ -57,8 +64,6 @@ class GameScene extends Phaser.Scene {
   preload() {
     Parallax.preload(this, parallaxName);
     Level.preload(this, mapConfig);
-    Ball.preload(this);
-    Ben1.preload(this);
   }
 
   create() {
@@ -70,7 +75,7 @@ class GameScene extends Phaser.Scene {
 
     this.parallax = new Parallax(this, parallaxName);
     this.map = new Level(this, mapConfig);
-    this.spintext = new SpinText(this, cx, cy, 'Welcome to Phaser x Vite!');
+    this.spintext = new SpinText(this, cx, cy);
   }
 
   update(time: number, delta: number) {
