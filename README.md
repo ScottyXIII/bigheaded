@@ -6,4 +6,4 @@ play the game: https://scottyxiii.github.io/bigheaded
 
 trello board: https://trello.com/b/njkSeDet/game-off-2023-bigheaded
 
-[using Tiled notes](./Tiled.md)
+[How to use Tiled to edit levels](./Tiled.md)
