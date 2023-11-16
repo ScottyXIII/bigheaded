@@ -15,8 +15,8 @@ class Ben1 extends Phaser.GameObjects.Container {
   private neck: Phaser.Types.Physics.Matter.MatterConstraintConfig;
 
   static preload(scene: Phaser.Scene) {
-    scene.load.image('head1', '/head1.png');
-    scene.load.image('body1', '/body1.png');
+    scene.load.image('head1', './object/ben1/head.png');
+    scene.load.image('body1', './object/ben1/body.png');
   }
 
   constructor(scene: Phaser.Scene, x: number, y: number) {

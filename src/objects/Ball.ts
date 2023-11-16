@@ -4,7 +4,7 @@ class Ball extends Phaser.GameObjects.Container {
   public ball: Phaser.GameObjects.Image | undefined;
 
   static preload(scene: Phaser.Scene) {
-    scene.load.image('tennisball', './tennisball.png');
+    scene.load.image('tennisball', './object/ball/tennisball.png');
   }
 
   constructor(scene: Phaser.Scene, x: number, y: number) {
@@ -18,7 +18,8 @@ class Ball extends Phaser.GameObjects.Container {
         friction: 0.1,
         restitution: 1.2,
       })
-      .setScale(0.1);
+      .setScale(0.1)
+      .setDepth(10);
   }
 }
 
