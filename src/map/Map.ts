@@ -83,10 +83,9 @@ class Map {
     // - in Tiled bodies must not be convex
     // - in Tiled bodies must be drawn starting from top left corner
     // if these rules are not followed, the map will break or shapes will be wrong
-    const staticbodies =
-      this.level.getObjectLayer('staticbodies')?.objects || [];
-    for (let i = 0; i < staticbodies.length; i += 1) {
-      const { x, y, polygon } = staticbodies[i];
+    const staticbody = this.level.getObjectLayer('staticbody')?.objects || [];
+    for (let i = 0; i < staticbody.length; i += 1) {
+      const { x, y, polygon } = staticbody[i];
       const poly = scene.add.polygon(0, 0, polygon, 0x0000ff, 0.5);
       const mb = scene.matter.add.gameObject(poly, {
         shape: { type: 'fromVerts', verts: polygon, flagInternal: true },
@@ -99,13 +98,28 @@ class Map {
     }
 
     // for each entry in the spawnerConfig, create a group
+    const spawnersT = this.level.getObjectLayer('spawner')?.objects || [];
     this.spawners = spawnerConfig.reduce(
-      (acc, { tiledObjectName, classType, maxSize, runChildUpdate }) => {
+      (
+        acc,
+        { tiledObjectName, classType, maxSize, runChildUpdate, autoSpawn },
+      ) => {
         const group = scene.add.group({
           maxSize,
           classType,
           runChildUpdate,
         });
+
+        if (autoSpawn) {
+          const locations = spawnersT.filter(
+            ({ name }) => name === tiledObjectName,
+          );
+
+          for (let i = 0; i < locations.length; i += 1) {
+            const { x, y } = locations[i];
+            group.get(x, y);
+          }
+        }
 
         return {
           ...acc,

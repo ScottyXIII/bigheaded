@@ -466,7 +466,7 @@
         {
          "draworder":"topdown",
          "id":7,
-         "name":"staticbodies",
+         "name":"staticbody",
          "objects":[
                 {
                  "height":0,
@@ -589,7 +589,7 @@
                  "visible":true,
                  "width":0,
                  "x":-481,
-                 "y":223
+                 "y":125
                 }, 
                 {
                  "height":0,

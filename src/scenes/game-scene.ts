@@ -46,13 +46,9 @@ const mapConfig = {
 class GameScene extends Phaser.Scene {
   private parallax: Parallax | undefined;
 
-  private map: Map | undefined;
+  private map: Map | undefined; // map is a reserved class
 
   private spintext: SpinText | undefined;
-
-  private ball: Ball | undefined;
-
-  private ben: Ben1 | undefined;
 
   constructor() {
     super('scene-game');
@@ -75,29 +71,18 @@ class GameScene extends Phaser.Scene {
     this.parallax = new Parallax(this, parallaxName);
     this.map = new Map(this, mapConfig);
     this.spintext = new SpinText(this, cx, cy, 'Welcome to Phaser x Vite!');
-    this.ball = new Ball(this, cx, cy);
-
-    const group = this.map.spawners.player;
-    this.ben = group.get(0, 0);
   }
 
   update(time: number, delta: number) {
-    if (
-      !this.parallax ||
-      !this.map ||
-      !this.spintext ||
-      !this.ball ||
-      !this.ben
-    )
-      return;
+    if (!this.parallax || !this.map || !this.spintext) return;
 
     this.parallax.update();
-    // this.map.update(time, delta);
-
     this.spintext.update(time, delta);
-    this.ben.update(time, delta);
 
-    smoothMoveCameraTowards(this, this.ben.head, 0.9);
+    const player =
+      this.map.spawners.player.getChildren()[0] as Phaser.Physics.Matter.Image;
+
+    smoothMoveCameraTowards(this, player, 0.9);
   }
 }
 
