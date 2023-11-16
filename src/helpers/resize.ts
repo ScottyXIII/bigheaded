@@ -1,4 +1,4 @@
-function resize(config: any) {
+const resize = (config: any) => {
   const canvas: any = document.querySelector('canvas');
   const windowWidth = window.innerWidth;
   const windowHeight = window.innerHeight;
@@ -12,6 +12,6 @@ function resize(config: any) {
     canvas.style.width = `${windowHeight * gameRatio}px`;
     canvas.style.height = `${windowHeight}px`;
   }
-}
+};
 
 export default resize;
