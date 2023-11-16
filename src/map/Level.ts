@@ -3,7 +3,6 @@ import Phaser from 'phaser';
 type LayerConfigType = {
   tiledLayerName: string;
   depth: number;
-  collisionCategory: number | undefined;
 };
 
 type SpawnerConfigType = {
@@ -68,20 +67,15 @@ class Level {
     );
 
     // load image layers
-    this.layers = layerConfig.reduce(
-      (acc, { tiledLayerName, depth, collisionCategory }) => {
-        const layer = this.level?.createLayer(tiledLayerName, 'tiles');
+    this.layers = layerConfig.reduce((acc, { tiledLayerName, depth }) => {
+      const layer = this.level?.createLayer(tiledLayerName, 'tiles');
 
-        if (!layer) return acc;
+      if (!layer) return acc;
 
-        layer
-          .setCollisionByProperty({ collides: !!collisionCategory })
-          .setDepth(depth);
+      layer.setDepth(depth);
 
-        return { ...acc, [tiledLayerName]: layer };
-      },
-      {},
-    );
+      return { ...acc, [tiledLayerName]: layer };
+    }, {});
 
     // load staticbodies
     // - in Tiled bodies must be polygons
