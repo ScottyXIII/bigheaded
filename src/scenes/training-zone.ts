@@ -2,9 +2,7 @@ import * as Phaser from 'phaser';
 import toggleDebug from '@/helpers/toggleDebug';
 import smoothMoveCameraTowards from '@/helpers/smoothMoveCameraTowards';
 import Parallax, { ParallaxNames } from '@/objects/Parallax';
-import SpinText from '@/objects/SpinText';
-import Ball from '@/objects/Ball';
-import Ben1 from '@/characters/ben1/Ben';
+import Ben1 from '@/objects/Ben1';
 import createOrchestrator from '@/ai/reinforcement-learning/create-orchestrator';
 
 const cx = window.innerWidth / 2;
@@ -17,10 +15,6 @@ class TrainingZone extends Phaser.Scene {
 
   public ben: Ben1 | undefined;
 
-  private spintext: SpinText | undefined;
-
-  // private ball: Ball | undefined;
-
   private run: Function | undefined;
 
   private replay: Function | undefined;
@@ -28,15 +22,10 @@ class TrainingZone extends Phaser.Scene {
   preload() {
     Parallax.preload(this, parallaxName);
     Ben1.preload(this);
-    Ball.preload(this);
   }
 
   constructor() {
     super('training-zone');
-
-    // console.log('construct training zone');
-
-    // setTimeout(() => this.sys.game.scene.start('training-zone'), 20000);
 
     const calculateState = () => {
       const headScale = this.ben?.headScale;
@@ -88,18 +77,12 @@ class TrainingZone extends Phaser.Scene {
     this.parallax = new Parallax(this, parallaxName);
 
     this.ben = new Ben1(this, cx, cy);
-
-    this.spintext = new SpinText(this, cx, cy, 'Training Zone!');
-
-    // this.ball = new Ball(this, cx, cy);
-    // this.ball = new Ball(this, cx, cy);
   }
 
   update(time: number, delta: number) {
-    if (!this.parallax || !this.spintext || !this.ben) return;
+    if (!this.parallax || !this.ben) return;
 
     this.parallax.update();
-    this.spintext.update(time, delta);
     this.ben.update(time, delta);
 
     smoothMoveCameraTowards(this, this.ben.head, 0.9);
