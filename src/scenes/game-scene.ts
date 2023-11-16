@@ -8,7 +8,6 @@ import Ben1 from '@/objects/Ben1';
 import Ball from '@/objects/Ball';
 import Audio from '@/objects/Audio';
 
-
 const parallaxName: ParallaxNames = 'supermountaindusk';
 
 const levelConfig = {
@@ -52,23 +51,23 @@ const soundConfig = [
   {
     key: 'punch',
     filePath: 'audio/sfx/punch.wav',
-    loop: false
+    loop: false,
   },
   {
     key: 'music1',
     filePath: 'audio/music/Fluffing-a-duck.mp3',
-    loop: true
+    loop: true,
   },
   {
     key: 'music2',
-    filePath: 'audio/music/Sneaky-snitch.mp3',
-    loop: true
+    filePath: 'audio/music/Sneaky-snititchp3',
+    loop: true,
   },
   {
     key: 'music3',
-    filePath: 'audio/music/spook.mp3',
-    loop: true
-  }
+    filePath: 'audio/music/spspookp3',
+    loop: true,
+  },
 ];
 
 class GameScene extends Phaser.Scene {
@@ -92,17 +91,13 @@ class GameScene extends Phaser.Scene {
     // toggle debug GFX
     // toggleDebug(this);
     this.input.keyboard?.on('keydown-CTRL', () => toggleDebug(this));
-    this.input.keyboard?.on('keydown-E', () => {
-      this.audio?.playAudio("punch");
-    });
-
     this.matter.add.mouseSpring();
 
     this.parallax = new Parallax(this, parallaxName);
     this.level = new Level(this, levelConfig);
     this.audio = new Audio(this, soundConfig);
 
-    this.audio?.playAudio("music2");
+    this.audio?.playAudio('music2');
   }
 
   update() {

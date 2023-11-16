@@ -9,7 +9,12 @@ type AudioConfigType = {
 };
 
 class Audio {
-  private audio: Record<string, Phaser.Sound.NoAudioSound | Phaser.Sound.HTML5AudioSound | Phaser.Sound.WebAudioSound> = {};
+  private audio: Record<
+    string,
+    | Phaser.Sound.NoAudioSound
+    | Phaser.Sound.HTML5AudioSound
+    | Phaser.Sound.WebAudioSound
+  > = {};
 
   private audioConfig: Record<string, AudioConfigType> = {};
 
@@ -17,21 +22,24 @@ class Audio {
     for (let i = 0; i < configs.length; i += 1) {
       const config: AudioConfigType = configs[i];
       this.audioConfig[config.key] = config;
-      this.audio[config.key] = scene.sound.add(config.key, config.soundConfig ?? {});
-    };
+      this.audio[config.key] = scene.sound.add(
+        config.key,
+        config.soundConfig ?? {},
+      );
+    }
   }
 
   static preload(scene: Phaser.Scene, configs: AudioConfigType[]) {
     for (let i = 0; i < configs.length; i += 1) {
       const config: AudioConfigType = configs[i];
       scene.load.audio(config.key, config.filePath);
-    };
+    }
   }
 
   playAudio(key: string) {
     if (this.audio[key] !== undefined && this.audioConfig[key] !== undefined)
       this.audio[key].loop = this.audioConfig[key].loop;
-      this.audio[key].play();
+    this.audio[key].play();
   }
 
   // update(time: number, delta: number) {}
