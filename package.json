@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --host",
     "build": "tsc && vite build",
     "build:preview": "vite preview",
     "lint": "eslint . --ext .js,.ts,.cjs --fix && prettier --log-level silent --write \"**/*.{js,ts,md,json,html,css}\""
@@ -20,7 +20,7 @@
     "eslint-plugin-import": "^2.29.0",
     "eslint-plugin-prettier": "^5.0.1",
     "typescript": "^5.2.2",
-    "vite": "^4.5.0"
+    "vite": "^5.0.0"
   },
   "dependencies": {
     "@tensorflow/tfjs": "^4.13.0",
