@@ -31,7 +31,6 @@ class Ben2 extends Phaser.GameObjects.Container {
       height: 100,
       friction: 0,
       restitution: 0.1,
-      mass: 5,
     });
     this.torso.setScale(0.5);
 
@@ -39,7 +38,6 @@ class Ben2 extends Phaser.GameObjects.Container {
       width: 340,
       height: 270,
       friction: 0,
-      mass: 1,
     });
     this.head.setScale(HEAD_SCALE_MIN);
 
