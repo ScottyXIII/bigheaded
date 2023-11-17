@@ -8,6 +8,7 @@ import Ben2 from '@/objects/Ben2';
 import Ball from '@/objects/Ball';
 import Audio from '@/objects/Audio';
 import useLocalStorage from '@/helpers/useLocalStorage';
+import isDev from '@/helpers/isDev';
 
 const parallaxName: ParallaxNames = 'supermountaindusk';
 
@@ -90,8 +91,8 @@ class GameScene extends Phaser.Scene {
 
   create() {
     // toggle debug GFX
-    // toggleDebug(this);
-    this.input.keyboard?.on('keydown-CTRL', () => toggleDebug(this));
+    if (isDev) this.input.keyboard?.on('keydown-CTRL', () => toggleDebug(this));
+
     this.matter.add.mouseSpring();
 
     this.parallax = new Parallax(this, parallaxName);
@@ -112,7 +113,6 @@ class GameScene extends Phaser.Scene {
 
     const [myNum, setMyNum] = useLocalStorage('testNum', 0);
     setMyNum(myNum + 1);
-    console.log(myNum);
   }
 }
 
