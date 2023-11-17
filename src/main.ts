@@ -1,15 +1,14 @@
-import './style.css';
-import { Game } from 'phaser';
-
+import * as Phaser from 'phaser';
 import config from '@/config';
-import resize from '@/helpers/resize';
+import attachFullscreen from './helpers/fullscreen';
+
+import './style.css';
 
 window.onload = () => {
-  const game = new Game(config);
-  resize(config);
+  const game = new Phaser.Game(config);
 
-  window.onresize = newConfig => {
-    resize(newConfig);
-    game.events.emit('resize');
-  };
+  // eslint-disable-next-line no-console
+  console.log(game);
+
+  attachFullscreen();
 };
