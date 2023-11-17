@@ -109,7 +109,7 @@ class GameScene extends Phaser.Scene {
 
     const player = this.level.spawners.player.getChildren()[0] as Ben2;
     player.enactAction(1);
-    smoothMoveCameraTowards(this, player.torso, 0.85);
+    smoothMoveCameraTowards(this, player.torso, 0.8);
 
     const [myNum, setMyNum] = useLocalStorage('testNum', 0);
     setMyNum(myNum + 1);
