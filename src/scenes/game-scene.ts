@@ -10,6 +10,7 @@ import Ball from '@/objects/Ball';
 import Audio from '@/objects/Audio';
 import useLocalStorage from '@/helpers/useLocalStorage';
 import isDev from '@/helpers/isDev';
+import useLocalStorage from '@/helpers/useLocalStorage';
 
 const parallaxName: ParallaxNames = 'supermountaindusk';
 
@@ -101,7 +102,9 @@ class GameScene extends Phaser.Scene {
     this.audio = new Audio(this, soundConfig);
 
     this.audio.playAudio('music2');
-    toggleMusic(this);
+    toggleMusic(this); // attaches listener to mute button
+    const [isMute] = useLocalStorage('isMute', false);
+    this.game.sound.mute = isMute; // set game mute to saved ls value
   }
 
   update() {
