@@ -2,7 +2,7 @@ import * as Phaser from 'phaser';
 import keepUpright from '@/helpers/keepUpright';
 import matterAddImageEllipse from '@/helpers/matterAddImageEllipse';
 
-const HEAD_SCALE_MIN = 0.15;
+const HEAD_SCALE_MIN = 0.05;
 const HEAD_SCALE_MAX = 1.5;
 
 class Ben2 extends Phaser.GameObjects.Container {
@@ -31,8 +31,9 @@ class Ben2 extends Phaser.GameObjects.Container {
       height: 100,
       friction: 0,
       restitution: 0.1,
-      mass: 10,
+      mass: 5,
     });
+    this.torso.setScale(0.5);
 
     this.head = matterAddImageEllipse(scene, x, y, 'head2', undefined, {
       width: 340,
@@ -49,7 +50,7 @@ class Ben2 extends Phaser.GameObjects.Container {
       0.5,
       {
         pointA: { x: 0, y: this.headScale * 140 },
-        pointB: { x: 0, y: -50 },
+        pointB: { x: 0, y: -25 },
         damping: 0,
         angularStiffness: 0,
       },
@@ -63,7 +64,7 @@ class Ben2 extends Phaser.GameObjects.Container {
     if (this.headScale > HEAD_SCALE_MAX) this.headScaleDirection = -1;
     if (this.headScale < HEAD_SCALE_MIN) this.headScaleDirection = 1;
 
-    this.headScale += 0.000025 * this.headScaleDirection * delta;
+    this.headScale += 0.00001 * this.headScaleDirection * delta;
 
     this.neck.pointA = new Phaser.Math.Vector2(0, this.headScale * 140).rotate(
       this.head.rotation,
@@ -76,7 +77,7 @@ class Ben2 extends Phaser.GameObjects.Container {
   enactAction(action: number) {
     if (!this.torso) return;
 
-    const xyForce = { x: action / 1500, y: 0 };
+    const xyForce = { x: action / 5000, y: 0 };
 
     // @ts-ignore
     Phaser.Physics.Matter.Matter.Body.applyForce(
