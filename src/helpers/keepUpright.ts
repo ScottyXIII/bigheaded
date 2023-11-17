@@ -19,8 +19,8 @@ const keepUpright = (
   const diff = 0 - angle;
   const newAv = avDamped + diff * multiplier;
 
-  const isASmallAdjustment = Math.abs(newAv) < 0.01;
-  const isCloseToVertical = Math.abs(entity.gameObject.rotation) < 0.05;
+  const isASmallAdjustment = Math.abs(newAv) < 0.001;
+  const isCloseToVertical = Math.abs(entity.gameObject.rotation) < 0.005;
   if (isASmallAdjustment && isCloseToVertical) {
     // eslint-disable-next-line no-param-reassign
     entity.gameObject.rotation = 0;
