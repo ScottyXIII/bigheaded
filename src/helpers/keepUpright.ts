@@ -11,7 +11,6 @@ const keepUpright = (
   if (!entity) return;
   const { body } = entity.gameObject;
 
-  // eslint-disable-next-line no-param-reassign
   entity.gameObject.rotation %= twoPi; // modulo spins
 
   const { angle, angularVelocity } = body;
@@ -22,7 +21,6 @@ const keepUpright = (
   const isASmallAdjustment = Math.abs(newAv) < 0.001;
   const isCloseToVertical = Math.abs(entity.gameObject.rotation) < 0.005;
   if (isASmallAdjustment && isCloseToVertical) {
-    // eslint-disable-next-line no-param-reassign
     entity.gameObject.rotation = 0;
     setAngularVelocity(body, 0);
   } else {
