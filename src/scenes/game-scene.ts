@@ -7,6 +7,7 @@ import SpinText from '@/objects/SpinText';
 import Ben2 from '@/objects/Ben2';
 import Ball from '@/objects/Ball';
 import Audio from '@/objects/Audio';
+import useLocalStorage from '@/helpers/useLocalStorage';
 
 const parallaxName: ParallaxNames = 'supermountaindusk';
 
@@ -105,9 +106,13 @@ class GameScene extends Phaser.Scene {
 
     this.parallax.update();
 
-    const player = this.level.spawners.player.getChildren()[0] as Ben1;
+    const player = this.level.spawners.player.getChildren()[0] as Ben2;
     player.enactAction(1);
     smoothMoveCameraTowards(this, player.torso, 0.9);
+
+    const [myNum, setMyNum] = useLocalStorage('testNum', 0);
+    setMyNum(myNum + 1);
+    console.log(myNum);
   }
 }
 
