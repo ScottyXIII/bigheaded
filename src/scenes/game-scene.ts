@@ -12,7 +12,7 @@ const parallaxName: ParallaxNames = 'supermountaindusk';
 
 const levelConfig = {
   tilesetPng: './level/tileset/tileset1.png',
-  tiledMapJson: './level/tiled-level/mapData1.json',
+  tiledMapJson: './level/tiled-level/test-flat.json',
   tileWidth: 32,
   tileHeight: 32,
   tileMargin: 0,
@@ -106,6 +106,7 @@ class GameScene extends Phaser.Scene {
     this.parallax.update();
 
     const player = this.level.spawners.player.getChildren()[0] as Ben1;
+    player.enactAction(1);
     smoothMoveCameraTowards(this, player.torso, 0.9);
   }
 }
