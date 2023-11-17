@@ -4,7 +4,7 @@ import smoothMoveCameraTowards from '@/helpers/smoothMoveCameraTowards';
 import Parallax, { ParallaxNames } from '@/objects/Parallax';
 import Level from '@/objects/Level';
 import SpinText from '@/objects/SpinText';
-import Ben1 from '@/objects/Ben1';
+import Ben2 from '@/objects/Ben2';
 import Ball from '@/objects/Ball';
 import Audio from '@/objects/Audio';
 
@@ -32,7 +32,7 @@ const levelConfig = {
     },
     {
       tiledObjectName: 'player',
-      classFactory: Ben1,
+      classFactory: Ben2,
       maxSize: 1,
       runChildUpdate: true,
       autoSpawn: true,
