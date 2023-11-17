@@ -1,15 +1,17 @@
 import * as Phaser from 'phaser';
+
 import toggleDebug from '@/helpers/toggleDebug';
 import smoothMoveCameraTowards from '@/helpers/smoothMoveCameraTowards';
 import toggleMusic from '@/helpers/toggleMusic';
+import useLocalStorage from '@/helpers/useLocalStorage';
+import isDev from '@/helpers/isDev';
+
 import Parallax, { ParallaxNames } from '@/objects/Parallax';
 import Level from '@/objects/Level';
 import SpinText from '@/objects/SpinText';
 import Ben2 from '@/objects/Ben2';
 import Ball from '@/objects/Ball';
 import Audio from '@/objects/Audio';
-import useLocalStorage from '@/helpers/useLocalStorage';
-import isDev from '@/helpers/isDev';
 
 const parallaxName: ParallaxNames = 'supermountaindusk';
 
