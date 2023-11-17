@@ -1,5 +1,7 @@
 # Bigheaded
 
+<iframe src="https://scottyxiii.github.io/bigheaded" />
+
 play the game: https://scottyxiii.github.io/bigheaded
 
 ## Development
