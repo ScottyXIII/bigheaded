@@ -1,15 +1,23 @@
 import { Scene } from 'phaser';
+import useLocalStorage from './useLocalStorage';
+
+const handleClick = (scene: Scene, btn: Element) => () => {
+  const [isMute, setIsMute] = useLocalStorage('isMute', false);
+  const newIsMute = !isMute;
+  setIsMute(newIsMute);
+  scene.game.sound.mute = newIsMute;
+  const icon = newIsMute ? '🔇' : '🔊';
+  btn.textContent = icon;
+};
 
 const toggleMusic = (scene: Scene) => {
   const btn = document.getElementById('music');
   const el = document.getElementById('game');
   if (btn && el) {
-    btn.addEventListener('click', () => {
-      const isMute = scene.game.sound.mute;
-      // eslint-disable-next-line no-param-reassign
-      scene.game.sound.mute = !isMute;
-      btn.textContent = isMute ? '🔊' : '🔇';
-    });
+    const [isMute] = useLocalStorage('isMute', false);
+    const icon = isMute ? '🔇' : '🔊';
+    btn.textContent = icon;
+    btn.addEventListener('click', handleClick(scene, btn));
   }
 };
 
