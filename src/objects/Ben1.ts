@@ -68,7 +68,7 @@ class Ben1 extends Phaser.GameObjects.Container {
   enactAction(action: number) {
     if (!this.torso) return;
 
-    const xyForce = { x: action / 20, y: 0 };
+    const xyForce = { x: action / 10, y: 0 };
 
     // @ts-ignore
     Phaser.Physics.Matter.Matter.Body.applyForce(
