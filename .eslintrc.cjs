@@ -21,7 +21,7 @@ module.exports = {
   rules: {
     'import/extensions': 0, // don't require file ext in imports
     'import/no-extraneous-dependencies': ['error', { devDependencies: true }], // stop eslint complaining about deps vs devDeps
-    'no-param-reassign': ['error', { props: false }],
+    'no-param-reassign': ['error', { props: false }], // Phaser requirement
   },
   ignorePatterns: ['dist'],
 };
