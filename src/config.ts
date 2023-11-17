@@ -23,7 +23,7 @@ const config: Phaser.Types.Core.GameConfig = {
     matter: {
       enableSleeping: true,
       gravity: {
-        y: 4,
+        y: 2,
       },
       ...(isDev && { debug }),
     },
