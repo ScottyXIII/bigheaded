@@ -10,7 +10,6 @@ import Ball from '@/objects/Ball';
 import Audio from '@/objects/Audio';
 import useLocalStorage from '@/helpers/useLocalStorage';
 import isDev from '@/helpers/isDev';
-import useLocalStorage from '@/helpers/useLocalStorage';
 
 const parallaxName: ParallaxNames = 'supermountaindusk';
 
