@@ -31,14 +31,14 @@ class Ben2 extends Phaser.GameObjects.Container {
       height: 100,
       friction: 0,
       restitution: 0.1,
-      mass: 0,
+      mass: 10,
     });
 
     this.head = matterAddImageEllipse(scene, x, y, 'head2', undefined, {
       width: 340,
       height: 270,
       friction: 0,
-      mass: 0,
+      mass: 1,
     });
     this.head.setScale(HEAD_SCALE_MIN);
 
@@ -63,22 +63,20 @@ class Ben2 extends Phaser.GameObjects.Container {
     if (this.headScale > HEAD_SCALE_MAX) this.headScaleDirection = -1;
     if (this.headScale < HEAD_SCALE_MIN) this.headScaleDirection = 1;
 
-    this.headScale += 0.00005 * this.headScaleDirection * delta;
+    this.headScale += 0.000025 * this.headScaleDirection * delta;
 
     this.neck.pointA = new Phaser.Math.Vector2(0, this.headScale * 140).rotate(
       this.head.rotation,
     );
 
-    this.head.setMass(0);
-
     keepUpright(this.head.body, { multiplier: 0.005, avDampener: 0.999 });
-    keepUpright(this.torso.body, { multiplier: 0.9, avDampener: 0.999 });
+    keepUpright(this.torso.body, { multiplier: 0.05, avDampener: 0.999 });
   }
 
   enactAction(action: number) {
     if (!this.torso) return;
 
-    const xyForce = { x: action / 400, y: 0 };
+    const xyForce = { x: action / 1500, y: 0 };
 
     // @ts-ignore
     Phaser.Physics.Matter.Matter.Body.applyForce(
