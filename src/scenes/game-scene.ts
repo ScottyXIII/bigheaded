@@ -1,6 +1,7 @@
 import * as Phaser from 'phaser';
 import toggleDebug from '@/helpers/toggleDebug';
 import smoothMoveCameraTowards from '@/helpers/smoothMoveCameraTowards';
+import toggleMusic from '@/helpers/toggleMusic';
 import Parallax, { ParallaxNames } from '@/objects/Parallax';
 import Level from '@/objects/Level';
 import SpinText from '@/objects/SpinText';
@@ -98,6 +99,7 @@ class GameScene extends Phaser.Scene {
     this.audio = new Audio(this, soundConfig);
 
     this.audio.playAudio('music2');
+    toggleMusic(this);
   }
 
   update() {
