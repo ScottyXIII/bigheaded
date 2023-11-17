@@ -17,8 +17,8 @@ class Ben2 extends Phaser.GameObjects.Container {
   private headScaleDirection = 1; // 1 or minus 1
 
   static preload(scene: Phaser.Scene) {
-    scene.load.image('head2', './object/ben1/head2.png');
-    scene.load.image('body1', './object/ben1/body.png');
+    scene.load.image('head2', './object/ben2/head2.png');
+    scene.load.image('body2', './object/ben2/body2.png');
   }
 
   constructor(scene: Phaser.Scene, x: number, y: number) {
@@ -26,7 +26,7 @@ class Ben2 extends Phaser.GameObjects.Container {
 
     this.scene = scene;
 
-    this.torso = scene.matter.add.image(x, y + 60, 'body1', undefined, {
+    this.torso = scene.matter.add.image(x, y + 60, 'body2', undefined, {
       shape: 'rectangle',
       friction: 0.005,
       restitution: 0.1,
@@ -45,7 +45,7 @@ class Ben2 extends Phaser.GameObjects.Container {
       0.5,
       {
         pointA: { x: 0, y: this.headScale * 140 },
-        pointB: { x: 0, y: -80 },
+        pointB: { x: 0, y: -60 },
         damping: 0,
         angularStiffness: 0,
       },
