@@ -26,15 +26,19 @@ class Ben2 extends Phaser.GameObjects.Container {
 
     this.scene = scene;
 
-    this.torso = scene.matter.add.image(x, y + 60, 'body2', undefined, {
-      shape: 'rectangle',
-      friction: 0.005,
+    this.torso = matterAddImageEllipse(scene, x, y + 50, 'body2', undefined, {
+      width: 75,
+      height: 100,
+      friction: 0,
       restitution: 0.1,
+      mass: 0,
     });
 
     this.head = matterAddImageEllipse(scene, x, y, 'head2', undefined, {
       width: 340,
       height: 270,
+      friction: 0,
+      mass: 0,
     });
     this.head.setScale(HEAD_SCALE_MIN);
 
@@ -45,7 +49,7 @@ class Ben2 extends Phaser.GameObjects.Container {
       0.5,
       {
         pointA: { x: 0, y: this.headScale * 140 },
-        pointB: { x: 0, y: -60 },
+        pointB: { x: 0, y: -50 },
         damping: 0,
         angularStiffness: 0,
       },
@@ -65,14 +69,16 @@ class Ben2 extends Phaser.GameObjects.Container {
       this.head.rotation,
     );
 
-    keepUpright(this.head.body, { multiplier: 0.01, avDampener: 0.999 });
-    keepUpright(this.torso.body);
+    this.head.setMass(0);
+
+    keepUpright(this.head.body, { multiplier: 0.005, avDampener: 0.999 });
+    keepUpright(this.torso.body, { multiplier: 0.9, avDampener: 0.999 });
   }
 
   enactAction(action: number) {
     if (!this.torso) return;
 
-    const xyForce = { x: action / 100, y: 0 };
+    const xyForce = { x: action / 400, y: 0 };
 
     // @ts-ignore
     Phaser.Physics.Matter.Matter.Body.applyForce(

@@ -1,6 +1,6 @@
 import * as Phaser from 'phaser';
 
-type OptionsType = {
+type AdditionalOptionsType = {
   width: number;
   height: number;
 };
@@ -11,9 +11,9 @@ const matterAddImageEllipse = (
   y: number,
   key: string,
   frame: number | undefined,
-  options: OptionsType,
+  options: Phaser.Types.Physics.Matter.MatterBodyConfig & AdditionalOptionsType,
 ) => {
-  const { width, height } = options;
+  const { width, height, ...other } = options;
   const ellipse = scene.add.ellipse(0, 0, width, height);
   const points = ellipse.pathData.slice(0, -2).join(' ');
   ellipse.destroy();
@@ -22,8 +22,7 @@ const matterAddImageEllipse = (
 
   const ellipseGameObject = scene.matter.add.gameObject(imageGameObject, {
     shape: { type: 'fromVerts', verts: points, flagInternal: true },
-    friction: 0.005,
-    restitution: 1,
+    ...other,
   });
 
   return ellipseGameObject as Phaser.Physics.Matter.Image;
