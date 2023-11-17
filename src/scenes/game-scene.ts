@@ -13,7 +13,7 @@ import Ben2 from '@/objects/Ben2';
 import Ball from '@/objects/Ball';
 import Audio from '@/objects/Audio';
 
-const parallaxName: ParallaxNames = 'supermountaindusk';
+const parallaxName: ParallaxNames = 'forest2022';
 
 const levelConfig = {
   tilesetPng: './level/tileset/tileset1.png',
