@@ -1,4 +1,5 @@
 import * as Phaser from 'phaser';
+import keepUpright from '@/helpers/keepUpright';
 
 const HEAD_SCALE_MIN = 0.15;
 const HEAD_SCALE_MAX = 1.5;
@@ -63,6 +64,8 @@ class Ben2 extends Phaser.GameObjects.Container {
     this.neck.pointA = new Phaser.Math.Vector2(0, this.headScale * 180).rotate(
       this.head.rotation,
     );
+
+    keepUpright(this.torso.body);
   }
 
   enactAction(action: number) {
