@@ -65,13 +65,14 @@ class Ben2 extends Phaser.GameObjects.Container {
       this.head.rotation,
     );
 
+    keepUpright(this.head.body, { multiplier: 0.01, avDampener: 0.999 });
     keepUpright(this.torso.body);
   }
 
   enactAction(action: number) {
     if (!this.torso) return;
 
-    const xyForce = { x: action / 20, y: 0 };
+    const xyForce = { x: action / 200, y: 0 };
 
     // @ts-ignore
     Phaser.Physics.Matter.Matter.Body.applyForce(
