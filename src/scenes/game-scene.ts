@@ -7,6 +7,7 @@ import SpinText from '@/objects/SpinText';
 import Ben1 from '@/objects/Ben1';
 import Ball from '@/objects/Ball';
 import Audio from '@/objects/Audio';
+import isDev from '@/helpers/isDev';
 
 const parallaxName: ParallaxNames = 'supermountaindusk';
 
@@ -89,8 +90,8 @@ class GameScene extends Phaser.Scene {
 
   create() {
     // toggle debug GFX
-    // toggleDebug(this);
-    this.input.keyboard?.on('keydown-CTRL', () => toggleDebug(this));
+    if (isDev) this.input.keyboard?.on('keydown-CTRL', () => toggleDebug(this));
+
     this.matter.add.mouseSpring();
 
     this.parallax = new Parallax(this, parallaxName);
