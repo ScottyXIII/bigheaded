@@ -8,7 +8,7 @@ const toggleMusic = (scene: Scene) => {
       const isMute = scene.game.sound.mute;
       // eslint-disable-next-line no-param-reassign
       scene.game.sound.mute = !isMute;
-      btn.textContent = (isMute) ? "🔊" : "🔇";
+      btn.textContent = isMute ? '🔊' : '🔇';
     });
   }
 };
