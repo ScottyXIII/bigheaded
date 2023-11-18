@@ -32,7 +32,7 @@ class Ben2 extends Phaser.GameObjects.Container {
       friction: 0,
       restitution: 0.1,
     });
-    this.torso.setScale(0.5);
+    this.torso.setScale(0.75);
 
     this.head = matterAddImageEllipse(scene, x, y, 'head2', undefined, {
       width: 340,
@@ -48,7 +48,7 @@ class Ben2 extends Phaser.GameObjects.Container {
       0.5,
       {
         pointA: { x: 0, y: this.headScale * 140 },
-        pointB: { x: 0, y: -25 },
+        pointB: { x: 0, y: -75 / 2 },
         damping: 0,
         angularStiffness: 0,
       },
