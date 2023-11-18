@@ -2,7 +2,7 @@ import * as Phaser from 'phaser';
 import keepUpright from '@/helpers/keepUpright';
 import matterAddImageEllipse from '@/helpers/matterAddImageEllipse';
 
-const HEAD_SCALE_MIN = 0.05;
+const HEAD_SCALE_MIN = 0.1;
 const HEAD_SCALE_MAX = 1.5;
 
 class Ben2 extends Phaser.GameObjects.Container {
