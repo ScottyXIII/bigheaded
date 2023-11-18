@@ -1,6 +1,6 @@
 # Bigheaded
 
-<iframe src="https://scottyxiii.github.io/bigheaded" />
+[![Play](.github/images/preview.png)](https://scottyxiii.github.io/bigheaded)
 
 play the game: https://scottyxiii.github.io/bigheaded
 
