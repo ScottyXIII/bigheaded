@@ -106,6 +106,15 @@ class GameScene extends Phaser.Scene {
     toggleMusic(this); // attaches listener to mute button
     const [isMute] = useLocalStorage('isMute', false);
     this.game.sound.mute = isMute; // set game mute to saved ls value
+
+    const canvas = document.querySelector('#game');
+    canvas?.addEventListener('click', this.jump.bind(this));
+  }
+
+  jump() {
+    if (!this.level) return;
+    const player = this.level.spawners.player.getChildren()[0] as Ben2;
+    player.enactAction(-100);
   }
 
   update() {
