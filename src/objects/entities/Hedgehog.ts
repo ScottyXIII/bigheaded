@@ -1,5 +1,5 @@
 import * as Phaser from 'phaser';
-import Entity from '@/objects/Entities/Entity';
+import Entity from '@/objects/entities/Entity';
 import keepUprightStratergies from '@/objects/Enums/Physics';
 
 const KEY = 'hedgehog';
@@ -16,25 +16,25 @@ const entityConfig = {
     bounce: 1,
     shape: {
       type: 'rectangle',
-      width: 70, 
-      height: 48 
+      width: 70,
+      height: 48,
     },
   },
   animations: [
-    { 
+    {
       animationKey: 'idle',
       fps: 3,
       start: 1,
       end: 1,
     },
-    { 
+    {
       animationKey: 'sleeping',
       fps: 3,
       start: 12,
       end: 15,
-      repeat: -1
-    }
-  ]
+      repeat: -1,
+    },
+  ],
 };
 
 class Hedgehog extends Entity {
@@ -45,21 +45,16 @@ class Hedgehog extends Entity {
       frameConfig: {
         frameWidth: 24,
         frameHeight: 24,
-      }
+      },
     });
   }
-  
+
   constructor(scene: Phaser.Scene, x: number, y: number) {
-    super(
-      scene, 
-      x, 
-      y,
-      entityConfig
-    );
+    super(scene, x, y, entityConfig);
 
     this.scene = scene;
-    
-    this.playAnimation("idle");
+
+    this.playAnimation('idle');
   }
 }
 

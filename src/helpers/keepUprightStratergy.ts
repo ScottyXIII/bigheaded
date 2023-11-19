@@ -13,16 +13,15 @@ const instant = (gameObject: Phaser.GameObjects.GameObject) => {
 };
 
 const springy = (gameObject: Phaser.GameObjects.GameObject) => {
-    const twoPi = Math.PI * 2;
-    const { angle, angularVelocity } = gameObject.body;
-    gameObject.rotation %= twoPi; // modulo spins
-    const diff = 0 - angle;
-    const newAv = angularVelocity + (diff / 100);
-    gameObject.setAngularVelocity(newAv);
+  const twoPi = Math.PI * 2;
+  const { angle, angularVelocity } = gameObject.body;
+  gameObject.rotation %= twoPi; // modulo spins
+  const diff = 0 - angle;
+  const newAv = angularVelocity + diff / 100;
+  gameObject.setAngularVelocity(newAv);
 };
 
 const none = (gameObject: Phaser.GameObjects.GameObject) => {
-  console.log("none");
   if (gameObject.body.inertia_old && gameObject.body.inverseInertia_old) {
     gameObject.body.inertia = gameObject.body.inertia_old;
     gameObject.body.inverseInertia = gameObject.body.inverseInertia_old;
@@ -31,7 +30,10 @@ const none = (gameObject: Phaser.GameObjects.GameObject) => {
   }
 };
 
-const keepUprightStratergy = (stratergy: keepUprightStratergies, gameObject) => {
+const keepUprightStratergy = (
+  stratergy: keepUprightStratergies,
+  gameObject,
+) => {
   if (stratergy === keepUprightStratergies.SPRINGY) {
     springy(gameObject);
   }

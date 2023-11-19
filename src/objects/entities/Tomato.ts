@@ -13,32 +13,32 @@ const entityConfig = {
   maxSpeedX: 2,
   maxSpeedY: 8,
   craftpixOffset: {
-    x: 0, 
-    y: -35
+    x: 0,
+    y: -35,
   },
   physicsConfig: {
     bounce: 1,
     shape: {
       type: 'rectangle',
-      width: 24, 
-      height: 24, 
+      width: 24,
+      height: 24,
     },
   },
   animations: [
-    { 
+    {
       animationKey: 'idle',
       fps: 3,
       start: 1,
       end: 1,
     },
-    { 
+    {
       animationKey: 'movement',
       fps: 10,
       start: 1,
       end: 5,
-      repeat: -1
-    }
-  ]
+      repeat: -1,
+    },
+  ],
 };
 
 class Tomato extends Entity {
@@ -49,21 +49,16 @@ class Tomato extends Entity {
       frameConfig: {
         frameWidth: 96,
         frameHeight: 96,
-      }
+      },
     });
   }
-  
+
   constructor(scene: Phaser.Scene, x: number, y: number) {
-    super(
-      scene, 
-      x, 
-      y,
-      entityConfig
-    );
+    super(scene, x, y, entityConfig);
 
     this.scene = scene;
-    
-    this.playAnimation("movement");
+
+    this.playAnimation('movement');
   }
 }
 
