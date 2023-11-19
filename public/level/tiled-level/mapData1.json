@@ -630,38 +630,38 @@
                 {
                  "height":0,
                  "id":22,
-                 "name":"enemy",
+                 "name":"hedgehog",
                  "point":true,
                  "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":0,
-                 "x":-104,
-                 "y":455
+                 "x":714.181818181818,
+                 "y":451.969696969697
                 }, 
                 {
                  "height":0,
                  "id":23,
-                 "name":"enemy",
+                 "name":"bat",
                  "point":true,
                  "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":0,
-                 "x":481,
-                 "y":422
+                 "x":-863.727272727273,
+                 "y":-143.818181818182
                 }, 
                 {
                  "height":0,
                  "id":24,
-                 "name":"enemy",
+                 "name":"tomato",
                  "point":true,
                  "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":0,
-                 "x":1059,
-                 "y":414
+                 "x":416.575757575758,
+                 "y":389.757575757576
                 }],
          "opacity":1,
          "type":"objectgroup",
