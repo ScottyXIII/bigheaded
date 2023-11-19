@@ -7,21 +7,34 @@ const KEY = 'hedgehog';
 const entityConfig = {
   name: 'hedgehog',
   spriteSheetKey: 'hedgehog',
-  keepUprightStratergy: keepUprightStratergies.INSTANT,
+  keepUprightStratergy: keepUprightStratergies.SPRINGY,
   facing: -1,
-  scale: 2.5,
+  scale: 2,
   maxSpeedX: 3,
-  maxSpeedY: 10,
+  maxSpeedY: 15,
   physicsConfig: {
     bounce: 1,
     shape: {
       type: 'rectangle',
-      width: 125, 
-      height: 50 
+      width: 48, 
+      height: 48 
     },
   },
-  collideCallback: (_sensorName: string, _gameObject: Phaser.GameObjects.Container) => {
-  },
+  animations: [
+    { 
+      animationKey: 'idle',
+      fps: 3,
+      start: 1,
+      end: 1,
+    },
+    { 
+      animationKey: 'sleeping',
+      fps: 3,
+      start: 12,
+      end: 15,
+      repeat: -1
+    }
+  ]
 };
 
 class Hedgehog extends Entity {
@@ -35,7 +48,7 @@ class Hedgehog extends Entity {
       }
     });
   }
-  
+
   constructor(scene: Phaser.Scene, x: number, y: number) {
     super(
       scene, 
@@ -46,12 +59,7 @@ class Hedgehog extends Entity {
 
     this.scene = scene;
     
-    this.scene.anims.create({
-      key: 'sleeping',
-      frameRate: 3,
-      frames: this.scene.anims.generateFrameNumbers(KEY, { frames: [ 12, 13, 14, 15 ] }),
-      repeat: -1
-    });
+    this.playAnimation("idle");
   }
   
   update(_time: number, delta: number) {
@@ -62,7 +70,7 @@ class Hedgehog extends Entity {
     const closeToStationary = motion <= 0.1;
     const { player } = this.scene;
 
-    if (closeToStationary) {
+    if (closeToStationary && player != undefined) {
       const vectorTowardsPlayer = {
         x: player.torso.x - this.x,
         y: player.torso.y - this.y,

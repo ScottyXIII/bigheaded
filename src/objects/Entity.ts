@@ -14,10 +14,18 @@ type physicsConfigType = {
   bounce?: number,
 };
 
+type animationsConfigType = {
+  animationKey: string, 
+  start: number, 
+  end: number, 
+  fps: number,
+  repeat?: number | undefined
+};
+
 type EntityConfigType = {
   name: string,
   spriteSheetKey: string,
-  animations?: object,
+  animations?: animationsConfigType[],
   physicsConfig?: physicsConfigType,
   enableKeepUpright?: boolean,
   keepUprightStratergy?: string,
@@ -31,7 +39,7 @@ type EntityConfigType = {
 const defaultConfig = {
   name: 'entity',
   spriteSheetKey: 'player',
-  animations: {},
+  animations: [],
   keepUprightStratergy: keepUprightStratergies.NONE,
   facing: -1,
   scale: 1,
@@ -39,7 +47,6 @@ const defaultConfig = {
   maxSpeedX: 2,
   // eslint-disable-next-line no-unused-vars
   collideCallback: (_sensorName: string, _gameObject: Phaser.GameObjects.Container) => {
-    console.log(_sensorName, _gameObject);
   },
 };
 
@@ -109,8 +116,9 @@ class Entity extends Phaser.GameObjects.Container {
     ).setScale(scale);
     this.add(this.sprite);
 
+
     // animations
-    Object.entries(animations).forEach(([animationKey, { start, end, fps, repeat = -1 }]) => {
+    animations.forEach(({animationKey, start, end, fps, repeat = -1 }) => {
       this.scene.anims.create({
         key: this.getKey(animationKey),
         frameRate: fps,
@@ -126,7 +134,7 @@ class Entity extends Phaser.GameObjects.Container {
     this.scene.add.existing(this);
     
     // sensors
-    // @ts-ignore
+    // @ts-ignor
     const { Bodies, Body } = Phaser.Physics.Matter.Matter;
     // @ts-ignore
     const { width, height } = physicsConfig.shape;
@@ -138,7 +146,7 @@ class Entity extends Phaser.GameObjects.Container {
     this.hitbox.onCollideCallback = data => {collideCallback();}; 
 
     this.gameObject.setExistingBody(compoundBody);
-    this.gameObject.setPosition(x, 311);
+    this.gameObject.setPosition(x, y);
     this.sprite.setScale(this.scale);
   }
 
@@ -160,10 +168,12 @@ class Entity extends Phaser.GameObjects.Container {
   }
 
   update() {
-
     const { player } = this.scene;
-    if (player.torso.x > this.x) this.facing = 1;
-    if (player.torso.x < this.x) this.facing = -1;
+    
+    if (player) {
+      if (player.torso.x > this.x) this.facing = 1;
+      if (player.torso.x < this.x) this.facing = -1;
+    }
 
     if (!this.gameObject.body) return;
 
