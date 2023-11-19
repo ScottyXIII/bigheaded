@@ -2,6 +2,9 @@ import * as Phaser from 'phaser';
 import keepUpright from '@/helpers/keepUpright';
 import matterAddImageEllipse from '@/helpers/matterAddImageEllipse';
 
+// @ts-ignore
+const { Bodies, Body } = Phaser.Physics.Matter.Matter;
+
 const HEAD_SCALE_MIN = 0.1;
 const HEAD_SCALE_MAX = 1.5;
 
@@ -11,6 +14,12 @@ class Ben2 extends Phaser.GameObjects.Container {
   public torso: Phaser.Physics.Matter.Image | undefined;
 
   public neck: Phaser.Types.Physics.Matter.MatterConstraintConfig;
+
+  public text;
+
+  public egg;
+
+  public gameObject;
 
   public headScale = HEAD_SCALE_MIN;
 
@@ -26,33 +35,67 @@ class Ben2 extends Phaser.GameObjects.Container {
 
     this.scene = scene;
 
-    this.torso = matterAddImageEllipse(scene, x, y + 50, 'body2', undefined, {
-      width: 75,
-      height: 100,
-      friction: 0,
-      restitution: 0.1,
-    });
-    this.torso.setScale(0.75);
+    // this.torso = matterAddImageEllipse(scene, 0, 0 + 50, 'body2', undefined, {
+    //   width: 75,
+    //   height: 100,
+    //   friction: 0,
+    //   restitution: 0.1,
+    // });
+    // this.torso.setScale(0.75);
+    // this.add(this.torso);
 
-    this.head = matterAddImageEllipse(scene, x, y, 'head2', undefined, {
-      width: 340,
-      height: 270,
-      friction: 0,
-    });
-    this.head.setScale(HEAD_SCALE_MIN);
+    // this.head = matterAddImageEllipse(scene, 0, 0, 'head2', undefined, {
+    //   width: 340,
+    //   height: 270,
+    //   friction: 0,
+    // });
+    // this.head.setScale(HEAD_SCALE_MIN);
+    // this.add(this.head);
 
-    this.neck = scene.matter.add.constraint(
-      this.head.body?.gameObject,
-      this.torso.body?.gameObject,
-      0,
-      0.5,
-      {
-        pointA: { x: 0, y: this.headScale * 140 },
-        pointB: { x: 0, y: -75 / 2 },
-        damping: 0,
-        angularStiffness: 0,
-      },
-    );
+    // this.neck = scene.matter.add.constraint(
+    //   this.head.body?.gameObject,
+    //   this.torso.body?.gameObject,
+    //   0,
+    //   0.5,
+    //   {
+    //     pointA: { x: 0, y: this.headScale * 140 },
+    //     pointB: { x: 0, y: -75 / 2 },
+    //     damping: 0,
+    //     angularStiffness: 0,
+    //   },
+    // );
+
+    // this.text = this.scene.add
+    //   .text(0, 0 - 40, 'BEN2', {
+    //     font: '12px Arial',
+    //     align: 'center',
+    //     color: 'white',
+    //   })
+    //   .setOrigin(0.5);
+    // this.add(this.text);
+
+    const width = 75;
+    const height = 100;
+    this.egg = matterAddImageEllipse(scene, 0, 0, 'body2', undefined, {
+      width,
+      height,
+    });
+    const groundSenesor = Bodies.rectangle(0, height / 2, width - 2, 3, {
+      isSensor: true,
+      label: 'groundSenesor',
+    });
+    Body.translate(this.egg.body, { x: width / 2, y: height / 2 });
+    Body.translate(groundSenesor, { x: width / 2, y: height / 2 });
+    const compoundBody = Body.create({
+      // parts: [this.head.body, this.torso.body, groundSenesor],
+      parts: [this.egg.body, groundSenesor],
+    });
+    // this.gameObject = this.scene.matter.add.gameObject(this);
+    // this.scene.add.existing(this);
+    // @ts-ignore
+    this.egg.setExistingBody(compoundBody);
+    // @ts-ignore
+    this.egg.setPosition(x, y);
   }
 
   update(_time: number, delta: number) {
@@ -68,8 +111,12 @@ class Ben2 extends Phaser.GameObjects.Container {
       this.head.rotation,
     );
 
-    keepUpright(this.head.body, { multiplier: 0.005, avDampener: 0.999 });
-    keepUpright(this.torso.body, { multiplier: 0.05, avDampener: 0.999 });
+    // keepUpright(this.head.body, { multiplier: 0.005, avDampener: 0.999 });
+    // keepUpright(this.torso.body, { multiplier: 0.05, avDampener: 0.999 });
+    // keepUpright(this.egg.body, {
+    //   multiplier: 0.05,
+    //   avDampener: 0.999,
+    // });
   }
 
   enactAction(action: number) {
