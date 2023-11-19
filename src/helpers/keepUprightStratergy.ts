@@ -1,7 +1,8 @@
 import * as Phaser from 'phaser';
-import keepUprightStratergies from '@/objects/Enums/Physics';
+import KeepUprightStratergies from '@/objects/Enums/KeepUprightStratergies';
 
 const instant = (gameObject: Phaser.GameObjects.GameObject) => {
+  if (!gameObject.body) return;
   if (gameObject.body.inertia !== Infinity) {
     // save the old inertia
     gameObject.body.inertia_old = gameObject.body.inertia;
@@ -22,6 +23,7 @@ const springy = (gameObject: Phaser.GameObjects.GameObject) => {
 };
 
 const none = (gameObject: Phaser.GameObjects.GameObject) => {
+  if (!gameObject.body) return;
   if (gameObject.body.inertia_old && gameObject.body.inverseInertia_old) {
     gameObject.body.inertia = gameObject.body.inertia_old;
     gameObject.body.inverseInertia = gameObject.body.inverseInertia_old;
@@ -31,18 +33,18 @@ const none = (gameObject: Phaser.GameObjects.GameObject) => {
 };
 
 const keepUprightStratergy = (
-  stratergy: keepUprightStratergies,
+  stratergy: KeepUprightStratergies,
   gameObject,
 ) => {
-  if (stratergy === keepUprightStratergies.SPRINGY) {
+  if (stratergy === KeepUprightStratergies.SPRINGY) {
     springy(gameObject);
   }
 
-  if (stratergy === keepUprightStratergies.INSTANT) {
+  if (stratergy === KeepUprightStratergies.INSTANT) {
     instant(gameObject);
   }
 
-  if (stratergy === keepUprightStratergies.NONE) {
+  if (stratergy === KeepUprightStratergies.NONE) {
     none(gameObject);
   }
 };
