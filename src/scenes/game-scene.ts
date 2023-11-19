@@ -5,9 +5,11 @@ import toggleMusic from '@/helpers/toggleMusic';
 import Parallax, { ParallaxNames } from '@/objects/Parallax';
 import Level from '@/objects/Level';
 import SpinText from '@/objects/SpinText';
-import Ben1 from '@/objects/Ben1';
+import Ben1 from '@/objects/entities/Ben1';
+import Bat from '@/objects/entities/Bat';
+import Tomato from '@/objects/entities/Tomato';
 import Ball from '@/objects/Ball';
-import Hedgehog from '@/objects/Hedgehog';
+import Hedgehog from '@/objects/entities/Hedgehog';
 import Audio from '@/objects/Audio';
 import isDev from '@/helpers/isDev';
 import useLocalStorage from '@/helpers/useLocalStorage';
@@ -49,8 +51,22 @@ const levelConfig = {
       autoSpawn: true,
     },
     {
-      tiledObjectName: 'enemy',
+      tiledObjectName: 'hedgehog',
       classFactory: Hedgehog,
+      maxSize: 10,
+      runChildUpdate: true,
+      autoSpawn: true,
+    },
+    {
+      tiledObjectName: 'bat',
+      classFactory: Bat,
+      maxSize: 10,
+      runChildUpdate: true,
+      autoSpawn: true,
+    },
+    {
+      tiledObjectName: 'tomato',
+      classFactory: Tomato,
       maxSize: 10,
       runChildUpdate: true,
       autoSpawn: true,
@@ -88,8 +104,6 @@ class GameScene extends Phaser.Scene {
 
   private audio: Audio | undefined;
 
-  private enemy: Hedgehog | undefined;
-
   public player: Ben1 | undefined;
 
   constructor() {
@@ -125,7 +139,6 @@ class GameScene extends Phaser.Scene {
     this.parallax.update();
 
     this.player = this.level.spawners.player.getChildren()[0] as Ben1;
-    this.enemy?.update();
     smoothMoveCameraTowards(this, this.player.torso, 0.9);
   }
 }
