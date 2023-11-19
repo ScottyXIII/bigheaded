@@ -7,6 +7,7 @@ import Level from '@/objects/Level';
 import SpinText from '@/objects/SpinText';
 import Ben1 from '@/objects/Ben1';
 import Ball from '@/objects/Ball';
+import Hedgehog from '@/objects/Hedgehog';
 import Audio from '@/objects/Audio';
 import isDev from '@/helpers/isDev';
 import useLocalStorage from '@/helpers/useLocalStorage';
@@ -80,6 +81,8 @@ class GameScene extends Phaser.Scene {
 
   private audio: Audio | undefined;
 
+  private enemy: Hedgehog | undefined;
+
   constructor() {
     super('scene-game');
   }
@@ -88,6 +91,7 @@ class GameScene extends Phaser.Scene {
     Parallax.preload(this, parallaxName);
     Level.preload(this, levelConfig);
     Audio.preload(this, soundConfig);
+    Hedgehog.preload(this);
   }
 
   create() {
@@ -99,7 +103,8 @@ class GameScene extends Phaser.Scene {
     this.parallax = new Parallax(this, parallaxName);
     this.level = new Level(this, levelConfig);
     this.audio = new Audio(this, soundConfig);
-
+    this.enemy = new Hedgehog(this, -500, 125);
+    
     this.audio.playAudio('music2');
     toggleMusic(this); // attaches listener to mute button
     const [isMute] = useLocalStorage('isMute', false);
@@ -110,6 +115,7 @@ class GameScene extends Phaser.Scene {
     if (!this.parallax || !this.level) return;
 
     this.parallax.update();
+    this.enemy?.update();
 
     const player = this.level.spawners.player.getChildren()[0] as Ben1;
     smoothMoveCameraTowards(this, player.torso, 0.9);
