@@ -48,6 +48,13 @@ const levelConfig = {
       runChildUpdate: false,
       autoSpawn: true,
     },
+    {
+      tiledObjectName: 'enemy',
+      classFactory: Hedgehog,
+      maxSize: 10,
+      runChildUpdate: true,
+      autoSpawn: true,
+    },
   ],
 };
 
@@ -83,7 +90,7 @@ class GameScene extends Phaser.Scene {
 
   private enemy: Hedgehog | undefined;
 
-  public player;
+  public player: Ben1 | undefined;
 
   constructor() {
     super('scene-game');
@@ -99,13 +106,12 @@ class GameScene extends Phaser.Scene {
   create() {
     // toggle debug GFX
     if (isDev) this.input.keyboard?.on('keydown-CTRL', () => toggleDebug(this));
-
+    
     this.matter.add.mouseSpring();
 
     this.parallax = new Parallax(this, parallaxName);
     this.level = new Level(this, levelConfig);
     this.audio = new Audio(this, soundConfig);
-    this.enemy = new Hedgehog(this, -500, 125);
 
     this.audio.playAudio('music2');
     toggleMusic(this); // attaches listener to mute button
