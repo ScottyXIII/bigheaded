@@ -1,5 +1,4 @@
 import * as Phaser from 'phaser';
-import Entity from '@/objects/Entity';
 import keepUprightStratergies from '@/objects/Enums/Physics';
 
 const instant = (gameObject: Phaser.GameObjects.GameObject) => {

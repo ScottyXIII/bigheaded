@@ -10,15 +10,18 @@ const entityConfig = {
   keepUprightStratergy: keepUprightStratergies.INSTANT,
   facing: -1,
   scale: 2.5,
+  maxSpeedX: 3,
+  maxSpeedY: 10,
   physicsConfig: {
     bounce: 1,
     shape: {
       type: 'rectangle',
       width: 125, 
       height: 50 
-    }
+    },
   },
-  collideCallback: () => {},
+  collideCallback: (_sensorName: string, _gameObject: Phaser.GameObjects.Container) => {
+  },
 };
 
 class Hedgehog extends Entity {
@@ -29,12 +32,10 @@ class Hedgehog extends Entity {
       frameConfig: {
         frameWidth: 24,
         frameHeight: 24,
-        startFrame: 0,
-        endFrame: 18
       }
     });
   }
-
+  
   constructor(scene: Phaser.Scene, x: number, y: number) {
     super(
       scene, 
@@ -45,23 +46,32 @@ class Hedgehog extends Entity {
 
     this.scene = scene;
     
-    this.sprite = this.scene.add.sprite(
-      x,
-      y,
-      this.name,
-    ).setScale(11);
-    
     this.scene.anims.create({
       key: 'sleeping',
       frameRate: 3,
       frames: this.scene.anims.generateFrameNumbers(KEY, { frames: [ 12, 13, 14, 15 ] }),
       repeat: -1
     });
-    this.sprite.play("sleeping");
   }
-
+  
   update(_time: number, delta: number) {
     super.update();
+    const { angularVelocity } = this.gameObject.body;
+    const speed = Math.hypot(this.gameObject.body.velocity.x, this.gameObject.body.velocity.y);
+    const motion = speed + Math.abs(angularVelocity);
+    const closeToStationary = motion <= 0.1;
+    const { player } = this.scene;
+
+    if (closeToStationary) {
+      const vectorTowardsPlayer = {
+        x: player.torso.x - this.x,
+        y: player.torso.y - this.y,
+      };
+      this.gameObject.setVelocity?.(
+        vectorTowardsPlayer.x < 0 ? -this.maxSpeedX : this.maxSpeedX,
+        -this.maxSpeedY,
+      );
+    }
   }
 }
 

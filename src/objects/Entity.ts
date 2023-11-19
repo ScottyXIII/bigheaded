@@ -7,12 +7,6 @@ const craftpixOffset = {
   y: -7,
 };
 
-const findOtherBody = (thisSensorId: number, collisionData) => {
-  const bodies = [collisionData.bodyA, collisionData.bodyB];
-  const other = bodies.find(({id}) => id !== thisSensorId);
-  return other;
-};
-
 type physicsConfigType = {
   shape: Phaser.Types.Physics.Matter.MatterSetBodyConfig,
   chamfer?: Phaser.Types.Physics.Matter.MatterChamferConfig
@@ -30,6 +24,8 @@ type EntityConfigType = {
   facing: number,
   scale: number,
   collideCallback?: Function,
+  maxSpeedX?: number,
+  maxSpeedY?: number,
 };
 
 const defaultConfig = {
@@ -39,8 +35,12 @@ const defaultConfig = {
   keepUprightStratergy: keepUprightStratergies.NONE,
   facing: -1,
   scale: 1,
+  maxSpeedY: 2,
+  maxSpeedX: 2,
   // eslint-disable-next-line no-unused-vars
-  collideCallback: (_sensorName: string, _gameObject: Phaser.GameObjects.Container) => {},
+  collideCallback: (_sensorName: string, _gameObject: Phaser.GameObjects.Container) => {
+    console.log(_sensorName, _gameObject);
+  },
 };
 
 class Entity extends Phaser.GameObjects.Container {
@@ -57,6 +57,10 @@ class Entity extends Phaser.GameObjects.Container {
 
   protected hitbox;
 
+  protected maxSpeedX: number;
+ 
+  protected maxSpeedY: number;
+
   constructor (scene: Phaser.Scene, x: number, y: number, config: EntityConfigType)
   {
     super(scene, x, y);
@@ -70,11 +74,15 @@ class Entity extends Phaser.GameObjects.Container {
       facing,
       scale,
       collideCallback,
+      maxSpeedX, 
+      maxSpeedY
     } = {...defaultConfig, ...config};
   
     this.scale = scale;
     this.scene = scene;
     this.name = name;
+    this.maxSpeedX = maxSpeedX;
+    this.maxSpeedY = maxSpeedY;
     this.keepUprightStratergy = keepUprightStratergy;
     this.facing = facing;
 
@@ -123,23 +131,11 @@ class Entity extends Phaser.GameObjects.Container {
     // @ts-ignore
     const { width, height } = physicsConfig.shape;
     this.hitbox = Bodies.rectangle(0, 0, width, height, { ...physicsConfig, label: 'Entity' });
-    const left = Bodies.circle(-width/2, 0, 4, { isSensor: true, label: 'left' });
-    const right = Bodies.circle(width/2, 0, 4, { isSensor: true, label: 'right' });
-    const top = Bodies.circle(0, -height/2, 4, { isSensor: true, label: 'top' });
-    const bottom = Bodies.rectangle(0, height/2, width-2,3, { isSensor: true, label: 'bottom' });
     const compoundBody = Body.create({
-      parts: [this.hitbox, left, right, top, bottom],
+      parts: [this.hitbox],
     });
 
-    // when a collsion happens / ends then add / delete the id from the Set
-    left.onCollideCallback = data =>  {const other = findOtherBody(left.id, data); this.sensorData.left.add(other.id); collideCallback('left', other); }
-    left.onCollideEndCallback = data => this.sensorData.left.delete(findOtherBody(left.id, data).id);
-    right.onCollideCallback = data =>  {const other = findOtherBody(right.id, data); this.sensorData.right.add(other.id); collideCallback('right', other); }
-    right.onCollideEndCallback = data => this.sensorData.right.delete(findOtherBody(right.id, data).id);
-    top.onCollideCallback = data =>  this.sensorData.top.add(findOtherBody(top.id, data).id);
-    top.onCollideEndCallback = data => this.sensorData.top.delete(findOtherBody(top.id, data).id);
-    bottom.onCollideCallback = data =>  this.sensorData.bottom.add(findOtherBody(bottom.id, data).id);
-    bottom.onCollideEndCallback = data => this.sensorData.bottom.delete(findOtherBody(bottom.id, data).id);
+    this.hitbox.onCollideCallback = data => {collideCallback();}; 
 
     this.gameObject.setExistingBody(compoundBody);
     this.gameObject.setPosition(x, 311);
@@ -164,6 +160,11 @@ class Entity extends Phaser.GameObjects.Container {
   }
 
   update() {
+
+    const { player } = this.scene;
+    if (player.torso.x > this.x) this.facing = 1;
+    if (player.torso.x < this.x) this.facing = -1;
+
     if (!this.gameObject.body) return;
 
     this.flipXSprite(this.facing === -1);

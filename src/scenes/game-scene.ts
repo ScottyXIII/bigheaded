@@ -83,6 +83,8 @@ class GameScene extends Phaser.Scene {
 
   private enemy: Hedgehog | undefined;
 
+  public player;
+
   constructor() {
     super('scene-game');
   }
@@ -104,7 +106,7 @@ class GameScene extends Phaser.Scene {
     this.level = new Level(this, levelConfig);
     this.audio = new Audio(this, soundConfig);
     this.enemy = new Hedgehog(this, -500, 125);
-    
+
     this.audio.playAudio('music2');
     toggleMusic(this); // attaches listener to mute button
     const [isMute] = useLocalStorage('isMute', false);
@@ -115,10 +117,10 @@ class GameScene extends Phaser.Scene {
     if (!this.parallax || !this.level) return;
 
     this.parallax.update();
-    this.enemy?.update();
 
-    const player = this.level.spawners.player.getChildren()[0] as Ben1;
-    smoothMoveCameraTowards(this, player.torso, 0.9);
+    this.player = this.level.spawners.player.getChildren()[0] as Ben1;
+    this.enemy?.update();
+    smoothMoveCameraTowards(this, this.player.torso, 0.9);
   }
 }
 
