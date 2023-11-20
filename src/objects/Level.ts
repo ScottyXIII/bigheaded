@@ -1,7 +1,4 @@
 import Phaser from 'phaser';
-import Ben1 from './Ben1';
-import SpinText from './SpinText';
-import Ball from './Ball';
 
 type LayerConfigType = {
   tiledLayerName: string;
@@ -10,13 +7,13 @@ type LayerConfigType = {
 
 type SpawnerConfigType = {
   tiledObjectName: string;
-  classFactory: Ben1 | SpinText | Ball; // any class
+  classFactory: Class; // any class
   maxSize: number;
   runChildUpdate: boolean;
   autoSpawn: boolean;
 };
 
-type LevelConfigType = {
+export type LevelConfigType = {
   tilesetPng: string;
   tiledMapJson: string;
   tileWidth: number;
@@ -44,7 +41,8 @@ class Level {
     scene.load.tilemapTiledJSON('level1', tiledMapJson);
     for (let i = 0; i < spawnerConfig.length; i += 1) {
       const { classFactory } = spawnerConfig[i];
-      classFactory.preload?.(scene);
+      // @ts-expect-error preload static bug
+      classFactory.preload(scene);
     }
   }
 
@@ -102,6 +100,7 @@ class Level {
         acc,
         { tiledObjectName, classFactory, maxSize, runChildUpdate, autoSpawn },
       ) => {
+        // @ts-expect-error not sure tbh
         const group = scene.add.group({
           maxSize,
           classType: classFactory,
