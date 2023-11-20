@@ -9,10 +9,10 @@
     "lint": "eslint . --ext .js,.ts,.cjs --fix && prettier --log-level silent --write \"**/*.{js,ts,md,json,html,css}\""
   },
   "devDependencies": {
-    "@types/node": "^20.9.1",
+    "@types/node": "^20.9.2",
     "@typescript-eslint/eslint-plugin": "^6.11.0",
     "@typescript-eslint/parser": "^6.11.0",
-    "eslint": "^8.53.0",
+    "eslint": "^8.54.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-import-resolver-alias": "^1.1.2",
