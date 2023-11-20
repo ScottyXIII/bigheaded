@@ -9,6 +9,7 @@ const attachFullscreen = () => {
         screenfull.request(el, { navigationUI: 'hide' });
       }
 
+      // because firefox doesnt support .lock ?
       // @ts-expect-error until https://github.com/microsoft/TypeScript-DOM-lib-generator/issues/1615 is closed
       window.screen.orientation.lock('landscape');
     });
