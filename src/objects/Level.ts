@@ -41,7 +41,7 @@ class Level {
     scene.load.tilemapTiledJSON('level1', tiledMapJson);
     for (let i = 0; i < spawnerConfig.length; i += 1) {
       const { classFactory } = spawnerConfig[i];
-      // @ts-expect-error preload static bug
+      // @ts-expect-error preload static bug - perhaps separate out the preload into new functionas to not pollute strong typed classes
       classFactory.preload(scene);
     }
   }
