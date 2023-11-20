@@ -58,10 +58,7 @@ class Entity extends Phaser.GameObjects.Container {
 
   protected sprite: Phaser.GameObjects.Sprite;
 
-  protected gameObject:
-    | Phaser.Physics.Matter.Image
-    | Phaser.Physics.Matter.Sprite
-    | Phaser.GameObjects.GameObject;
+  protected gameObject: Phaser.Physics.Matter.Image;
 
   protected hitbox;
 
@@ -126,7 +123,7 @@ class Entity extends Phaser.GameObjects.Container {
       .sprite(this.craftpixOffset.x, this.craftpixOffset.y, this.name)
       .setScale(scale);
     this.add(this.sprite);
-    
+
     // animations
     animations.forEach(({ animationKey, start, end, fps, repeat = -1 }) => {
       this.scene.anims.create({
@@ -142,7 +139,9 @@ class Entity extends Phaser.GameObjects.Container {
     this.playAnimation('idle');
 
     // container
-    this.gameObject = this.scene.matter.add.gameObject(this);
+    this.gameObject = this.scene.matter.add.gameObject(
+      this,
+    ) as Phaser.Physics.Matter.Image;
     this.scene.add.existing(this);
 
     // sensors
@@ -162,7 +161,7 @@ class Entity extends Phaser.GameObjects.Container {
     this.gameObject.setPosition(x, y);
     this.sprite.setScale(this.scale);
   }
-  
+
   getKey(key: string) {
     return `${this.name}_${key}`;
   }
@@ -182,6 +181,9 @@ class Entity extends Phaser.GameObjects.Container {
 
   update() {
     if (!this.gameObject.body) return;
+    if (this.gameObject.body instanceof Phaser.Physics.Arcade.Body) return;
+    if (this.gameObject.body instanceof Phaser.Physics.Arcade.StaticBody)
+      return;
 
     this.flipXSprite(this.facing === -1);
 
@@ -194,14 +196,14 @@ class Entity extends Phaser.GameObjects.Container {
     );
     const motion = speed + Math.abs(angularVelocity);
     const closeToStationary = motion <= 0.1;
-    
+
     // @ts-ignore
     const { player } = this.scene;
-    
+
     if (player === undefined) {
       return;
     }
-    
+
     if (player.torso.x > this.x) this.facing = 1;
     if (player.torso.x < this.x) this.facing = -1;
 
