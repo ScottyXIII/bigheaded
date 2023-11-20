@@ -1,8 +1,8 @@
 /* eslint-disable no-unused-vars */
 export enum KeepUprightStratergies {
-  NONE = "NONE",
+  NONE = 'NONE',
   INSTANT = 'INSTANT',
-  SPRINGY = 'SPRINGY'
+  SPRINGY = 'SPRINGY',
 }
 
 export default KeepUprightStratergies;
