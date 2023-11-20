@@ -1,15 +1,8 @@
 import Phaser from 'phaser';
-import keepUprightStratergies from '@/objects/Enums/Physics';
 import keepUpright from '@/helpers/keepUprightStratergy';
+import KeepUprightStratergies from '@/objects/Enums/KeepUprightStratergies';
 
-type physicsConfigType = {
-  shape: Phaser.Types.Physics.Matter.MatterSetBodyConfig;
-  chamfer?: Phaser.Types.Physics.Matter.MatterChamferConfig;
-  frictionAir?: number;
-  bounce?: number;
-};
-
-type animationsConfigType = {
+type AnimationsConfigType = {
   animationKey: string;
   start: number;
   end: number;
@@ -20,14 +13,14 @@ type animationsConfigType = {
 type EntityConfigType = {
   name: string;
   spriteSheetKey: string;
-  animations?: animationsConfigType[];
-  physicsConfig?: physicsConfigType;
-  keepUprightStratergy?: string;
+  animations: AnimationsConfigType[];
+  physicsConfig?: Phaser.Types.Physics.Matter.MatterSetBodyConfig;
+  keepUprightStratergy: KeepUprightStratergies;
   facing: number;
   scale: number;
   collideCallback?: Function;
-  maxSpeedX?: number;
-  maxSpeedY?: number;
+  maxSpeedX: number;
+  maxSpeedY: number;
   craftpixOffset?: {
     x: number;
     y: number;
@@ -39,7 +32,7 @@ const defaultConfig = {
   name: 'entity',
   spriteSheetKey: 'player',
   animations: [],
-  keepUprightStratergy: keepUprightStratergies.NONE,
+  keepUprightStratergy: KeepUprightStratergies.NONE,
   facing: -1,
   scale: 1,
   maxSpeedY: 2,
@@ -75,6 +68,8 @@ class Entity extends Phaser.GameObjects.Container {
   protected maxSpeedX: number;
 
   protected maxSpeedY: number;
+
+  protected target: Phaser.GameObjects.Container | undefined;
 
   protected craftpixOffset: {
     x: number;
@@ -131,7 +126,7 @@ class Entity extends Phaser.GameObjects.Container {
       .sprite(this.craftpixOffset.x, this.craftpixOffset.y, this.name)
       .setScale(scale);
     this.add(this.sprite);
-
+    
     // animations
     animations.forEach(({ animationKey, start, end, fps, repeat = -1 }) => {
       this.scene.anims.create({
@@ -153,11 +148,8 @@ class Entity extends Phaser.GameObjects.Container {
     // sensors
     const { bodies: Bodies, body: Body } = scene.matter;
     // @ts-ignore
-    const { width, height } = physicsConfig.shape;
-    this.hitbox = Bodies.rectangle(0, 0, width, height, {
-      ...physicsConfig,
-      label: 'Entity',
-    });
+    const { width, height } = physicsConfig;
+    this.hitbox = Bodies.rectangle(0, 0, width, height, physicsConfig);
     const compoundBody = Body.create({
       parts: [this.hitbox],
     });
@@ -170,7 +162,7 @@ class Entity extends Phaser.GameObjects.Container {
     this.gameObject.setPosition(x, y);
     this.sprite.setScale(this.scale);
   }
-
+  
   getKey(key: string) {
     return `${this.name}_${key}`;
   }
@@ -202,13 +194,14 @@ class Entity extends Phaser.GameObjects.Container {
     );
     const motion = speed + Math.abs(angularVelocity);
     const closeToStationary = motion <= 0.1;
+    
     // @ts-ignore
     const { player } = this.scene;
-
+    
     if (player === undefined) {
       return;
     }
-
+    
     if (player.torso.x > this.x) this.facing = 1;
     if (player.torso.x < this.x) this.facing = -1;
 

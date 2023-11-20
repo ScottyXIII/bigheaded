@@ -1,6 +1,6 @@
 import * as Phaser from 'phaser';
 import Entity from '@/objects/entities/Entity';
-import keepUprightStratergies from '@/objects/Enums/Physics';
+import keepUprightStratergies from '@/objects/Enums/KeepUprightStratergies';
 
 const KEY = 'tomato';
 
@@ -17,12 +17,9 @@ const entityConfig = {
     y: -35,
   },
   physicsConfig: {
-    bounce: 1,
-    shape: {
-      type: 'rectangle',
-      width: 24,
-      height: 24,
-    },
+    type: 'rectangle',
+    width: 24,
+    height: 24,
   },
   animations: [
     {

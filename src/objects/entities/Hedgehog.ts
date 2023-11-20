@@ -1,6 +1,6 @@
 import * as Phaser from 'phaser';
 import Entity from '@/objects/entities/Entity';
-import keepUprightStratergies from '@/objects/Enums/Physics';
+import keepUprightStratergies from '@/objects/Enums/KeepUprightStratergies';
 
 const KEY = 'hedgehog';
 
@@ -13,12 +13,9 @@ const entityConfig = {
   maxSpeedX: 1,
   maxSpeedY: 2,
   physicsConfig: {
-    bounce: 1,
-    shape: {
-      type: 'rectangle',
-      width: 70,
-      height: 48,
-    },
+    type: 'rectangle',
+    width: 70,
+    height: 48,
   },
   animations: [
     {

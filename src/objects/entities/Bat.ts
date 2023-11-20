@@ -1,6 +1,6 @@
 import * as Phaser from 'phaser';
 import Entity from '@/objects/entities/Entity';
-import keepUprightStratergies from '@/objects/Enums/Physics';
+import keepUprightStratergies from '@/objects/Enums/KeepUprightStratergies';
 
 const KEY = 'bat';
 
@@ -14,12 +14,9 @@ const entityConfig = {
   maxSpeedY: 2,
   constantMotion: true,
   physicsConfig: {
-    bounce: 1,
-    shape: {
-      type: 'rectangle',
-      width: 32,
-      height: 32,
-    },
+    type: 'rectangle',
+    width: 32,
+    height: 32,
   },
   animations: [
     {
