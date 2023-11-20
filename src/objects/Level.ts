@@ -7,7 +7,8 @@ type LayerConfigType = {
 
 type SpawnerConfigType = {
   tiledObjectName: string;
-  classFactory: Class; // any class
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  classFactory: Function; // scene.add.group expects the classType to be Function
   maxSize: number;
   runChildUpdate: boolean;
   autoSpawn: boolean;
@@ -100,7 +101,6 @@ class Level {
         acc,
         { tiledObjectName, classFactory, maxSize, runChildUpdate, autoSpawn },
       ) => {
-        // @ts-expect-error not sure tbh
         const group = scene.add.group({
           maxSize,
           classType: classFactory,
