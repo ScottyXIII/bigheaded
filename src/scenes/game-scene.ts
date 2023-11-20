@@ -16,7 +16,7 @@ import Audio from '@/objects/Audio';
 const parallaxName: ParallaxNames = 'supermountaindusk';
 
 const levelConfig = {
-  tilesetPng: './level/tileset/tileset1.png',
+  tilesetPng: './level/tileset/demo-tileset.png',
   tiledMapJson: './level/tiled-level/test-flat.json',
   tileWidth: 32,
   tileHeight: 32,
