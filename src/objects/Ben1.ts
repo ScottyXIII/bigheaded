@@ -70,7 +70,7 @@ class Ben1 extends Phaser.GameObjects.Container {
 
     const xyForce = { x: action / 10, y: 0 };
 
-    // @ts-ignore
+    // @ts-expect-error we down know TS that well yet
     Phaser.Physics.Matter.Matter.Body.applyForce(
       this.torso.body,
       this.torso.getCenter(),

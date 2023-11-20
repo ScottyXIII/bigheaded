@@ -5,7 +5,7 @@ import attachFullscreen from './helpers/fullscreen';
 import './style.css';
 
 window.onload = () => {
-  // @ts-ignore
+  // @ts-expect-error wtf
   window.game = new Phaser.Game(config);
 
   attachFullscreen();

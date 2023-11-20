@@ -1,4 +1,7 @@
 import Phaser from 'phaser';
+import Ben1 from './Ben1';
+import SpinText from './SpinText';
+import Ball from './Ball';
 
 type LayerConfigType = {
   tiledLayerName: string;
@@ -7,7 +10,7 @@ type LayerConfigType = {
 
 type SpawnerConfigType = {
   tiledObjectName: string;
-  classFactory: any; // any class
+  classFactory: Ben1 | SpinText | Ball; // any class
   maxSize: number;
   runChildUpdate: boolean;
   autoSpawn: boolean;
