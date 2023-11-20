@@ -43,8 +43,8 @@ const defaultConfig = {
     y: 0,
   },
   collideCallback: (
-    _sensorName: string, // eslint-disable-line no-unused-vars
-    _gameObject: Phaser.GameObjects.Container, // eslint-disable-line no-unused-vars
+    _sensorName: string, // eslint-disable-line @typescript-eslint/no-unused-vars
+    _gameObject: Phaser.GameObjects.Container, // eslint-disable-line @typescript-eslint/no-unused-vars
   ) => {},
 };
 
