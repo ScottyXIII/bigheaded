@@ -20,7 +20,7 @@ const entityConfig: EntityConfigType = {
     type: 'rectangle',
     width: 75,
     height: 75,
-    // chamfer: 1,
+    chamfer: { radius: 20 },
   },
   animations: [
     {
