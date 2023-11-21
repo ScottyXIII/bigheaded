@@ -1,4 +1,5 @@
 import Phaser from 'phaser';
+import { PhaserMatterImage } from '@/types';
 import keepUpright from '@/helpers/keepUprightStratergy';
 import KeepUprightStratergies from '@/objects/Enums/KeepUprightStratergies';
 
@@ -58,7 +59,7 @@ class Entity extends Phaser.GameObjects.Container {
 
   protected sprite: Phaser.GameObjects.Sprite;
 
-  protected gameObject: Phaser.Physics.Matter.Image;
+  protected gameObject: PhaserMatterImage;
 
   protected hitbox;
 
@@ -141,7 +142,7 @@ class Entity extends Phaser.GameObjects.Container {
     // container
     this.gameObject = this.scene.matter.add.gameObject(
       this,
-    ) as Phaser.Physics.Matter.Image;
+    ) as PhaserMatterImage;
     this.scene.add.existing(this);
 
     // sensors
@@ -180,9 +181,6 @@ class Entity extends Phaser.GameObjects.Container {
   }
 
   moveTowards(x: number, y: number) {
-    if (!this.gameObject.body) return;
-    if (this.gameObject.body instanceof Phaser.Physics.Arcade.StaticBody) return;
-
     // face towords vector
     if (x > this.x) this.facing = 1;
     if (x < this.x) this.facing = -1;
@@ -208,11 +206,6 @@ class Entity extends Phaser.GameObjects.Container {
   }
 
   update() {
-    if (!this.gameObject.body) return;
-    if (this.gameObject.body instanceof Phaser.Physics.Arcade.Body) return;
-    if (this.gameObject.body instanceof Phaser.Physics.Arcade.StaticBody)
-      return;
-
     this.flipXSprite(this.facing === -1);
 
     keepUpright(this.keepUprightStratergy, this.gameObject);
