@@ -11,7 +11,7 @@ type AnimationsConfigType = {
   repeat?: number | undefined;
 };
 
-type EntityConfigType = {
+export type EntityConfigType = {
   name: string;
   spriteSheetKey: string;
   animations: AnimationsConfigType[];
@@ -59,7 +59,7 @@ class Entity extends Phaser.GameObjects.Container {
 
   protected sprite: Phaser.GameObjects.Sprite;
 
-  protected gameObject: PhaserMatterImage;
+  public gameObject: PhaserMatterImage;
 
   protected hitbox;
 

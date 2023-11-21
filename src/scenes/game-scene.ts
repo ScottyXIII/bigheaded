@@ -10,7 +10,7 @@ import Parallax, { ParallaxNames } from '@/objects/Parallax';
 import Level, { LevelConfigType } from '@/objects/Level';
 import SpinText from '@/objects/SpinText';
 import Ben1 from '@/objects/entities/Ben1';
-import Ben2 from '@/objects/entities/Ben2';
+import Ben3 from '@/objects/entities/Ben3';
 import Bat from '@/objects/entities/Bat';
 import Tomato from '@/objects/entities/Tomato';
 import Ball from '@/objects/Ball';
@@ -42,7 +42,7 @@ const levelConfig: LevelConfigType = {
     },
     {
       tiledObjectName: 'player',
-      classFactory: Ben2,
+      classFactory: Ben3,
       maxSize: 1,
       runChildUpdate: true,
       autoSpawn: true,
@@ -108,8 +108,6 @@ class GameScene extends Phaser.Scene {
 
   private audio: Audio | undefined;
 
-  public player: Ben1 | undefined;
-
   constructor() {
     super('scene-game');
   }
@@ -145,8 +143,8 @@ class GameScene extends Phaser.Scene {
 
   jump() {
     if (!this.level) return;
-    const player = this.level.spawners.player.getChildren()[0] as Ben2;
-    player.enactAction(-100);
+    const player = this.level.spawners.player.getChildren()[0] as Ben3;
+    // player.enactAction(-100);
   }
 
   update() {
@@ -154,9 +152,9 @@ class GameScene extends Phaser.Scene {
 
     this.parallax.update();
 
-    const player = this.level.spawners.player.getChildren()[0] as Ben2;
-    player.enactAction(1);
-    smoothMoveCameraTowards(this, player.egg, 0.8);
+    const player = this.level.spawners.player.getChildren()[0] as Ben3;
+    smoothMoveCameraTowards(this, player.gameObject, 0.8);
+    // player.enactAction(1);
 
     const [myNum, setMyNum] = useLocalStorage('testNum', 0);
     setMyNum(myNum + 1);
