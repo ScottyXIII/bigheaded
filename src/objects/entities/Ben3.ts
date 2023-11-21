@@ -30,6 +30,10 @@ const entityConfig: EntityConfigType = {
       end: 3,
     },
   ],
+  plugins: [
+    (scene, self) => keepUpright(self), //
+    (scene, self) => moveTowards(self, scene.player), //
+  ],
 };
 
 class Ben3 extends Entity {
@@ -50,6 +54,10 @@ class Ben3 extends Entity {
     this.scene = scene;
 
     this.playAnimation('idle');
+  }
+
+  move() {
+    console.log(this.scene);
   }
 }
 

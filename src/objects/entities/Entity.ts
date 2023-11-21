@@ -184,7 +184,7 @@ class Entity extends Phaser.GameObjects.Container {
   }
 
   moveTowards(x: number, y: number) {
-    // face towords vector
+    // face towards vector
     if (x > this.x) this.facing = 1;
     if (x < this.x) this.facing = -1;
 

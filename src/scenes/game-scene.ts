@@ -144,6 +144,7 @@ class GameScene extends Phaser.Scene {
     if (!this.level) return;
     const player = this.level.spawners.player.getChildren()[0] as Ben3;
     // player.enactAction(-100);
+    player.move();
   }
 
   update() {
@@ -154,6 +155,7 @@ class GameScene extends Phaser.Scene {
     const player = this.level.spawners.player.getChildren()[0] as Ben3;
     smoothMoveCameraTowards(this, player.gameObject, 0.8);
     // player.enactAction(1);
+    player.move();
 
     const [myNum, setMyNum] = useLocalStorage('testNum', 0);
     setMyNum(myNum + 1);
