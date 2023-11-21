@@ -8,32 +8,26 @@ const entityConfig: EntityConfigType = {
   name: KEY,
   spriteSheetKey: KEY,
   keepUprightStratergy: keepUprightStratergies.SPRINGY,
-  facing: -1,
-  scale: 1.5,
+  facing: 1,
+  scale: 1,
   maxSpeedX: 2,
   maxSpeedY: 8,
   craftpixOffset: {
     x: 0,
-    y: -35,
+    y: 0,
   },
   physicsConfig: {
     type: 'rectangle',
-    width: 24,
-    height: 24,
+    width: 75,
+    height: 75,
+    // chamfer: 1,
   },
   animations: [
     {
       animationKey: 'idle',
-      fps: 3,
-      start: 1,
-      end: 1,
-    },
-    {
-      animationKey: 'movement',
-      fps: 10,
-      start: 1,
-      end: 5,
-      repeat: -1,
+      fps: 5,
+      start: 0,
+      end: 3,
     },
   ],
 };
@@ -42,10 +36,10 @@ class Ben3 extends Entity {
   static preload(scene: Phaser.Scene) {
     scene.load.spritesheet({
       key: KEY,
-      url: './object/enemies/tomato.png',
+      url: './object/ben3/body-animation.png',
       frameConfig: {
-        frameWidth: 96,
-        frameHeight: 96,
+        frameWidth: 75,
+        frameHeight: 75,
       },
     });
   }
@@ -55,7 +49,7 @@ class Ben3 extends Entity {
 
     this.scene = scene;
 
-    this.playAnimation('movement');
+    this.playAnimation('idle');
   }
 }
 
