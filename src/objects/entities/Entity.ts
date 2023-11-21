@@ -145,14 +145,14 @@ class Entity extends Phaser.GameObjects.Container {
 
     // sensors
     const { bodies: Bodies, body: Body } = scene.matter;
-    // @ts-ignore
+    // @ts-expect-error todo
     const { width, height } = physicsConfig;
     this.hitbox = Bodies.rectangle(0, 0, width, height, physicsConfig);
     const compoundBody = Body.create({
       parts: [this.hitbox],
     });
 
-    // @ts-ignore
+    // @ts-expect-error todo
     this.hitbox.onCollideCallback = data => {
       collideCallback(data);
     }; // Do we want left/right/top/down sensors like the last game?
@@ -187,7 +187,6 @@ class Entity extends Phaser.GameObjects.Container {
     this.flipXSprite(this.facing === -1);
 
     keepUpright(this.keepUprightStratergy, this.gameObject);
-    // @ts-ignore
     const { angularVelocity } = this.gameObject.body;
     const speed = Math.hypot(
       this.gameObject.body.velocity.x,
@@ -196,7 +195,7 @@ class Entity extends Phaser.GameObjects.Container {
     const motion = speed + Math.abs(angularVelocity);
     const closeToStationary = motion <= 0.1;
 
-    // @ts-ignore
+    // @ts-expect-error todo
     const { player } = this.scene;
 
     if (player === undefined) {
