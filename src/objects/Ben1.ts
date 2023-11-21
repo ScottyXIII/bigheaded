@@ -4,9 +4,9 @@ const HEAD_SCALE_MIN = 0.15;
 const HEAD_SCALE_MAX = 1.5;
 
 class Ben1 extends Phaser.GameObjects.Container {
-  public head: Phaser.GameObjects.Image | undefined;
+  public head: Phaser.Physics.Matter.Image;
 
-  public torso: Phaser.GameObjects.Image | undefined;
+  public torso: Phaser.Physics.Matter.Image;
 
   public headScale = HEAD_SCALE_MIN;
 
@@ -67,15 +67,14 @@ class Ben1 extends Phaser.GameObjects.Container {
 
   enactAction(action: number) {
     if (!this.torso) return;
+    if (!this.torso.body) return;
+    if (this.torso.body instanceof Phaser.Physics.Arcade.Body) return;
+    if (this.torso.body instanceof Phaser.Physics.Arcade.StaticBody) return;
 
     const xyForce = { x: action / 10, y: 0 };
 
-    // @ts-ignore
-    Phaser.Physics.Matter.Matter.Body.applyForce(
-      this.torso.body,
-      this.torso.getCenter(),
-      xyForce,
-    );
+    const { body: Body } = this.scene.matter;
+    Body.applyForce(this.torso.body, this.torso.getCenter(), xyForce);
   }
 }
 
