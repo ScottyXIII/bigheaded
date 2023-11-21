@@ -1,6 +1,7 @@
 import * as Phaser from 'phaser';
 // import keepUpright from '@/helpers/keepUpright';
 import matterAddImageEllipse from '@/helpers/matterAddImageEllipse';
+import { PhaserMatterImage } from '@/types';
 
 const HEAD_SCALE_MIN = 0.1;
 const HEAD_SCALE_MAX = 1.5;
@@ -8,13 +9,13 @@ const HEAD_SCALE_MAX = 1.5;
 class Ben2 extends Phaser.GameObjects.Container {
   public head: Phaser.Physics.Matter.Image | undefined;
 
-  public torso: Phaser.Physics.Matter.Image | undefined;
+  public torso: PhaserMatterImage;
 
   // public neck: Phaser.Types.Physics.Matter.MatterConstraintConfig;
 
   // public text;
 
-  public egg;
+  public egg: PhaserMatterImage;
 
   // public gameObject;
 
@@ -32,14 +33,14 @@ class Ben2 extends Phaser.GameObjects.Container {
 
     this.scene = scene;
 
-    // this.torso = matterAddImageEllipse(scene, 0, 0 + 50, 'body2', undefined, {
-    //   width: 75,
-    //   height: 100,
-    //   friction: 0,
-    //   restitution: 0.1,
-    // });
-    // this.torso.setScale(0.75);
-    // this.add(this.torso);
+    this.torso = matterAddImageEllipse(scene, 0, 0 + 50, 'body2', undefined, {
+      width: 75,
+      height: 100,
+      friction: 0,
+      restitution: 0.1,
+    });
+    this.torso.setScale(0.75);
+    this.add(this.torso);
 
     // this.head = matterAddImageEllipse(scene, 0, 0, 'head2', undefined, {
     //   width: 340,
@@ -80,10 +81,6 @@ class Ben2 extends Phaser.GameObjects.Container {
       height,
     });
 
-    if (!this.egg.body) return;
-    if (this.egg.body instanceof Phaser.Physics.Arcade.Body) return;
-    if (this.egg.body instanceof Phaser.Physics.Arcade.StaticBody) return;
-
     const groundSenesor = Bodies.rectangle(0, height / 2, width - 2, 3, {
       isSensor: true,
       label: 'groundSenesor',
@@ -123,11 +120,6 @@ class Ben2 extends Phaser.GameObjects.Container {
   }
 
   enactAction(action: number) {
-    if (!this.torso) return;
-    if (!this.torso.body) return;
-    if (this.torso.body instanceof Phaser.Physics.Arcade.Body) return;
-    if (this.torso.body instanceof Phaser.Physics.Arcade.StaticBody) return;
-
     const xyForce = { x: action / 5000, y: 0 };
 
     const { body: Body } = this.scene.matter;

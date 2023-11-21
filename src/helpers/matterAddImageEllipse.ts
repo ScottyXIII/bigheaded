@@ -1,4 +1,5 @@
 import * as Phaser from 'phaser';
+import { PhaserMatterImage } from '@/types';
 
 type AdditionalOptionsType = {
   width: number;
@@ -25,7 +26,7 @@ const matterAddImageEllipse = (
     ...other,
   });
 
-  return ellipseGameObject as Phaser.Physics.Matter.Image;
+  return ellipseGameObject as PhaserMatterImage;
 };
 
 export default matterAddImageEllipse;
