@@ -3,7 +3,7 @@ import toggleDebug from '@/helpers/toggleDebug';
 import smoothMoveCameraTowards from '@/helpers/smoothMoveCameraTowards';
 import toggleMusic from '@/helpers/toggleMusic';
 import Parallax, { ParallaxNames } from '@/objects/Parallax';
-import Level from '@/objects/Level';
+import Level, { LevelConfigType } from '@/objects/Level';
 import SpinText from '@/objects/SpinText';
 import Ben1 from '@/objects/entities/Ben1';
 import Bat from '@/objects/entities/Bat';
@@ -16,7 +16,7 @@ import useLocalStorage from '@/helpers/useLocalStorage';
 
 const parallaxName: ParallaxNames = 'supermountaindusk';
 
-const levelConfig = {
+const levelConfig: LevelConfigType = {
   tilesetPng: './level/tileset/tileset1.png',
   tiledMapJson: './level/tiled-level/mapData1.json',
   tileWidth: 32,
@@ -118,6 +118,9 @@ class GameScene extends Phaser.Scene {
   }
 
   create() {
+    // @ts-expect-error nope
+    window.killSpinner();
+
     // toggle debug GFX
     if (isDev) this.input.keyboard?.on('keydown-CTRL', () => toggleDebug(this));
 
