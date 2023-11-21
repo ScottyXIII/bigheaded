@@ -7,15 +7,20 @@ import useLocalStorage from '@/helpers/useLocalStorage';
 import isDev from '@/helpers/isDev';
 
 import Parallax, { ParallaxNames } from '@/objects/Parallax';
-import Level from '@/objects/Level';
+import Level, { LevelConfigType } from '@/objects/Level';
 import SpinText from '@/objects/SpinText';
+import Ben1 from '@/objects/entities/Ben1';
 import Ben2 from '@/objects/Ben2';
+import Bat from '@/objects/entities/Bat';
+import Tomato from '@/objects/entities/Tomato';
 import Ball from '@/objects/Ball';
+import Hedgehog from '@/objects/entities/Hedgehog';
+
 import Audio from '@/objects/Audio';
 
 const parallaxName: ParallaxNames = 'supermountaindusk';
 
-const levelConfig = {
+const levelConfig: LevelConfigType = {
   tilesetPng: './level/tileset/demo-tileset.png',
   tiledMapJson: './level/tiled-level/test-flat.json',
   tileWidth: 32,
@@ -47,6 +52,27 @@ const levelConfig = {
       classFactory: Ball,
       maxSize: 10,
       runChildUpdate: false,
+      autoSpawn: true,
+    },
+    {
+      tiledObjectName: 'hedgehog',
+      classFactory: Hedgehog,
+      maxSize: 10,
+      runChildUpdate: true,
+      autoSpawn: true,
+    },
+    {
+      tiledObjectName: 'bat',
+      classFactory: Bat,
+      maxSize: 10,
+      runChildUpdate: true,
+      autoSpawn: true,
+    },
+    {
+      tiledObjectName: 'tomato',
+      classFactory: Tomato,
+      maxSize: 10,
+      runChildUpdate: true,
       autoSpawn: true,
     },
   ],
@@ -82,6 +108,8 @@ class GameScene extends Phaser.Scene {
 
   private audio: Audio | undefined;
 
+  public player: Ben1 | undefined;
+
   constructor() {
     super('scene-game');
   }
@@ -90,9 +118,13 @@ class GameScene extends Phaser.Scene {
     Parallax.preload(this, parallaxName);
     Level.preload(this, levelConfig);
     Audio.preload(this, soundConfig);
+    Hedgehog.preload(this);
   }
 
   create() {
+    // @ts-expect-error nope
+    window.killSpinner();
+
     // toggle debug GFX
     if (isDev) this.input.keyboard?.on('keydown-CTRL', () => toggleDebug(this));
 

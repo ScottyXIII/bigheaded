@@ -7,13 +7,14 @@ type LayerConfigType = {
 
 type SpawnerConfigType = {
   tiledObjectName: string;
-  classFactory: any; // any class
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  classFactory: Function; // scene.add.group expects the classType to be Function
   maxSize: number;
   runChildUpdate: boolean;
   autoSpawn: boolean;
 };
 
-type LevelConfigType = {
+export type LevelConfigType = {
   tilesetPng: string;
   tiledMapJson: string;
   tileWidth: number;
@@ -41,7 +42,8 @@ class Level {
     scene.load.tilemapTiledJSON('level1', tiledMapJson);
     for (let i = 0; i < spawnerConfig.length; i += 1) {
       const { classFactory } = spawnerConfig[i];
-      classFactory.preload?.(scene);
+      // @ts-expect-error preload static bug - perhaps separate out the preload into new functions to not pollute strong typed classes
+      classFactory.preload(scene);
     }
   }
 
