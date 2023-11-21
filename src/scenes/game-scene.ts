@@ -91,6 +91,9 @@ class GameScene extends Phaser.Scene {
   }
 
   create() {
+    // @ts-expect-error nope
+    window.killSpinner();
+
     // toggle debug GFX
     if (isDev) this.input.keyboard?.on('keydown-CTRL', () => toggleDebug(this));
 
