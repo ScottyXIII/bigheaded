@@ -2,7 +2,13 @@ import Phaser from 'phaser';
 import keepUpright from '@/helpers/keepUprightStratergy';
 import KeepUprightStratergies from '@/objects/Enums/KeepUprightStratergies';
 
-type AnimationsConfigType = Phaser.Types.Animations & {end:number}
+type AnimationsConfigType = {
+  animationKey: string;
+  start: number;
+  end: number;
+  fps: number;
+  repeat?: number | undefined;
+};
 
 type EntityConfigType = {
   name: string;
@@ -174,6 +180,9 @@ class Entity extends Phaser.GameObjects.Container {
   }
 
   moveTowards(x: number, y: number) {
+    if (!this.gameObject.body) return;
+    if (this.gameObject.body instanceof Phaser.Physics.Arcade.StaticBody) return;
+
     // face towords vector
     if (x > this.x) this.facing = 1;
     if (x < this.x) this.facing = -1;
