@@ -1,4 +1,4 @@
-import * as Phaser from 'phaser';
+import { PhaserMatterImage } from '@/types';
 import KeepUprightStratergies from '@/objects/Enums/KeepUprightStratergies';
 
 // const instant = (gameObject: Phaser.Physics.Matter.Image) => {
@@ -13,10 +13,7 @@ import KeepUprightStratergies from '@/objects/Enums/KeepUprightStratergies';
 //   }
 // };
 
-const springy = (gameObject: Phaser.Physics.Matter.Image) => {
-  if (!gameObject.body) return;
-  if (gameObject.body instanceof Phaser.Physics.Arcade.Body) return;
-  if (gameObject.body instanceof Phaser.Physics.Arcade.StaticBody) return;
+const springy = (gameObject: PhaserMatterImage) => {
   const twoPi = Math.PI * 2;
   const { angle, angularVelocity } = gameObject.body;
   gameObject.rotation %= twoPi; // modulo spins
@@ -37,7 +34,7 @@ const springy = (gameObject: Phaser.Physics.Matter.Image) => {
 
 const keepUprightStratergy = (
   stratergy: KeepUprightStratergies,
-  gameObject: Phaser.Physics.Matter.Image,
+  gameObject: PhaserMatterImage,
 ) => {
   if (stratergy === KeepUprightStratergies.SPRINGY) {
     springy(gameObject);

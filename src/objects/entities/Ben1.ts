@@ -39,8 +39,8 @@ class Ben1 extends Phaser.GameObjects.Container {
     this.head.setScale(HEAD_SCALE_MIN);
 
     this.neck = this.scene.matter.add.constraint(
-      this.head.body?.gameObject,
-      this.torso.body?.gameObject,
+      this.head.body.gameObject,
+      this.torso.body.gameObject,
       0,
       0.5,
       {
@@ -53,7 +53,6 @@ class Ben1 extends Phaser.GameObjects.Container {
   }
 
   update(_time: number, delta: number) {
-    if (!this.head || !this.torso || !this.neck) return;
     this.head.setScale(this.headScale);
     if (this.headScale > HEAD_SCALE_MAX) this.headScaleDirection = -1;
     if (this.headScale < HEAD_SCALE_MIN) this.headScaleDirection = 1;
@@ -66,11 +65,6 @@ class Ben1 extends Phaser.GameObjects.Container {
   }
 
   enactAction(action: number) {
-    if (!this.torso) return;
-    if (!this.torso.body) return;
-    if (this.torso.body instanceof Phaser.Physics.Arcade.Body) return;
-    if (this.torso.body instanceof Phaser.Physics.Arcade.StaticBody) return;
-
     const xyForce = { x: action / 10, y: 0 };
 
     const { body: Body } = this.scene.matter;

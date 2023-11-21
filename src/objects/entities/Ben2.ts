@@ -1,13 +1,13 @@
 import * as Phaser from 'phaser';
+import { PhaserMatterImage } from '@/types';
 // import keepUpright from '@/helpers/keepUpright';
 import matterAddImageEllipse from '@/helpers/matterAddImageEllipse';
-import { PhaserMatterImage } from '@/types';
 
 const HEAD_SCALE_MIN = 0.1;
 const HEAD_SCALE_MAX = 1.5;
 
 class Ben2 extends Phaser.GameObjects.Container {
-  public head: Phaser.Physics.Matter.Image | undefined;
+  public head: PhaserMatterImage;
 
   public torso: PhaserMatterImage;
 
