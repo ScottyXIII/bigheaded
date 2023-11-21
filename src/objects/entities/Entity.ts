@@ -2,13 +2,7 @@ import Phaser from 'phaser';
 import keepUpright from '@/helpers/keepUprightStratergy';
 import KeepUprightStratergies from '@/objects/Enums/KeepUprightStratergies';
 
-type AnimationsConfigType = {
-  animationKey: string;
-  start: number;
-  end: number;
-  fps: number;
-  repeat?: number | undefined;
-};
+type AnimationsConfigType = Phaser.Types.Animations & {end:number}
 
 type EntityConfigType = {
   name: string;
