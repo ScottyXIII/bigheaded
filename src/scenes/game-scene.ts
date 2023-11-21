@@ -9,7 +9,6 @@ import isDev from '@/helpers/isDev';
 import Parallax, { ParallaxNames } from '@/objects/Parallax';
 import Level, { LevelConfigType } from '@/objects/Level';
 import SpinText from '@/objects/SpinText';
-import Ben1 from '@/objects/entities/Ben1';
 import Ben3 from '@/objects/entities/Ben3';
 import Bat from '@/objects/entities/Bat';
 import Tomato from '@/objects/entities/Tomato';
