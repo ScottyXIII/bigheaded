@@ -15,7 +15,10 @@ export type EntityConfigType = {
   name: string;
   spriteSheetKey: string;
   animations: AnimationsConfigType[];
-  physicsConfig?: Phaser.Types.Physics.Matter.MatterSetBodyConfig;
+  physicsConfig?: MatterJS.IChamferableBodyDefinition & {
+    width: number;
+    height: number;
+  };
   keepUprightStratergy: KeepUprightStratergies;
   facing: number;
   scale: number;
