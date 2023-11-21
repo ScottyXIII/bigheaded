@@ -2222,6 +2222,18 @@
                  "width":0,
                  "x":-318,
                  "y":256
+                }, 
+                {
+                 "height":0,
+                 "id":27,
+                 "name":"bat",
+                 "point":true,
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":-487,
+                 "y":279
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -2230,7 +2242,7 @@
          "y":0
         }],
  "nextlayerid":8,
- "nextobjectid":27,
+ "nextobjectid":28,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.10.2",
