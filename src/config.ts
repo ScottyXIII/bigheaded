@@ -28,6 +28,9 @@ const config: Phaser.Types.Core.GameConfig = {
       ...(isDev && { debug }),
     },
   },
+  fps: {
+    forceSetTimeOut: true, // force matter js engine speed to be consistent across devices
+  },
   scene: [GameScene],
 };
 
