@@ -53,7 +53,6 @@ class Ben1 extends Phaser.GameObjects.Container {
 
   update(_time: number, delta: number) {
     if (!this.head || !this.torso || !this.neck) return;
-
     this.head.setScale(this.headScale);
     if (this.headScale > HEAD_SCALE_MAX) this.headScaleDirection = -1;
     if (this.headScale < HEAD_SCALE_MIN) this.headScaleDirection = 1;
