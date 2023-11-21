@@ -1,12 +1,13 @@
 import * as Phaser from 'phaser';
+import { PhaserMatterImage } from '@/types';
 
 const HEAD_SCALE_MIN = 0.15;
 const HEAD_SCALE_MAX = 1.5;
 
 class Ben1 extends Phaser.GameObjects.Container {
-  public head: Phaser.Physics.Matter.Image;
+  public head: PhaserMatterImage;
 
-  public torso: Phaser.Physics.Matter.Image;
+  public torso: PhaserMatterImage;
 
   public headScale = HEAD_SCALE_MIN;
 
@@ -28,13 +29,13 @@ class Ben1 extends Phaser.GameObjects.Container {
       shape: 'rectangle',
       friction: 0.005,
       restitution: 0.1,
-    });
+    }) as PhaserMatterImage;
 
     this.head = this.scene.matter.add.image(x, y, 'head1', undefined, {
       shape: 'circle',
       friction: 0.005,
       restitution: 1,
-    });
+    }) as PhaserMatterImage;
     this.head.setScale(HEAD_SCALE_MIN);
 
     this.neck = this.scene.matter.add.constraint(
