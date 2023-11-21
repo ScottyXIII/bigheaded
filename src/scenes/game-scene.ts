@@ -10,7 +10,7 @@ import Parallax, { ParallaxNames } from '@/objects/Parallax';
 import Level, { LevelConfigType } from '@/objects/Level';
 import SpinText from '@/objects/SpinText';
 import Ben1 from '@/objects/entities/Ben1';
-import Ben2 from '@/objects/Ben2';
+import Ben2 from '@/objects/entities/Ben2';
 import Bat from '@/objects/entities/Bat';
 import Tomato from '@/objects/entities/Tomato';
 import Ball from '@/objects/Ball';
