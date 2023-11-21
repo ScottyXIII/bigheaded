@@ -18,6 +18,7 @@ type EntityConfigType = {
   keepUprightStratergy: KeepUprightStratergies;
   facing: number;
   scale: number;
+  // eslint-disable-next-line @typescript-eslint/ban-types
   collideCallback?: Function;
   maxSpeedX: number;
   maxSpeedY: number;
@@ -178,6 +179,31 @@ class Entity extends Phaser.GameObjects.Container {
     }
   }
 
+  moveTowards(x: number, y: number) {
+    // face towords vector
+    if (x > this.x) this.facing = 1;
+    if (x < this.x) this.facing = -1;
+
+    const { angularVelocity } = this.gameObject.body;
+    const speed = Math.hypot(
+      this.gameObject.body.velocity.x,
+      this.gameObject.body.velocity.y,
+    );
+    const motion = speed + Math.abs(angularVelocity);
+    const closeToStationary = motion <= 0.1;
+
+    if (closeToStationary || this.constantMotion) {
+      const vectorTowardsEntity = {
+        x: x - this.x,
+        y: y - this.y,
+      };
+      this.gameObject.setVelocity?.(
+        vectorTowardsEntity.x < 0 ? -this.maxSpeedX : this.maxSpeedX,
+        vectorTowardsEntity.y < 0 ? -this.maxSpeedY : this.maxSpeedY,
+      );
+    }
+  }
+
   update() {
     if (!this.gameObject.body) return;
     if (this.gameObject.body instanceof Phaser.Physics.Arcade.Body) return;
@@ -187,33 +213,12 @@ class Entity extends Phaser.GameObjects.Container {
     this.flipXSprite(this.facing === -1);
 
     keepUpright(this.keepUprightStratergy, this.gameObject);
-    const { angularVelocity } = this.gameObject.body;
-    const speed = Math.hypot(
-      this.gameObject.body.velocity.x,
-      this.gameObject.body.velocity.y,
-    );
-    const motion = speed + Math.abs(angularVelocity);
-    const closeToStationary = motion <= 0.1;
 
     // @ts-expect-error todo
+    // ToDo: abstract player out and pass pos in via moveTowards func.
     const { player } = this.scene;
-
-    if (player === undefined) {
-      return;
-    }
-
-    if (player.torso.x > this.x) this.facing = 1;
-    if (player.torso.x < this.x) this.facing = -1;
-
-    if (closeToStationary || this.constantMotion) {
-      const vectorTowardsPlayer = {
-        x: player.torso.x - this.x,
-        y: player.torso.y - this.y,
-      };
-      this.gameObject.setVelocity?.(
-        vectorTowardsPlayer.x < 0 ? -this.maxSpeedX : this.maxSpeedX,
-        vectorTowardsPlayer.y < 0 ? -this.maxSpeedY : this.maxSpeedY,
-      );
+    if (player !== undefined) {
+      this.moveTowards(player.torso.x, player.torso.y);
     }
   }
 }
