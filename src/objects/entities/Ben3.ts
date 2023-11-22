@@ -30,6 +30,8 @@ const entityConfig: EntityConfigType = {
       end: 3,
     },
   ],
+  // not this pattern
+  // apply these inside ben3's update instead
   plugins: [
     (scene, self) => keepUpright(self), //
     (scene, self) => moveTowards(self, scene.player), //
