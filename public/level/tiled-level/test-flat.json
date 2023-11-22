@@ -2248,6 +2248,30 @@
           "width": 0,
           "x": -487,
           "y": 279
+        },
+        {
+          "height": 0,
+          "id": 28,
+          "name": "tomato",
+          "point": true,
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 0,
+          "x": -471.829892907031,
+          "y": 130.37404935589
+        },
+        {
+          "height": 0,
+          "id": 29,
+          "name": "hedgehog",
+          "point": true,
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 0,
+          "x": -372.497283873972,
+          "y": 133.478193388173
         }
       ],
       "opacity": 1,
@@ -2258,7 +2282,7 @@
     }
   ],
   "nextlayerid": 8,
-  "nextobjectid": 28,
+  "nextobjectid": 30,
   "orientation": "orthogonal",
   "renderorder": "right-down",
   "tiledversion": "1.10.2",
