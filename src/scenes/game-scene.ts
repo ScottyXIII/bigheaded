@@ -9,12 +9,14 @@ import isDev from '@/helpers/isDev';
 import Parallax, { ParallaxNames } from '@/objects/Parallax';
 import Level, { LevelConfigType } from '@/objects/Level';
 
-import SpinText from '@/objects/SpinText';
 import Ben3 from '@/objects/entities/Ben3';
 import Bat from '@/objects/entities/Bat';
 import Tomato from '@/objects/entities/Tomato';
-import Ball from '@/objects/Ball';
 import Hedgehog from '@/objects/entities/Hedgehog';
+
+import SpinText from '@/objects/SpinText';
+import Ball from '@/objects/Ball';
+import Skull from '@/objects/Skull';
 
 import Audio from '@/objects/Audio';
 
@@ -43,6 +45,13 @@ const levelConfig: LevelConfigType = {
     {
       tiledObjectName: 'player',
       classFactory: Ben3,
+      maxSize: 1,
+      runChildUpdate: true,
+      autoSpawn: true,
+    },
+    {
+      tiledObjectName: 'goal',
+      classFactory: Skull,
       maxSize: 1,
       runChildUpdate: true,
       autoSpawn: true,
@@ -110,6 +119,8 @@ class GameScene extends Phaser.Scene {
 
   public player: Ben3 | undefined;
 
+  public goal: Skull | undefined;
+
   constructor() {
     super('scene-game');
   }
@@ -140,6 +151,7 @@ class GameScene extends Phaser.Scene {
     this.game.sound.mute = isMute; // set game mute to saved ls value
 
     this.player = this.level.spawners.player.getChildren()[0] as Ben3;
+    this.goal = this.level.spawners.goal.getChildren()[0] as Skull;
 
     // keyboard controls
     const spaceKey = this.input?.keyboard?.addKey(
