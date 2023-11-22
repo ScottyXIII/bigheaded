@@ -8,7 +8,7 @@ import keepUpright, { KeepUprightStratergies } from '@/helpers/keepUpright';
 const KEY = 'ben3';
 
 const HEAD_SCALE_MIN = 0.1;
-// const HEAD_SCALE_MAX = 1.5;
+const HEAD_SCALE_MAX = 1.5;
 
 const entityConfig: EntityConfigType = {
   name: KEY,
@@ -36,7 +36,13 @@ const entityConfig: EntityConfigType = {
 };
 
 class Ben3 extends Entity {
-  public head: PhaserMatterImage;
+  protected head: PhaserMatterImage;
+
+  protected neck: Phaser.Types.Physics.Matter.MatterConstraintConfig;
+
+  public headScale = HEAD_SCALE_MIN;
+
+  private headScaleDirection = 1; // 1 or minus 1
 
   static preload(scene: Phaser.Scene) {
     scene.load.spritesheet({
@@ -64,19 +70,42 @@ class Ben3 extends Entity {
       friction: 0,
     });
     this.head.setScale(HEAD_SCALE_MIN);
-    this.add(this.head);
 
-    // now we have this.head and this.gameObject (compound Entity body)
+    this.neck = scene.matter.add.constraint(
+      this.head.body.gameObject,
+      this.gameObject.body.gameObject,
+      0,
+      0.5,
+      {
+        pointA: { x: 0, y: this.headScale * 140 },
+        pointB: { x: 0, y: -75 / 2 - 1 },
+        damping: 0,
+        angularStiffness: 0,
+      },
+    );
   }
 
-  update() {
-    super.update();
-    keepUpright(KeepUprightStratergies.SPRINGY, this.gameObject);
-    // perhaps use moveTowards to go to goal marker?
+  update(time: number, delta: number) {
+    super.update(time, delta);
 
+    keepUpright(KeepUprightStratergies.SPRINGY, this.gameObject);
+
+    // perhaps use moveTowards to go to goal marker?
     // constantMotion: false,
     // maxSpeedX: 2,
     // maxSpeedY: 8,
+
+    // head scaling stuff
+    this.head.setScale(this.headScale);
+    if (this.headScale > HEAD_SCALE_MAX) this.headScaleDirection = -1;
+    if (this.headScale < HEAD_SCALE_MIN) this.headScaleDirection = 1;
+
+    this.headScale += 0.00001 * this.headScaleDirection * delta;
+
+    // scale pointA position proportionally to headScale
+    this.neck.pointA = new Phaser.Math.Vector2(0, this.headScale * 140).rotate(
+      this.head.rotation,
+    );
   }
 }
 

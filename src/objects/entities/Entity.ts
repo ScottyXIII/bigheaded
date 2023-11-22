@@ -160,7 +160,8 @@ class Entity extends Phaser.GameObjects.Container {
     }
   }
 
-  update() {
+  update(time?: number, delta?: number) {
+    super.update(time, delta);
     this.flipXSprite(this.facing === -1);
   }
 }
