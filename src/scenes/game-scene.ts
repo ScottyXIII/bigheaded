@@ -14,7 +14,6 @@ import Bat from '@/objects/entities/Bat';
 import Tomato from '@/objects/entities/Tomato';
 import Hedgehog from '@/objects/entities/Hedgehog';
 
-import SpinText from '@/objects/SpinText';
 import Ball from '@/objects/Ball';
 import Skull from '@/objects/Skull';
 
@@ -24,24 +23,22 @@ const parallaxName: ParallaxNames = 'supermountaindusk';
 
 const levelConfig: LevelConfigType = {
   tilesetPng: './level/tileset/demo-tileset.png',
-  tiledMapJson: './level/tiled-level/test-flat.json',
+  tiledMapJson: './level/tiled-level/test-bumpy.json',
+  // tiledMapJson: './level/tiled-level/test-flat.json',
+
+  // tilesetPng: './level/tileset/tileset1.png',
+  // tiledMapJson: './level/tiled-level/mapData1.json',
+
   tileWidth: 32,
   tileHeight: 32,
   tileMargin: 0,
   tileSpacing: 0,
   layerConfig: [
-    { tiledLayerName: 'background', depth: 0 },
+    // { tiledLayerName: 'background', depth: 0 },
     { tiledLayerName: 'solidground', depth: 10 },
-    { tiledLayerName: 'foreground', depth: 20 },
+    // { tiledLayerName: 'foreground', depth: 20 },
   ],
   spawnerConfig: [
-    {
-      tiledObjectName: 'spin',
-      classFactory: SpinText,
-      maxSize: 1,
-      runChildUpdate: true,
-      autoSpawn: true,
-    },
     {
       tiledObjectName: 'player',
       classFactory: Ben3,
