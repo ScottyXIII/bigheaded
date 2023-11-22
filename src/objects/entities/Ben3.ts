@@ -116,11 +116,6 @@ class Ben3 extends Entity {
       this.sprite.stop();
     }
 
-    // perhaps use moveTowards to go to goal marker?
-    // constantMotion: false,
-    // maxSpeedX: 2,
-    // maxSpeedY: 8,
-
     // head scaling stuff
     this.head.setScale(this.headScale);
     if (this.headScale > HEAD_SCALE_MAX) this.headScaleDirection = -1;
