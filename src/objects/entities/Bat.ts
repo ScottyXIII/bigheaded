@@ -1,10 +1,11 @@
 import * as Phaser from 'phaser';
-import Entity from '@/objects/entities/Entity';
+import Entity, { EntityConfigType } from '@/objects/entities/Entity';
 import keepUpright, { KeepUprightStratergies } from '@/helpers/keepUpright';
+import moveTowards from '@/helpers/moveTowards';
 
 const KEY = 'bat';
 
-const entityConfig = {
+const entityConfig: EntityConfigType = {
   name: KEY,
   spriteSheetKey: KEY,
   facing: -1,
@@ -56,6 +57,7 @@ class Bat extends Entity {
 
   update() {
     keepUpright(KeepUprightStratergies.SPRINGY, this.gameObject);
+    // moveTowards(this, player);
   }
 }
 

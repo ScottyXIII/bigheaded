@@ -56,6 +56,7 @@ class Ben3 extends Entity {
     super.update(time, delta);
 
     keepUpright(KeepUprightStratergies.SPRINGY, this.gameObject);
+    // perhaps use moveTowards to go to goal marker?
   }
 }
 
