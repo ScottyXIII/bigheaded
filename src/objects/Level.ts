@@ -61,7 +61,7 @@ class Level {
     // load tiles
     this.level = scene.make.tilemap({ key: 'level1' });
     this.level.addTilesetImage(
-      'tiles',
+      'tiles', // this has to match the name of the tilesheet in Tiled
       'tileSheet',
       tileWidth,
       tileHeight,
