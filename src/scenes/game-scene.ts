@@ -141,8 +141,14 @@ class GameScene extends Phaser.Scene {
 
     this.player = this.level.spawners.player.getChildren()[0] as Ben3;
 
-    const canvas = document.querySelector('#game');
-    canvas?.addEventListener('click', this.jump.bind(this));
+    // keyboard controls
+    const spaceKey = this.input?.keyboard?.addKey(
+      Phaser.Input.Keyboard.KeyCodes.SPACE,
+    );
+    spaceKey?.on('down', this.jump.bind(this));
+
+    // touch tap mobile and mouse leftclick controls
+    this.input.on('pointerdown', this.jump.bind(this));
   }
 
   jump() {
