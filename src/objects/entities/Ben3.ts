@@ -86,15 +86,22 @@ class Ben3 extends Entity {
   }
 
   jump() {
-    // @ts-expect-error todo
-    this.gameObject.applyForce({ x: 0.5, y: -0.5 });
+    if (this.sensorData.bottom.size >= 1) {
+      // @ts-expect-error todo
+      this.gameObject.applyForce({ x: 0.5, y: -0.5 });
+    }
   }
 
   update(time: number, delta: number) {
     super.update(time, delta);
 
     if (this.sensorData.bottom.size >= 1) {
+      // touching the ground
       keepUpright(KeepUprightStratergies.SPRINGY, this.gameObject);
+      this.playAnimation('walk');
+    } else {
+      // airborne
+      this.sprite.stop();
     }
 
     // perhaps use moveTowards to go to goal marker?
