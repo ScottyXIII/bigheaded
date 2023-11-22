@@ -83,7 +83,7 @@ class Level {
     const staticbody = this.level.getObjectLayer('staticbody')?.objects || [];
     for (let i = 0; i < staticbody.length; i += 1) {
       const { x, y, polygon } = staticbody[i];
-      const poly = scene.add.polygon(0, 0, polygon, 0x0000ff, 0.5);
+      const poly = scene.add.polygon(0, 0, polygon, 0x0000ff, 0.25);
       const mb = scene.matter.add.gameObject(poly, {
         shape: { type: 'fromVerts', verts: polygon, flagInternal: true },
         isStatic: true,
