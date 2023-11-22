@@ -8,6 +8,8 @@ Game Off 2023
 
 ## Development
 
+`npm install` then `npm run dev`
+
 trello board: https://trello.com/b/njkSeDet/game-off-2023-bigheaded
 
 [How to use Tiled to edit levels](./Tiled.md)
