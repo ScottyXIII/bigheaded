@@ -1,13 +1,12 @@
 import * as Phaser from 'phaser';
 import Entity, { EntityConfigType } from '@/objects/entities/Entity';
-import keepUprightStratergies from '@/objects/Enums/KeepUprightStratergies';
+import keepUpright, { KeepUprightStratergies } from '@/helpers/keepUpright';
 
 const KEY = 'ben3';
 
 const entityConfig: EntityConfigType = {
   name: KEY,
   spriteSheetKey: KEY,
-  keepUprightStratergy: keepUprightStratergies.SPRINGY,
   facing: 1,
   scale: 1,
   maxSpeedX: 2,
@@ -32,10 +31,10 @@ const entityConfig: EntityConfigType = {
   ],
   // not this pattern
   // apply these inside ben3's update instead
-  plugins: [
-    (scene, self) => keepUpright(self), //
-    (scene, self) => moveTowards(self, scene.player), //
-  ],
+  // plugins: [
+  //   (scene, self) => keepUpright(self), //
+  //   (scene, self) => moveTowards(self, scene.player), //
+  // ],
 };
 
 class Ben3 extends Entity {
@@ -58,8 +57,10 @@ class Ben3 extends Entity {
     this.playAnimation('idle');
   }
 
-  move() {
-    console.log(this.scene);
+  update(time: number, delta: number) {
+    super.update(time, delta);
+
+    keepUpright(entityConfig.keepUprightStratergy, this.gameObject);
   }
 }
 

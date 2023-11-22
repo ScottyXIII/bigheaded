@@ -1,7 +1,6 @@
 import Phaser from 'phaser';
 import { PhaserMatterImage } from '@/types';
-import keepUpright from '@/helpers/keepUprightStratergy';
-import KeepUprightStratergies from '@/objects/Enums/KeepUprightStratergies';
+import keepUpright, { KeepUprightStratergies } from '@/helpers/keepUpright';
 
 type AnimationsConfigType = {
   animationKey: string;
@@ -19,7 +18,6 @@ export type EntityConfigType = {
     width: number;
     height: number;
   };
-  keepUprightStratergy: KeepUprightStratergies;
   facing: number;
   scale: number;
   // eslint-disable-next-line @typescript-eslint/ban-types
@@ -208,7 +206,8 @@ class Entity extends Phaser.GameObjects.Container {
     }
   }
 
-  update() {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  update(_time: number, _delta: number) {
     this.flipXSprite(this.facing === -1);
 
     keepUpright(this.keepUprightStratergy, this.gameObject);

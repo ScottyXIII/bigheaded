@@ -1,13 +1,12 @@
 import * as Phaser from 'phaser';
 import Entity from '@/objects/entities/Entity';
-import keepUprightStratergies from '@/objects/Enums/KeepUprightStratergies';
+import keepUpright, { KeepUprightStratergies } from '@/helpers/keepUpright';
 
 const KEY = 'tomato';
 
 const entityConfig = {
   name: KEY,
   spriteSheetKey: KEY,
-  keepUprightStratergy: keepUprightStratergies.SPRINGY,
   facing: -1,
   scale: 1.5,
   maxSpeedX: 2,
@@ -56,6 +55,10 @@ class Tomato extends Entity {
     this.scene = scene;
 
     this.playAnimation('movement');
+  }
+
+  update() {
+    keepUpright(KeepUprightStratergies.SPRINGY, this.gameObject);
   }
 }
 

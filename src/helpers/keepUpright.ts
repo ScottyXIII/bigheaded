@@ -1,5 +1,10 @@
 import { PhaserMatterImage } from '@/types';
-import KeepUprightStratergies from '@/objects/Enums/KeepUprightStratergies';
+
+export enum KeepUprightStratergies {
+  NONE = 'NONE',
+  INSTANT = 'INSTANT',
+  SPRINGY = 'SPRINGY',
+}
 
 // const instant = (gameObject: Phaser.Physics.Matter.Image) => {
 //   if (!gameObject.body) return;
@@ -32,7 +37,7 @@ const springy = (gameObject: PhaserMatterImage) => {
 //   }
 // };
 
-const keepUprightStratergy = (
+const keepUpright = (
   stratergy: KeepUprightStratergies,
   gameObject: PhaserMatterImage,
 ) => {
@@ -49,4 +54,4 @@ const keepUprightStratergy = (
   // }
 };
 
-export default keepUprightStratergy;
+export default keepUpright;

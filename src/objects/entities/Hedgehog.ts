@@ -1,13 +1,12 @@
 import * as Phaser from 'phaser';
 import Entity from '@/objects/entities/Entity';
-import keepUprightStratergies from '@/objects/Enums/KeepUprightStratergies';
+import keepUpright, { KeepUprightStratergies } from '@/helpers/keepUpright';
 
 const KEY = 'hedgehog';
 
 const entityConfig = {
   name: KEY,
   spriteSheetKey: KEY,
-  keepUprightStratergy: keepUprightStratergies.SPRINGY,
   facing: -1,
   scale: 2,
   maxSpeedX: 1,
@@ -52,6 +51,10 @@ class Hedgehog extends Entity {
     this.scene = scene;
 
     this.playAnimation('idle');
+  }
+
+  update() {
+    keepUpright(KeepUprightStratergies.SPRINGY, this.gameObject);
   }
 }
 
