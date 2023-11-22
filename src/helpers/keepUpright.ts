@@ -18,12 +18,12 @@ export enum KeepUprightStratergies {
 //   }
 // };
 
-const springy = (gameObject: PhaserMatterImage) => {
+const springy = (gameObject: PhaserMatterImage, strengthMultiplier: number) => {
   const twoPi = Math.PI * 2;
   const { angle, angularVelocity } = gameObject.body;
   gameObject.rotation %= twoPi; // modulo spins
   const diff = 0 - angle;
-  const newAv = angularVelocity + diff / 100;
+  const newAv = angularVelocity + diff * strengthMultiplier;
   gameObject.setAngularVelocity(newAv);
 };
 
@@ -40,9 +40,10 @@ const springy = (gameObject: PhaserMatterImage) => {
 const keepUpright = (
   stratergy: KeepUprightStratergies,
   gameObject: PhaserMatterImage,
+  strengthMultiplier = 0.01,
 ) => {
   if (stratergy === KeepUprightStratergies.SPRINGY) {
-    springy(gameObject);
+    springy(gameObject, strengthMultiplier);
   }
 
   // if (stratergy === KeepUprightStratergies.INSTANT) {

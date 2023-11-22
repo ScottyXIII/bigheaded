@@ -98,7 +98,7 @@ class Ben3 extends Entity {
 
     if (this.sensorData.bottom.size >= 1) {
       // touching the ground
-      keepUpright(KeepUprightStratergies.SPRINGY, this.gameObject);
+      keepUpright(KeepUprightStratergies.SPRINGY, this.gameObject, 0.1);
       moveTowards(
         this,
         { x: 40000, y: 500 },
