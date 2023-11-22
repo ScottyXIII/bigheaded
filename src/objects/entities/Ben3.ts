@@ -10,13 +10,10 @@ const entityConfig: EntityConfigType = {
   spriteSheetKey: KEY,
   facing: 1,
   scale: 1,
-  maxSpeedX: 2,
-  maxSpeedY: 8,
   craftpixOffset: {
     x: 0,
     y: 0,
   },
-  constantMotion: false,
   physicsConfig: {
     type: 'rectangle',
     width: 75,
@@ -57,6 +54,10 @@ class Ben3 extends Entity {
     super.update();
     keepUpright(KeepUprightStratergies.SPRINGY, this.gameObject);
     // perhaps use moveTowards to go to goal marker?
+
+    // constantMotion: false,
+    // maxSpeedX: 2,
+    // maxSpeedY: 8,
   }
 }
 

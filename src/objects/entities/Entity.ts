@@ -22,13 +22,10 @@ export type EntityConfigType = {
   scale: number;
   // eslint-disable-next-line @typescript-eslint/ban-types
   collideCallback?: Function;
-  maxSpeedX: number;
-  maxSpeedY: number;
   craftpixOffset: {
     x: number;
     y: number;
   };
-  constantMotion: boolean;
 };
 
 const defaultConfig: EntityConfigType = {
@@ -37,9 +34,6 @@ const defaultConfig: EntityConfigType = {
   animations: [],
   facing: -1,
   scale: 1,
-  maxSpeedY: 2,
-  maxSpeedX: 2,
-  constantMotion: false,
   craftpixOffset: {
     x: 0,
     y: 0,
@@ -53,7 +47,7 @@ const defaultConfig: EntityConfigType = {
 class Entity extends Phaser.GameObjects.Container {
   public scene: GameScene;
 
-  protected facing: number;
+  public facing: number;
 
   protected text: Phaser.GameObjects.Text | undefined;
 
@@ -63,18 +57,12 @@ class Entity extends Phaser.GameObjects.Container {
 
   protected hitbox;
 
-  protected maxSpeedX: number;
-
-  protected maxSpeedY: number;
-
   protected target: Phaser.GameObjects.Container | undefined;
 
   protected craftpixOffset: {
     x: number;
     y: number;
   };
-
-  protected constantMotion: boolean;
 
   constructor(
     scene: GameScene,
@@ -92,19 +80,13 @@ class Entity extends Phaser.GameObjects.Container {
       facing,
       scale,
       collideCallback,
-      maxSpeedX,
-      maxSpeedY,
-      constantMotion,
       craftpixOffset,
     } = { ...defaultConfig, ...config };
 
     this.scale = scale;
     this.scene = scene;
     this.name = name;
-    this.maxSpeedX = maxSpeedX;
-    this.maxSpeedY = maxSpeedY;
     this.craftpixOffset = craftpixOffset;
-    this.constantMotion = constantMotion;
     this.facing = facing;
 
     // text

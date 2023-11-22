@@ -11,13 +11,10 @@ const entityConfig: EntityConfigType = {
   spriteSheetKey: KEY,
   facing: -1,
   scale: 1.5,
-  maxSpeedX: 2,
-  maxSpeedY: 8,
   craftpixOffset: {
     x: 0,
     y: -35,
   },
-  constantMotion: false,
   physicsConfig: {
     type: 'rectangle',
     width: 24,
@@ -63,7 +60,11 @@ class Tomato extends Entity {
   update() {
     super.update();
     keepUpright(KeepUprightStratergies.SPRINGY, this.gameObject);
-    moveTowards(this, this.scene.player);
+    moveTowards(this, this.scene.player, {
+      constantMotion: false,
+      maxSpeedX: 2,
+      maxSpeedY: 8,
+    });
   }
 }
 
