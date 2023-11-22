@@ -60,6 +60,8 @@ class Hedgehog extends Entity {
   update() {
     super.update();
     keepUpright(KeepUprightStratergies.SPRINGY, this.gameObject);
+
+    if (!this.scene.player) return;
     moveTowards(this, this.scene.player, {
       constantMotion: true,
       maxSpeedX: 1,

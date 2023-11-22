@@ -13,7 +13,7 @@ export type MoveOptionsType = {
 
 const moveTowards = (
   that: Entity,
-  target: Entity | undefined,
+  target: { x: number; y: number },
   moveOptions: MoveOptionsType,
 ) => {
   if (!target) return;

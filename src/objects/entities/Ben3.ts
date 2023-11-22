@@ -4,6 +4,7 @@ import GameScene from '@/scenes/game-scene';
 import matterAddImageEllipse from '@/helpers/matterAddImageEllipse';
 import Entity, { EntityConfigType } from '@/objects/entities/Entity';
 import keepUpright, { KeepUprightStratergies } from '@/helpers/keepUpright';
+import moveTowards from '@/helpers/moveTowards';
 
 const KEY = 'ben3';
 
@@ -98,6 +99,15 @@ class Ben3 extends Entity {
     if (this.sensorData.bottom.size >= 1) {
       // touching the ground
       keepUpright(KeepUprightStratergies.SPRINGY, this.gameObject);
+      moveTowards(
+        this,
+        { x: 40000, y: 500 },
+        {
+          constantMotion: true,
+          maxSpeedX: 20,
+          maxSpeedY: 8,
+        },
+      );
       this.playAnimation('walk');
     } else {
       // airborne
