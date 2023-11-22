@@ -89,7 +89,9 @@ class Ben3 extends Entity {
   jump() {
     if (this.sensorData.bottom.size >= 1) {
       // @ts-expect-error todo
-      this.gameObject.applyForce({ x: 0.5, y: -0.5 });
+      this.gameObject.applyForce({ x: 0, y: -0.3 });
+      // @ts-expect-error todo
+      this.head.applyForce({ x: 0, y: -0.3 });
     }
   }
 
@@ -98,13 +100,13 @@ class Ben3 extends Entity {
 
     if (this.sensorData.bottom.size >= 1) {
       // touching the ground
-      keepUpright(KeepUprightStratergies.SPRINGY, this.gameObject, 0.1);
+      keepUpright(KeepUprightStratergies.SPRINGY, this.gameObject, 0.05);
       moveTowards(
         this,
         { x: 40000, y: 500 },
         {
           constantMotion: true,
-          maxSpeedX: 20,
+          maxSpeedX: 12,
           maxSpeedY: 8,
         },
       );
