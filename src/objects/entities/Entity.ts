@@ -1,6 +1,7 @@
 import Phaser from 'phaser';
 import { PhaserMatterImage } from '@/types';
 import GameScene from '@/scenes/game-scene';
+import findOtherBody from '@/helpers/findOtherBody';
 
 type AnimationsConfigType = {
   animationKey: string;
@@ -47,6 +48,8 @@ const defaultConfig: EntityConfigType = {
 class Entity extends Phaser.GameObjects.Container {
   public scene: GameScene;
 
+  public sensorData: Record<string, Set<number>>;
+
   public facing: number;
 
   protected text: Phaser.GameObjects.Text | undefined;
@@ -89,6 +92,10 @@ class Entity extends Phaser.GameObjects.Container {
     this.craftpixOffset = craftpixOffset;
     this.facing = facing;
 
+    this.sensorData = {
+      bottom: new Set(),
+    };
+
     // text
     this.text = this.scene.add
       .text(0, 0 - 25, this.name, {
@@ -125,13 +132,26 @@ class Entity extends Phaser.GameObjects.Container {
     ) as PhaserMatterImage;
     this.scene.add.existing(this);
 
-    // sensors
     const { bodies: Bodies, body: Body } = scene.matter;
     // @ts-expect-error todo
     const { width, height } = physicsConfig;
     this.hitbox = Bodies.rectangle(0, 0, width, height, physicsConfig);
+
+    // sensors
+    const bottom = Bodies.rectangle(0, height / 2, width - 2, 3, {
+      isSensor: true,
+      label: 'bottom',
+    });
+
+    bottom.onCollideCallback = (data: MatterJS.ICollisionPair) =>
+      // @ts-expect-error ???
+      this.sensorData.bottom.add(findOtherBody(bottom.id, data).id);
+    bottom.onCollideEndCallback = (data: MatterJS.ICollisionPair) =>
+      // @ts-expect-error ???
+      this.sensorData.bottom.delete(findOtherBody(bottom.id, data).id);
+
     const compoundBody = Body.create({
-      parts: [this.hitbox],
+      parts: [this.hitbox, bottom],
     });
 
     // @ts-expect-error todo

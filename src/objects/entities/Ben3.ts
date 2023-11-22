@@ -78,7 +78,7 @@ class Ben3 extends Entity {
       0.5,
       {
         pointA: { x: 0, y: this.headScale * 140 },
-        pointB: { x: 0, y: -75 / 2 - 1 },
+        pointB: { x: 0, y: -75 / 2 - 5 },
         damping: 0,
         angularStiffness: 0,
       },
@@ -93,7 +93,9 @@ class Ben3 extends Entity {
   update(time: number, delta: number) {
     super.update(time, delta);
 
-    keepUpright(KeepUprightStratergies.SPRINGY, this.gameObject);
+    if (this.sensorData.bottom.size >= 1) {
+      keepUpright(KeepUprightStratergies.SPRINGY, this.gameObject);
+    }
 
     // perhaps use moveTowards to go to goal marker?
     // constantMotion: false,
