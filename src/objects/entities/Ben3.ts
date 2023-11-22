@@ -60,7 +60,7 @@ class Ben3 extends Entity {
   update(time: number, delta: number) {
     super.update(time, delta);
 
-    keepUpright(entityConfig.keepUprightStratergy, this.gameObject);
+    keepUpright(KeepUprightStratergies.SPRINGY, this.gameObject);
   }
 }
 
