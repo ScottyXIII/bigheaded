@@ -4,10 +4,10 @@ import { PhaserMatterImage } from '@/types';
 import matterAddImageEllipse from '@/helpers/matterAddImageEllipse';
 
 const HEAD_SCALE_MIN = 0.1;
-const HEAD_SCALE_MAX = 1.5;
+// const HEAD_SCALE_MAX = 1.5;
 
 class Ben2 extends Phaser.GameObjects.Container {
-  public head: PhaserMatterImage;
+  // public head: PhaserMatterImage;
 
   public torso: PhaserMatterImage;
 
@@ -98,11 +98,11 @@ class Ben2 extends Phaser.GameObjects.Container {
   }
 
   update(_time: number, delta: number) {
-    if (!this.head || !this.torso) return;
+    if (!this.torso) return;
 
-    this.head.setScale(this.headScale);
-    if (this.headScale > HEAD_SCALE_MAX) this.headScaleDirection = -1;
-    if (this.headScale < HEAD_SCALE_MIN) this.headScaleDirection = 1;
+    // this.head.setScale(this.headScale);
+    // if (this.headScale > HEAD_SCALE_MAX) this.headScaleDirection = -1;
+    // if (this.headScale < HEAD_SCALE_MIN) this.headScaleDirection = 1;
 
     this.headScale += 0.00001 * this.headScaleDirection * delta;
 
