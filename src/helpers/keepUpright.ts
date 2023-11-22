@@ -1,5 +1,10 @@
-import * as Phaser from 'phaser';
-import KeepUprightStratergies from '@/objects/Enums/KeepUprightStratergies';
+import { PhaserMatterImage } from '@/types';
+
+export enum KeepUprightStratergies {
+  NONE = 'NONE',
+  INSTANT = 'INSTANT',
+  SPRINGY = 'SPRINGY',
+}
 
 // const instant = (gameObject: Phaser.Physics.Matter.Image) => {
 //   if (!gameObject.body) return;
@@ -13,15 +18,12 @@ import KeepUprightStratergies from '@/objects/Enums/KeepUprightStratergies';
 //   }
 // };
 
-const springy = (gameObject: Phaser.Physics.Matter.Image) => {
-  if (!gameObject.body) return;
-  if (gameObject.body instanceof Phaser.Physics.Arcade.Body) return;
-  if (gameObject.body instanceof Phaser.Physics.Arcade.StaticBody) return;
+const springy = (gameObject: PhaserMatterImage, strengthMultiplier: number) => {
   const twoPi = Math.PI * 2;
   const { angle, angularVelocity } = gameObject.body;
   gameObject.rotation %= twoPi; // modulo spins
   const diff = 0 - angle;
-  const newAv = angularVelocity + diff / 100;
+  const newAv = angularVelocity + diff * strengthMultiplier;
   gameObject.setAngularVelocity(newAv);
 };
 
@@ -35,12 +37,13 @@ const springy = (gameObject: Phaser.Physics.Matter.Image) => {
 //   }
 // };
 
-const keepUprightStratergy = (
+const keepUpright = (
   stratergy: KeepUprightStratergies,
-  gameObject: Phaser.Physics.Matter.Image,
+  gameObject: PhaserMatterImage,
+  strengthMultiplier = 0.01,
 ) => {
   if (stratergy === KeepUprightStratergies.SPRINGY) {
-    springy(gameObject);
+    springy(gameObject, strengthMultiplier);
   }
 
   // if (stratergy === KeepUprightStratergies.INSTANT) {
@@ -52,4 +55,4 @@ const keepUprightStratergy = (
   // }
 };
 
-export default keepUprightStratergy;
+export default keepUpright;

@@ -1,24 +1,28 @@
 import * as Phaser from 'phaser';
+
 import toggleDebug from '@/helpers/toggleDebug';
 import smoothMoveCameraTowards from '@/helpers/smoothMoveCameraTowards';
 import toggleMusic from '@/helpers/toggleMusic';
+import useLocalStorage from '@/helpers/useLocalStorage';
+import isDev from '@/helpers/isDev';
+
 import Parallax, { ParallaxNames } from '@/objects/Parallax';
 import Level, { LevelConfigType } from '@/objects/Level';
+
 import SpinText from '@/objects/SpinText';
-import Ben1 from '@/objects/entities/Ben1';
+import Ben3 from '@/objects/entities/Ben3';
 import Bat from '@/objects/entities/Bat';
 import Tomato from '@/objects/entities/Tomato';
 import Ball from '@/objects/Ball';
 import Hedgehog from '@/objects/entities/Hedgehog';
+
 import Audio from '@/objects/Audio';
-import isDev from '@/helpers/isDev';
-import useLocalStorage from '@/helpers/useLocalStorage';
 
 const parallaxName: ParallaxNames = 'supermountaindusk';
 
 const levelConfig: LevelConfigType = {
-  tilesetPng: './level/tileset/tileset1.png',
-  tiledMapJson: './level/tiled-level/mapData1.json',
+  tilesetPng: './level/tileset/demo-tileset.png',
+  tiledMapJson: './level/tiled-level/test-flat.json',
   tileWidth: 32,
   tileHeight: 32,
   tileMargin: 0,
@@ -38,7 +42,7 @@ const levelConfig: LevelConfigType = {
     },
     {
       tiledObjectName: 'player',
-      classFactory: Ben1,
+      classFactory: Ben3,
       maxSize: 1,
       runChildUpdate: true,
       autoSpawn: true,
@@ -104,7 +108,7 @@ class GameScene extends Phaser.Scene {
 
   private audio: Audio | undefined;
 
-  public player: Ben1 | undefined;
+  public player: Ben3 | undefined;
 
   constructor() {
     super('scene-game');
@@ -134,15 +138,33 @@ class GameScene extends Phaser.Scene {
     toggleMusic(this); // attaches listener to mute button
     const [isMute] = useLocalStorage('isMute', false);
     this.game.sound.mute = isMute; // set game mute to saved ls value
+
+    this.player = this.level.spawners.player.getChildren()[0] as Ben3;
+
+    // keyboard controls
+    const spaceKey = this.input?.keyboard?.addKey(
+      Phaser.Input.Keyboard.KeyCodes.SPACE,
+    );
+    spaceKey?.on('down', this.jump.bind(this));
+
+    // touch tap mobile and mouse leftclick controls
+    this.input.on('pointerdown', this.jump.bind(this));
+  }
+
+  jump() {
+    if (!this.level || !this.player) return;
+    this.player.jump();
   }
 
   update() {
-    if (!this.parallax || !this.level) return;
+    if (!this.parallax || !this.level || !this.player) return;
 
     this.parallax.update();
 
-    this.player = this.level.spawners.player.getChildren()[0] as Ben1;
-    smoothMoveCameraTowards(this, this.player.torso, 0.9);
+    smoothMoveCameraTowards(this, this.player.gameObject, 0.8);
+
+    const [myNum, setMyNum] = useLocalStorage('testNum', 0);
+    setMyNum(myNum + 1);
   }
 }
 

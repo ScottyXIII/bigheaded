@@ -1,7 +1,7 @@
 import Phaser from 'phaser';
 import { PhaserMatterImage } from '@/types';
-import keepUpright from '@/helpers/keepUprightStratergy';
-import KeepUprightStratergies from '@/objects/Enums/KeepUprightStratergies';
+import GameScene from '@/scenes/game-scene';
+import findOtherBody from '@/helpers/findOtherBody';
 
 type AnimationsConfigType = {
   animationKey: string;
@@ -11,35 +11,30 @@ type AnimationsConfigType = {
   repeat?: number | undefined;
 };
 
-type EntityConfigType = {
+export type EntityConfigType = {
   name: string;
   spriteSheetKey: string;
   animations: AnimationsConfigType[];
-  physicsConfig?: Phaser.Types.Physics.Matter.MatterSetBodyConfig;
-  keepUprightStratergy: KeepUprightStratergies;
+  physicsConfig?: MatterJS.IChamferableBodyDefinition & {
+    width: number;
+    height: number;
+  };
   facing: number;
   scale: number;
   // eslint-disable-next-line @typescript-eslint/ban-types
   collideCallback?: Function;
-  maxSpeedX: number;
-  maxSpeedY: number;
-  craftpixOffset?: {
+  craftpixOffset: {
     x: number;
     y: number;
   };
-  constantMotion?: boolean;
 };
 
-const defaultConfig = {
+const defaultConfig: EntityConfigType = {
   name: 'entity',
   spriteSheetKey: 'player',
   animations: [],
-  keepUprightStratergy: KeepUprightStratergies.NONE,
   facing: -1,
   scale: 1,
-  maxSpeedY: 2,
-  maxSpeedX: 2,
-  constantMotion: false,
   craftpixOffset: {
     x: 0,
     y: 0,
@@ -51,21 +46,19 @@ const defaultConfig = {
 };
 
 class Entity extends Phaser.GameObjects.Container {
-  protected keepUprightStratergy;
+  public scene: GameScene;
 
-  protected facing: number;
+  public sensorData: Record<string, Set<number>>;
+
+  public facing: number;
 
   protected text: Phaser.GameObjects.Text | undefined;
 
   protected sprite: Phaser.GameObjects.Sprite;
 
-  protected gameObject: PhaserMatterImage;
+  public gameObject: PhaserMatterImage;
 
   protected hitbox;
-
-  protected maxSpeedX: number;
-
-  protected maxSpeedY: number;
 
   protected target: Phaser.GameObjects.Container | undefined;
 
@@ -74,10 +67,8 @@ class Entity extends Phaser.GameObjects.Container {
     y: number;
   };
 
-  protected constantMotion: boolean;
-
   constructor(
-    scene: Phaser.Scene,
+    scene: GameScene,
     x: number,
     y: number,
     config: EntityConfigType,
@@ -89,25 +80,21 @@ class Entity extends Phaser.GameObjects.Container {
       spriteSheetKey,
       animations,
       physicsConfig,
-      keepUprightStratergy,
       facing,
       scale,
       collideCallback,
-      maxSpeedX,
-      maxSpeedY,
-      constantMotion,
       craftpixOffset,
     } = { ...defaultConfig, ...config };
 
     this.scale = scale;
     this.scene = scene;
     this.name = name;
-    this.maxSpeedX = maxSpeedX;
-    this.maxSpeedY = maxSpeedY;
     this.craftpixOffset = craftpixOffset;
-    this.constantMotion = constantMotion;
-    this.keepUprightStratergy = keepUprightStratergy;
     this.facing = facing;
+
+    this.sensorData = {
+      bottom: new Set(),
+    };
 
     // text
     this.text = this.scene.add
@@ -145,18 +132,31 @@ class Entity extends Phaser.GameObjects.Container {
     ) as PhaserMatterImage;
     this.scene.add.existing(this);
 
-    // sensors
     const { bodies: Bodies, body: Body } = scene.matter;
     // @ts-expect-error todo
     const { width, height } = physicsConfig;
     this.hitbox = Bodies.rectangle(0, 0, width, height, physicsConfig);
+
+    // sensors
+    const bottom = Bodies.rectangle(0, height / 2, width - 2, 3, {
+      isSensor: true,
+      label: 'bottom',
+    });
+
+    bottom.onCollideCallback = (data: MatterJS.ICollisionPair) =>
+      // @ts-expect-error ???
+      this.sensorData.bottom.add(findOtherBody(bottom.id, data).id);
+    bottom.onCollideEndCallback = (data: MatterJS.ICollisionPair) =>
+      // @ts-expect-error ???
+      this.sensorData.bottom.delete(findOtherBody(bottom.id, data).id);
+
     const compoundBody = Body.create({
-      parts: [this.hitbox],
+      parts: [this.hitbox, bottom],
     });
 
     // @ts-expect-error todo
     this.hitbox.onCollideCallback = data => {
-      collideCallback(data);
+      collideCallback?.(data);
     }; // Do we want left/right/top/down sensors like the last game?
     this.gameObject.setExistingBody(compoundBody);
     this.gameObject.setPosition(x, y);
@@ -180,42 +180,9 @@ class Entity extends Phaser.GameObjects.Container {
     }
   }
 
-  moveTowards(x: number, y: number) {
-    // face towords vector
-    if (x > this.x) this.facing = 1;
-    if (x < this.x) this.facing = -1;
-
-    const { angularVelocity } = this.gameObject.body;
-    const speed = Math.hypot(
-      this.gameObject.body.velocity.x,
-      this.gameObject.body.velocity.y,
-    );
-    const motion = speed + Math.abs(angularVelocity);
-    const closeToStationary = motion <= 0.1;
-
-    if (closeToStationary || this.constantMotion) {
-      const vectorTowardsEntity = {
-        x: x - this.x,
-        y: y - this.y,
-      };
-      this.gameObject.setVelocity?.(
-        vectorTowardsEntity.x < 0 ? -this.maxSpeedX : this.maxSpeedX,
-        vectorTowardsEntity.y < 0 ? -this.maxSpeedY : this.maxSpeedY,
-      );
-    }
-  }
-
-  update() {
+  update(time?: number, delta?: number) {
+    super.update(time, delta);
     this.flipXSprite(this.facing === -1);
-
-    keepUpright(this.keepUprightStratergy, this.gameObject);
-
-    // @ts-expect-error todo
-    // ToDo: abstract player out and pass pos in via moveTowards func.
-    const { player } = this.scene;
-    if (player !== undefined) {
-      this.moveTowards(player.torso.x, player.torso.y);
-    }
   }
 }
 

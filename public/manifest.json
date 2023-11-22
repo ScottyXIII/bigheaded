@@ -1,8 +1,8 @@
 {
   "name": "Bigheaded",
-  "short_name": "Big",
-  "description": "game off 2023",
-  "theme_color": "#ffffff",
+  "short_name": "Bigheaded - Game Off 2023",
+  "description": "Game Off 2023",
+  "theme_color": "#000000",
   "background_color": "#000000",
   "scope": "./",
   "start_url": "./",
