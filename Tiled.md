@@ -16,12 +16,6 @@ chmod +x Tiled-1.10.2_Linux_Qt-6_x86_64.AppImage
 ### Notes
 
 - staticbodies must be drawn with polygon tool, in the "staticbodies" object layer
-- staticbodies must not be concave (this caveat could be removed with extra dev)
-- staticbodies must be drawn starting from top left corner, with points going clockwise
-
-if these rules are not followed;
-
-the staticbody may break, it's shape could be wrong or wrongly positioned
 
 ## Texture Packer
 

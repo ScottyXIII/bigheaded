@@ -104,8 +104,8 @@ class Ben3 extends Entity {
       if (!this.scene.goal) return;
       moveTowards(this, this.scene.goal, {
         constantMotion: true,
-        maxSpeedX: 12 / 2,
-        maxSpeedY: 8,
+        maxSpeedX: 6,
+        maxSpeedY: 1,
       });
       this.playAnimation('walk');
     } else {
