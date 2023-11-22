@@ -79,9 +79,17 @@ class Level {
 
     // load staticbodies
     const staticbody = this.level.getObjectLayer('staticbody')?.objects || [];
-    staticbody.map(({ x, y, polygon }) =>
-      convertTiledPolygonToGameObject(scene, { x, y, polygon }),
-    );
+    staticbody.reduce((acc, tiledObject) => {
+      const { x, y, polygon } = tiledObject;
+      if (!x || !y || !polygon) return acc;
+      const newStaticBody = convertTiledPolygonToGameObject(scene, {
+        x,
+        y,
+        polygon,
+      });
+      if (!newStaticBody) return acc;
+      return [...acc, newStaticBody];
+    }, [] as Phaser.GameObjects.GameObject[]);
 
     // for each entry in the spawnerConfig, create a group
     const spawnersT = this.level.getObjectLayer('spawner')?.objects || [];
