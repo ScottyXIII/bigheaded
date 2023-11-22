@@ -136,6 +136,18 @@
           "width": 0,
           "x": 320,
           "y": 318
+        },
+        {
+          "height": 0,
+          "id": 3,
+          "name": "goal",
+          "point": true,
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 0,
+          "x": 448,
+          "y": 296
         }
       ],
       "opacity": 1,
@@ -146,7 +158,7 @@
     }
   ],
   "nextlayerid": 4,
-  "nextobjectid": 3,
+  "nextobjectid": 4,
   "orientation": "orthogonal",
   "renderorder": "right-down",
   "tiledversion": "1.10.2",
