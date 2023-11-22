@@ -8,7 +8,7 @@ import keepUpright, { KeepUprightStratergies } from '@/helpers/keepUpright';
 const KEY = 'ben3';
 
 const HEAD_SCALE_MIN = 0.1;
-const HEAD_SCALE_MAX = 1.5;
+const HEAD_SCALE_MAX = 1;
 
 const entityConfig: EntityConfigType = {
   name: KEY,
