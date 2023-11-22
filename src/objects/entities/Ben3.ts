@@ -54,7 +54,7 @@ class Ben3 extends Entity {
       },
     });
 
-    scene.load.image('head2', './object/ben2/head2.png');
+    scene.load.image('head2', './object/ben3/head3.png');
   }
 
   constructor(scene: GameScene, x: number, y: number) {
@@ -83,6 +83,11 @@ class Ben3 extends Entity {
         angularStiffness: 0,
       },
     );
+  }
+
+  jump() {
+    // @ts-expect-error todo
+    this.gameObject.applyForce({ x: 0.5, y: -0.5 });
   }
 
   update(time: number, delta: number) {

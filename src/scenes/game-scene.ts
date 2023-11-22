@@ -8,6 +8,7 @@ import isDev from '@/helpers/isDev';
 
 import Parallax, { ParallaxNames } from '@/objects/Parallax';
 import Level, { LevelConfigType } from '@/objects/Level';
+
 import SpinText from '@/objects/SpinText';
 import Ben3 from '@/objects/entities/Ben3';
 import Bat from '@/objects/entities/Bat';
@@ -16,7 +17,6 @@ import Ball from '@/objects/Ball';
 import Hedgehog from '@/objects/entities/Hedgehog';
 
 import Audio from '@/objects/Audio';
-import Entity from '@/objects/entities/Entity';
 
 const parallaxName: ParallaxNames = 'supermountaindusk';
 
@@ -108,7 +108,7 @@ class GameScene extends Phaser.Scene {
 
   private audio: Audio | undefined;
 
-  public player: Entity | undefined;
+  public player: Ben3 | undefined;
 
   constructor() {
     super('scene-game');
@@ -139,31 +139,26 @@ class GameScene extends Phaser.Scene {
     const [isMute] = useLocalStorage('isMute', false);
     this.game.sound.mute = isMute; // set game mute to saved ls value
 
-    this.player = this.level.spawners.player.getChildren()[0] as Entity;
+    this.player = this.level.spawners.player.getChildren()[0] as Ben3;
 
-    // const canvas = document.querySelector('#game');
-    // canvas?.addEventListener('click', this.jump.bind(this));
+    const canvas = document.querySelector('#game');
+    canvas?.addEventListener('click', this.jump.bind(this));
   }
 
-  // jump() {
-  //   if (!this.level) return;
-  //   const player = this.level.spawners.player.getChildren()[0] as Ben3;
-  //   // player.enactAction(-100);
-  //   player.move();
-  // }
+  jump() {
+    if (!this.level || !this.player) return;
+    this.player.jump();
+  }
 
   update() {
-    if (!this.parallax || !this.level) return;
+    if (!this.parallax || !this.level || !this.player) return;
 
     this.parallax.update();
 
-    const player = this.level.spawners.player.getChildren()[0] as Entity;
-    smoothMoveCameraTowards(this, player.gameObject, 0.8);
-    // player.enactAction(1);
-    // player.move();
+    smoothMoveCameraTowards(this, this.player.gameObject, 0.8);
 
-    // const [myNum, setMyNum] = useLocalStorage('testNum', 0);
-    // setMyNum(myNum + 1);
+    const [myNum, setMyNum] = useLocalStorage('testNum', 0);
+    setMyNum(myNum + 1);
   }
 }
 
