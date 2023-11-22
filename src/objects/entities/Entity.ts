@@ -1,6 +1,5 @@
 import Phaser from 'phaser';
 import { PhaserMatterImage } from '@/types';
-import keepUpright, { KeepUprightStratergies } from '@/helpers/keepUpright';
 
 type AnimationsConfigType = {
   animationKey: string;
@@ -24,18 +23,17 @@ export type EntityConfigType = {
   collideCallback?: Function;
   maxSpeedX: number;
   maxSpeedY: number;
-  craftpixOffset?: {
+  craftpixOffset: {
     x: number;
     y: number;
   };
-  constantMotion?: boolean;
+  constantMotion: boolean;
 };
 
-const defaultConfig = {
+const defaultConfig: EntityConfigType = {
   name: 'entity',
   spriteSheetKey: 'player',
   animations: [],
-  keepUprightStratergy: KeepUprightStratergies.NONE,
   facing: -1,
   scale: 1,
   maxSpeedY: 2,
@@ -52,8 +50,6 @@ const defaultConfig = {
 };
 
 class Entity extends Phaser.GameObjects.Container {
-  protected keepUprightStratergy;
-
   protected facing: number;
 
   protected text: Phaser.GameObjects.Text | undefined;
@@ -90,7 +86,6 @@ class Entity extends Phaser.GameObjects.Container {
       spriteSheetKey,
       animations,
       physicsConfig,
-      keepUprightStratergy,
       facing,
       scale,
       collideCallback,
@@ -107,7 +102,6 @@ class Entity extends Phaser.GameObjects.Container {
     this.maxSpeedY = maxSpeedY;
     this.craftpixOffset = craftpixOffset;
     this.constantMotion = constantMotion;
-    this.keepUprightStratergy = keepUprightStratergy;
     this.facing = facing;
 
     // text
@@ -157,7 +151,7 @@ class Entity extends Phaser.GameObjects.Container {
 
     // @ts-expect-error todo
     this.hitbox.onCollideCallback = data => {
-      collideCallback(data);
+      collideCallback?.(data);
     }; // Do we want left/right/top/down sensors like the last game?
     this.gameObject.setExistingBody(compoundBody);
     this.gameObject.setPosition(x, y);
@@ -209,8 +203,6 @@ class Entity extends Phaser.GameObjects.Container {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   update(_time: number, _delta: number) {
     this.flipXSprite(this.facing === -1);
-
-    keepUpright(this.keepUprightStratergy, this.gameObject);
 
     // @ts-expect-error todo
     // ToDo: abstract player out and pass pos in via moveTowards func.
