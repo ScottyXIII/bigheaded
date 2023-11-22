@@ -1,9 +1,14 @@
 import * as Phaser from 'phaser';
+import { PhaserMatterImage } from '@/types';
+import GameScene from '@/scenes/game-scene';
+import matterAddImageEllipse from '@/helpers/matterAddImageEllipse';
 import Entity, { EntityConfigType } from '@/objects/entities/Entity';
 import keepUpright, { KeepUprightStratergies } from '@/helpers/keepUpright';
-import GameScene from '@/scenes/game-scene';
 
 const KEY = 'ben3';
+
+const HEAD_SCALE_MIN = 0.1;
+// const HEAD_SCALE_MAX = 1.5;
 
 const entityConfig: EntityConfigType = {
   name: KEY,
@@ -22,7 +27,7 @@ const entityConfig: EntityConfigType = {
   },
   animations: [
     {
-      animationKey: 'idle',
+      animationKey: 'walk',
       fps: 5,
       start: 0,
       end: 3,
@@ -31,6 +36,8 @@ const entityConfig: EntityConfigType = {
 };
 
 class Ben3 extends Entity {
+  public head: PhaserMatterImage;
+
   static preload(scene: Phaser.Scene) {
     scene.load.spritesheet({
       key: KEY,
@@ -40,6 +47,8 @@ class Ben3 extends Entity {
         frameHeight: 75,
       },
     });
+
+    scene.load.image('head2', './object/ben2/head2.png');
   }
 
   constructor(scene: GameScene, x: number, y: number) {
@@ -47,7 +56,17 @@ class Ben3 extends Entity {
 
     this.scene = scene;
 
-    this.playAnimation('idle');
+    this.playAnimation('walk');
+
+    this.head = matterAddImageEllipse(scene, 0, 0, 'head2', undefined, {
+      width: 340,
+      height: 270,
+      friction: 0,
+    });
+    this.head.setScale(HEAD_SCALE_MIN);
+    this.add(this.head);
+
+    // now we have this.head and this.gameObject (compound Entity body)
   }
 
   update() {
