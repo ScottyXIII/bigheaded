@@ -2,6 +2,7 @@ import * as Phaser from 'phaser';
 import Entity, { EntityConfigType } from '@/objects/entities/Entity';
 import keepUpright, { KeepUprightStratergies } from '@/helpers/keepUpright';
 import moveTowards from '@/helpers/moveTowards';
+import GameScene from '@/scenes/game-scene';
 
 const KEY = 'tomato';
 
@@ -16,6 +17,7 @@ const entityConfig: EntityConfigType = {
     x: 0,
     y: -35,
   },
+  constantMotion: false,
   physicsConfig: {
     type: 'rectangle',
     width: 24,
@@ -50,7 +52,7 @@ class Tomato extends Entity {
     });
   }
 
-  constructor(scene: Phaser.Scene, x: number, y: number) {
+  constructor(scene: GameScene, x: number, y: number) {
     super(scene, x, y, entityConfig);
 
     this.scene = scene;
@@ -59,8 +61,9 @@ class Tomato extends Entity {
   }
 
   update() {
+    super.update();
     keepUpright(KeepUprightStratergies.SPRINGY, this.gameObject);
-    // moveTowards(this, player);
+    moveTowards(this, this.scene.player);
   }
 }
 

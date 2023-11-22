@@ -1,6 +1,7 @@
 import * as Phaser from 'phaser';
 import Entity, { EntityConfigType } from '@/objects/entities/Entity';
 import keepUpright, { KeepUprightStratergies } from '@/helpers/keepUpright';
+import GameScene from '@/scenes/game-scene';
 
 const KEY = 'ben3';
 
@@ -15,6 +16,7 @@ const entityConfig: EntityConfigType = {
     x: 0,
     y: 0,
   },
+  constantMotion: false,
   physicsConfig: {
     type: 'rectangle',
     width: 75,
@@ -29,7 +31,6 @@ const entityConfig: EntityConfigType = {
       end: 3,
     },
   ],
-  constantMotion: false,
 };
 
 class Ben3 extends Entity {
@@ -44,7 +45,7 @@ class Ben3 extends Entity {
     });
   }
 
-  constructor(scene: Phaser.Scene, x: number, y: number) {
+  constructor(scene: GameScene, x: number, y: number) {
     super(scene, x, y, entityConfig);
 
     this.scene = scene;
@@ -52,9 +53,8 @@ class Ben3 extends Entity {
     this.playAnimation('idle');
   }
 
-  update(time: number, delta: number) {
-    super.update(time, delta);
-
+  update() {
+    super.update();
     keepUpright(KeepUprightStratergies.SPRINGY, this.gameObject);
     // perhaps use moveTowards to go to goal marker?
   }

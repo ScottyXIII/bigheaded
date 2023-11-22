@@ -1,5 +1,6 @@
 import Phaser from 'phaser';
 import { PhaserMatterImage } from '@/types';
+import GameScene from '@/scenes/game-scene';
 
 type AnimationsConfigType = {
   animationKey: string;
@@ -50,6 +51,8 @@ const defaultConfig: EntityConfigType = {
 };
 
 class Entity extends Phaser.GameObjects.Container {
+  public scene: GameScene;
+
   protected facing: number;
 
   protected text: Phaser.GameObjects.Text | undefined;
@@ -74,7 +77,7 @@ class Entity extends Phaser.GameObjects.Container {
   protected constantMotion: boolean;
 
   constructor(
-    scene: Phaser.Scene,
+    scene: GameScene,
     x: number,
     y: number,
     config: EntityConfigType,
@@ -175,16 +178,8 @@ class Entity extends Phaser.GameObjects.Container {
     }
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  update(_time: number, _delta: number) {
+  update() {
     this.flipXSprite(this.facing === -1);
-
-    // @ts-expect-error todo
-    // ToDo: abstract player out and pass pos in via moveTowards func.
-    const { player } = this.scene;
-    if (player !== undefined) {
-      this.moveTowards(player.torso.x, player.torso.y);
-    }
   }
 }
 

@@ -16,6 +16,7 @@ import Ball from '@/objects/Ball';
 import Hedgehog from '@/objects/entities/Hedgehog';
 
 import Audio from '@/objects/Audio';
+import Entity from '@/objects/entities/Entity';
 
 const parallaxName: ParallaxNames = 'supermountaindusk';
 
@@ -107,6 +108,8 @@ class GameScene extends Phaser.Scene {
 
   private audio: Audio | undefined;
 
+  public player: Entity | undefined;
+
   constructor() {
     super('scene-game');
   }
@@ -136,29 +139,31 @@ class GameScene extends Phaser.Scene {
     const [isMute] = useLocalStorage('isMute', false);
     this.game.sound.mute = isMute; // set game mute to saved ls value
 
-    const canvas = document.querySelector('#game');
-    canvas?.addEventListener('click', this.jump.bind(this));
+    this.player = this.level.spawners.player.getChildren()[0] as Entity;
+
+    // const canvas = document.querySelector('#game');
+    // canvas?.addEventListener('click', this.jump.bind(this));
   }
 
-  jump() {
-    if (!this.level) return;
-    const player = this.level.spawners.player.getChildren()[0] as Ben3;
-    // player.enactAction(-100);
-    player.move();
-  }
+  // jump() {
+  //   if (!this.level) return;
+  //   const player = this.level.spawners.player.getChildren()[0] as Ben3;
+  //   // player.enactAction(-100);
+  //   player.move();
+  // }
 
   update() {
     if (!this.parallax || !this.level) return;
 
     this.parallax.update();
 
-    const player = this.level.spawners.player.getChildren()[0] as Ben3;
+    const player = this.level.spawners.player.getChildren()[0] as Entity;
     smoothMoveCameraTowards(this, player.gameObject, 0.8);
     // player.enactAction(1);
-    player.move();
+    // player.move();
 
-    const [myNum, setMyNum] = useLocalStorage('testNum', 0);
-    setMyNum(myNum + 1);
+    // const [myNum, setMyNum] = useLocalStorage('testNum', 0);
+    // setMyNum(myNum + 1);
   }
 }
 
