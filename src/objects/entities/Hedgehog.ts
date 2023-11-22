@@ -16,7 +16,6 @@ const entityConfig: EntityConfigType = {
     y: 0,
   },
   physicsConfig: {
-    type: 'rectangle',
     width: 70,
     height: 48,
   },

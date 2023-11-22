@@ -21,7 +21,6 @@ const entityConfig: EntityConfigType = {
     y: 0,
   },
   physicsConfig: {
-    type: 'rectangle',
     width: 75,
     height: 75,
     chamfer: { radius: 20 },
