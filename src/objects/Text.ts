@@ -18,7 +18,6 @@ class Text extends Phaser.GameObjects.Container {
         fontFamily: 'monospace',
         fontSize: '26px',
       })
-      // .setOrigin(0.5, 0.5)
       .setScrollFactor(0);
   }
 
