@@ -1,6 +1,7 @@
 import * as Phaser from 'phaser';
 
 import Text from '@/objects/Text';
+import isPWA from '@/helpers/isPWA';
 import GameScene from './game-scene';
 
 class PreloaderScene extends Phaser.Scene {
@@ -15,6 +16,9 @@ class PreloaderScene extends Phaser.Scene {
     const message1 = new Text(this, cx, cy - 20);
     const message2 = new Text(this, cx, cy + 20);
     const message3 = new Text(this, cx, cy);
+
+    const message4 = new Text(this, cx, cy + 100);
+    message4.textbox.text = isPWA() ? 'is PWA' : 'in NOT PWA';
 
     message1.textbox.setOrigin(0.5, 0.5);
     message2.textbox.setOrigin(0.5, 0.5);
