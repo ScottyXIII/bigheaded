@@ -5,7 +5,7 @@ import detectWebGLContext from './helpers/detectWebGL';
 
 import './style.css';
 
-window.onload = () => {
+window.addEventListener('load', () => {
   if (!detectWebGLContext()) {
     (document.querySelector('body') as HTMLElement).innerHTML =
       '<h1>WEBGL NOT SUPPORTED.<br/>Try again with an updated Chrome or Firefox.</h1>';
@@ -17,4 +17,4 @@ window.onload = () => {
   const game = new Phaser.Game(config);
 
   attachFullscreen();
-};
+});

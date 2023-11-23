@@ -1,22 +1,27 @@
 const jsx = `
-  <div class="spinner">
-    <img src="./favicon.svg">
+  <div class="overlay">
+    <img src="./favicon.svg"/>
+    Loading
     <style>
       @keyframes grow {
         0% { transform: scale(.5) }
         50% { transform: scale(1) }
         100% { transform: scale(.5) }
       }
-      .spinner {
+      .overlay {
         position: absolute;
         inset: 0;
         display: flex;
         justify-content: center;
         align-items: center;
         overflow: hidden;
+        flex-direction: column;
+        gap: 8px;
       }
-      .spinner img {
-        animation: grow 1s ease-in-out infinite;
+      .overlay img {
+        animation: grow 2s ease-in-out infinite;
+        width: 100px;
+        height: 100px;
       }
     </style>
   </div>
@@ -24,5 +29,6 @@ const jsx = `
 
 const body = document.querySelector('body');
 body.insertAdjacentHTML('afterbegin', jsx);
-const spinner = document.querySelector('.spinner');
-window.killSpinner = () => spinner.remove();
+
+const overlay = document.querySelector('.overlay');
+window.addEventListener('load', () => overlay.remove());

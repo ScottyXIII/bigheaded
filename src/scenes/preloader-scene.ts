@@ -9,9 +9,6 @@ class PreloaderScene extends Phaser.Scene {
   }
 
   preload() {
-    // @ts-expect-error nope
-    window.killSpinner();
-
     const message = new Text(this, 10, 10);
     const message2 = new Text(this, 10, 50);
     const message3 = new Text(this, 10, 90);
