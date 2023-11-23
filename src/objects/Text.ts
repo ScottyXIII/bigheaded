@@ -1,7 +1,7 @@
 import * as Phaser from 'phaser';
 
 class Text extends Phaser.GameObjects.Container {
-  private textbox: Phaser.GameObjects.Text;
+  public textbox: Phaser.GameObjects.Text;
 
   static preload() {}
 
