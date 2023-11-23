@@ -113,6 +113,8 @@ class GameScene extends Phaser.Scene {
 
   private audio: Audio | undefined;
 
+  private score: Text | undefined;
+
   public level: Level | undefined;
 
   public player: Ben3 | undefined;
@@ -169,7 +171,7 @@ class GameScene extends Phaser.Scene {
   }
 
   update() {
-    if (!this.parallax || !this.level || !this.player) return;
+    if (!this.parallax || !this.level || !this.player || !this.score) return;
 
     this.parallax.update();
 
