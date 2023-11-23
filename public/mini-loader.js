@@ -1,7 +1,7 @@
 const jsx = `
   <div class="overlay">
     <img src="./favicon.svg"/>
-    Loading
+    <h2>LOADING</h2>
     <style>
       @keyframes grow {
         0% { transform: scale(.5) }

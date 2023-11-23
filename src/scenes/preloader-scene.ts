@@ -25,7 +25,7 @@ class PreloaderScene extends Phaser.Scene {
     message3.textbox.text = '';
 
     this.load.on('progress', (value: number) => {
-      const percent = String(Math.floor(value * 100)).padStart(3, '0');
+      const percent = Math.floor(value * 100);
       message1.textbox.text = `${percent}%`;
     });
 
