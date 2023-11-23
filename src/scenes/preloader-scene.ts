@@ -1,8 +1,7 @@
 import * as Phaser from 'phaser';
-
 import Text from '@/objects/Text';
-import isPWA from '@/helpers/isPWA';
-import GameScene from './game-scene';
+import Button from '@/objects/Button';
+import GameScene from '@/scenes/game-scene';
 
 class PreloaderScene extends Phaser.Scene {
   constructor() {
@@ -10,15 +9,14 @@ class PreloaderScene extends Phaser.Scene {
   }
 
   preload() {
+    Button.preload(this);
+
     const { width, height } = this.sys.game.canvas;
     const cx = width / 2;
     const cy = height / 2;
     const message1 = new Text(this, cx, cy - 20);
     const message2 = new Text(this, cx, cy + 20);
     const message3 = new Text(this, cx, cy);
-
-    const message4 = new Text(this, cx, cy + 100);
-    message4.textbox.text = isPWA() ? 'is PWA' : 'in NOT PWA';
 
     message1.textbox.setOrigin(0.5, 0.5);
     message2.textbox.setOrigin(0.5, 0.5);
@@ -41,7 +39,7 @@ class PreloaderScene extends Phaser.Scene {
     this.load.on('complete', () => {
       message1.textbox.text = '';
       message2.textbox.text = '';
-      message3.textbox.text = '🟢 Click, Tap, or Spacebar to continue 🟢';
+      // message3.textbox.text = '🟢 Click, Tap, or Spacebar to continue 🟢';
 
       const next = () => this.scene.start('game-scene');
 
@@ -56,6 +54,13 @@ class PreloaderScene extends Phaser.Scene {
     });
 
     GameScene.preloadExternal(this);
+  }
+
+  create() {
+    const { width, height } = this.sys.game.canvas;
+    const cx = width / 2;
+    const cy = height / 2;
+    const btn = new Button(this, cx, cy, 'CONTINUE', 300);
   }
 }
 
