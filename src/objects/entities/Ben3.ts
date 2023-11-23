@@ -102,7 +102,7 @@ class Ben3 extends Entity {
       keepUpright(KeepUprightStratergies.SPRINGY, this.gameObject, 0.05);
 
       if (!this.scene.goal) return;
-      moveTowards(this, this.scene.goal, {
+      moveTowards(this, this.scene.goal.skull, {
         constantMotion: true,
         maxSpeedX: 6,
         maxSpeedY: 1,

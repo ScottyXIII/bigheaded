@@ -1,7 +1,7 @@
 import * as Phaser from 'phaser';
 
 class Skull extends Phaser.GameObjects.Container {
-  public skull: Phaser.GameObjects.Image | undefined;
+  public skull: Phaser.GameObjects.Image;
 
   static preload(scene: Phaser.Scene) {
     scene.load.image('skull', './object/skull.png');

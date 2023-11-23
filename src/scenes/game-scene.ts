@@ -110,9 +110,9 @@ const soundConfig = [
 class GameScene extends Phaser.Scene {
   private parallax: Parallax | undefined;
 
-  private level: Level | undefined;
-
   private audio: Audio | undefined;
+
+  public level: Level | undefined;
 
   public player: Ben3 | undefined;
 
