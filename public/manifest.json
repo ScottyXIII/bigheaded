@@ -1,11 +1,11 @@
 {
-  "name": "Bigheaded",
-  "short_name": "Bigheaded - Game Off 2023",
-  "description": "Game Off 2023",
+  "name": "Bigheaded - Game Off 2023",
+  "short_name": "Bigheaded",
+  "description": "Game Off 2023 game jam entry",
   "theme_color": "#000000",
   "background_color": "#000000",
   "scope": "./",
-  "start_url": "./",
+  "start_url": "./#pwa",
   "display": "fullscreen",
   "orientation": "landscape",
   "icons": [
