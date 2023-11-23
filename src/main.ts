@@ -12,6 +12,7 @@ window.onload = () => {
     return;
   }
 
+  // @ts-expect-error fight me!
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const game = new Phaser.Game(config);
 
