@@ -14,11 +14,14 @@ class PreloaderScene extends Phaser.Scene {
 
     const message = new Text(this, 10, 10);
     const message2 = new Text(this, 10, 50);
+    const message3 = new Text(this, 10, 90);
 
     message.textbox.text = 'LOADING...';
+    message2.textbox.text = '';
+    message3.textbox.text = '';
 
     this.load.on('progress', (value: number) => {
-      const percent = String(Math.round(value * 100)).padStart(3, '0');
+      const percent = String(Math.floor(value * 100)).padStart(3, '0');
       message.textbox.text = `${percent}%`;
     });
 
@@ -28,8 +31,9 @@ class PreloaderScene extends Phaser.Scene {
     });
 
     this.load.on('complete', () => {
-      message.textbox.text = 'Click, Tap, or Spacebar to continue';
+      message.textbox.text = '';
       message2.textbox.text = '';
+      message3.textbox.text = 'Click, Tap, or Spacebar to continue';
 
       const next = () => this.scene.start('game-scene');
 
@@ -45,10 +49,6 @@ class PreloaderScene extends Phaser.Scene {
 
     GameScene.preloadExternal(this);
   }
-
-  // update() {
-  //   if (!message) return;
-  // }
 }
 
 export default PreloaderScene;

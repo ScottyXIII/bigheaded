@@ -125,7 +125,6 @@ class GameScene extends Phaser.Scene {
     Parallax.preload(scene, parallaxName);
     Level.preload(scene, levelConfig);
     Audio.preload(scene, soundConfig);
-    console.log('preloadExternal');
   }
 
   constructor() {
