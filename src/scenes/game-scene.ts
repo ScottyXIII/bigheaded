@@ -151,7 +151,7 @@ class GameScene extends Phaser.Scene {
     this.goal = this.level.spawners.goal.getChildren()[0] as Skull;
 
     // keyboard controls
-    const spaceKey = this.input?.keyboard?.addKey(
+    const spaceKey = this.input.keyboard?.addKey(
       Phaser.Input.Keyboard.KeyCodes.SPACE,
     );
     spaceKey?.on('down', this.jump.bind(this));
