@@ -5,14 +5,8 @@ import attachFullscreen from './helpers/fullscreen';
 import './style.css';
 
 window.onload = () => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const game = new Phaser.Game(config);
-
-  game.events.addListener('ready', () => {
-    game.scene.getScene('scene-game').events.on('create', () => {
-      // @ts-expect-error nope
-      window.killSpinner();
-    });
-  });
 
   attachFullscreen();
 };

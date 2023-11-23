@@ -121,15 +121,21 @@ class GameScene extends Phaser.Scene {
 
   public goal: Skull | undefined;
 
+  public static preloadExternal(scene: Phaser.Scene) {
+    Parallax.preload(scene, parallaxName);
+    Level.preload(scene, levelConfig);
+    Audio.preload(scene, soundConfig);
+    console.log('preloadExternal');
+  }
+
   constructor() {
-    super('scene-game');
+    super('game-scene');
   }
 
   preload() {
     Parallax.preload(this, parallaxName);
     Level.preload(this, levelConfig);
     Audio.preload(this, soundConfig);
-    Hedgehog.preload(this);
   }
 
   create() {
