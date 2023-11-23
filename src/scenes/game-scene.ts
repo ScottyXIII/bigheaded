@@ -18,6 +18,7 @@ import Ball from '@/objects/Ball';
 import Skull from '@/objects/Skull';
 
 import Audio from '@/objects/Audio';
+import Text from '@/objects/Text';
 
 const parallaxName: ParallaxNames = 'supermountaindusk';
 
@@ -158,6 +159,8 @@ class GameScene extends Phaser.Scene {
 
     // touch tap mobile and mouse leftclick controls
     this.input.on('pointerdown', this.jump.bind(this));
+
+    this.score = new Text(this, 10, 10);
   }
 
   jump() {
@@ -174,6 +177,7 @@ class GameScene extends Phaser.Scene {
 
     const [myNum, setMyNum] = useLocalStorage('testNum', 0);
     setMyNum(myNum + 1);
+    this.score.textbox.text = String(myNum).padStart(8, '0');
   }
 }
 
