@@ -9,17 +9,24 @@ class PreloaderScene extends Phaser.Scene {
   }
 
   preload() {
-    const message = new Text(this, 10, 10);
-    const message2 = new Text(this, 10, 50);
-    const message3 = new Text(this, 10, 90);
+    const { width, height } = this.sys.game.canvas;
+    const cx = width / 2;
+    const cy = height / 2;
+    const message1 = new Text(this, cx, cy - 20);
+    const message2 = new Text(this, cx, cy + 20);
+    const message3 = new Text(this, cx, cy);
 
-    message.textbox.text = 'LOADING...';
+    message1.textbox.setOrigin(0.5, 0.5);
+    message2.textbox.setOrigin(0.5, 0.5);
+    message3.textbox.setOrigin(0.5, 0.5);
+
+    message1.textbox.text = 'LOADING...';
     message2.textbox.text = '';
     message3.textbox.text = '';
 
     this.load.on('progress', (value: number) => {
       const percent = String(Math.floor(value * 100)).padStart(3, '0');
-      message.textbox.text = `${percent}%`;
+      message1.textbox.text = `${percent}%`;
     });
 
     this.load.on('fileprogress', (file: { src: string }) => {
@@ -28,7 +35,7 @@ class PreloaderScene extends Phaser.Scene {
     });
 
     this.load.on('complete', () => {
-      message.textbox.text = '';
+      message1.textbox.text = '';
       message2.textbox.text = '';
       message3.textbox.text = '🟢 Click, Tap, or Spacebar to continue 🟢';
 
