@@ -30,7 +30,7 @@ class PreloaderScene extends Phaser.Scene {
     this.load.on('complete', () => {
       message.textbox.text = '';
       message2.textbox.text = '';
-      message3.textbox.text = 'Click, Tap, or Spacebar to continue';
+      message3.textbox.text = '🟢 Click, Tap, or Spacebar to continue 🟢';
 
       const next = () => this.scene.start('game-scene');
 
