@@ -5,8 +5,14 @@ import attachFullscreen from './helpers/fullscreen';
 import './style.css';
 
 window.onload = () => {
-  // @ts-expect-error not sure how to defeat this one
-  window.game = new Phaser.Game(config);
+  const game = new Phaser.Game(config);
+
+  game.events.addListener('ready', () => {
+    game.scene.getScene('scene-game').events.on('create', () => {
+      // @ts-expect-error nope
+      window.killSpinner();
+    });
+  });
 
   attachFullscreen();
 };

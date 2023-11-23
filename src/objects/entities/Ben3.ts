@@ -27,7 +27,7 @@ const entityConfig: EntityConfigType = {
   },
   animations: [
     {
-      animationKey: 'walk',
+      animationKey: 'idle',
       fps: 5,
       start: 0,
       end: 3,
@@ -62,7 +62,7 @@ class Ben3 extends Entity {
 
     this.scene = scene;
 
-    this.playAnimation('walk');
+    this.playAnimation('idle');
 
     this.head = matterAddImageEllipse(scene, x, y, 'head2', undefined, {
       width: 340,
@@ -107,7 +107,7 @@ class Ben3 extends Entity {
         maxSpeedX: 6,
         maxSpeedY: 1,
       });
-      this.playAnimation('walk');
+      this.playAnimation('idle');
     } else {
       // airborne
       this.sprite.stop();
