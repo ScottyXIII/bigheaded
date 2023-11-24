@@ -16,8 +16,8 @@ const debug = {
 
 const config: Phaser.Types.Core.GameConfig = {
   type: Phaser.WEBGL,
-  width: 1280 / 3,
-  height: 720 / 3,
+  width: 1280,
+  height: 720,
   canvas: document.getElementById('game') as HTMLCanvasElement,
   physics: {
     default: 'matter',
