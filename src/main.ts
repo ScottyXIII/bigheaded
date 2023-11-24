@@ -2,6 +2,7 @@ import * as Phaser from 'phaser';
 import config from '@/config';
 import attachFullscreen from '@/helpers/fullscreen';
 import detectWebGLContext from './helpers/detectWebGL';
+import webFontLoader from './helpers/webFontLoader';
 
 import './style.css';
 
@@ -17,4 +18,5 @@ window.addEventListener('load', () => {
   const game = new Phaser.Game(config);
 
   attachFullscreen();
+  webFontLoader();
 });
