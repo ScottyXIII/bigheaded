@@ -3,6 +3,7 @@ import Text from '@/objects/Text';
 import Button from '@/objects/Button';
 import GameScene from '@/scenes/game-scene';
 import BagelFatOneFont from '@/objects/BagelFatOneFont';
+import MaterialUIIconFont, { IconNames } from '@/objects/MaterialUIIconFont';
 
 class PreloaderScene extends Phaser.Scene {
   constructor() {
@@ -10,7 +11,8 @@ class PreloaderScene extends Phaser.Scene {
   }
 
   preload() {
-    BagelFatOneFont.preload(this);
+    // BagelFatOneFont.preload(this);
+    // MaterialUIIconFont.preload(this);
     Button.preload(this);
 
     const { width, height } = this.sys.game.canvas;
@@ -63,10 +65,16 @@ class PreloaderScene extends Phaser.Scene {
       origin: 0.5,
       fontSize: 128,
     });
-    const btn = new Button(this, cx, cy + 150, 'CONTINUE', 300);
+    const btn = new Button(this, cx, cy + 100, 'CONTINUE', 300);
+
+    const menu = new MaterialUIIconFont(this, cx, cy, {
+      text: IconNames.SETTINGS,
+      origin: 0.5,
+      fontSize: 32,
+    });
 
     // eslint-disable-next-line no-console
-    console.log(BF, btn);
+    // console.log(BF, btn, menu);
   }
 }
 
