@@ -4,6 +4,7 @@ import Button from '@/objects/Button';
 import GameScene from '@/scenes/game-scene';
 import googleFont, { FontFamilyEnum, IconEnum } from '@/helpers/googleFont';
 import isDev from '@/helpers/isDev';
+import iconButton from '@/helpers/iconButton';
 
 class PreloaderScene extends Phaser.Scene {
   constructor() {
@@ -48,13 +49,7 @@ class PreloaderScene extends Phaser.Scene {
     const cx = width / 2;
     const cy = height / 2;
 
-    const btn = new Button(this, cx, cy + 100, {
-      content: 'CONTINUE',
-      width: 300,
-      onClick: () => this.scene.start('game-scene'),
-    });
-
-    const text1 = googleFont(this, cx, cy - 100, {
+    googleFont(this, cx, cy - 100, {
       fontFamily: FontFamilyEnum.BAGEL,
       text: 'BigHeaded',
       color: '#FFF',
@@ -62,29 +57,30 @@ class PreloaderScene extends Phaser.Scene {
       origin: 0.5,
     });
 
-    const text2 = googleFont(this, width - 48, 48, {
-      fontFamily: FontFamilyEnum.ICONS,
-      icon: IconEnum.SETTINGS,
-      color: '#ffffff44',
-      fontSize: 48,
-      origin: 0.5,
-      padding: {
-        top: 20, // fix chrome cutoff icons, it does not affect position
-        left: 20,
-        right: 20,
-        bottom: 10,
-      },
+    const btn = new Button(this, cx, cy + 100, {
+      content: 'CONTINUE',
+      width: 300,
+      onClick: () => this.scene.start('game-scene'),
     });
-    text2.setInteractive({ useHandCursor: true });
-    text2.on('pointerdown', () => alert('settings button'));
+    if (isDev) this.input.enableDebug(btn.button);
 
-    if (isDev) {
-      this.input.enableDebug(text2);
-      this.input.enableDebug(btn.button);
-    }
+    iconButton(this, width - 48, 48 * 1, {
+      icon: IconEnum.SETTINGS,
+      onClick: () => {},
+    });
+
+    iconButton(this, width - 48, 48 * 3, {
+      icon: IconEnum.FULLSCREEN,
+      onClick: () => {},
+    });
+
+    iconButton(this, width - 48, 48 * 5, {
+      icon: IconEnum.SOUNDON,
+      onClick: () => {},
+    });
 
     // eslint-disable-next-line no-console
-    console.log({ btn, text1, text2 });
+    console.log({ btn });
   }
 }
 
