@@ -9,7 +9,7 @@
     "lint": "eslint . --ext .js,.ts,.cjs --fix && prettier --log-level silent --write \"**/*.{js,ts,md,json,html,css}\" && tsc"
   },
   "devDependencies": {
-    "@types/node": "^20.9.5",
+    "@types/node": "^20.10.0",
     "@typescript-eslint/eslint-plugin": "^6.12.0",
     "@typescript-eslint/parser": "^6.12.0",
     "eslint": "^8.54.0",
