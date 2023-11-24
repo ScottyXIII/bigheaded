@@ -2,9 +2,9 @@ import * as Phaser from 'phaser';
 
 import toggleDebug from '@/helpers/toggleDebug';
 import smoothMoveCameraTowards from '@/helpers/smoothMoveCameraTowards';
-import toggleMusic from '@/helpers/toggleMusic';
 import useLocalStorage from '@/helpers/useLocalStorage';
 import isDev from '@/helpers/isDev';
+import settingsMenu from '@/helpers/settingsMenu';
 
 import Parallax, { ParallaxNames } from '@/objects/Parallax';
 import Level, { LevelConfigType } from '@/objects/Level';
@@ -148,7 +148,6 @@ class GameScene extends Phaser.Scene {
     this.audio = new Audio(this, soundConfig);
 
     this.audio.playAudio('music2');
-    toggleMusic(this); // attaches listener to mute button
     const [isMute] = useLocalStorage('isMute', false);
     this.game.sound.mute = isMute; // set game mute to saved ls value
 
@@ -164,6 +163,8 @@ class GameScene extends Phaser.Scene {
     this.input.on('pointerdown', this.jump.bind(this));
 
     this.score = new Text(this, 10, 10);
+
+    settingsMenu(this);
   }
 
   jump() {

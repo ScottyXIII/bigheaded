@@ -1,6 +1,5 @@
 import * as Phaser from 'phaser';
 import config from '@/config';
-import attachFullscreen from '@/helpers/fullscreen';
 import detectWebGLContext from '@/helpers/detectWebGL';
 import { webFontLoader } from '@/helpers/googleFont';
 
@@ -17,6 +16,5 @@ window.addEventListener('load', () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const game = new Phaser.Game(config);
 
-  attachFullscreen();
   webFontLoader();
 });

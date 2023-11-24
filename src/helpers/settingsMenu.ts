@@ -1,5 +1,7 @@
 import { IconEnum } from '@/helpers/googleFont';
 import iconButton from '@/helpers/iconButton';
+import fullscreenAndLandscape from '@/helpers/fullscreen';
+import useLocalStorage from './useLocalStorage';
 
 const settingsMenu = (scene: Phaser.Scene) => {
   const { width } = scene.sys.game.canvas;
@@ -12,17 +14,36 @@ const settingsMenu = (scene: Phaser.Scene) => {
   });
   refresh.visible = false;
 
+  const [isMute] = useLocalStorage('isMute', false);
   const soundToggle = iconButton(scene, width - 48, 48 * 5, {
-    icon: IconEnum.SOUNDON,
-    onClick: () => {},
+    icon: isMute ? IconEnum.SOUNDOFF : IconEnum.SOUNDON,
+    onClick: () => {
+      const [isMute, setIsMute] = useLocalStorage('isMute', false);
+      const newIsMute = !isMute;
+      setIsMute(newIsMute);
+      scene.game.sound.mute = newIsMute;
+      soundToggle.setText(newIsMute ? IconEnum.SOUNDOFF : IconEnum.SOUNDON);
+    },
   });
   soundToggle.visible = false;
 
   const fullscreen = iconButton(scene, width - 48, 48 * 7, {
     icon: IconEnum.FULLSCREEN,
-    onClick: () => {},
+    onClick: fullscreenAndLandscape,
   });
   fullscreen.visible = false;
+
+  const open = () => {
+    refresh.visible = true;
+    soundToggle.visible = true;
+    fullscreen.visible = true;
+  };
+
+  const close = () => {
+    refresh.visible = false;
+    soundToggle.visible = false;
+    fullscreen.visible = false;
+  };
 
   const cog = iconButton(scene, width - 48, 48 * 1, {
     icon: IconEnum.SETTINGS,
@@ -30,15 +51,11 @@ const settingsMenu = (scene: Phaser.Scene) => {
       if (isOpen) {
         isOpen = false;
         cog.setText(IconEnum.CLOSE);
-        refresh.visible = true;
-        soundToggle.visible = true;
-        fullscreen.visible = true;
+        open();
       } else {
         isOpen = true;
         cog.setText(IconEnum.SETTINGS);
-        refresh.visible = false;
-        soundToggle.visible = false;
-        fullscreen.visible = false;
+        close();
       }
     },
   });

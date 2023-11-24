@@ -1,10 +1,11 @@
-import * as Phaser from 'phaser';
+// import Phaser from 'phaser';
 import Text from '@/objects/Text';
 import Button from '@/objects/Button';
 import GameScene from '@/scenes/game-scene';
 import googleFont, { FontFamilyEnum } from '@/helpers/googleFont';
 import isDev from '@/helpers/isDev';
 import settingsMenu from '@/helpers/settingsMenu';
+import toggleDebug from '@/helpers/toggleDebug';
 
 class PreloaderScene extends Phaser.Scene {
   constructor() {
