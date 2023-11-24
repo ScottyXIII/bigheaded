@@ -7,7 +7,7 @@ type ButtonOptionsType = {
 };
 
 class Button extends Phaser.GameObjects.Container {
-  public ball: Phaser.GameObjects.Image | undefined;
+  public button: Phaser.GameObjects.NineSlice;
 
   static preload(scene: Phaser.Scene) {
     scene.load.atlas(
@@ -29,7 +29,7 @@ class Button extends Phaser.GameObjects.Container {
 
     const { content, width, onClick } = options;
 
-    const button1 = scene.add.nineslice(
+    this.button = scene.add.nineslice(
       x,
       y,
       'ui',
@@ -47,12 +47,14 @@ class Button extends Phaser.GameObjects.Container {
     text.setOrigin(0.5, 0.5);
     text.setWordWrapWidth(width - 100);
 
-    button1.width = width;
-    button1.setInteractive();
-    button1.on('pointerdown', onClick);
+    this.button.width = width;
+    this.button.setInteractive({
+      useHandCursor: true,
+    });
+    this.button.on('pointerdown', onClick);
 
     scene.tweens.add({
-      targets: [button1],
+      targets: [this.button],
       width: width + 20,
       duration: 300,
       ease: 'sine.inout',

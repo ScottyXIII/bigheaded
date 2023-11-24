@@ -62,16 +62,21 @@ class PreloaderScene extends Phaser.Scene {
       origin: 0.5,
     });
 
-    const text2 = googleFont(this, width - 32, 32, {
+    const text2 = googleFont(this, width - 320, 320, {
       fontFamily: Fonts.ICONS,
       icon: IconNames.SETTINGS,
       color: '#ffffff44',
       fontSize: 24,
       origin: 0.5,
-      padding: { top: 10 }, // fix chrome cutoff icons, it does not affect position
+      padding: { top: 10, right: 0 }, // fix chrome cutoff icons, it does not affect position
     });
-    text2.setInteractive();
+    text2.setInteractive({
+      useHandCursor: true,
+    });
+    // text2.setDepth(2000);
     text2.on('pointerdown', () => console.log('settings button'));
+    this.input.enableDebug(btn.button);
+    this.input.enableDebug(text1);
     this.input.enableDebug(text2);
 
     // eslint-disable-next-line no-console
