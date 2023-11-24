@@ -3,6 +3,7 @@ import * as Phaser from 'phaser';
 type ButtonOptionsType = {
   content: string;
   width: number;
+  onClick: () => void;
 };
 
 class Button extends Phaser.GameObjects.Container {
@@ -26,7 +27,7 @@ class Button extends Phaser.GameObjects.Container {
 
     this.scene = scene;
 
-    const { content, width } = options;
+    const { content, width, onClick } = options;
 
     const button1 = scene.add.nineslice(
       x,
@@ -48,11 +49,7 @@ class Button extends Phaser.GameObjects.Container {
 
     button1.width = width;
     button1.setInteractive();
-    // button1.on('pointerdown', ({ event }) => {
-    //   event.stopImmediatePropagation();
-    //   event.stopPropagation();
-    //   console.log('pointerdown');
-    // });
+    button1.on('pointerdown', onClick);
 
     scene.tweens.add({
       targets: [button1],
