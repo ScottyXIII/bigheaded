@@ -1,7 +1,7 @@
 import * as Phaser from 'phaser';
-import { Fonts } from './webFontLoader';
+import { FontFamilyEnum } from './webFontLoader';
 
-export enum IconNames {
+export enum IconEnum {
   SETTINGS = '\ue8b8',
   FULLSCREEN = '\ue5d0',
   SOUNDON = '\ue050',
@@ -20,9 +20,9 @@ const googleFont = (
     origin = undefined,
     ...options
   }: {
-    fontFamily: Fonts;
+    fontFamily: FontFamilyEnum;
     text?: string;
-    icon?: IconNames;
+    icon?: IconEnum;
     origin?: number;
   } & Phaser.Types.GameObjects.Text.TextStyle,
 ) => {

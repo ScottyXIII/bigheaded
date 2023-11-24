@@ -2,8 +2,8 @@ import * as Phaser from 'phaser';
 import Text from '@/objects/Text';
 import Button from '@/objects/Button';
 import GameScene from '@/scenes/game-scene';
-import googleFont, { IconNames } from '@/helpers/googleFont';
-import { Fonts } from '@/helpers/webFontLoader';
+import googleFont, { IconEnum } from '@/helpers/googleFont';
+import { FontFamilyEnum } from '@/helpers/webFontLoader';
 import isDev from '@/helpers/isDev';
 
 class PreloaderScene extends Phaser.Scene {
@@ -56,7 +56,7 @@ class PreloaderScene extends Phaser.Scene {
     });
 
     const text1 = googleFont(this, cx, cy - 100, {
-      fontFamily: Fonts.BAGEL,
+      fontFamily: FontFamilyEnum.BAGEL,
       text: 'BigHeaded',
       color: '#FFF',
       fontSize: 128,
@@ -64,8 +64,8 @@ class PreloaderScene extends Phaser.Scene {
     });
 
     const text2 = googleFont(this, width - 32, 32, {
-      fontFamily: Fonts.ICONS,
-      icon: IconNames.SETTINGS,
+      fontFamily: FontFamilyEnum.ICONS,
+      icon: IconEnum.SETTINGS,
       color: '#ffffff44',
       fontSize: 24,
       origin: 0.5,

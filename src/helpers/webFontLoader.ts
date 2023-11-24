@@ -1,9 +1,9 @@
-export enum Fonts {
+export enum FontFamilyEnum {
   BAGEL = 'Bagel Fat One',
   ICONS = 'Material Icons',
 }
 
-const fonts = Object.values(Fonts);
+const families = Object.values(FontFamilyEnum);
 
 const src = 'https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js';
 
@@ -15,7 +15,7 @@ const webFontLoader = () => {
     // @ts-expect-error window.WebFont is defined after webfont.js is loaded (at this point)
     window.WebFont.load({
       google: {
-        families: fonts,
+        families,
       },
       active: () => {
         // eslint-disable-next-line no-console
