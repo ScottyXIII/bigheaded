@@ -1,5 +1,10 @@
 import * as Phaser from 'phaser';
 
+type ButtonOptionsType = {
+  content: string;
+  width: number;
+};
+
 class Button extends Phaser.GameObjects.Container {
   public ball: Phaser.GameObjects.Image | undefined;
 
@@ -15,12 +20,13 @@ class Button extends Phaser.GameObjects.Container {
     scene: Phaser.Scene,
     x: number,
     y: number,
-    content: string,
-    width: number,
+    options: ButtonOptionsType,
   ) {
     super(scene, x, y);
 
     this.scene = scene;
+
+    const { content, width } = options;
 
     const button1 = scene.add.nineslice(
       x,
@@ -41,6 +47,12 @@ class Button extends Phaser.GameObjects.Container {
     text.setWordWrapWidth(width - 100);
 
     button1.width = width;
+    button1.setInteractive();
+    // button1.on('pointerdown', ({ event }) => {
+    //   event.stopImmediatePropagation();
+    //   event.stopPropagation();
+    //   console.log('pointerdown');
+    // });
 
     scene.tweens.add({
       targets: [button1],
