@@ -48,9 +48,7 @@ class Button extends Phaser.GameObjects.Container {
     text.setWordWrapWidth(width - 100);
 
     this.button.width = width;
-    this.button.setInteractive({
-      useHandCursor: true,
-    });
+    this.button.setInteractive({ useHandCursor: true });
     this.button.on('pointerdown', onClick);
 
     scene.tweens.add({
