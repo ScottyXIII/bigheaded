@@ -2,8 +2,7 @@ import * as Phaser from 'phaser';
 import Text from '@/objects/Text';
 import Button from '@/objects/Button';
 import GameScene from '@/scenes/game-scene';
-import googleFont, { IconEnum } from '@/helpers/googleFont';
-import { FontFamilyEnum } from '@/helpers/webFontLoader';
+import googleFont, { FontFamilyEnum, IconEnum } from '@/helpers/googleFont';
 import isDev from '@/helpers/isDev';
 
 class PreloaderScene extends Phaser.Scene {
