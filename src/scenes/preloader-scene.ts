@@ -70,12 +70,17 @@ class PreloaderScene extends Phaser.Scene {
     });
 
     iconButton(this, width - 48, 48 * 3, {
-      icon: IconEnum.FULLSCREEN,
+      icon: IconEnum.REFRESH,
       onClick: () => {},
     });
 
     iconButton(this, width - 48, 48 * 5, {
       icon: IconEnum.SOUNDON,
+      onClick: () => {},
+    });
+
+    iconButton(this, width - 48, 48 * 7, {
+      icon: IconEnum.FULLSCREEN,
       onClick: () => {},
     });
 

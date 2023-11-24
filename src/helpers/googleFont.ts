@@ -33,6 +33,7 @@ export enum IconEnum {
   SOUNDON = '\ue050',
   SOUNDOFF = '\ue04f',
   REFRESH = '\ue5d5',
+  CLOSE = '\ue5cd',
 }
 
 const googleFont = (
