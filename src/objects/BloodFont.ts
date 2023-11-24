@@ -14,7 +14,14 @@ class BloodFont {
     scene: Phaser.Scene,
     x: number,
     y: number,
-    { text, origin = undefined, ...options }: { text: string; origin?: number },
+    {
+      text,
+      origin = undefined,
+      ...options
+    }: {
+      text: string;
+      origin?: number;
+    } & Phaser.Types.GameObjects.Text.TextStyle,
   ) {
     // @ts-expect-error window.webFont is defined above
     window.WebFont.load({
