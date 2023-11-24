@@ -68,6 +68,8 @@ class PreloaderScene extends Phaser.Scene {
       fontSize: 128,
     });
     const btn = new Button(this, cx, cy + 150, 'CONTINUE', 300);
+
+    console.log(BF, btn);
   }
 }
 
