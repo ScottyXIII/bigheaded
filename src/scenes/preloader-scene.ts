@@ -47,7 +47,11 @@ class PreloaderScene extends Phaser.Scene {
     const { width, height } = this.sys.game.canvas;
     const cx = width / 2;
     const cy = height / 2;
-    const btn = new Button(this, cx, cy + 100, 'CONTINUE', 300);
+
+    const btn = new Button(this, cx, cy + 100, {
+      content: 'CONTINUE',
+      width: 300,
+    });
 
     const text1 = googleFont(this, cx, cy - 100, {
       fontFamily: Fonts.BAGEL,
