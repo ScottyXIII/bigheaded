@@ -78,6 +78,8 @@ class PreloaderScene extends Phaser.Scene {
     text2.setInteractive({ useHandCursor: true });
     text2.on('pointerdown', () => alert('settings button'));
 
+    this.scale.updateBounds(); // fix bad hitbox positions
+
     this.input.enableDebug(text2);
     this.input.enableDebug(btn.button);
 
