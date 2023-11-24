@@ -67,6 +67,7 @@ class PreloaderScene extends Phaser.Scene {
       color: '#777',
       fontSize: 32,
       origin: 0.5,
+      padding: { top: 10 }, // fix chrome cutoff icons
     });
 
     // eslint-disable-next-line no-console
