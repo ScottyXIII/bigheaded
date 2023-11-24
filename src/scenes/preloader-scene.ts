@@ -2,9 +2,9 @@ import * as Phaser from 'phaser';
 import Text from '@/objects/Text';
 import Button from '@/objects/Button';
 import GameScene from '@/scenes/game-scene';
-import googleFont, { FontFamilyEnum, IconEnum } from '@/helpers/googleFont';
+import googleFont, { FontFamilyEnum } from '@/helpers/googleFont';
 import isDev from '@/helpers/isDev';
-import iconButton from '@/helpers/iconButton';
+import settingsMenu from '@/helpers/settingsMenu';
 
 class PreloaderScene extends Phaser.Scene {
   constructor() {
@@ -64,28 +64,10 @@ class PreloaderScene extends Phaser.Scene {
     });
     if (isDev) this.input.enableDebug(btn.button);
 
-    iconButton(this, width - 48, 48 * 1, {
-      icon: IconEnum.SETTINGS,
-      onClick: () => {},
-    });
-
-    iconButton(this, width - 48, 48 * 3, {
-      icon: IconEnum.REFRESH,
-      onClick: () => {},
-    });
-
-    iconButton(this, width - 48, 48 * 5, {
-      icon: IconEnum.SOUNDON,
-      onClick: () => {},
-    });
-
-    iconButton(this, width - 48, 48 * 7, {
-      icon: IconEnum.FULLSCREEN,
-      onClick: () => {},
-    });
-
     // eslint-disable-next-line no-console
     console.log({ btn });
+
+    settingsMenu(this);
   }
 }
 
