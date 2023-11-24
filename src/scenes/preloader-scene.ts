@@ -2,9 +2,7 @@ import * as Phaser from 'phaser';
 import Text from '@/objects/Text';
 import Button from '@/objects/Button';
 import GameScene from '@/scenes/game-scene';
-import BagelFatOneFont from '@/objects/BagelFatOneFont';
-import MaterialUIIconFont, { IconNames } from '@/objects/MaterialUIIconFont';
-import googleFont from '@/helpers/googleFont';
+import googleFont, { IconNames } from '@/helpers/googleFont';
 import { Fonts } from '@/helpers/webFontLoader';
 
 class PreloaderScene extends Phaser.Scene {
@@ -49,31 +47,26 @@ class PreloaderScene extends Phaser.Scene {
     const { width, height } = this.sys.game.canvas;
     const cx = width / 2;
     const cy = height / 2;
-    const BF = new BagelFatOneFont(this, cx, cy - 100, {
-      text: 'BigHeaded',
-      origin: 0.5,
-      fontSize: 128,
-    });
     const btn = new Button(this, cx, cy + 100, 'CONTINUE', 300);
 
-    const menu = new MaterialUIIconFont(this, width - 64, 64, {
-      text: IconNames.SETTINGS,
+    const text1 = googleFont(this, cx, cy - 100, {
+      fontFamily: Fonts.BAGEL,
+      text: 'BigHeaded',
+      color: '#FFF',
+      fontSize: 128,
       origin: 0.5,
-      fontSize: 32,
     });
 
-    const text1 = googleFont(this, 10, 10, {
-      fontFamily: Fonts.BAGEL,
-      text: 'hello',
-      // icon: IconNames.FULLSCREEN,
+    const text2 = googleFont(this, width - 64, 64, {
+      fontFamily: Fonts.ICONS,
+      icon: IconNames.SETTINGS,
       color: '#777',
-      fontSize: 64,
-      lineSpacing: -30,
-      // origin: 0.5,
+      fontSize: 32,
+      origin: 0.5,
     });
 
     // eslint-disable-next-line no-console
-    console.log(BF, btn, menu, text1);
+    console.log(btn, text1, text2);
   }
 }
 
