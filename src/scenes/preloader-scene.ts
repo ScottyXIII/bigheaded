@@ -51,7 +51,7 @@ class PreloaderScene extends Phaser.Scene {
     const btn = new Button(this, cx, cy + 100, {
       content: 'CONTINUE',
       width: 300,
-      onClick: () => {},
+      onClick: () => this.scene.start('game-scene'),
     });
 
     const text1 = googleFont(this, cx, cy - 100, {
@@ -70,9 +70,12 @@ class PreloaderScene extends Phaser.Scene {
       origin: 0.5,
       padding: { top: 10 }, // fix chrome cutoff icons, it does not affect position
     });
+    text2.setInteractive();
+    text2.on('pointerdown', () => console.log('settings button'));
+    this.input.enableDebug(text2);
 
     // eslint-disable-next-line no-console
-    console.log(btn, text1, text2);
+    console.log({ btn, text1, text2 });
   }
 }
 
