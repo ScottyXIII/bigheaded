@@ -1,6 +1,6 @@
 const jsx = `
   <div class="overlay">
-    <img src="./favicon.svg"/>
+    <img src="./favicon.svg" alt="🤕"/>
     <h2>LOADING</h2>
     <style>
       @keyframes grow {
