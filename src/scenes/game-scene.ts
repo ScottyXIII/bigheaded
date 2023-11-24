@@ -156,10 +156,9 @@ class GameScene extends Phaser.Scene {
     this.goal = this.level.spawners.goal.getChildren()[0] as Skull;
 
     // keyboard controls
-    const spaceKey = this.input.keyboard?.addKey(
-      Phaser.Input.Keyboard.KeyCodes.SPACE,
-    );
-    spaceKey?.on('down', this.jump.bind(this));
+    this.input.keyboard
+      ?.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE)
+      .on('down', this.jump.bind(this));
 
     // touch tap mobile and mouse leftclick controls
     this.input.on('pointerdown', this.jump.bind(this));

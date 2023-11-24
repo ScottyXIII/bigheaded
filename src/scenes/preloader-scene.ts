@@ -4,6 +4,8 @@ import Button from '@/objects/Button';
 import GameScene from '@/scenes/game-scene';
 import BagelFatOneFont from '@/objects/BagelFatOneFont';
 import MaterialUIIconFont, { IconNames } from '@/objects/MaterialUIIconFont';
+import googleFont from '@/helpers/googleFont';
+import { Fonts } from '@/helpers/webFontLoader';
 
 class PreloaderScene extends Phaser.Scene {
   constructor() {
@@ -11,8 +13,6 @@ class PreloaderScene extends Phaser.Scene {
   }
 
   preload() {
-    // BagelFatOneFont.preload(this);
-    // MaterialUIIconFont.preload(this);
     Button.preload(this);
 
     const { width, height } = this.sys.game.canvas;
@@ -40,17 +40,6 @@ class PreloaderScene extends Phaser.Scene {
     this.load.on('complete', () => {
       message1.textbox.text = '';
       message2.textbox.text = '';
-
-      const next = () => this.scene.start('game-scene');
-
-      // keyboard controls
-      const spaceKey = this.input.keyboard?.addKey(
-        Phaser.Input.Keyboard.KeyCodes.SPACE,
-      );
-      spaceKey?.on('down', next);
-
-      // touch tap mobile and mouse leftclick controls
-      this.input.on('pointerdown', next);
     });
 
     GameScene.preloadExternal(this);
@@ -73,8 +62,18 @@ class PreloaderScene extends Phaser.Scene {
       fontSize: 32,
     });
 
+    const text1 = googleFont(this, 10, 10, {
+      fontFamily: Fonts.BAGEL,
+      text: 'hello',
+      // icon: IconNames.FULLSCREEN,
+      color: '#777',
+      fontSize: 64,
+      lineSpacing: -30,
+      // origin: 0.5,
+    });
+
     // eslint-disable-next-line no-console
-    console.log(BF, btn, menu);
+    console.log(BF, btn, menu, text1);
   }
 }
 
