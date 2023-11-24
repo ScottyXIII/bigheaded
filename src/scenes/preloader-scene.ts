@@ -62,11 +62,11 @@ class PreloaderScene extends Phaser.Scene {
       origin: 0.5,
     });
 
-    const text2 = googleFont(this, width - 32, 32, {
+    const text2 = googleFont(this, width - 48, 48, {
       fontFamily: FontFamilyEnum.ICONS,
       icon: IconEnum.SETTINGS,
       color: '#ffffff44',
-      fontSize: 24,
+      fontSize: 48,
       origin: 0.5,
       padding: {
         top: 20, // fix chrome cutoff icons, it does not affect position
