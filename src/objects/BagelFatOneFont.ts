@@ -1,6 +1,6 @@
 import * as Phaser from 'phaser';
 
-class BloodFont {
+class BagelFatOneFont {
   private text: Phaser.GameObjects.Text | undefined;
 
   static preload(scene: Phaser.Scene) {
@@ -47,4 +47,4 @@ class BloodFont {
   }
 }
 
-export default BloodFont;
+export default BagelFatOneFont;

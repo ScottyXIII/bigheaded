@@ -2,7 +2,7 @@ import * as Phaser from 'phaser';
 import Text from '@/objects/Text';
 import Button from '@/objects/Button';
 import GameScene from '@/scenes/game-scene';
-import BloodFont from '@/objects/BloodFont';
+import BagelFatOneFont from '@/objects/BagelFatOneFont';
 
 class PreloaderScene extends Phaser.Scene {
   constructor() {
@@ -10,7 +10,7 @@ class PreloaderScene extends Phaser.Scene {
   }
 
   preload() {
-    BloodFont.preload(this);
+    BagelFatOneFont.preload(this);
     Button.preload(this);
 
     const { width, height } = this.sys.game.canvas;
@@ -62,7 +62,7 @@ class PreloaderScene extends Phaser.Scene {
     const { width, height } = this.sys.game.canvas;
     const cx = width / 2;
     const cy = height / 2;
-    const BF = new BloodFont(this, cx, cy - 100, {
+    const BF = new BagelFatOneFont(this, cx, cy - 100, {
       text: 'BigHeaded',
       origin: 0.5,
       fontSize: 128,
