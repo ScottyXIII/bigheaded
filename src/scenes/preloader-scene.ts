@@ -61,13 +61,13 @@ class PreloaderScene extends Phaser.Scene {
       origin: 0.5,
     });
 
-    const text2 = googleFont(this, width - 64, 64, {
+    const text2 = googleFont(this, width - 32, 32, {
       fontFamily: Fonts.ICONS,
       icon: IconNames.SETTINGS,
-      color: '#777',
-      fontSize: 32,
+      color: '#ffffff44',
+      fontSize: 24,
       origin: 0.5,
-      padding: { top: 10 }, // fix chrome cutoff icons
+      padding: { top: 10 }, // fix chrome cutoff icons, it does not affect position
     });
 
     // eslint-disable-next-line no-console
