@@ -74,7 +74,7 @@ class PreloaderScene extends Phaser.Scene {
     });
 
     // eslint-disable-next-line no-console
-    // console.log(BF, btn, menu);
+    console.log(BF, btn, menu);
   }
 }
 
