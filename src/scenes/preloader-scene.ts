@@ -67,7 +67,7 @@ class PreloaderScene extends Phaser.Scene {
     });
     const btn = new Button(this, cx, cy + 100, 'CONTINUE', 300);
 
-    const menu = new MaterialUIIconFont(this, cx, cy, {
+    const menu = new MaterialUIIconFont(this, width - 64, 64, {
       text: IconNames.SETTINGS,
       origin: 0.5,
       fontSize: 32,

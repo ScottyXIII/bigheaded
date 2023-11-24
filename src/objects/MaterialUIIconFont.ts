@@ -71,11 +71,11 @@ class MaterialUIIconFont {
     //   },
     //   active: () => {
     this.text = scene.add
-      .text(x, y, `T${icons[text]}`, {
+      .text(x, y, icons[text], {
         fontFamily: 'Material Icons',
         fontSize: 64,
         lineSpacing: -30,
-        color: '#F0F',
+        color: '#777',
         ...options,
       })
       .setShadow(2, 2, '#000000', 2, false, true)
