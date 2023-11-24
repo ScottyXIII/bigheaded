@@ -3,8 +3,9 @@ export enum Fonts {
   ICONS = 'Material Icons',
 }
 
-const src = 'https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js';
 const fonts = Object.values(Fonts);
+
+const src = 'https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js';
 
 const webFontLoader = () => {
   const script = document.createElement('script');

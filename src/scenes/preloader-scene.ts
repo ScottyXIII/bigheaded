@@ -4,6 +4,7 @@ import Button from '@/objects/Button';
 import GameScene from '@/scenes/game-scene';
 import googleFont, { IconNames } from '@/helpers/googleFont';
 import { Fonts } from '@/helpers/webFontLoader';
+import isDev from '@/helpers/isDev';
 
 class PreloaderScene extends Phaser.Scene {
   constructor() {
@@ -80,8 +81,10 @@ class PreloaderScene extends Phaser.Scene {
 
     this.scale.updateBounds(); // fix bad hitbox positions
 
-    this.input.enableDebug(text2);
-    this.input.enableDebug(btn.button);
+    if (isDev) {
+      this.input.enableDebug(text2);
+      this.input.enableDebug(btn.button);
+    }
 
     // eslint-disable-next-line no-console
     console.log({ btn, text1, text2 });

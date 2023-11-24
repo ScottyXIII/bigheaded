@@ -2,18 +2,12 @@ import * as Phaser from 'phaser';
 import { Fonts } from './webFontLoader';
 
 export enum IconNames {
-  SETTINGS = 'SETTINGS',
-  FULLSCREEN = 'FULLSCREEN',
-  SOUNDON = 'SOUNDON',
-  SOUNDOFF = 'SOUNDOFF',
+  SETTINGS = '\ue8b8',
+  FULLSCREEN = '\ue5d0',
+  SOUNDON = '\ue050',
+  SOUNDOFF = '\ue04f',
+  REFRESH = '\ue5d5',
 }
-
-const icons = {
-  SETTINGS: '\ue8b8',
-  FULLSCREEN: '\ue5d0',
-  SOUNDON: '\ue050',
-  SOUNDOFF: '\ue04f',
-};
 
 const googleFont = (
   scene: Phaser.Scene,
@@ -32,7 +26,7 @@ const googleFont = (
     origin?: number;
   } & Phaser.Types.GameObjects.Text.TextStyle,
 ) => {
-  const content = icon !== undefined ? icons[icon] : text || '';
+  const content = icon || text || '';
   const textObj = scene.add
     .text(x, y, content, {
       fontFamily,
