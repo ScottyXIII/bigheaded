@@ -18,15 +18,12 @@ class PreloaderScene extends Phaser.Scene {
     const cy = height / 2;
     const message1 = new Text(this, cx, cy - 20);
     const message2 = new Text(this, cx, cy + 20);
-    const message3 = new Text(this, cx, cy);
 
     message1.textbox.setOrigin(0.5, 0.5);
     message2.textbox.setOrigin(0.5, 0.5);
-    message3.textbox.setOrigin(0.5, 0.5);
 
-    message1.textbox.text = 'LOADING...';
-    message2.textbox.text = '';
-    message3.textbox.text = '';
+    message1.textbox.text = '0%';
+    message2.textbox.text = 'LOADING...';
 
     this.load.on('progress', (value: number) => {
       const percent = Math.floor(value * 100);
@@ -41,7 +38,6 @@ class PreloaderScene extends Phaser.Scene {
     this.load.on('complete', () => {
       message1.textbox.text = '';
       message2.textbox.text = '';
-      // message3.textbox.text = '🟢 Click, Tap, or Spacebar to continue 🟢';
 
       const next = () => this.scene.start('game-scene');
 
