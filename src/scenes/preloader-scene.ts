@@ -65,6 +65,7 @@ class PreloaderScene extends Phaser.Scene {
     });
     const btn = new Button(this, cx, cy + 150, 'CONTINUE', 300);
 
+    // eslint-disable-next-line no-console
     console.log(BF, btn);
   }
 }
