@@ -1,4 +1,4 @@
-import * as Phaser from 'phaser';
+import isDev from '@/helpers/isDev';
 
 type ButtonOptionsType = {
   content: string;
@@ -52,6 +52,8 @@ class Button extends Phaser.GameObjects.Container {
     const hitboxPositionFix = (width - 128) / 2;
     this.button.input?.hitArea.setPosition(-hitboxPositionFix, 0);
     this.button.on('pointerdown', onClick);
+
+    if (isDev) scene.input.enableDebug(this.button);
 
     scene.tweens.add({
       targets: [this.button],

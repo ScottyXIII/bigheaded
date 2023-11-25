@@ -2,7 +2,6 @@ import Text from '@/objects/Text';
 import Button from '@/objects/Button';
 import GameScene from '@/scenes/game-scene';
 import googleFont, { FontFamilyEnum } from '@/helpers/googleFont';
-import isDev from '@/helpers/isDev';
 import settingsMenu from '@/helpers/settingsMenu';
 
 class PreloaderScene extends Phaser.Scene {
@@ -61,7 +60,6 @@ class PreloaderScene extends Phaser.Scene {
       width: 300,
       onClick: () => this.scene.start('game-scene'),
     });
-    if (isDev) this.input.enableDebug(btn.button);
 
     // eslint-disable-next-line no-console
     console.log({ btn });
