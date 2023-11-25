@@ -14,7 +14,6 @@ const HEAD_SCALE_MIN = 0.1;
 const HEAD_SCALE_MAX = 0.5;
 
 // @ts-expect-error todo
-// Can't find correct type here? tried settting data to MatterJS.ICollisionPair but gameobject don't exsit on it.
 const onCollision = data => {
   if (data.bodyB?.gameObject?.collisionCategory === CollisionCategories.coin) {
     data.bodyB.gameObject.destroy();
