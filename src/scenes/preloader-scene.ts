@@ -1,4 +1,3 @@
-// import Phaser from 'phaser';
 import Text from '@/objects/Text';
 import Button from '@/objects/Button';
 import GameScene from '@/scenes/game-scene';
