@@ -13,8 +13,11 @@ const KEY = 'ben3';
 const HEAD_SCALE_MIN = 0.1;
 const HEAD_SCALE_MAX = 0.5;
 
-// @ts-expect-error todo
-const onCollision = data => {
+const onCollision = (
+  data: MatterJS.ICollisionPair & {
+    bodyB: { gameObject: Entity };
+  },
+) => {
   if (data.bodyB?.gameObject?.collisionCategory === CollisionCategories.coin) {
     data.bodyB.gameObject.destroy();
     const [coins, setCoinValue] = useLocalStorage('coins', 0);
