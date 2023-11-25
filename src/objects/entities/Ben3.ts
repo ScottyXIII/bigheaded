@@ -77,7 +77,7 @@ class Ben3 extends Entity {
     this.scene = scene;
 
     // reset coin value from localStorage
-    const [setCoinValue] = useLocalStorage('coins', 0);
+    const [value, setCoinValue] = useLocalStorage('coins', 0);
     setCoinValue(0);
 
     this.playAnimation('idle');
