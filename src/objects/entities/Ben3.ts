@@ -5,11 +5,26 @@ import matterAddImageEllipse from '@/helpers/matterAddImageEllipse';
 import Entity, { EntityConfigType } from '@/objects/entities/Entity';
 import keepUpright, { KeepUprightStratergies } from '@/helpers/keepUpright';
 import moveTowards from '@/helpers/moveTowards';
+import CollisionCategories from '@/enums/CollisionCategories';
+import useLocalStorage from '@/helpers/useLocalStorage';
 
 const KEY = 'ben3';
 
 const HEAD_SCALE_MIN = 0.1;
 const HEAD_SCALE_MAX = 0.5;
+
+const onCollision = (
+  data: MatterJS.ICollisionPair & {
+    bodyB: { gameObject: Entity };
+  },
+) => {
+  if (data.bodyB?.gameObject?.collisionCategory === CollisionCategories.coin) {
+    data.bodyB.gameObject.destroy();
+    const [coins, setCoinValue] = useLocalStorage('coins', 0);
+    const coinsNewValue = coins + 1;
+    setCoinValue(coinsNewValue);
+  }
+};
 
 const entityConfig: EntityConfigType = {
   name: KEY,
@@ -25,6 +40,8 @@ const entityConfig: EntityConfigType = {
     height: 75,
     chamfer: { radius: 30 },
   },
+  collisionCategory: CollisionCategories.player,
+  collideCallback: onCollision,
   animations: [
     {
       animationKey: 'idle',
@@ -59,8 +76,11 @@ class Ben3 extends Entity {
 
   constructor(scene: GameScene, x: number, y: number) {
     super(scene, x, y, entityConfig);
-
     this.scene = scene;
+
+    // reset coin value from localStorage
+    const [, setCoinValue] = useLocalStorage('coins', 0);
+    setCoinValue(0);
 
     this.playAnimation('idle');
 

@@ -2367,14 +2367,14 @@
         {
           "height": 0,
           "id": 4,
-          "name": "player",
+          "name": "coin",
           "point": true,
           "rotation": 0,
           "type": "",
           "visible": true,
           "width": 0,
-          "x": 832,
-          "y": 510
+          "x": 2255.10913140312,
+          "y": 546.489977728285
         },
         {
           "height": 0,
@@ -2387,6 +2387,42 @@
           "width": 0,
           "x": 61089.5475285171,
           "y": -3216.23574144487
+        },
+        {
+          "height": 0,
+          "id": 19,
+          "name": "player",
+          "point": true,
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 0,
+          "x": 966.984409799555,
+          "y": 638.574610244989
+        },
+        {
+          "height": 0,
+          "id": 20,
+          "name": "coin",
+          "point": true,
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 0,
+          "x": 3265.85300668151,
+          "y": 583.839643652561
+        },
+        {
+          "height": 0,
+          "id": 21,
+          "name": "coin",
+          "point": true,
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 0,
+          "x": 4141.61247216036,
+          "y": 492.614699331848
         }
       ],
       "opacity": 1,
@@ -2397,7 +2433,7 @@
     }
   ],
   "nextlayerid": 4,
-  "nextobjectid": 19,
+  "nextobjectid": 22,
   "orientation": "orthogonal",
   "renderorder": "right-down",
   "tiledversion": "1.10.2",

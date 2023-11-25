@@ -2,6 +2,7 @@ import Phaser from 'phaser';
 import { PhaserMatterImage } from '@/types';
 import GameScene from '@/scenes/game-scene';
 import findOtherBody from '@/helpers/findOtherBody';
+import CollisionCategories from '@/enums/CollisionCategories';
 
 type AnimationsConfigType = {
   animationKey: string;
@@ -23,6 +24,7 @@ export type EntityConfigType = {
   scale: number;
   // eslint-disable-next-line @typescript-eslint/ban-types
   collideCallback?: Function;
+  collisionCategory?: CollisionCategories;
   craftpixOffset: {
     x: number;
     y: number;
@@ -39,10 +41,6 @@ const defaultConfig: EntityConfigType = {
     x: 0,
     y: 0,
   },
-  collideCallback: (
-    _sensorName: string, // eslint-disable-line @typescript-eslint/no-unused-vars
-    _gameObject: Phaser.GameObjects.Container, // eslint-disable-line @typescript-eslint/no-unused-vars
-  ) => {},
 };
 
 class Entity extends Phaser.GameObjects.Container {
@@ -61,6 +59,8 @@ class Entity extends Phaser.GameObjects.Container {
   protected hitbox;
 
   protected target: Phaser.GameObjects.Container | undefined;
+
+  protected collisionCategory: CollisionCategories | undefined;
 
   protected craftpixOffset: {
     x: number;
@@ -82,6 +82,7 @@ class Entity extends Phaser.GameObjects.Container {
       physicsConfig,
       facing,
       scale,
+      collisionCategory,
       collideCallback,
       craftpixOffset,
     } = { ...defaultConfig, ...config };
@@ -91,10 +92,10 @@ class Entity extends Phaser.GameObjects.Container {
     this.name = name;
     this.craftpixOffset = craftpixOffset;
     this.facing = facing;
-
     this.sensorData = {
       bottom: new Set(),
     };
+    this.collisionCategory = collisionCategory;
 
     // text
     this.text = this.scene.add
@@ -132,6 +133,10 @@ class Entity extends Phaser.GameObjects.Container {
     ) as PhaserMatterImage;
     this.scene.add.existing(this);
 
+    if (this.collisionCategory) {
+      this.gameObject.setCollisionCategory(this.collisionCategory);
+    }
+
     const { bodies: Bodies, body: Body } = scene.matter;
     // @ts-expect-error todo
     const { width, height } = physicsConfig;
@@ -154,10 +159,9 @@ class Entity extends Phaser.GameObjects.Container {
       parts: [this.hitbox, bottom],
     });
 
-    // @ts-expect-error todo
-    this.hitbox.onCollideCallback = data => {
+    this.hitbox.onCollideCallback = (data: MatterJS.ICollisionPair) => {
       collideCallback?.(data);
-    }; // Do we want left/right/top/down sensors like the last game?
+    };
     this.gameObject.setExistingBody(compoundBody);
     this.gameObject.setPosition(x, y);
     this.sprite.setScale(this.scale);

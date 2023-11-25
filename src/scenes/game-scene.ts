@@ -13,6 +13,7 @@ import Ben3 from '@/objects/entities/Ben3';
 import Bat from '@/objects/entities/Bat';
 import Tomato from '@/objects/entities/Tomato';
 import Hedgehog from '@/objects/entities/Hedgehog';
+import Coin from '@/objects/Coin';
 
 import Ball from '@/objects/Ball';
 import Skull from '@/objects/Skull';
@@ -77,6 +78,13 @@ const levelConfig: LevelConfigType = {
       runChildUpdate: true,
       autoSpawn: true,
     },
+    {
+      tiledObjectName: 'coin',
+      classFactory: Coin,
+      maxSize: 10,
+      runChildUpdate: true,
+      autoSpawn: true,
+    },
   ],
 };
 
@@ -110,6 +118,8 @@ class GameScene extends Phaser.Scene {
 
   private score: Text | undefined;
 
+  private coins: Text | undefined;
+
   public level: Level | undefined;
 
   public player: Ben3 | undefined;
@@ -130,6 +140,7 @@ class GameScene extends Phaser.Scene {
     Parallax.preload(this, parallaxName);
     Level.preload(this, levelConfig);
     Audio.preload(this, soundConfig);
+    Coin.preload(this);
   }
 
   create() {
@@ -156,6 +167,7 @@ class GameScene extends Phaser.Scene {
     this.input.on('pointerdown', this.jump.bind(this));
 
     this.score = new Text(this, 10, 10);
+    this.coins = new Text(this, 10, 30);
 
     settingsMenu(this);
   }
@@ -166,7 +178,14 @@ class GameScene extends Phaser.Scene {
   }
 
   update() {
-    if (!this.parallax || !this.level || !this.player || !this.score) return;
+    if (
+      !this.parallax ||
+      !this.level ||
+      !this.player ||
+      !this.score ||
+      !this.coins
+    )
+      return;
 
     this.parallax.update();
 
@@ -175,6 +194,8 @@ class GameScene extends Phaser.Scene {
     const [myNum, setMyNum] = useLocalStorage('testNum', 0);
     setMyNum(myNum + 1);
     this.score.textbox.text = String(myNum).padStart(8, '0');
+    const [coins] = useLocalStorage('coins', 0);
+    this.coins.textbox.text = `coins: ${String(coins).padStart(5, '0')}`;
   }
 }
 
