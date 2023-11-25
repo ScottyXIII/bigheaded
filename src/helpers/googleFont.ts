@@ -34,6 +34,8 @@ export enum IconEnum {
   SOUNDOFF = '\ue04f',
   REFRESH = '\ue5d5',
   CLOSE = '\ue5cd',
+  EYEOPEN = '\ue8f4',
+  EYECLOSED = '\ue8f5',
 }
 
 const googleFont = (

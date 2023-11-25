@@ -2,6 +2,7 @@ import { IconEnum } from '@/helpers/googleFont';
 import iconButton from '@/helpers/iconButton';
 import fullscreenAndLandscape from '@/helpers/fullscreen';
 import useLocalStorage from './useLocalStorage';
+import isDev from './isDev';
 
 const settingsMenu = (scene: Phaser.Scene) => {
   const { width } = scene.sys.game.canvas;
@@ -33,16 +34,33 @@ const settingsMenu = (scene: Phaser.Scene) => {
   });
   fullscreen.visible = false;
 
+  const toggleDebugShapes = iconButton(scene, width - 48, 48 * 9, {
+    icon: IconEnum.EYEOPEN,
+    onClick: () => {
+      const oldDrawDebug = scene.matter.world.drawDebug;
+      const newDrawDebug = !oldDrawDebug;
+      scene.matter.world.drawDebug = newDrawDebug;
+      scene.matter.world.debugGraphic.clear();
+
+      toggleDebugShapes.setText(
+        newDrawDebug ? IconEnum.EYEOPEN : IconEnum.EYECLOSED,
+      );
+    },
+  });
+  toggleDebugShapes.visible = false;
+
   const open = () => {
     refresh.visible = true;
     soundToggle.visible = true;
     fullscreen.visible = true;
+    if (isDev) toggleDebugShapes.visible = true;
   };
 
   const close = () => {
     refresh.visible = false;
     soundToggle.visible = false;
     fullscreen.visible = false;
+    toggleDebugShapes.visible = false;
   };
 
   const cog = iconButton(scene, width - 48, 48 * 1, {

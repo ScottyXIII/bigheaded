@@ -147,7 +147,7 @@ class GameScene extends Phaser.Scene {
     this.level = new Level(this, levelConfig);
     this.audio = new Audio(this, soundConfig);
 
-    this.audio.playAudio('music2');
+    this.audio.playAudio('music1');
     const [isMute] = useLocalStorage('isMute', false);
     this.game.sound.mute = isMute; // set game mute to saved ls value
 
