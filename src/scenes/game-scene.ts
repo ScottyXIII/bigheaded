@@ -138,10 +138,8 @@ class GameScene extends Phaser.Scene {
   }
 
   create() {
-    // toggle debug GFX
     if (isDev) this.input.keyboard?.on('keydown-CTRL', () => toggleDebug(this));
-
-    this.matter.add.mouseSpring();
+    if (isDev) this.matter.add.mouseSpring();
 
     this.parallax = new Parallax(this, parallaxName);
     this.level = new Level(this, levelConfig);
