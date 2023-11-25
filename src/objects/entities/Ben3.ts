@@ -5,11 +5,20 @@ import matterAddImageEllipse from '@/helpers/matterAddImageEllipse';
 import Entity, { EntityConfigType } from '@/objects/entities/Entity';
 import keepUpright, { KeepUprightStratergies } from '@/helpers/keepUpright';
 import moveTowards from '@/helpers/moveTowards';
+import CollisionCategories from '@/enums/CollisionCategories';
 
 const KEY = 'ben3';
 
 const HEAD_SCALE_MIN = 0.1;
 const HEAD_SCALE_MAX = 0.5;
+
+const onCollision = data => {
+  if (data.bodyB.gameObject.collisionCategory === CollisionCategories.coin) {
+    data.bodyB.gameObject.destroy();
+    // emit effect
+    // add to coin counter
+  }
+};
 
 const entityConfig: EntityConfigType = {
   name: KEY,
@@ -25,6 +34,8 @@ const entityConfig: EntityConfigType = {
     height: 75,
     chamfer: { radius: 20 },
   },
+  collisionCategory: CollisionCategories.player,
+  collideCallback: onCollision,
   animations: [
     {
       animationKey: 'walk',
