@@ -1,9 +1,8 @@
 import screenfull from 'screenfull';
 
 const fullscreenAndLandscape = () => {
-  const el = document.querySelector('canvas#game') as Element;
   if (screenfull.isEnabled) {
-    screenfull.request(el, { navigationUI: 'hide' });
+    screenfull.request(document.body, { navigationUI: 'hide' });
   }
 
   // next we change screen orientation to landscape!
