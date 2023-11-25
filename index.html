@@ -2,15 +2,32 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="manifest" href="manifest.json" />
+    <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+    <link rel="manifest" href="./manifest.json" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Bigheaded</title>
+    <style>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        background: #111 url('./page-background.jpg');
+        color: white;
+        height: 100svh;
+        font-family: Arial, Helvetica, sans-serif;
+      }
+    </style>
   </head>
-  <body>
-    <button id="fullscreen">⛶</button>
-    <button id="music">🔊</button>
-    <canvas id="game"></canvas>
+  <body class="vc">
+    <noscript>
+      <h1>JAVASCRIPT IS NOT ENABLED.<br />Please enable javascript.</h1>
+    </noscript>
+    <div class="wrap">
+      <canvas id="game"></canvas>
+    </div>
     <script src="./mini-loader.js"></script>
     <script type="module" src="/src/main.ts"></script>
   </body>

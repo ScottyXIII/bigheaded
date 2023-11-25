@@ -1,3 +1,4 @@
+import convertTiledPolygonToGameObject from '@/helpers/convertTiledPolygonToGameObject';
 import Phaser from 'phaser';
 
 type LayerConfigType = {
@@ -60,7 +61,7 @@ class Level {
     // load tiles
     this.level = scene.make.tilemap({ key: 'level1' });
     this.level.addTilesetImage(
-      'tiles',
+      'tiles', // this has to match the name of the tilesheet in Tiled
       'tileSheet',
       tileWidth,
       tileHeight,
@@ -71,28 +72,24 @@ class Level {
     // load image layers
     this.layers = layerConfig.reduce((acc, { tiledLayerName, depth }) => {
       const layer = this.level?.createLayer(tiledLayerName, 'tiles');
-
       if (!layer) return acc;
-
       layer.setDepth(depth);
-
       return { ...acc, [tiledLayerName]: layer };
     }, {});
 
     // load staticbodies
     const staticbody = this.level.getObjectLayer('staticbody')?.objects || [];
-    for (let i = 0; i < staticbody.length; i += 1) {
-      const { x, y, polygon } = staticbody[i];
-      const poly = scene.add.polygon(0, 0, polygon, 0x0000ff, 0.5);
-      const mb = scene.matter.add.gameObject(poly, {
-        shape: { type: 'fromVerts', verts: polygon, flagInternal: true },
-        isStatic: true,
-        position: { x, y },
-      }) as Phaser.Physics.Matter.Image;
-
-      mb.x += mb.width / 2;
-      mb.y += mb.height / 2;
-    }
+    staticbody.reduce((acc, tiledObject) => {
+      const { x, y, polygon } = tiledObject;
+      if (!x || !y || !polygon) return acc;
+      const newStaticBody = convertTiledPolygonToGameObject(scene, {
+        x,
+        y,
+        polygon,
+      });
+      if (!newStaticBody) return acc;
+      return [...acc, newStaticBody];
+    }, [] as Phaser.GameObjects.GameObject[]);
 
     // for each entry in the spawnerConfig, create a group
     const spawnersT = this.level.getObjectLayer('spawner')?.objects || [];

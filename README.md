@@ -8,6 +8,8 @@ Game Off 2023
 
 ## Development
 
+`npm install` then `npm run dev`
+
 trello board: https://trello.com/b/njkSeDet/game-off-2023-bigheaded
 
 [How to use Tiled to edit levels](./Tiled.md)
@@ -26,3 +28,7 @@ trello board: https://trello.com/b/njkSeDet/game-off-2023-bigheaded
 - supermountaindusk and mountain: https://ansimuz.itch.io/mountain-dusk-parallax-background
 - blueforest: https://saurabhkgp.itch.io/pixel-art-forest-background-simple-seamless-parallax-ready-for-2d-platformer-s
 - forest2022: https://saurabhkgp.itch.io/the-dawn-parallax-background
+
+### Other artwork
+
+- skull: https://pngfre.com/skull-png/skull-png-from-pngfre-33/
