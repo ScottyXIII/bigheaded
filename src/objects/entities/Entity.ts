@@ -60,7 +60,7 @@ class Entity extends Phaser.GameObjects.Container {
 
   protected target: Phaser.GameObjects.Container | undefined;
 
-  protected collisionCategory: CollisionCategories | undefined;
+  public collisionCategory: CollisionCategories | undefined;
 
   protected craftpixOffset: {
     x: number;
