@@ -41,7 +41,6 @@ const defaultConfig: EntityConfigType = {
     x: 0,
     y: 0,
   },
-  collideCallback: data => {},
 };
 
 class Entity extends Phaser.GameObjects.Container {
@@ -160,10 +159,9 @@ class Entity extends Phaser.GameObjects.Container {
       parts: [this.hitbox, bottom],
     });
 
-    // @ts-expect-error todo
-    this.hitbox.onCollideCallback = data => {
+    this.hitbox.onCollideCallback = (data: MatterJS.ICollisionPair) => {
       collideCallback?.(data);
-    }; // Do we want left/right/top/down sensors like the last game?
+    };
     this.gameObject.setExistingBody(compoundBody);
     this.gameObject.setPosition(x, y);
     this.sprite.setScale(this.scale);

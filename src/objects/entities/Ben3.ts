@@ -13,11 +13,11 @@ const KEY = 'ben3';
 const HEAD_SCALE_MIN = 0.1;
 const HEAD_SCALE_MAX = 0.5;
 
+// @ts-expect-error todo
+// Can't find correct type here? tried settting data to MatterJS.ICollisionPair but gameobject don't exsit on it.
 const onCollision = data => {
-  if (data.bodyB.gameObject.collisionCategory === CollisionCategories.coin) {
+  if (data.bodyB?.gameObject?.collisionCategory === CollisionCategories.coin) {
     data.bodyB.gameObject.destroy();
-    // emit effect
-    // add to coin counter
     const [coins, setCoinValue] = useLocalStorage('coins', 0);
     const coinsNewValue = coins + 1;
     setCoinValue(coinsNewValue);
@@ -77,7 +77,7 @@ class Ben3 extends Entity {
     this.scene = scene;
 
     // reset coin value from localStorage
-    const [value, setCoinValue] = useLocalStorage('coins', 0);
+    const [, setCoinValue] = useLocalStorage('coins', 0);
     setCoinValue(0);
 
     this.playAnimation('idle');
