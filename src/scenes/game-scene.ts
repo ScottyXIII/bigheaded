@@ -2,47 +2,50 @@ import * as Phaser from 'phaser';
 
 import toggleDebug from '@/helpers/toggleDebug';
 import smoothMoveCameraTowards from '@/helpers/smoothMoveCameraTowards';
-import toggleMusic from '@/helpers/toggleMusic';
 import useLocalStorage from '@/helpers/useLocalStorage';
 import isDev from '@/helpers/isDev';
+import settingsMenu from '@/helpers/settingsMenu';
 
 import Parallax, { ParallaxNames } from '@/objects/Parallax';
 import Level, { LevelConfigType } from '@/objects/Level';
 
-import SpinText from '@/objects/SpinText';
 import Ben3 from '@/objects/entities/Ben3';
 import Bat from '@/objects/entities/Bat';
 import Tomato from '@/objects/entities/Tomato';
-import Ball from '@/objects/Ball';
 import Hedgehog from '@/objects/entities/Hedgehog';
-import Audio from '@/objects/Audio';
 import Coin from '@/objects/Coin';
+
+import Ball from '@/objects/Ball';
+import Skull from '@/objects/Skull';
+
+import Audio from '@/objects/Audio';
+import Text from '@/objects/Text';
 
 const parallaxName: ParallaxNames = 'supermountaindusk';
 
 const levelConfig: LevelConfigType = {
   tilesetPng: './level/tileset/demo-tileset.png',
-  tiledMapJson: './level/tiled-level/test-flat.json',
+  tiledMapJson: './level/tiled-level/test-bumpy.json',
   tileWidth: 32,
   tileHeight: 32,
   tileMargin: 0,
   tileSpacing: 0,
   layerConfig: [
-    { tiledLayerName: 'background', depth: 0 },
+    // { tiledLayerName: 'background', depth: 0 },
     { tiledLayerName: 'solidground', depth: 10 },
-    { tiledLayerName: 'foreground', depth: 20 },
+    // { tiledLayerName: 'foreground', depth: 20 },
   ],
   spawnerConfig: [
     {
-      tiledObjectName: 'spin',
-      classFactory: SpinText,
+      tiledObjectName: 'player',
+      classFactory: Ben3,
       maxSize: 1,
       runChildUpdate: true,
       autoSpawn: true,
     },
     {
-      tiledObjectName: 'player',
-      classFactory: Ben3,
+      tiledObjectName: 'goal',
+      classFactory: Skull,
       maxSize: 1,
       runChildUpdate: true,
       autoSpawn: true,
@@ -111,52 +114,62 @@ const soundConfig = [
 class GameScene extends Phaser.Scene {
   private parallax: Parallax | undefined;
 
-  private level: Level | undefined;
-
   private audio: Audio | undefined;
+
+  private score: Text | undefined;
+
+  private coins: Text | undefined;
+
+  public level: Level | undefined;
 
   public player: Ben3 | undefined;
 
+  public goal: Skull | undefined;
+
+  public static preloadExternal(scene: Phaser.Scene) {
+    Parallax.preload(scene, parallaxName);
+    Level.preload(scene, levelConfig);
+    Audio.preload(scene, soundConfig);
+  }
+
   constructor() {
-    super('scene-game');
+    super('game-scene');
   }
 
   preload() {
     Parallax.preload(this, parallaxName);
     Level.preload(this, levelConfig);
     Audio.preload(this, soundConfig);
-    Hedgehog.preload(this);
     Coin.preload(this);
   }
 
   create() {
-    // @ts-expect-error nope
-    window.killSpinner();
-
-    // toggle debug GFX
     if (isDev) this.input.keyboard?.on('keydown-CTRL', () => toggleDebug(this));
-
-    this.matter.add.mouseSpring();
+    if (isDev) this.matter.add.mouseSpring();
 
     this.parallax = new Parallax(this, parallaxName);
     this.level = new Level(this, levelConfig);
     this.audio = new Audio(this, soundConfig);
 
-    this.audio.playAudio('music2');
-    toggleMusic(this); // attaches listener to mute button
+    this.audio.playAudio('music1');
     const [isMute] = useLocalStorage('isMute', false);
     this.game.sound.mute = isMute; // set game mute to saved ls value
 
     this.player = this.level.spawners.player.getChildren()[0] as Ben3;
+    this.goal = this.level.spawners.goal.getChildren()[0] as Skull;
 
     // keyboard controls
-    const spaceKey = this.input?.keyboard?.addKey(
-      Phaser.Input.Keyboard.KeyCodes.SPACE,
-    );
-    spaceKey?.on('down', this.jump.bind(this));
+    this.input.keyboard
+      ?.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE)
+      .on('down', this.jump.bind(this));
 
     // touch tap mobile and mouse leftclick controls
     this.input.on('pointerdown', this.jump.bind(this));
+
+    this.score = new Text(this, 10, 10);
+    this.coins = new Text(this, 10, 30);
+
+    settingsMenu(this);
   }
 
   jump() {
@@ -165,7 +178,14 @@ class GameScene extends Phaser.Scene {
   }
 
   update() {
-    if (!this.parallax || !this.level || !this.player) return;
+    if (
+      !this.parallax ||
+      !this.level ||
+      !this.player ||
+      !this.score ||
+      !this.coins
+    )
+      return;
 
     this.parallax.update();
 
@@ -173,6 +193,9 @@ class GameScene extends Phaser.Scene {
 
     const [myNum, setMyNum] = useLocalStorage('testNum', 0);
     setMyNum(myNum + 1);
+    this.score.textbox.text = String(myNum).padStart(8, '0');
+    const [coins] = useLocalStorage('coins', 0);
+    this.coins.textbox.text = `coins: ${String(coins).padStart(5, '0')}`;
   }
 }
 

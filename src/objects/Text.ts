@@ -1,7 +1,7 @@
 import * as Phaser from 'phaser';
 
-class SpinText extends Phaser.GameObjects.Container {
-  private textbox: Phaser.GameObjects.Text | undefined;
+class Text extends Phaser.GameObjects.Container {
+  public textbox: Phaser.GameObjects.Text;
 
   static preload() {}
 
@@ -18,14 +18,12 @@ class SpinText extends Phaser.GameObjects.Container {
         fontFamily: 'monospace',
         fontSize: '26px',
       })
-      .setOrigin(0.5, 0.5);
+      .setScrollFactor(0);
   }
 
   update(_time: number, delta: number) {
-    if (!this.textbox) return;
-
     this.textbox.rotation += 0.0005 * delta;
   }
 }
 
-export default SpinText;
+export default Text;
