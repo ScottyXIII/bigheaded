@@ -49,6 +49,8 @@ class Button extends Phaser.GameObjects.Container {
 
     this.button.width = width;
     this.button.setInteractive({ useHandCursor: true });
+    const hitboxPositionFix = (width - 128) / 2;
+    this.button.input?.hitArea.setPosition(-hitboxPositionFix, 0);
     this.button.on('pointerdown', onClick);
 
     scene.tweens.add({
