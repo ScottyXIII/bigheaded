@@ -23,10 +23,10 @@ import Text from '@/objects/Text';
 const parallaxName: ParallaxNames = 'supermountaindusk';
 
 const levelConfig: LevelConfigType = {
-  tilesetPng: './level/tileset/demo-tileset.png',
-  tiledMapJson: './level/tiled-level/test-bumpy.json',
-  tileWidth: 32,
-  tileHeight: 32,
+  tilesetPng: './level/tileset/sd-tileset64a.png',
+  tiledMapJson: './level/tiled-level/test-64c.json',
+  tileWidth: 64,
+  tileHeight: 64,
   tileMargin: 0,
   tileSpacing: 0,
   layerConfig: [
