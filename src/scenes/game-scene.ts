@@ -25,11 +25,6 @@ const parallaxName: ParallaxNames = 'supermountaindusk';
 const levelConfig: LevelConfigType = {
   tilesetPng: './level/tileset/demo-tileset.png',
   tiledMapJson: './level/tiled-level/test-bumpy.json',
-  // tiledMapJson: './level/tiled-level/test-flat.json',
-
-  // tilesetPng: './level/tileset/tileset1.png',
-  // tiledMapJson: './level/tiled-level/mapData1.json',
-
   tileWidth: 32,
   tileHeight: 32,
   tileMargin: 0,
