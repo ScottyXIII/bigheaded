@@ -1,0 +1,149 @@
+{
+  "compressionlevel": -1,
+  "height": 20,
+  "infinite": true,
+  "layers": [
+    {
+      "chunks": [
+        {
+          "data": [
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2,
+            2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 25, 25, 25, 25, 25, 25,
+            25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25,
+            25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25,
+            25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25,
+            25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25,
+            25, 25, 25, 25, 25, 25
+          ],
+          "height": 16,
+          "width": 16,
+          "x": 0,
+          "y": 0
+        }
+      ],
+      "height": 16,
+      "id": 1,
+      "name": "solidground",
+      "opacity": 1,
+      "startx": 0,
+      "starty": 0,
+      "type": "tilelayer",
+      "visible": true,
+      "width": 16,
+      "x": 0,
+      "y": 0
+    },
+    {
+      "draworder": "topdown",
+      "id": 3,
+      "name": "staticbody",
+      "objects": [
+        {
+          "height": 0,
+          "id": 12,
+          "name": "",
+          "polygon": [
+            {
+              "x": 0,
+              "y": 0
+            },
+            {
+              "x": 192,
+              "y": -128
+            },
+            {
+              "x": 192,
+              "y": 384
+            },
+            {
+              "x": -1024,
+              "y": 384
+            },
+            {
+              "x": -1024,
+              "y": 0
+            }
+          ],
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 0,
+          "x": 1024,
+          "y": 640
+        }
+      ],
+      "opacity": 1,
+      "type": "objectgroup",
+      "visible": true,
+      "x": 0,
+      "y": 0
+    },
+    {
+      "draworder": "topdown",
+      "id": 2,
+      "name": "spawner",
+      "objects": [
+        {
+          "height": 0,
+          "id": 4,
+          "name": "player",
+          "point": true,
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 0,
+          "x": 64,
+          "y": 510
+        },
+        {
+          "height": 0,
+          "id": 5,
+          "name": "goal",
+          "point": true,
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 0,
+          "x": 961,
+          "y": 510
+        }
+      ],
+      "opacity": 1,
+      "type": "objectgroup",
+      "visible": true,
+      "x": 0,
+      "y": 0
+    }
+  ],
+  "nextlayerid": 4,
+  "nextobjectid": 13,
+  "orientation": "orthogonal",
+  "renderorder": "right-down",
+  "tiledversion": "1.10.2",
+  "tileheight": 64,
+  "tilesets": [
+    {
+      "columns": 23,
+      "firstgid": 1,
+      "image": "../tileset/demo-tileset64.png",
+      "imageheight": 1152,
+      "imagewidth": 1472,
+      "margin": 0,
+      "name": "tiles",
+      "spacing": 0,
+      "tilecount": 414,
+      "tileheight": 64,
+      "tilewidth": 64
+    }
+  ],
+  "tilewidth": 64,
+  "type": "map",
+  "version": "1.10",
+  "width": 30
+}
