@@ -15,8 +15,8 @@ import Bat from '@/objects/entities/Bat';
 import Tomato from '@/objects/entities/Tomato';
 import Ball from '@/objects/Ball';
 import Hedgehog from '@/objects/entities/Hedgehog';
-
 import Audio from '@/objects/Audio';
+import Coin from '@/objects/Coin';
 
 const parallaxName: ParallaxNames = 'supermountaindusk';
 
@@ -75,6 +75,13 @@ const levelConfig: LevelConfigType = {
       runChildUpdate: true,
       autoSpawn: true,
     },
+    {
+      tiledObjectName: 'coin',
+      classFactory: Coin,
+      maxSize: 10,
+      runChildUpdate: true,
+      autoSpawn: true,
+    },
   ],
 };
 
@@ -119,6 +126,7 @@ class GameScene extends Phaser.Scene {
     Level.preload(this, levelConfig);
     Audio.preload(this, soundConfig);
     Hedgehog.preload(this);
+    Coin.preload(this);
   }
 
   create() {
