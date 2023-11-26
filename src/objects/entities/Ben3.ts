@@ -6,7 +6,7 @@ import Entity, { EntityConfigType } from '@/objects/entities/Entity';
 import keepUpright, { KeepUprightStratergies } from '@/helpers/keepUpright';
 import moveTowards from '@/helpers/moveTowards';
 import CollisionCategories from '@/enums/CollisionCategories';
-import Coin from '../Coin';
+import Coin from '@/objects/Coin';
 
 const KEY = 'ben3';
 
