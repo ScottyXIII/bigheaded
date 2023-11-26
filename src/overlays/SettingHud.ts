@@ -15,7 +15,7 @@ const { getValue: getIsSFXMute, setValue: setIsSFXMute } = useLocalStorage(
   false,
 );
 
-const childConfig = [
+const buttonConfig = [
   {
     buttonName: 'settings',
     icons: [IconEnum.CLOSE, IconEnum.SETTINGS],
@@ -69,7 +69,7 @@ class SettingsHud {
 
     const { width } = scene.sys.game.canvas;
 
-    this.buttons = childConfig.map(({ buttonName, icons }, i) => {
+    this.buttons = buttonConfig.map(({ buttonName, icons }, i) => {
       const btn = iconButton(scene, width - 48, 48 + 48 * 2 * i, {
         icon: icons[0], // default icon is "true" state
         onClick: () => {
@@ -125,7 +125,7 @@ class SettingsHud {
     this.setButtonState('settings', isOpen);
     this.buttons.forEach(item => {
       const allowVisibilityChange =
-        childConfig.find(
+        buttonConfig.find(
           configItem => configItem.buttonName === item.buttonName,
         )?.allowVisibilityChange || false;
 
@@ -140,7 +140,7 @@ class SettingsHud {
   setButtonState(buttonName: string, isOn: boolean) {
     this.buttons.forEach(item => {
       if (item.buttonName === buttonName) {
-        const icons = childConfig.find(
+        const icons = buttonConfig.find(
           configItem => configItem.buttonName === buttonName,
         )?.icons || ['X', 'X'];
         const icon = isOn ? icons[0] : icons[1];
