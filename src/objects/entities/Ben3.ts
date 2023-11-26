@@ -107,6 +107,8 @@ class Ben3 extends Entity {
 
   jump() {
     if (this.sensorData.bottom.size >= 1) {
+      this.scene.audio?.playAudio('jump');
+
       const { body: Body } = this.scene.matter;
 
       const { centerX, centerY } = this.gameObject.getBounds();
