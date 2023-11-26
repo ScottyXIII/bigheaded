@@ -37,8 +37,8 @@ const buttonConfig = [
     allowVisibilityChange: true,
   },
   {
-    buttonName: 'fullscreen',
-    icons: [IconEnum.FULLSCREEN],
+    buttonName: 'isFullscreen',
+    icons: [IconEnum.FULLSCREENON, IconEnum.FULLSCREENOFF],
     allowVisibilityChange: true,
   },
   {
@@ -58,7 +58,7 @@ class SettingsHud {
 
   private isOpen = false;
 
-  public isDebugOn = isDev;
+  // public isDebugOn = isDev;
 
   private buttons: { buttonName: string; btn: Phaser.GameObjects.Text }[];
 
@@ -89,7 +89,8 @@ class SettingsHud {
     this.setButtonState('settings', this.isOpen);
     this.setButtonState('isSFXMute', getIsSFXMute());
     this.setButtonState('isMusicMute', getIsMusicMute());
-    this.setButtonState('isDebugOn', true);
+    this.setButtonState('isFullscreen', false);
+    this.setButtonState('isDebugOn', scene.matter.world.drawDebug);
 
     // connect click actions
     this.registerOnClick('settings', () => {
@@ -112,12 +113,17 @@ class SettingsHud {
       this.setButtonState('isMusicMute', newIsMusicMute);
       scene.audio?.setMusicMute(newIsMusicMute);
     });
-    this.registerOnClick('fullscreen', fullscreenAndLandscape);
+    this.registerOnClick('isFullscreen', () => {
+      fullscreenAndLandscape();
+      this.setButtonState('isFullscreen', true);
+    });
     this.registerOnClick('isDebugOn', () => {
-      const newState = !this.isDebugOn;
-      this.isDebugOn = newState;
-      this.setButtonState('isDebugOn', newState);
-      this.setDebug(newState);
+      const oldDrawDebug = scene.matter.world.drawDebug;
+      const newDrawDebug = !oldDrawDebug;
+      this.setButtonState('isDebugOn', newDrawDebug);
+      this.setDebug(newDrawDebug); // set this menu debug on or off (not matterjs engine)
+      scene.matter.world.drawDebug = newDrawDebug;
+      scene.matter.world.debugGraphic.clear();
     });
   }
 
@@ -149,7 +155,7 @@ class SettingsHud {
     });
   }
 
-  // turn green hitArea boxes on / off
+  // turn green hitArea boxes on / off in this menu
   setDebug(isOn: boolean) {
     const fnName = isOn ? 'enableDebug' : 'removeDebug';
     this.buttons.forEach(item => {

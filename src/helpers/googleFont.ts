@@ -29,7 +29,8 @@ export const webFontLoader = () => {
 
 export enum IconEnum {
   SETTINGS = '\ue8b8',
-  FULLSCREEN = '\ue5d0',
+  FULLSCREENON = '\ue5d1',
+  FULLSCREENOFF = '\ue5d0',
   SFXON = '\ue050',
   SFXOFF = '\ue04f',
   MUSICON = '\ue405',
