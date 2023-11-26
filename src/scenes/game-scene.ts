@@ -114,6 +114,11 @@ const soundConfig = [
     filePath: './audio/sfx/coin.mp3',
     loop: false,
   },
+  {
+    key: 'jump',
+    filePath: './audio/sfx/jump.mp3',
+    loop: false,
+  },
 ];
 
 class GameScene extends Phaser.Scene {
@@ -179,7 +184,7 @@ class GameScene extends Phaser.Scene {
   }
 
   jump() {
-    if (!this.level || !this.player) return;
+    if (!this.level || !this.player || !this.audio) return;
     this.player.jump();
   }
 
