@@ -107,10 +107,21 @@ class Ben3 extends Entity {
 
   jump() {
     if (this.sensorData.bottom.size >= 1) {
-      // @ts-expect-error todo
-      this.gameObject.applyForce({ x: 0, y: -0.3 });
-      // @ts-expect-error todo
-      this.head.applyForce({ x: 0, y: -0.3 });
+      this.scene.audio?.playAudio('jump');
+
+      const { body: Body } = this.scene.matter;
+
+      const { centerX, centerY } = this.gameObject.getBounds();
+      const position = { x: centerX, y: centerY };
+      Body.applyForce(this.gameObject.body, position, {
+        x: 0,
+        y: -0.05 * this.gameObject.body.mass,
+      });
+
+      Body.applyForce(this.head.body, this.head.getCenter(), {
+        x: 0,
+        y: -0.05 * this.head.body.mass,
+      });
     }
   }
 

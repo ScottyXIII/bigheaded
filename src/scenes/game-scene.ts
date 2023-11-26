@@ -109,16 +109,21 @@ const soundConfig = [
     filePath: './audio/music/spook.mp3',
     loop: true,
   },
+  {
+    key: 'jump',
+    filePath: './audio/sfx/jump.mp3',
+    loop: false,
+  },
 ];
 
 class GameScene extends Phaser.Scene {
   private parallax: Parallax | undefined;
 
-  private audio: Audio | undefined;
-
   private score: Text | undefined;
 
   private coins: Text | undefined;
+
+  public audio: Audio | undefined;
 
   public level: Level | undefined;
 
@@ -173,7 +178,7 @@ class GameScene extends Phaser.Scene {
   }
 
   jump() {
-    if (!this.level || !this.player) return;
+    if (!this.level || !this.player || !this.audio) return;
     this.player.jump();
   }
 
