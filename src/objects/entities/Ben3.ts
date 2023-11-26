@@ -116,8 +116,10 @@ class Ben3 extends Entity {
         y: -0.05 * this.gameObject.body.mass,
       });
 
-      const xyForce = { x: 0, y: -0.05 * this.head.body.mass };
-      Body.applyForce(this.head.body, this.head.getCenter(), xyForce);
+      Body.applyForce(this.head.body, this.head.getCenter(), {
+        x: 0,
+        y: -0.05 * this.head.body.mass,
+      });
     }
   }
 
