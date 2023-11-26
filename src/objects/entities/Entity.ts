@@ -133,8 +133,8 @@ class Entity extends Phaser.GameObjects.Container {
     ) as PhaserMatterImage;
     this.scene.add.existing(this);
 
-    if (this.collisionCategory) {
-      this.gameObject.setCollisionCategory(this.collisionCategory);
+    if (collisionCategory) {
+      this.gameObject.setCollisionCategory(collisionCategory);
     }
 
     const { bodies: Bodies, body: Body } = scene.matter;
