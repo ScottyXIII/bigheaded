@@ -3,6 +3,7 @@ import Button from '@/objects/Button';
 import GameScene from '@/scenes/game-scene';
 import googleFont, { FontFamilyEnum } from '@/helpers/googleFont';
 import settingsMenu from '@/helpers/settingsMenu';
+import SettingsHud from '@/overlays/SettingHud';
 
 class PreloaderScene extends Phaser.Scene {
   constructor() {
@@ -61,10 +62,12 @@ class PreloaderScene extends Phaser.Scene {
       onClick: () => this.scene.start('game-scene'),
     });
 
-    // eslint-disable-next-line no-console
-    console.log({ btn });
-
     settingsMenu(this);
+
+    const settingsHud = new SettingsHud(this);
+
+    // eslint-disable-next-line no-console
+    console.log({ btn, settingsHud });
   }
 }
 
