@@ -52,6 +52,7 @@ class Coin extends Entity {
 
   collect() {
     this.scene.audio?.playAudio('coin');
+    this.scene.collectCoin();
     this.destroy();
   }
 }

@@ -114,11 +114,14 @@ const soundConfig = [
 ];
 
 class GameScene extends Phaser.Scene {
+  private coins = 0; // this resets to zero every time the scene loads
+
+  private score: Text | undefined; // not really a score
+
   private parallax: Parallax | undefined;
 
-  private score: Text | undefined;
-
-  private coins: Text | undefined;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  private menu: any;
 
   public audio: Audio | undefined;
 
@@ -169,10 +172,9 @@ class GameScene extends Phaser.Scene {
     // touch tap mobile and mouse leftclick controls
     this.input.on('pointerdown', this.jump.bind(this));
 
-    this.score = new Text(this, 10, 10);
-    this.coins = new Text(this, 10, 30);
+    this.score = new Text(this, 10, 50);
 
-    settingsMenu(this);
+    this.menu = settingsMenu(this);
   }
 
   jump() {
@@ -180,15 +182,13 @@ class GameScene extends Phaser.Scene {
     this.player.jump();
   }
 
+  collectCoin() {
+    this.coins += 1;
+    this.menu.updateCoinsDisplay(this.coins);
+  }
+
   update() {
-    if (
-      !this.parallax ||
-      !this.level ||
-      !this.player ||
-      !this.score ||
-      !this.coins
-    )
-      return;
+    if (!this.parallax || !this.level || !this.player || !this.score) return;
 
     this.parallax.update();
 
@@ -197,9 +197,6 @@ class GameScene extends Phaser.Scene {
     const [myNum, setMyNum] = useLocalStorage('testNum', 0);
     setMyNum(myNum + 1);
     this.score.textbox.text = String(myNum).padStart(8, '0');
-
-    const [coins] = useLocalStorage('coins', 0);
-    this.coins.textbox.text = `coins: ${String(coins).padStart(5, '0')}`;
   }
 }
 

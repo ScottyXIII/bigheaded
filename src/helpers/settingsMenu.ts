@@ -1,8 +1,8 @@
 import { IconEnum } from '@/helpers/googleFont';
-import iconButton from '@/helpers/iconButton';
 import fullscreenAndLandscape from '@/helpers/fullscreen';
-import useLocalStorage from './useLocalStorage';
-import isDev from './isDev';
+import useLocalStorage from '@/helpers/useLocalStorage';
+import isDev from '@/helpers/isDev';
+import iconButton from '@/helpers/iconButton';
 
 const settingsMenu = (scene: Phaser.Scene) => {
   const { width } = scene.sys.game.canvas;
@@ -77,6 +77,21 @@ const settingsMenu = (scene: Phaser.Scene) => {
       }
     },
   });
+
+  // const coins = new Text(scene, 10, 10);
+  const coins = scene.add
+    .text(10, 10, '🪙 00000', {
+      color: '#FFF',
+      fontFamily: 'monospace',
+      fontSize: '26px',
+    })
+    .setScrollFactor(0);
+
+  const updateCoinsDisplay = (newCoinsValue: number) => {
+    coins.setText(`🪙 ${String(newCoinsValue).padStart(5, '0')}`);
+  };
+
+  return { updateCoinsDisplay };
 };
 
 export default settingsMenu;
