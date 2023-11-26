@@ -15,11 +15,19 @@ const HEAD_SCALE_MAX = 0.5;
 
 const onCollision = (
   data: MatterJS.ICollisionPair & {
+    bodyA: { gameObject: Coin };
     bodyB: { gameObject: Coin };
   },
 ) => {
+  console.log(data, data.bodyA.gameObject.name, data.bodyB.gameObject.name);
+
   // check if collide with coin
   if (data.bodyB.gameObject.name === 'coin') data.bodyB.gameObject.collect();
+
+  // check if collide with enemy
+
+  // check if collide with goal
+  if (data.bodyB.gameObject.name === 'goal') alert('!');
 };
 
 const entityConfig: EntityConfigType = {
@@ -81,6 +89,7 @@ class Ben3 extends Entity {
       height: 270,
       friction: 0,
     });
+    this.head.name = 'head';
     this.head.setScale(HEAD_SCALE_MIN);
 
     this.neck = scene.matter.add.constraint(

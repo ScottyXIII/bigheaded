@@ -20,6 +20,7 @@ class Skull extends Phaser.GameObjects.Container {
       })
       .setScale(0.1)
       .setDepth(10);
+    this.skull.name = 'goal';
   }
 }
 
