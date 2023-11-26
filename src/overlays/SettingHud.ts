@@ -58,6 +58,8 @@ class SettingsHud {
 
   private isOpen = false;
 
+  public isDebugOn = isDev;
+
   private buttons: { buttonName: string; btn: Phaser.GameObjects.Text }[];
 
   private onClickRegistry: RegistryItem[] = [];
@@ -68,7 +70,7 @@ class SettingsHud {
     const { width } = scene.sys.game.canvas;
 
     this.buttons = childConfig.map(({ buttonName, icons }, i) => {
-      const btn = iconButton(scene, width - 100 - 48, 48 + 48 * 2 * i, {
+      const btn = iconButton(scene, width - 48, 48 + 48 * 2 * i, {
         icon: icons[0], // default icon is "true" state
         onClick: () => {
           const onClickHandlersForButtonName = this.onClickRegistry
@@ -91,8 +93,9 @@ class SettingsHud {
 
     // connect click actions
     this.registerOnClick('settings', () => {
-      this.setMenuOpen(!this.isOpen);
-      this.isOpen = !this.isOpen;
+      const newState = !this.isOpen;
+      this.isOpen = newState;
+      this.setMenuOpen(newState);
     });
     this.registerOnClick('refresh', () => window.location.reload());
     this.registerOnClick('isSFXMute', () => {
@@ -111,9 +114,10 @@ class SettingsHud {
     });
     this.registerOnClick('fullscreen', fullscreenAndLandscape);
     this.registerOnClick('isDebugOn', () => {
-      const newState = Math.random() > 0.5;
-      this.setDebug(newState);
+      const newState = !this.isDebugOn;
+      this.isDebugOn = newState;
       this.setButtonState('isDebugOn', newState);
+      this.setDebug(newState);
     });
   }
 
@@ -147,11 +151,10 @@ class SettingsHud {
 
   // turn green hitArea boxes on / off
   setDebug(isOn: boolean) {
-    // this.scene.matter.world.debugGraphic.clear();
-    const func = isOn
-      ? this.scene.input.enableDebug
-      : this.scene.input.removeDebug;
-    this.buttons.forEach(item => func(item.btn));
+    const fnName = isOn ? 'enableDebug' : 'removeDebug';
+    this.buttons.forEach(item => {
+      this.scene.input[fnName](item.btn);
+    });
   }
 }
 
