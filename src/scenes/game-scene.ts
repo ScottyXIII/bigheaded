@@ -8,7 +8,6 @@ import isDev from '@/helpers/isDev';
 import Parallax, { ParallaxNames } from '@/objects/Parallax';
 import Level, { LevelConfigType } from '@/objects/Level';
 import Audio from '@/objects/Audio';
-
 import SettingsHud from '@/overlays/SettingHud';
 import CoinHud from '@/overlays/CoinHud';
 
