@@ -58,8 +58,8 @@ class PreloaderScene extends Phaser.Scene {
     });
 
     const btn = new Button(this, cx, cy + 100, {
-      content: 'CONTINUE',
-      width: 300,
+      content: 'START ADVENTURE',
+      width: 400,
       onClick: () => this.scene.start('game-scene'),
     });
 
