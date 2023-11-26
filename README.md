@@ -22,6 +22,7 @@ trello board: https://trello.com/b/njkSeDet/game-off-2023-bigheaded
 - sneaky-snitch.mp3: https://www.chosic.com/download-audio/39325/
 - spook.mp3: https://www.chosic.com/download-audio/45515/
 - punch.wav: https://www.chosic.com/
+- coin.mp3: https://pixabay.com/sound-effects/coin-c-02-102844/
 
 ### Parallax artwork
 
