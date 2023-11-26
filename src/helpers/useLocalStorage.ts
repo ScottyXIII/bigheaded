@@ -1,12 +1,17 @@
+import { encode, decode } from '@/helpers/safeBase64';
+import { stringify, parse } from '@/helpers/safeJSON';
+
 const useLocalStorage = (
   key: string,
   defaultValue: string | number | boolean,
 ) => {
-  const lsValue = window.localStorage.getItem(key);
-  const value = JSON.parse(lsValue || 'null') || defaultValue;
+  const lsValue = String(window.localStorage.getItem(key));
+  const value = parse(decode(lsValue)) || defaultValue;
 
   const setValue = (newValue: string | number | boolean) => {
-    window.localStorage.setItem(key, JSON.stringify(newValue));
+    const stringified = stringify(newValue);
+    const encoded = encode(stringified);
+    window.localStorage.setItem(key, encoded);
   };
 
   return [value, setValue];
