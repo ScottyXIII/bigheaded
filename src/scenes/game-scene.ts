@@ -13,9 +13,8 @@ import Ben3 from '@/objects/entities/Ben3';
 import Bat from '@/objects/entities/Bat';
 import Tomato from '@/objects/entities/Tomato';
 import Hedgehog from '@/objects/entities/Hedgehog';
-import Coin from '@/objects/Coin';
 
-import Ball from '@/objects/Ball';
+import Coin from '@/objects/Coin';
 import Skull from '@/objects/Skull';
 
 import Audio from '@/objects/Audio';
@@ -48,13 +47,6 @@ const levelConfig: LevelConfigType = {
       classFactory: Skull,
       maxSize: 1,
       runChildUpdate: true,
-      autoSpawn: true,
-    },
-    {
-      tiledObjectName: 'item',
-      classFactory: Ball,
-      maxSize: 10,
-      runChildUpdate: false,
       autoSpawn: true,
     },
     {
