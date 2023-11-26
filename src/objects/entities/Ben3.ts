@@ -19,9 +19,7 @@ const onCollision = (
   },
 ) => {
   // check if collide with coin
-  if (data.bodyB?.gameObject?.collisionCategory === CollisionCategories.coin) {
-    data.bodyB.gameObject.collect();
-  }
+  if (data.bodyB.gameObject.name === 'coin') data.bodyB.gameObject.collect();
 };
 
 const entityConfig: EntityConfigType = {

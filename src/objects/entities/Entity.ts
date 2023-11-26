@@ -60,8 +60,6 @@ class Entity extends Phaser.GameObjects.Container {
 
   protected target: Phaser.GameObjects.Container | undefined;
 
-  public collisionCategory: CollisionCategories | undefined;
-
   protected craftpixOffset: {
     x: number;
     y: number;
@@ -95,7 +93,6 @@ class Entity extends Phaser.GameObjects.Container {
     this.sensorData = {
       bottom: new Set(),
     };
-    this.collisionCategory = collisionCategory;
 
     // text
     this.text = this.scene.add
