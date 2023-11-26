@@ -194,7 +194,7 @@ class GameScene extends Phaser.Scene {
     const [myNum, setMyNum] = useLocalStorage('testNum', 0);
     setMyNum(myNum + 1);
     this.score.textbox.text = String(myNum).padStart(8, '0');
-    const [coins] = useLocalStorage('coins', 0);
+    const [coins] = useLocalStorage('coins', 0, true);
     this.coins.textbox.text = `coins: ${String(coins).padStart(5, '0')}`;
   }
 }

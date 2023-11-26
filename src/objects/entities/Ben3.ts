@@ -20,7 +20,7 @@ const onCollision = (
 ) => {
   if (data.bodyB?.gameObject?.collisionCategory === CollisionCategories.coin) {
     data.bodyB.gameObject.destroy();
-    const [coins, setCoinValue] = useLocalStorage('coins', 0);
+    const [coins, setCoinValue] = useLocalStorage('coins', 0, true);
     const coinsNewValue = coins + 1;
     setCoinValue(coinsNewValue);
   }
@@ -79,7 +79,7 @@ class Ben3 extends Entity {
     this.scene = scene;
 
     // reset coin value from localStorage
-    const [, setCoinValue] = useLocalStorage('coins', 0);
+    const [, setCoinValue] = useLocalStorage('coins', 0, true);
     setCoinValue(0);
 
     this.playAnimation('idle');
