@@ -1,6 +1,15 @@
+import fullscreenAndLandscape from '@/helpers/fullscreen';
 import { IconEnum } from '@/helpers/googleFont';
 import iconButton from '@/helpers/iconButton';
 import isDev from '@/helpers/isDev';
+import useLocalStorage from '@/helpers/useLocalStorage';
+import GameScene from '@/scenes/game-scene';
+
+// get state from LS
+const { getValue: getIsMusicMute, setValue: setIsMusicMute } = useLocalStorage(
+  'isMusicMute',
+  false,
+);
 
 const childConfig = [
   {
@@ -41,7 +50,7 @@ type RegistryItem = {
 };
 
 class SettingsHud {
-  private scene: Phaser.Scene;
+  private scene: GameScene;
 
   private isOpen = false;
 
@@ -49,7 +58,7 @@ class SettingsHud {
 
   private onClickRegistry: RegistryItem[] = [];
 
-  constructor(scene: Phaser.Scene) {
+  constructor(scene: GameScene) {
     this.scene = scene;
 
     const { width } = scene.sys.game.canvas;
@@ -67,23 +76,31 @@ class SettingsHud {
       return { buttonName, btn };
     });
 
-    this.setMenuOpen(this.isOpen); // hide all child buttons
+    // hide all child buttons
+    this.setMenuOpen(this.isOpen);
 
-    // setup settings button
+    // setup initial states
     this.setButtonState('settings', this.isOpen);
+    this.setButtonState('isSFXMute', false);
+    this.setButtonState('isMusicMute', getIsMusicMute());
+    this.setButtonState('isDebugOn', true);
+
+    // connect click actions
     this.registerOnClick('settings', () => {
       this.setMenuOpen(!this.isOpen);
       this.isOpen = !this.isOpen;
     });
-
-    // setup refresh button
     this.registerOnClick('refresh', () => window.location.reload());
-
-    // this.setButtonState('isSFXMute', false);
-
     this.registerOnClick('isSFXMute', () => alert('isSFXMute'));
-    this.registerOnClick('isMusicMute', () => alert('isMusicMute'));
-    this.registerOnClick('fullscreen', () => alert('fullscreen'));
+    this.registerOnClick('isMusicMute', () => {
+      const isMusicMute = getIsMusicMute();
+      const newIsMusicMute = !isMusicMute;
+      console.log({ gimm: getIsMusicMute(), newIsMusicMute });
+      setIsMusicMute(newIsMusicMute);
+      this.setButtonState('isMusicMute', newIsMusicMute);
+      scene.audio?.setMusicMute(newIsMusicMute);
+    });
+    this.registerOnClick('fullscreen', fullscreenAndLandscape);
     this.registerOnClick('isDebugOn', () => alert('debug'));
   }
 

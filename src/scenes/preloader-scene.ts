@@ -2,7 +2,6 @@ import Text from '@/objects/Text';
 import Button from '@/objects/Button';
 import GameScene from '@/scenes/game-scene';
 import googleFont, { FontFamilyEnum } from '@/helpers/googleFont';
-import settingsMenu from '@/helpers/settingsMenu';
 import SettingsHud from '@/overlays/SettingHud';
 
 class PreloaderScene extends Phaser.Scene {
@@ -62,8 +61,7 @@ class PreloaderScene extends Phaser.Scene {
       onClick: () => this.scene.start('game-scene'),
     });
 
-    settingsMenu(this);
-
+    // @ts-expect-error needs class inheritance refactoring
     const settingsHud = new SettingsHud(this);
 
     // eslint-disable-next-line no-console

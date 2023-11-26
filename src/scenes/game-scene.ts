@@ -176,10 +176,10 @@ class GameScene extends Phaser.Scene {
     this.coins = new Text(this, 10, 30);
 
     // set sfx/music mute from local storage
-    const [isSFXMute] = useLocalStorage('isSFXMute', false);
-    this.audio?.setSFXMute(isSFXMute);
-    const [isMusicMute] = useLocalStorage('isMusicMute', false);
-    this.audio?.setMusicMute(isMusicMute);
+    const { getValue: getIsSFXMute } = useLocalStorage('isSFXMute', false);
+    this.audio?.setSFXMute(getIsSFXMute());
+    const { getValue: getIsMusicMute } = useLocalStorage('isMusicMute', false);
+    this.audio?.setMusicMute(getIsMusicMute());
 
     settingsMenu(this);
   }
@@ -202,12 +202,6 @@ class GameScene extends Phaser.Scene {
     this.parallax.update();
 
     smoothMoveCameraTowards(this, this.player.gameObject, 0.8);
-
-    const [myNum, setMyNum] = useLocalStorage('testNum', 0);
-    setMyNum(myNum + 1);
-    this.score.textbox.text = String(myNum).padStart(8, '0');
-    const [coins] = useLocalStorage('coins', 0);
-    this.coins.textbox.text = `coins: ${String(coins).padStart(5, '0')}`;
   }
 }
 
