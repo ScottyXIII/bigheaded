@@ -67,16 +67,24 @@ class SettingsHud {
       return { buttonName, btn };
     });
 
-    this.setMenuOpen(this.isOpen); // all child buttons are hidden
+    this.setMenuOpen(this.isOpen); // hide all child buttons
 
+    // setup settings button
     this.setButtonState('settings', this.isOpen);
     this.registerOnClick('settings', () => {
       this.setMenuOpen(!this.isOpen);
       this.isOpen = !this.isOpen;
     });
 
-    this.setButtonState('isMute', false);
+    // setup refresh button
     this.registerOnClick('refresh', () => window.location.reload());
+
+    // this.setButtonState('isSFXMute', false);
+
+    this.registerOnClick('isSFXMute', () => alert('isSFXMute'));
+    this.registerOnClick('isMusicMute', () => alert('isMusicMute'));
+    this.registerOnClick('fullscreen', () => alert('fullscreen'));
+    this.registerOnClick('isDebugOn', () => alert('debug'));
   }
 
   setMenuOpen(isOpen: boolean) {
