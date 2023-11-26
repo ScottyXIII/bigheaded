@@ -49,6 +49,11 @@ class Coin extends Entity {
     this.scene = scene;
     this.playAnimation('idle');
   }
+
+  collect() {
+    this.scene.audio?.playAudio('coin');
+    this.destroy();
+  }
 }
 
 export default Coin;
