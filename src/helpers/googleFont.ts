@@ -27,6 +27,7 @@ export const webFontLoader = () => {
   document.getElementsByTagName('head')[0].appendChild(script);
 };
 
+// choose new icons here https://fonts.google.com/icons?icon.set=Material+Icons
 export enum IconEnum {
   SETTINGS = '\ue8b8',
   FULLSCREENON = '\ue5d1',

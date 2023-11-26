@@ -12,15 +12,17 @@ import Ben3 from '@/objects/entities/Ben3';
 import Bat from '@/objects/entities/Bat';
 import Tomato from '@/objects/entities/Tomato';
 import Hedgehog from '@/objects/entities/Hedgehog';
-import Coin from '@/objects/Coin';
 
-import Ball from '@/objects/Ball';
+import Coin from '@/objects/Coin';
 import Skull from '@/objects/Skull';
 
 import Audio from '@/objects/Audio';
 import Text from '@/objects/Text';
-import SettingsHud from '@/overlays/SettingHud';
 
+import SettingsHud from '@/overlays/SettingHud';
+import CoinHud from '@/overlays/CoinHud';
+
+const { getValue: getCoins, setValue: setCoins } = useLocalStorage('coins', 0);
 const { getValue: getIsSFXMute } = useLocalStorage('isSFXMute', false);
 const { getValue: getIsMusicMute } = useLocalStorage('isMusicMute', false);
 
@@ -51,13 +53,6 @@ const levelConfig: LevelConfigType = {
       classFactory: Skull,
       maxSize: 1,
       runChildUpdate: true,
-      autoSpawn: true,
-    },
-    {
-      tiledObjectName: 'item',
-      classFactory: Ball,
-      maxSize: 10,
-      runChildUpdate: false,
       autoSpawn: true,
     },
     {
@@ -93,11 +88,6 @@ const levelConfig: LevelConfigType = {
 
 const soundConfig = [
   {
-    key: 'punch',
-    filePath: './audio/sfx/punch.wav',
-    loop: false,
-  },
-  {
     key: 'music1',
     filePath: './audio/music/fluffing-a-duck.mp3',
     loop: true,
@@ -116,18 +106,28 @@ const soundConfig = [
     isMusic: true,
   },
   {
+    key: 'punch',
+    filePath: './audio/sfx/punch.wav',
+    loop: false,
+  },
+  {
     key: 'jump',
     filePath: './audio/sfx/jump.mp3',
+    loop: false,
+  },
+  {
+    key: 'coin',
+    filePath: './audio/sfx/coin.mp3',
     loop: false,
   },
 ];
 
 class GameScene extends Phaser.Scene {
+  private coinHud: CoinHud | undefined;
+
+  private coins = 0; // this resets to zero every time the scene loads
+
   private parallax: Parallax | undefined;
-
-  private score: Text | undefined;
-
-  private coins: Text | undefined;
 
   public audio: Audio | undefined;
 
@@ -141,6 +141,7 @@ class GameScene extends Phaser.Scene {
     Parallax.preload(scene, parallaxName);
     Level.preload(scene, levelConfig);
     Audio.preload(scene, soundConfig);
+    Coin.preload(scene);
   }
 
   constructor() {
@@ -175,15 +176,14 @@ class GameScene extends Phaser.Scene {
     // touch tap mobile and mouse leftclick controls
     this.input.on('pointerdown', this.jump.bind(this));
 
-    this.score = new Text(this, 10, 10);
-    this.coins = new Text(this, 10, 30);
-
     // set sfx/music mute from local storage
     this.audio?.setSFXMute(getIsSFXMute());
     this.audio?.setMusicMute(getIsMusicMute());
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const settingsHud = new SettingsHud(this);
+
+    this.coinHud = new CoinHud(this, this.coins);
   }
 
   jump() {
@@ -191,15 +191,17 @@ class GameScene extends Phaser.Scene {
     this.player.jump();
   }
 
+  collectCoin() {
+    if (!this.coinHud) return;
+
+    this.coins += 1;
+    this.coinHud.updateCoinsDisplay(this.coins);
+
+    setCoins(getCoins() + 1); // save to meta balance in ls
+  }
+
   update() {
-    if (
-      !this.parallax ||
-      !this.level ||
-      !this.player ||
-      !this.score ||
-      !this.coins
-    )
-      return;
+    if (!this.parallax || !this.level || !this.player) return;
 
     this.parallax.update();
 

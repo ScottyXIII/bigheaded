@@ -3,6 +3,10 @@ import Button from '@/objects/Button';
 import GameScene from '@/scenes/game-scene';
 import googleFont, { FontFamilyEnum } from '@/helpers/googleFont';
 import SettingsHud from '@/overlays/SettingHud';
+import CoinHud from '@/overlays/CoinHud';
+import useLocalStorage from '@/helpers/useLocalStorage';
+
+const { getValue: getCoins } = useLocalStorage('coins', 0);
 
 class PreloaderScene extends Phaser.Scene {
   constructor() {
@@ -62,10 +66,13 @@ class PreloaderScene extends Phaser.Scene {
     });
 
     // @ts-expect-error needs class inheritance refactoring
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const settingsHud = new SettingsHud(this);
 
+    const coinHud = new CoinHud(this, getCoins());
+
     // eslint-disable-next-line no-console
-    console.log({ btn, settingsHud });
+    console.log({ btn, coinHud });
   }
 }
 

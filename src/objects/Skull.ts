@@ -4,7 +4,7 @@ class Skull extends Phaser.GameObjects.Container {
   public skull: Phaser.GameObjects.Image;
 
   static preload(scene: Phaser.Scene) {
-    scene.load.image('skull', './object/skull.png');
+    scene.load.image('skull', './object/items/skull.png');
   }
 
   constructor(scene: Phaser.Scene, x: number, y: number) {
