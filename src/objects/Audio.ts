@@ -6,6 +6,7 @@ type AudioConfigType = {
   loop: boolean;
   volume?: number;
   soundConfig?: Phaser.Types.Sound.SoundConfig;
+  isMusic?: boolean;
 };
 
 class Audio {
@@ -34,6 +35,22 @@ class Audio {
       const config: AudioConfigType = configs[i];
       scene.load.audio(config.key, config.filePath);
     }
+  }
+
+  setSFXMute(mute: boolean) {
+    Object.entries(this.audioConfig).forEach(([key, config]) => {
+      if (!config.isMusic || config.isMusic === undefined) {
+        this.audio[key].setMute(mute);
+      }
+    });
+  }
+
+  setMusicMute(mute: boolean) {
+    Object.entries(this.audioConfig).forEach(([key, config]) => {
+      if (config.isMusic) {
+        this.audio[key].setMute(mute);
+      }
+    });
   }
 
   playAudio(key: string) {
