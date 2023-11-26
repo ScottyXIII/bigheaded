@@ -7,9 +7,6 @@ import keepUpright, { KeepUprightStratergies } from '@/helpers/keepUpright';
 import moveTowards from '@/helpers/moveTowards';
 import CollisionCategories from '@/enums/CollisionCategories';
 import Coin from '@/objects/Coin';
-import useLocalStorage from '@/helpers/useLocalStorage';
-
-const { getValue: getCoins, setValue: setCoins } = useLocalStorage('coins', 0);
 
 const KEY = 'ben3';
 
@@ -23,8 +20,6 @@ const onCollision = (
 ) => {
   // check if collide with coin
   if (data.bodyB?.gameObject?.collisionCategory === CollisionCategories.coin) {
-    const coinsNewValue = getCoins() + 1;
-    setCoins(coinsNewValue);
     data.bodyB.gameObject.collect();
   }
 };
