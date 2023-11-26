@@ -64,20 +64,23 @@ class SettingsHud {
           onClickHandlersForButtonName?.forEach(onClick => onClick());
         },
       });
-      // btn.visible = false; // all child buttons are hidden
       return { buttonName, btn };
     });
+
+    this.setMenuOpen(this.isOpen); // all child buttons are hidden
 
     this.setButtonState('settings', this.isOpen);
     this.registerOnClick('settings', () => {
       this.setMenuOpen(!this.isOpen);
       this.isOpen = !this.isOpen;
     });
+
     this.setButtonState('isMute', false);
     this.registerOnClick('refresh', () => window.location.reload());
   }
 
   setMenuOpen(isOpen: boolean) {
+    this.setButtonState('settings', isOpen);
     this.buttons.forEach(item => {
       const allowVisibilityChange =
         childConfig.find(
