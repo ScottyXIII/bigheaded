@@ -90,11 +90,6 @@ const levelConfig: LevelConfigType = {
 
 const soundConfig = [
   {
-    key: 'punch',
-    filePath: './audio/sfx/punch.wav',
-    loop: false,
-  },
-  {
     key: 'music1',
     filePath: './audio/music/fluffing-a-duck.mp3',
     loop: true,
@@ -109,16 +104,26 @@ const soundConfig = [
     filePath: './audio/music/spook.mp3',
     loop: true,
   },
+  {
+    key: 'punch',
+    filePath: './audio/sfx/punch.wav',
+    loop: false,
+  },
+  {
+    key: 'coin',
+    filePath: './audio/sfx/coin.mp3',
+    loop: false,
+  },
 ];
 
 class GameScene extends Phaser.Scene {
   private parallax: Parallax | undefined;
 
-  private audio: Audio | undefined;
-
   private score: Text | undefined;
 
   private coins: Text | undefined;
+
+  public audio: Audio | undefined;
 
   public level: Level | undefined;
 
@@ -152,7 +157,7 @@ class GameScene extends Phaser.Scene {
     this.level = new Level(this, levelConfig);
     this.audio = new Audio(this, soundConfig);
 
-    this.audio.playAudio('music1');
+    this.audio.playAudio('music3');
     const [isMute] = useLocalStorage('isMute', false);
     this.game.sound.mute = isMute; // set game mute to saved ls value
 
@@ -195,6 +200,7 @@ class GameScene extends Phaser.Scene {
     const [myNum, setMyNum] = useLocalStorage('testNum', 0);
     setMyNum(myNum + 1);
     this.score.textbox.text = String(myNum).padStart(8, '0');
+
     const [coins] = useLocalStorage('coins', 0);
     this.coins.textbox.text = `coins: ${String(coins).padStart(5, '0')}`;
   }
