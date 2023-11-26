@@ -114,12 +114,39 @@ class Ben3 extends Entity {
     }
   }
 
+  left() {
+    const rot = this.gameObject.rotation - Phaser.Math.DegToRad(5);
+    this.gameObject.setRotation(rot);
+    this.head.body.mass = 0;
+    // this.gameObject.setAngle(this.gameObject.angle - 5);
+  }
+
+  right() {
+    const rot = this.gameObject.rotation + Phaser.Math.DegToRad(5);
+    this.gameObject.setRotation(rot);
+    // this.head.body.mass = 0;
+    // this.gameObject.setAngle(this.gameObject.angle + 5);
+  }
+
   update(time: number, delta: number) {
     super.update(time, delta);
 
+    const AkeyDown = this.scene.input.keyboard?.addKey(
+      Phaser.Input.Keyboard.KeyCodes.A,
+    ).isDown;
+    if (AkeyDown) {
+      this.left();
+    }
+    const DkeyDown = this.scene.input.keyboard?.addKey(
+      Phaser.Input.Keyboard.KeyCodes.D,
+    ).isDown;
+    if (DkeyDown) {
+      this.right();
+    }
+
     if (this.sensorData.bottom.size >= 1) {
       // touching the ground
-      keepUpright(KeepUprightStratergies.SPRINGY, this.gameObject, 0.05);
+      // keepUpright(KeepUprightStratergies.SPRINGY, this.gameObject, 0.05);
 
       if (!this.scene.goal) return;
       moveTowards(this, this.scene.goal.skull, {
@@ -139,6 +166,8 @@ class Ben3 extends Entity {
     if (this.headScale < HEAD_SCALE_MIN) this.headScaleDirection = 1;
 
     this.headScale += 0.00001 * this.headScaleDirection * delta;
+
+    // this.headScale = HEAD_SCALE_MAX;
 
     // scale pointA position proportionally to headScale
     this.neck.pointA = new Phaser.Math.Vector2(0, this.headScale * 140).rotate(
