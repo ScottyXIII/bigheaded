@@ -14,6 +14,8 @@ trello board: https://trello.com/b/njkSeDet/game-off-2023-bigheaded
 
 [How to use Tiled to edit levels](./Tiled.md)
 
+choose new material icons here https://fonts.google.com/icons?icon.set=Material+Icons
+
 ## Credits
 
 ### Sounds & Music
