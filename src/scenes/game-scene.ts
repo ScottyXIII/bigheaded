@@ -110,13 +110,13 @@ const soundConfig = [
     loop: false,
   },
   {
-    key: 'coin',
-    filePath: './audio/sfx/coin.mp3',
+    key: 'jump',
+    filePath: './audio/sfx/jump.mp3',
     loop: false,
   },
   {
-    key: 'jump',
-    filePath: './audio/sfx/jump.mp3',
+    key: 'coin',
+    filePath: './audio/sfx/coin.mp3',
     loop: false,
   },
 ];
