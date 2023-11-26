@@ -30,8 +30,10 @@ export const webFontLoader = () => {
 export enum IconEnum {
   SETTINGS = '\ue8b8',
   FULLSCREEN = '\ue5d0',
-  SOUNDON = '\ue050',
-  SOUNDOFF = '\ue04f',
+  SFXON = '\ue050',
+  SFXOFF = '\ue04f',
+  MUSICON = '\ue405',
+  MUSICOFF = '\ue440',
   REFRESH = '\ue5d5',
   CLOSE = '\ue5cd',
   EYEOPEN = '\ue8f4',
