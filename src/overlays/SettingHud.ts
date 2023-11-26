@@ -58,8 +58,6 @@ class SettingsHud {
 
   private isOpen = false;
 
-  // public isDebugOn = isDev;
-
   private buttons: { buttonName: string; btn: Phaser.GameObjects.Text }[];
 
   private onClickRegistry: RegistryItem[] = [];
