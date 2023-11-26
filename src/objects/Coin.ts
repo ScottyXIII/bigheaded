@@ -1,6 +1,6 @@
 import Entity, { EntityConfigType } from '@/objects/entities/Entity';
 import GameScene from '@/scenes/game-scene';
-import CollisionCategories from '@/enums/CollisionCategories';
+import { CC } from '@/enums/CollisionCategories';
 
 const KEY = 'coin';
 
@@ -18,7 +18,7 @@ const entityConfig: EntityConfigType = {
     height: 15,
     chamfer: { radius: 20 },
   },
-  collisionCategory: CollisionCategories.coin,
+  collisionCategory: CC.item,
   animations: [
     {
       animationKey: 'idle',

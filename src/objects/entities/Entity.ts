@@ -2,7 +2,7 @@ import Phaser from 'phaser';
 import { PhaserMatterImage } from '@/types';
 import GameScene from '@/scenes/game-scene';
 import findOtherBody from '@/helpers/findOtherBody';
-import CollisionCategories from '@/enums/CollisionCategories';
+import { CC } from '@/enums/CollisionCategories';
 
 type AnimationsConfigType = {
   animationKey: string;
@@ -24,7 +24,7 @@ export type EntityConfigType = {
   scale: number;
   // eslint-disable-next-line @typescript-eslint/ban-types
   collideCallback?: Function;
-  collisionCategory?: CollisionCategories;
+  collisionCategory?: CC;
   craftpixOffset: {
     x: number;
     y: number;

@@ -5,7 +5,7 @@ import matterAddImageEllipse from '@/helpers/matterAddImageEllipse';
 import Entity, { EntityConfigType } from '@/objects/entities/Entity';
 import keepUpright, { KeepUprightStratergies } from '@/helpers/keepUpright';
 import moveTowards from '@/helpers/moveTowards';
-import CollisionCategories from '@/enums/CollisionCategories';
+import { CC } from '@/enums/CollisionCategories';
 import Coin from '@/objects/Coin';
 
 const KEY = 'ben3';
@@ -25,6 +25,7 @@ const onCollision = (
   if (data.bodyB.gameObject.name === 'coin') data.bodyB.gameObject.collect();
 
   // check if collide with enemy
+  if (data.bodyB.gameObject.name === 'enemy') alert('!');
 
   // check if collide with goal
   if (data.bodyB.gameObject.name === 'goal') alert('!');
@@ -44,7 +45,7 @@ const entityConfig: EntityConfigType = {
     height: 75,
     chamfer: { radius: 30 },
   },
-  collisionCategory: CollisionCategories.player,
+  collisionCategory: CC.player,
   collideCallback: onCollision,
   animations: [
     {
