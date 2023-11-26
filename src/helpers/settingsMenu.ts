@@ -77,21 +77,6 @@ const settingsMenu = (scene: Phaser.Scene) => {
       }
     },
   });
-
-  // const coins = new Text(scene, 10, 10);
-  const coins = scene.add
-    .text(10, 10, '🪙 00000', {
-      color: '#FFF',
-      fontFamily: 'monospace',
-      fontSize: '26px',
-    })
-    .setScrollFactor(0);
-
-  const updateCoinsDisplay = (newCoinsValue: number) => {
-    coins.setText(`🪙 ${String(newCoinsValue).padStart(5, '0')}`);
-  };
-
-  return { updateCoinsDisplay };
 };
 
 export default settingsMenu;

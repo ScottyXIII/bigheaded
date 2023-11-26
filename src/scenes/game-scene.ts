@@ -19,6 +19,7 @@ import Skull from '@/objects/Skull';
 
 import Audio from '@/objects/Audio';
 import Text from '@/objects/Text';
+import CoinHud from '@/overlays/CoinHud';
 
 const parallaxName: ParallaxNames = 'supermountaindusk';
 
@@ -114,14 +115,13 @@ const soundConfig = [
 ];
 
 class GameScene extends Phaser.Scene {
+  private coinHud: CoinHud | undefined;
+
   private coins = 0; // this resets to zero every time the scene loads
 
   private score: Text | undefined; // not really a score
 
   private parallax: Parallax | undefined;
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  private menu: any;
 
   public audio: Audio | undefined;
 
@@ -174,7 +174,9 @@ class GameScene extends Phaser.Scene {
 
     this.score = new Text(this, 10, 50);
 
-    this.menu = settingsMenu(this);
+    settingsMenu(this);
+
+    this.coinHud = new CoinHud(this, this.coins);
   }
 
   jump() {
@@ -183,8 +185,13 @@ class GameScene extends Phaser.Scene {
   }
 
   collectCoin() {
+    if (!this.coinHud) return;
+
     this.coins += 1;
-    this.menu.updateCoinsDisplay(this.coins);
+    this.coinHud.updateCoinsDisplay(this.coins);
+
+    const [coins, setCoins] = useLocalStorage('coins', 0);
+    setCoins(coins + 1);
   }
 
   update() {
@@ -196,7 +203,7 @@ class GameScene extends Phaser.Scene {
 
     const [myNum, setMyNum] = useLocalStorage('testNum', 0);
     setMyNum(myNum + 1);
-    this.score.textbox.text = String(myNum).padStart(8, '0');
+    this.score.textbox.text = String(myNum).padStart(9, '0');
   }
 }
 
