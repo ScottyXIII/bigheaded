@@ -21,10 +21,10 @@ const entityConfig: EntityConfigType = {
   collisionCategory: CollisionCategories.coin,
   animations: [
     {
-      animationKey: 'spin',
+      animationKey: 'idle',
       fps: 12,
       start: 0,
-      end: 5,
+      end: 4,
       repeat: -1,
     },
   ],
@@ -47,7 +47,13 @@ class Coin extends Entity {
   constructor(scene: GameScene, x: number, y: number) {
     super(scene, x, y, entityConfig);
     this.scene = scene;
-    this.playAnimation('spin');
+    this.playAnimation('idle');
+  }
+
+  collect() {
+    this.scene.audio?.playAudio('coin');
+    this.scene.collectCoin();
+    this.destroy();
   }
 }
 

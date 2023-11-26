@@ -6,7 +6,7 @@ import Entity, { EntityConfigType } from '@/objects/entities/Entity';
 import keepUpright, { KeepUprightStratergies } from '@/helpers/keepUpright';
 import moveTowards from '@/helpers/moveTowards';
 import CollisionCategories from '@/enums/CollisionCategories';
-import useLocalStorage from '@/helpers/useLocalStorage';
+import Coin from '@/objects/Coin';
 
 const KEY = 'ben3';
 
@@ -15,14 +15,12 @@ const HEAD_SCALE_MAX = 0.5;
 
 const onCollision = (
   data: MatterJS.ICollisionPair & {
-    bodyB: { gameObject: Entity };
+    bodyB: { gameObject: Coin };
   },
 ) => {
+  // check if collide with coin
   if (data.bodyB?.gameObject?.collisionCategory === CollisionCategories.coin) {
-    data.bodyB.gameObject.destroy();
-    const [coins, setCoinValue] = useLocalStorage('coins', 0);
-    const coinsNewValue = coins + 1;
-    setCoinValue(coinsNewValue);
+    data.bodyB.gameObject.collect();
   }
 };
 
@@ -77,10 +75,6 @@ class Ben3 extends Entity {
   constructor(scene: GameScene, x: number, y: number) {
     super(scene, x, y, entityConfig);
     this.scene = scene;
-
-    // reset coin value from localStorage
-    const [, setCoinValue] = useLocalStorage('coins', 0);
-    setCoinValue(0);
 
     this.playAnimation('idle');
 

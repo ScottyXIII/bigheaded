@@ -1,9 +1,9 @@
 import { IconEnum } from '@/helpers/googleFont';
-import iconButton from '@/helpers/iconButton';
 import fullscreenAndLandscape from '@/helpers/fullscreen';
+import useLocalStorage from '@/helpers/useLocalStorage';
+import isDev from '@/helpers/isDev';
+import iconButton from '@/helpers/iconButton';
 import Audio from '@/objects/Audio';
-import useLocalStorage from './useLocalStorage';
-import isDev from './isDev';
 
 const settingsMenu = (scene: Phaser.Scene & { audio?: Audio }) => {
   const { width } = scene.sys.game.canvas;
