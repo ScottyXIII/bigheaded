@@ -98,16 +98,19 @@ const soundConfig = [
     key: 'music1',
     filePath: './audio/music/fluffing-a-duck.mp3',
     loop: true,
+    isMusic: true,
   },
   {
     key: 'music2',
     filePath: './audio/music/sneaky-snitch.mp3',
     loop: true,
+    isMusic: true,
   },
   {
     key: 'music3',
     filePath: './audio/music/spook.mp3',
     loop: true,
+    isMusic: true,
   },
   {
     key: 'jump',
@@ -157,8 +160,6 @@ class GameScene extends Phaser.Scene {
     this.audio = new Audio(this, soundConfig);
 
     this.audio.playAudio('music1');
-    const [isMute] = useLocalStorage('isMute', false);
-    this.game.sound.mute = isMute; // set game mute to saved ls value
 
     this.player = this.level.spawners.player.getChildren()[0] as Ben3;
     this.goal = this.level.spawners.goal.getChildren()[0] as Skull;
@@ -173,6 +174,12 @@ class GameScene extends Phaser.Scene {
 
     this.score = new Text(this, 10, 10);
     this.coins = new Text(this, 10, 30);
+
+    // set sfx/music mute from local storage
+    const [isSFXMute] = useLocalStorage('isSFXMute', false);
+    this.audio?.setSFXMute(isSFXMute);
+    const [isMusicMute] = useLocalStorage('isMusicMute', false);
+    this.audio?.setMusicMute(isMusicMute);
 
     settingsMenu(this);
   }
