@@ -1,8 +1,8 @@
 class CoinHud {
-  private coinHud: Phaser.GameObjects.Text;
+  private text: Phaser.GameObjects.Text;
 
   constructor(scene: Phaser.Scene, value: number) {
-    this.coinHud = scene.add
+    this.text = scene.add
       .text(10, 10, '', {
         color: '#FFF',
         fontFamily: 'monospace',
@@ -14,7 +14,7 @@ class CoinHud {
   }
 
   updateCoinsDisplay(newCoinsValue: number) {
-    this.coinHud.setText(`🪙 ${String(newCoinsValue).padStart(5, '0')}`);
+    this.text.setText(`🪙 ${String(newCoinsValue).padStart(5, '0')}`);
   }
 }
 
