@@ -7,20 +7,17 @@ import isDev from '@/helpers/isDev';
 
 import Parallax, { ParallaxNames } from '@/objects/Parallax';
 import Level, { LevelConfigType } from '@/objects/Level';
+import Audio from '@/objects/Audio';
+
+import SettingsHud from '@/overlays/SettingHud';
+import CoinHud from '@/overlays/CoinHud';
 
 import Ben3 from '@/objects/entities/Ben3';
 import Bat from '@/objects/entities/Bat';
 import Tomato from '@/objects/entities/Tomato';
 import Hedgehog from '@/objects/entities/Hedgehog';
-
 import Coin from '@/objects/Coin';
 import Skull from '@/objects/Skull';
-
-import Audio from '@/objects/Audio';
-import Text from '@/objects/Text';
-
-import SettingsHud from '@/overlays/SettingHud';
-import CoinHud from '@/overlays/CoinHud';
 
 const { getValue: getCoins, setValue: setCoins } = useLocalStorage('coins', 0);
 const { getValue: getIsSFXMute } = useLocalStorage('isSFXMute', false);
