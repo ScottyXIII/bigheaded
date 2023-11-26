@@ -3,6 +3,8 @@ import Button from '@/objects/Button';
 import GameScene from '@/scenes/game-scene';
 import googleFont, { FontFamilyEnum } from '@/helpers/googleFont';
 import settingsMenu from '@/helpers/settingsMenu';
+import CoinHud from '@/overlays/CoinHud';
+import useLocalStorage from '@/helpers/useLocalStorage';
 
 class PreloaderScene extends Phaser.Scene {
   constructor() {
@@ -61,10 +63,13 @@ class PreloaderScene extends Phaser.Scene {
       onClick: () => this.scene.start('game-scene'),
     });
 
-    // eslint-disable-next-line no-console
-    console.log({ btn });
-
     settingsMenu(this);
+
+    const [coins] = useLocalStorage('coins', 0);
+    const coinHud = new CoinHud(this, coins);
+
+    // eslint-disable-next-line no-console
+    console.log({ btn, coinHud });
   }
 }
 

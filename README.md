@@ -14,6 +14,8 @@ trello board: https://trello.com/b/njkSeDet/game-off-2023-bigheaded
 
 [How to use Tiled to edit levels](./Tiled.md)
 
+choose new material icons here https://fonts.google.com/icons?icon.set=Material+Icons
+
 ## Credits
 
 ### Sounds & Music
@@ -22,6 +24,8 @@ trello board: https://trello.com/b/njkSeDet/game-off-2023-bigheaded
 - sneaky-snitch.mp3: https://www.chosic.com/download-audio/39325/
 - spook.mp3: https://www.chosic.com/download-audio/45515/
 - punch.wav: https://www.chosic.com/
+- jump.mp3: https://pixabay.com/sound-effects/toy-button-105724/
+- coin.mp3: https://pixabay.com/sound-effects/coin-c-02-102844/
 
 ### Parallax artwork
 

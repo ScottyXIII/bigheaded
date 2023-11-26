@@ -6,7 +6,7 @@ import Entity, { EntityConfigType } from '@/objects/entities/Entity';
 import keepUpright, { KeepUprightStratergies } from '@/helpers/keepUpright';
 import moveTowards from '@/helpers/moveTowards';
 import CollisionCategories from '@/enums/CollisionCategories';
-import useLocalStorage from '@/helpers/useLocalStorage';
+import Coin from '@/objects/Coin';
 
 const KEY = 'ben3';
 
@@ -15,14 +15,12 @@ const HEAD_SCALE_MAX = 0.5;
 
 const onCollision = (
   data: MatterJS.ICollisionPair & {
-    bodyB: { gameObject: Entity };
+    bodyB: { gameObject: Coin };
   },
 ) => {
+  // check if collide with coin
   if (data.bodyB?.gameObject?.collisionCategory === CollisionCategories.coin) {
-    data.bodyB.gameObject.destroy();
-    const [coins, setCoinValue] = useLocalStorage('coins', 0);
-    const coinsNewValue = coins + 1;
-    setCoinValue(coinsNewValue);
+    data.bodyB.gameObject.collect();
   }
 };
 
@@ -78,10 +76,6 @@ class Ben3 extends Entity {
     super(scene, x, y, entityConfig);
     this.scene = scene;
 
-    // reset coin value from localStorage
-    const [, setCoinValue] = useLocalStorage('coins', 0);
-    setCoinValue(0);
-
     this.playAnimation('idle');
 
     this.head = matterAddImageEllipse(scene, x, y, 'head2', undefined, {
@@ -107,10 +101,21 @@ class Ben3 extends Entity {
 
   jump() {
     if (this.sensorData.bottom.size >= 1) {
-      // @ts-expect-error todo
-      this.gameObject.applyForce({ x: 0, y: -0.3 });
-      // @ts-expect-error todo
-      this.head.applyForce({ x: 0, y: -0.3 });
+      this.scene.audio?.playAudio('jump');
+
+      const { body: Body } = this.scene.matter;
+
+      const { centerX, centerY } = this.gameObject.getBounds();
+      const position = { x: centerX, y: centerY };
+      Body.applyForce(this.gameObject.body, position, {
+        x: 0,
+        y: -0.05 * this.gameObject.body.mass,
+      });
+
+      Body.applyForce(this.head.body, this.head.getCenter(), {
+        x: 0,
+        y: -0.05 * this.head.body.mass,
+      });
     }
   }
 
