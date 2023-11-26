@@ -19,6 +19,7 @@ import Skull from '@/objects/Skull';
 
 import Audio from '@/objects/Audio';
 import Text from '@/objects/Text';
+import SettingsHud from '@/overlays/SettingHud';
 
 const { getValue: getIsSFXMute } = useLocalStorage('isSFXMute', false);
 const { getValue: getIsMusicMute } = useLocalStorage('isMusicMute', false);
@@ -180,6 +181,9 @@ class GameScene extends Phaser.Scene {
     // set sfx/music mute from local storage
     this.audio?.setSFXMute(getIsSFXMute());
     this.audio?.setMusicMute(getIsMusicMute());
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const settingsHud = new SettingsHud(this);
   }
 
   jump() {
