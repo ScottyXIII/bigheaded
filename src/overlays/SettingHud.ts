@@ -85,7 +85,7 @@ class SettingsHud {
 
     // setup initial states
     this.setButtonState('settings', this.isOpen);
-    this.setButtonState('isSFXMute', false);
+    this.setButtonState('isSFXMute', getIsSFXMute());
     this.setButtonState('isMusicMute', getIsMusicMute());
     this.setButtonState('isDebugOn', true);
 
@@ -110,7 +110,11 @@ class SettingsHud {
       scene.audio?.setMusicMute(newIsMusicMute);
     });
     this.registerOnClick('fullscreen', fullscreenAndLandscape);
-    this.registerOnClick('isDebugOn', () => {});
+    this.registerOnClick('isDebugOn', () => {
+      const newState = Math.random() > 0.5;
+      this.setDebug(newState);
+      this.setButtonState('isDebugOn', newState);
+    });
   }
 
   setMenuOpen(isOpen: boolean) {
@@ -143,6 +147,7 @@ class SettingsHud {
 
   // turn green hitArea boxes on / off
   setDebug(isOn: boolean) {
+    // this.scene.matter.world.debugGraphic.clear();
     const func = isOn
       ? this.scene.input.enableDebug
       : this.scene.input.removeDebug;
