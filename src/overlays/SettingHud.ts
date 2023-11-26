@@ -10,6 +10,10 @@ const { getValue: getIsMusicMute, setValue: setIsMusicMute } = useLocalStorage(
   'isMusicMute',
   false,
 );
+const { getValue: getIsSFXMute, setValue: setIsSFXMute } = useLocalStorage(
+  'isSFXMute',
+  false,
+);
 
 const childConfig = [
   {
@@ -91,17 +95,22 @@ class SettingsHud {
       this.isOpen = !this.isOpen;
     });
     this.registerOnClick('refresh', () => window.location.reload());
-    this.registerOnClick('isSFXMute', () => alert('isSFXMute'));
+    this.registerOnClick('isSFXMute', () => {
+      const isSFXMute = getIsSFXMute();
+      const newIsSFXMute = !isSFXMute;
+      setIsSFXMute(newIsSFXMute);
+      this.setButtonState('isSFXMute', newIsSFXMute);
+      scene.audio?.setSFXMute(newIsSFXMute);
+    });
     this.registerOnClick('isMusicMute', () => {
       const isMusicMute = getIsMusicMute();
       const newIsMusicMute = !isMusicMute;
-      console.log({ gimm: getIsMusicMute(), newIsMusicMute });
       setIsMusicMute(newIsMusicMute);
       this.setButtonState('isMusicMute', newIsMusicMute);
       scene.audio?.setMusicMute(newIsMusicMute);
     });
     this.registerOnClick('fullscreen', fullscreenAndLandscape);
-    this.registerOnClick('isDebugOn', () => alert('debug'));
+    this.registerOnClick('isDebugOn', () => {});
   }
 
   setMenuOpen(isOpen: boolean) {
