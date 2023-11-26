@@ -4,7 +4,6 @@ import toggleDebug from '@/helpers/toggleDebug';
 import smoothMoveCameraTowards from '@/helpers/smoothMoveCameraTowards';
 import useLocalStorage from '@/helpers/useLocalStorage';
 import isDev from '@/helpers/isDev';
-import settingsMenu from '@/helpers/settingsMenu';
 
 import Parallax, { ParallaxNames } from '@/objects/Parallax';
 import Level, { LevelConfigType } from '@/objects/Level';
@@ -20,6 +19,9 @@ import Skull from '@/objects/Skull';
 
 import Audio from '@/objects/Audio';
 import Text from '@/objects/Text';
+
+const { getValue: getIsSFXMute } = useLocalStorage('isSFXMute', false);
+const { getValue: getIsMusicMute } = useLocalStorage('isMusicMute', false);
 
 const parallaxName: ParallaxNames = 'supermountaindusk';
 
@@ -176,12 +178,8 @@ class GameScene extends Phaser.Scene {
     this.coins = new Text(this, 10, 30);
 
     // set sfx/music mute from local storage
-    const { getValue: getIsSFXMute } = useLocalStorage('isSFXMute', false);
     this.audio?.setSFXMute(getIsSFXMute());
-    const { getValue: getIsMusicMute } = useLocalStorage('isMusicMute', false);
     this.audio?.setMusicMute(getIsMusicMute());
-
-    settingsMenu(this);
   }
 
   jump() {
