@@ -119,6 +119,9 @@ const soundConfig = [
 ];
 
 class GameScene extends Phaser.Scene {
+  // @ts-expect-error will be needed when debug state is more managed
+  private settingsHud: SettingsHud | undefined;
+
   private coinHud: CoinHud | undefined;
 
   private coins = 0; // this resets to zero every time the scene loads
@@ -176,9 +179,7 @@ class GameScene extends Phaser.Scene {
     this.audio?.setSFXMute(getIsSFXMute());
     this.audio?.setMusicMute(getIsMusicMute());
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const settingsHud = new SettingsHud(this);
-
+    this.settingsHud = new SettingsHud(this);
     this.coinHud = new CoinHud(this, this.coins);
   }
 
