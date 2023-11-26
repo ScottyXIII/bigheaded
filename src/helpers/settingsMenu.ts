@@ -1,10 +1,11 @@
 import { IconEnum } from '@/helpers/googleFont';
 import iconButton from '@/helpers/iconButton';
 import fullscreenAndLandscape from '@/helpers/fullscreen';
+import GameScene from '@/scenes/game-scene';
 import useLocalStorage from './useLocalStorage';
 import isDev from './isDev';
 
-const settingsMenu = (scene: Phaser.Scene) => {
+const settingsMenu = (scene: GameScene) => {
   const { width } = scene.sys.game.canvas;
 
   let isOpen = false;
@@ -15,26 +16,44 @@ const settingsMenu = (scene: Phaser.Scene) => {
   });
   refresh.visible = false;
 
-  const [isMute] = useLocalStorage('isMute', false);
-  const soundToggle = iconButton(scene, width - 48, 48 * 5, {
-    icon: isMute ? IconEnum.SOUNDOFF : IconEnum.SOUNDON,
+  const [isSFXMute] = useLocalStorage('isSFXMute', false);
+  const sfxToggle = iconButton(scene, width - 48, 48 * 5, {
+    icon: isSFXMute ? IconEnum.SFXOFF : IconEnum.SFXON,
     onClick: () => {
-      const [isMute, setIsMute] = useLocalStorage('isMute', false);
-      const newIsMute = !isMute;
-      setIsMute(newIsMute);
-      scene.game.sound.mute = newIsMute;
-      soundToggle.setText(newIsMute ? IconEnum.SOUNDOFF : IconEnum.SOUNDON);
+      const [isSFXMute, setIsSFXMute] = useLocalStorage('isSFXMute', false);
+      const newSfxIsMute = !isSFXMute;
+      setIsSFXMute(newSfxIsMute);
+      scene.audio?.setSFXMute(newSfxIsMute);
+      sfxToggle.setText(newSfxIsMute ? IconEnum.SFXOFF : IconEnum.SFXON);
     },
   });
-  soundToggle.visible = false;
+  sfxToggle.visible = false;
 
-  const fullscreen = iconButton(scene, width - 48, 48 * 7, {
+  const [isMusicMute] = useLocalStorage('isMusicMute', false);
+  const musicToggle = iconButton(scene, width - 48, 48 * 7, {
+    icon: isMusicMute ? IconEnum.MUSICOFF : IconEnum.MUSICON,
+    onClick: () => {
+      const [isMusicMute, setIsMusicMute] = useLocalStorage(
+        'isMusicMute',
+        false,
+      );
+      const newIsMusicMute = !isMusicMute;
+      setIsMusicMute(newIsMusicMute);
+      scene.audio?.setMusicMute(newIsMusicMute);
+      musicToggle.setText(
+        newIsMusicMute ? IconEnum.MUSICOFF : IconEnum.MUSICON,
+      );
+    },
+  });
+  musicToggle.visible = false;
+
+  const fullscreen = iconButton(scene, width - 48, 48 * 9, {
     icon: IconEnum.FULLSCREEN,
     onClick: fullscreenAndLandscape,
   });
   fullscreen.visible = false;
 
-  const toggleDebugShapes = iconButton(scene, width - 48, 48 * 9, {
+  const toggleDebugShapes = iconButton(scene, width - 48, 48 * 11, {
     icon: IconEnum.EYEOPEN,
     onClick: () => {
       const oldDrawDebug = scene.matter.world.drawDebug;
@@ -51,14 +70,16 @@ const settingsMenu = (scene: Phaser.Scene) => {
 
   const open = () => {
     refresh.visible = true;
-    soundToggle.visible = true;
+    sfxToggle.visible = true;
+    musicToggle.visible = true;
     fullscreen.visible = true;
     if (isDev) toggleDebugShapes.visible = true;
   };
 
   const close = () => {
     refresh.visible = false;
-    soundToggle.visible = false;
+    sfxToggle.visible = false;
+    musicToggle.visible = false;
     fullscreen.visible = false;
     toggleDebugShapes.visible = false;
   };
