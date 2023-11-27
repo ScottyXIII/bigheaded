@@ -21,5 +21,5 @@ export enum CollisionMasks {
   enemy = CC.default | CC.player, // enemies collide with ground and player, but not each other or items
   item = CC.default | CC.player | CC.item, // items collide with ground, player and other items, but not enemies
 
-  ghostMob = CC.default,
+  ghosty = CC.default,
 }
