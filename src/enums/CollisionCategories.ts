@@ -9,14 +9,17 @@ export enum CC {
 }
 
 // Collision Masks
-// define which categories a type of entity can collide with
+// define which categories that a type of entity can collide with
 // more info: https://blog.ourcade.co/posts/2020/phaser-3-matter-physics-collision-filter/
 // combine categories with pipe (|) character
 /* eslint-disable no-bitwise */
 export enum CollisionMasks {
   everything = -1, // collides with everything (default)
   nothing = 0,
-  player = CC.default | CC.enemy | CC.item,
+
+  player = CC.default | CC.player | CC.enemy | CC.item,
   enemy = CC.default | CC.player, // enemies collide with ground and player, but not each other or items
   item = CC.default | CC.player | CC.item, // items collide with ground, player and other items, but not enemies
+
+  ghostMob = CC.default,
 }
