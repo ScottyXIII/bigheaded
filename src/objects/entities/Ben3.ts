@@ -14,20 +14,28 @@ const HEAD_SCALE_MIN = 0.1;
 // const HEAD_SCALE_MAX = 0.5;
 
 const onCollision = (data: Phaser.Types.Physics.Matter.MatterCollisionData) => {
-  const bodyACC = bodyToCC(data.bodyA);
-  const bodyBCC = bodyToCC(data.bodyB);
-  console.log(
-    `${data.bodyA.gameObject.name} (${bodyACC}) -> ${data.bodyB.gameObject.name} (${bodyBCC})`,
-  );
+  const found = [
+    { cc: bodyToCC(data.bodyA), body: data.bodyA },
+    { cc: bodyToCC(data.bodyB), body: data.bodyB },
+  ].find(({ cc }) => cc !== 'player');
 
-  // check if collide with coin
-  if (data.bodyB.gameObject.name === 'coin') data.bodyB.gameObject.collect();
+  // sometimes, he collides with himself (both bodies will be "player")
+  if (!found) return;
+
+  const { cc, body } = found;
+
+  // check if collide with item
+  if (cc === 'item') {
+    if (body.gameObject.name === 'coin') body.gameObject.collect();
+  }
 
   // check if collide with enemy
-  if (data.bodyB.gameObject.name === 'enemy') alert('!');
+  if (cc === 'enemy') {
+    console.log('touched ENEMY:', body.gameObject.name);
+  }
 
   // check if collide with goal
-  if (data.bodyB.gameObject.name === 'goal') alert('!');
+  if (cc === 'goal') alert('!');
 };
 
 const entityConfig: EntityConfigType = {
