@@ -31,7 +31,7 @@ export type EntityConfigType = {
   };
 };
 
-const defaultConfig: EntityConfigType = {
+const defaultConfig = {
   name: 'entity',
   spriteSheetKey: 'player',
   animations: [],
@@ -41,6 +41,7 @@ const defaultConfig: EntityConfigType = {
     x: 0,
     y: 0,
   },
+  collisionCategory: CC.default,
 };
 
 class Entity extends Phaser.GameObjects.Container {
@@ -85,9 +86,9 @@ class Entity extends Phaser.GameObjects.Container {
       craftpixOffset,
     } = { ...defaultConfig, ...config };
 
-    this.scale = scale;
     this.scene = scene;
     this.name = name;
+    this.scale = scale;
     this.craftpixOffset = craftpixOffset;
     this.facing = facing;
     this.sensorData = {
@@ -130,9 +131,7 @@ class Entity extends Phaser.GameObjects.Container {
     ) as PhaserMatterImage;
     this.scene.add.existing(this);
 
-    if (collisionCategory) {
-      this.gameObject.setCollisionCategory(collisionCategory);
-    }
+    this.gameObject.setCollisionCategory(collisionCategory);
 
     const { bodies: Bodies, body: Body } = scene.matter;
     // @ts-expect-error todo

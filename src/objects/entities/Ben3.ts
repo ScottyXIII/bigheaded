@@ -5,8 +5,7 @@ import matterAddImageEllipse from '@/helpers/matterAddImageEllipse';
 import Entity, { EntityConfigType } from '@/objects/entities/Entity';
 import keepUpright, { KeepUprightStratergies } from '@/helpers/keepUpright';
 import moveTowards from '@/helpers/moveTowards';
-import { CC } from '@/enums/CollisionCategories';
-import Coin from '@/objects/entities/Coin';
+import { CC, CM, bodyToCC } from '@/enums/CollisionCategories';
 import HealthBar from '@/overlays/HealthBar';
 
 const KEY = 'ben3';
@@ -14,13 +13,13 @@ const KEY = 'ben3';
 const HEAD_SCALE_MIN = 0.1;
 // const HEAD_SCALE_MAX = 0.5;
 
-const onCollision = (
-  data: MatterJS.ICollisionPair & {
-    bodyA: { gameObject: Coin };
-    bodyB: { gameObject: Coin };
-  },
-) => {
-  // console.log(data, data.bodyA.gameObject.name, data.bodyB.gameObject.name);
+const onCollision = (data: Phaser.Types.Physics.Matter.MatterCollisionData) => {
+  console.log(
+    bodyToCC(data.bodyA),
+    bodyToCC(data.bodyB),
+    data.bodyA.gameObject.name,
+    data.bodyB.gameObject.name,
+  );
 
   // check if collide with coin
   if (data.bodyB.gameObject.name === 'coin') data.bodyB.gameObject.collect();
@@ -84,15 +83,23 @@ class Ben3 extends Entity {
     super(scene, x, y, entityConfig);
     this.scene = scene;
 
-    this.playAnimation('idle');
+    this.playAnimation('idle'); // body animation
 
     this.head = matterAddImageEllipse(scene, x, y, 'head2', undefined, {
       width: 340,
       height: 270,
+      collisionCategory: CC.player,
       friction: 0,
     });
-    this.head.name = 'head';
+    this.head.name = 'ben3head';
     this.head.setScale(HEAD_SCALE_MIN);
+    this.head.setCollisionCategory(CC.player);
+    this.head.setCollidesWith(CM.player); // set the mask
+    // this.head.setOnCollide(
+    //   (data: Phaser.Types.Physics.Matter.MatterCollisionData) => {
+    //     console.log(bodyToCC(data.bodyA), bodyToCC(data.bodyB));
+    //   },
+    // );
 
     this.neck = scene.matter.add.constraint(
       this.head.body.gameObject,
@@ -117,7 +124,7 @@ class Ben3 extends Entity {
       maxHealth: 100,
     });
     healthBar.bar.setScrollFactor(0, 0);
-    healthBar.draw(50);
+    // healthBar.draw(50);
   }
 
   jump() {
