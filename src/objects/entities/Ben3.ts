@@ -7,6 +7,7 @@ import keepUpright, { KeepUprightStratergies } from '@/helpers/keepUpright';
 import moveTowards from '@/helpers/moveTowards';
 import { CC } from '@/enums/CollisionCategories';
 import Coin from '@/objects/Coin';
+import HealthBar from '@/overlays/HealthBar';
 
 const KEY = 'ben3';
 
@@ -105,6 +106,18 @@ class Ben3 extends Entity {
         angularStiffness: 0,
       },
     );
+
+    const { width } = scene.sys.game.canvas;
+    const cx = width / 2;
+    const healthBar = new HealthBar(scene, cx, 20, {
+      width: 400,
+      height: 20,
+      padding: 5,
+      background: 0x000000,
+      maxHealth: 100,
+    });
+    healthBar.bar.setScrollFactor(0, 0);
+    healthBar.draw(50);
   }
 
   jump() {
