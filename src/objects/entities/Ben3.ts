@@ -59,6 +59,10 @@ class Ben3 extends Entity {
 
   private headScaleDirection = 1; // 1 or minus 1
 
+  private leftHalfTouched: boolean = false;
+
+  private rightHalfTouched: boolean = false;
+
   static preload(scene: Phaser.Scene) {
     scene.load.spritesheet({
       key: KEY,
@@ -97,6 +101,39 @@ class Ben3 extends Entity {
         angularStiffness: 0,
       },
     );
+
+    const { width } = this.scene.game.config;
+    const hs = width / 2;
+
+    this.scene.input.on('pointerdown', this.handlePointerDown, this);
+    this.scene.input.on('pointerup', this.handlePointerUp, this);
+
+    this.scene.events.on(
+      'swipe',
+      (swipeDirection: string) => {
+        if (swipeDirection === 'up') {
+          this.jump();
+        }
+      },
+      this,
+    );
+  }
+
+  private handlePointerDown(pointer: Phaser.Input.Pointer) {
+    const { width } = this.scene.game.config;
+
+    // Check if the initial touch is in the left or right half
+    if (pointer.x < width / 2) {
+      this.leftHalfTouched = true;
+    } else {
+      this.rightHalfTouched = true;
+    }
+  }
+
+  private handlePointerUp() {
+    // Reset the flags when the pointer is released
+    this.leftHalfTouched = false;
+    this.rightHalfTouched = false;
   }
 
   jump() {
@@ -120,32 +157,21 @@ class Ben3 extends Entity {
   }
 
   left() {
-    const rot = this.gameObject.rotation - Phaser.Math.DegToRad(5);
-    this.gameObject.setRotation(rot);
-    this.head.body.mass = 0;
-    // this.gameObject.setAngle(this.gameObject.angle - 5);
+    this.gameObject.setAngularVelocity((-0.02 * this.head.body.mass) / 2);
   }
 
   right() {
-    const rot = this.gameObject.rotation + Phaser.Math.DegToRad(5);
-    this.gameObject.setRotation(rot);
-    // this.head.body.mass = 0;
-    // this.gameObject.setAngle(this.gameObject.angle + 5);
+    this.gameObject.setAngularVelocity((0.02 * this.head.body.mass) / 2);
   }
 
   update(time: number, delta: number) {
     super.update(time, delta);
 
-    const AkeyDown = this.scene.input.keyboard?.addKey(
-      Phaser.Input.Keyboard.KeyCodes.A,
-    ).isDown;
-    if (AkeyDown) {
+    if (this.leftHalfTouched) {
       this.left();
     }
-    const DkeyDown = this.scene.input.keyboard?.addKey(
-      Phaser.Input.Keyboard.KeyCodes.D,
-    ).isDown;
-    if (DkeyDown) {
+
+    if (this.rightHalfTouched) {
       this.right();
     }
 
