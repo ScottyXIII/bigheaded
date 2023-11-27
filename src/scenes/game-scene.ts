@@ -5,6 +5,7 @@ import smoothMoveCameraTowards from '@/helpers/smoothMoveCameraTowards';
 import useLocalStorage from '@/helpers/useLocalStorage';
 import isDev from '@/helpers/isDev';
 import settingsMenu from '@/helpers/settingsMenu';
+import handleSwipe from '@/helpers/handleSwipe';
 
 import Parallax, { ParallaxNames } from '@/objects/Parallax';
 import Level, { LevelConfigType } from '@/objects/Level';
@@ -207,6 +208,7 @@ class GameScene extends Phaser.Scene {
     this.parallax.update();
 
     smoothMoveCameraTowards(this, this.player.gameObject, 0.8);
+    handleSwipe(this);
 
     const [myNum, setMyNum] = useLocalStorage('testNum', 0);
     setMyNum(myNum + 1);
