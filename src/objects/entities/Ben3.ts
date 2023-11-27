@@ -6,13 +6,13 @@ import Entity, { EntityConfigType } from '@/objects/entities/Entity';
 import keepUpright, { KeepUprightStratergies } from '@/helpers/keepUpright';
 import moveTowards from '@/helpers/moveTowards';
 import { CC } from '@/enums/CollisionCategories';
-import Coin from '@/objects/Coin';
+import Coin from '@/objects/entities/Coin';
 import HealthBar from '@/overlays/HealthBar';
 
 const KEY = 'ben3';
 
 const HEAD_SCALE_MIN = 0.1;
-const HEAD_SCALE_MAX = 0.5;
+// const HEAD_SCALE_MAX = 0.5;
 
 const onCollision = (
   data: MatterJS.ICollisionPair & {
@@ -20,7 +20,7 @@ const onCollision = (
     bodyB: { gameObject: Coin };
   },
 ) => {
-  console.log(data, data.bodyA.gameObject.name, data.bodyB.gameObject.name);
+  // console.log(data, data.bodyA.gameObject.name, data.bodyB.gameObject.name);
 
   // check if collide with coin
   if (data.bodyB.gameObject.name === 'coin') data.bodyB.gameObject.collect();
@@ -65,7 +65,7 @@ class Ben3 extends Entity {
 
   public headScale = HEAD_SCALE_MIN;
 
-  private headScaleDirection = 1; // 1 or minus 1
+  // private headScaleDirection = 1; // 1 or minus 1
 
   static preload(scene: Phaser.Scene) {
     scene.load.spritesheet({
@@ -153,7 +153,7 @@ class Ben3 extends Entity {
         maxSpeedX: 6,
         maxSpeedY: 1,
       });
-      this.playAnimation('idle');
+      this.playAnimation('idle', true);
     } else {
       // airborne
       this.sprite.stop();
@@ -161,10 +161,10 @@ class Ben3 extends Entity {
 
     // head scaling stuff
     this.head.setScale(this.headScale);
-    if (this.headScale > HEAD_SCALE_MAX) this.headScaleDirection = -1;
-    if (this.headScale < HEAD_SCALE_MIN) this.headScaleDirection = 1;
+    // if (this.headScale > HEAD_SCALE_MAX) this.headScaleDirection = -1;
+    // if (this.headScale < HEAD_SCALE_MIN) this.headScaleDirection = 1;
 
-    this.headScale += 0.00001 * this.headScaleDirection * delta;
+    // this.headScale += 0.00001 * this.headScaleDirection * delta;
 
     // scale pointA position proportionally to headScale
     this.neck.pointA = new Phaser.Math.Vector2(0, this.headScale * 140).rotate(

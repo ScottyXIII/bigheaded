@@ -13,8 +13,8 @@ import Ben3 from '@/objects/entities/Ben3';
 import Bat from '@/objects/entities/Bat';
 import Tomato from '@/objects/entities/Tomato';
 import Hedgehog from '@/objects/entities/Hedgehog';
+import Coin from '@/objects/entities/Coin';
 
-import Coin from '@/objects/Coin';
 import Skull from '@/objects/Skull';
 
 import Audio from '@/objects/Audio';
