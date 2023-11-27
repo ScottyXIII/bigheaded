@@ -4,10 +4,12 @@ import toggleDebug from '@/helpers/toggleDebug';
 import smoothMoveCameraTowards from '@/helpers/smoothMoveCameraTowards';
 import useLocalStorage from '@/helpers/useLocalStorage';
 import isDev from '@/helpers/isDev';
-import settingsMenu from '@/helpers/settingsMenu';
 
 import Parallax, { ParallaxNames } from '@/objects/Parallax';
 import Level, { LevelConfigType } from '@/objects/Level';
+import Audio from '@/objects/Audio';
+import SettingsHud from '@/overlays/SettingHud';
+import CoinHud from '@/overlays/CoinHud';
 
 import Ben3 from '@/objects/entities/Ben3';
 import Bat from '@/objects/entities/Bat';
@@ -17,9 +19,9 @@ import Coin from '@/objects/entities/Coin';
 
 import Skull from '@/objects/Skull';
 
-import Audio from '@/objects/Audio';
-import Text from '@/objects/Text';
-import CoinHud from '@/overlays/CoinHud';
+const { getValue: getCoins, setValue: setCoins } = useLocalStorage('coins', 0);
+const { getValue: getIsSFXMute } = useLocalStorage('isSFXMute', false);
+const { getValue: getIsMusicMute } = useLocalStorage('isMusicMute', false);
 
 const parallaxName: ParallaxNames = 'supermountaindusk';
 
@@ -118,11 +120,12 @@ const soundConfig = [
 ];
 
 class GameScene extends Phaser.Scene {
+  // @ts-expect-error will be needed when debug state is more managed
+  private settingsHud: SettingsHud | undefined;
+
   private coinHud: CoinHud | undefined;
 
   private coins = 0; // this resets to zero every time the scene loads
-
-  private score: Text | undefined; // not really a score
 
   private parallax: Parallax | undefined;
 
@@ -173,16 +176,11 @@ class GameScene extends Phaser.Scene {
     // touch tap mobile and mouse leftclick controls
     this.input.on('pointerdown', this.jump.bind(this));
 
-    this.score = new Text(this, 10, 50);
-
     // set sfx/music mute from local storage
-    const [isSFXMute] = useLocalStorage('isSFXMute', false);
-    this.audio?.setSFXMute(isSFXMute);
-    const [isMusicMute] = useLocalStorage('isMusicMute', false);
-    this.audio?.setMusicMute(isMusicMute);
+    this.audio?.setSFXMute(getIsSFXMute());
+    this.audio?.setMusicMute(getIsMusicMute());
 
-    settingsMenu(this);
-
+    this.settingsHud = new SettingsHud(this);
     this.coinHud = new CoinHud(this, this.coins);
   }
 
@@ -197,20 +195,15 @@ class GameScene extends Phaser.Scene {
     this.coins += 1;
     this.coinHud.updateCoinsDisplay(this.coins);
 
-    const [coins, setCoins] = useLocalStorage('coins', 0);
-    setCoins(coins + 1);
+    setCoins(getCoins() + 1); // save to meta balance in ls
   }
 
   update() {
-    if (!this.parallax || !this.level || !this.player || !this.score) return;
+    if (!this.parallax || !this.level || !this.player) return;
 
     this.parallax.update();
 
     smoothMoveCameraTowards(this, this.player.gameObject, 0.8);
-
-    const [myNum, setMyNum] = useLocalStorage('testNum', 0);
-    setMyNum(myNum + 1);
-    this.score.textbox.text = String(myNum).padStart(9, '0');
   }
 }
 

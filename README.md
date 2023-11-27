@@ -1,6 +1,6 @@
 # Bigheaded
 
-Game Off 2023
+[Game Off 2023](https://itch.io/jam/game-off-2023) game jam entry
 
 [![Play](.github/images/preview.png)](https://scottyxiii.github.io/bigheaded)
 
