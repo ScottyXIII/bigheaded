@@ -1,3 +1,4 @@
+import { CC } from '@/enums/CollisionCategories';
 import * as Phaser from 'phaser';
 
 class Skull extends Phaser.GameObjects.Container {
@@ -21,6 +22,7 @@ class Skull extends Phaser.GameObjects.Container {
       .setScale(0.1)
       .setDepth(10);
     this.skull.name = 'goal';
+    this.skull.body?.gameObject.setCollisionCategory(CC.item);
   }
 }
 

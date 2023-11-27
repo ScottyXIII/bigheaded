@@ -36,19 +36,20 @@ const onCollision = (data: Phaser.Types.Physics.Matter.MatterCollisionData) => {
 
   const { cc, body } = otherBody;
 
-  // check if collide with item
+  // check if player collide with item
   if (cc === 'item') {
+    // check if player collide with coin
     if (body.gameObject.name === 'coin') body.gameObject.collect();
+
+    // check if player collide with goal
+    if (body.gameObject.name === 'goal')
+      playerBody?.gameObject.scene.scene.restart();
   }
 
-  // check if collide with enemy
+  // check if player collide with enemy
   if (cc === 'enemy') {
-    console.log('touched ENEMY:', body.gameObject.name);
     playerBody?.gameObject.setHealth(playerBody.gameObject.health - 10);
   }
-
-  // check if collide with goal
-  if (cc === 'goal') alert('!');
 };
 
 const entityConfig: EntityConfigType = {
