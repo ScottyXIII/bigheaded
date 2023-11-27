@@ -102,9 +102,6 @@ class Ben3 extends Entity {
       },
     );
 
-    const { width } = this.scene.game.config;
-    const hs = width / 2;
-
     this.scene.input.on('pointerdown', this.handlePointerDown, this);
     this.scene.input.on('pointerup', this.handlePointerUp, this);
 
