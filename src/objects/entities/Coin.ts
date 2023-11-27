@@ -6,6 +6,7 @@ const KEY = 'coin';
 
 const entityConfig: EntityConfigType = {
   name: KEY,
+  collisionCategory: CC.item,
   spriteSheetKey: KEY,
   facing: 1,
   scale: 1,
@@ -18,7 +19,6 @@ const entityConfig: EntityConfigType = {
     height: 15,
     chamfer: { radius: 20 },
   },
-  collisionCategory: CC.item,
   animations: [
     {
       animationKey: 'idle',
