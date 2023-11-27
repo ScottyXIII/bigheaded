@@ -15,7 +15,8 @@ export enum CC {
 /* eslint-disable no-bitwise */
 export enum CollisionMasks {
   everything = -1, // collides with everything (default)
+  nothing = 0,
   player = CC.default | CC.enemy | CC.item,
-  enemy = CC.default | CC.player, // not items or enemies
-  item = CC.default | CC.player, // not items or enemies
+  enemy = CC.default | CC.player, // enemies collide with ground and player, but not each other or items
+  item = CC.default | CC.player | CC.item, // items collide with ground, player and other items, but not enemies
 }
