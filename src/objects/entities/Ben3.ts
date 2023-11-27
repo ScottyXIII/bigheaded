@@ -15,10 +15,9 @@ const HEAD_SCALE_MIN = 0.1;
 
 const onCollision = (data: Phaser.Types.Physics.Matter.MatterCollisionData) => {
   console.log(
-    bodyToCC(data.bodyA),
-    bodyToCC(data.bodyB),
-    data.bodyA.gameObject.name,
-    data.bodyB.gameObject.name,
+    `${data.bodyA.gameObject.name} (${bodyToCC(data.bodyA)}) -> ${
+      data.bodyB.gameObject.name
+    } (${bodyToCC(data.bodyB)})`,
   );
 
   // check if collide with coin

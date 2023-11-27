@@ -131,8 +131,6 @@ class Entity extends Phaser.GameObjects.Container {
     ) as PhaserMatterImage;
     this.scene.add.existing(this);
 
-    this.gameObject.setCollisionCategory(collisionCategory);
-
     const { bodies: Bodies, body: Body } = scene.matter;
     // @ts-expect-error todo
     const { width, height } = physicsConfig;
@@ -159,6 +157,10 @@ class Entity extends Phaser.GameObjects.Container {
       collideCallback?.(data);
     };
     this.gameObject.setExistingBody(compoundBody);
+
+    this.gameObject.setCollisionCategory(collisionCategory);
+    // console.log(`set the CC to ${collisionCategory} in ${name}`);
+    // this.gameObject.setCollidesWith(CM.player); // set the mask
     this.gameObject.setPosition(x, y);
     this.sprite.setScale(this.scale);
   }
