@@ -171,7 +171,7 @@ class GameScene extends Phaser.Scene {
       .on('down', this.jump.bind(this));
 
     // touch tap mobile and mouse leftclick controls
-    this.input.on('pointerdown', this.jump.bind(this));
+    this.events.on('swipeRelease', this.jump.bind(this));
 
     // set sfx/music mute from local storage
     this.audio?.setSFXMute(getIsSFXMute());
