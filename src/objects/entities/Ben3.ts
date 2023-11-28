@@ -70,22 +70,22 @@ const entityConfig: EntityConfigType = {
   facing: 1,
   scale: 1,
   craftpixOffset: {
-    x: 0,
+    x: -10,
     y: 0,
   },
   physicsConfig: {
-    width: 75,
-    height: 75,
-    chamfer: { radius: 30 },
+    width: 60,
+    height: 85,
+    chamfer: { radius: 20 },
   },
   collisionCategory: CC.player,
   collideCallback: onCollision,
   animations: [
     {
       animationKey: 'idle',
-      fps: 5,
+      fps: 30,
       start: 0,
-      end: 3,
+      end: 29,
     },
   ],
 };
@@ -104,10 +104,10 @@ class Ben3 extends Entity {
   static preload(scene: Phaser.Scene) {
     scene.load.spritesheet({
       key: KEY,
-      url: './object/ben3/body-animation.png',
+      url: './object/ben3/run.png',
       frameConfig: {
-        frameWidth: 75,
-        frameHeight: 75,
+        frameWidth: 60,
+        frameHeight: 85,
       },
     });
 
