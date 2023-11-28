@@ -1,9 +1,7 @@
 import * as Phaser from 'phaser';
 
-import toggleDebug from '@/helpers/toggleDebug';
 import smoothMoveCameraTowards from '@/helpers/smoothMoveCameraTowards';
 import useLocalStorage from '@/helpers/useLocalStorage';
-import isDev from '@/helpers/isDev';
 
 import Parallax, { ParallaxNames } from '@/objects/Parallax';
 import Level, { LevelConfigType } from '@/objects/Level';
@@ -18,6 +16,7 @@ import Hedgehog from '@/objects/entities/Hedgehog';
 import Coin from '@/objects/entities/Coin';
 
 import Skull from '@/objects/Skull';
+import initDebug from '@/helpers/initDebug';
 
 const { getValue: getCoins, setValue: setCoins } = useLocalStorage('coins', 0);
 const { getValue: getIsSFXMute } = useLocalStorage('isSFXMute', false);
@@ -156,9 +155,6 @@ class GameScene extends Phaser.Scene {
   }
 
   create() {
-    if (isDev) this.input.keyboard?.on('keydown-CTRL', () => toggleDebug(this));
-    if (isDev) this.matter.add.mouseSpring();
-
     this.parallax = new Parallax(this, parallaxName);
     this.level = new Level(this, levelConfig);
     this.audio = new Audio(this, soundConfig);
@@ -182,6 +178,9 @@ class GameScene extends Phaser.Scene {
 
     this.settingsHud = new SettingsHud(this);
     this.coinHud = new CoinHud(this, this.coins);
+
+    // this will only activate in dev mode
+    initDebug(this);
   }
 
   jump() {
