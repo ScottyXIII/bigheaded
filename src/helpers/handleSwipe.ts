@@ -15,10 +15,6 @@ const handleSwipe = (scene: Phaser.Scene, swipeThreshold = 30) => {
       scene.events.emit('swipeRelease');
       hasSwiped = false;
     }
-  }
-
-  if (!pointer.isDown) {
-    hasSwiped = false; // Reset the flag when the pointer is not down
     return;
   }
 
