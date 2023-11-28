@@ -15,7 +15,7 @@ const HEALTH_MAX = 100;
 const HEALTH_MIN = 0;
 
 const HEAD_SCALE_MIN = 0.1;
-const HEAD_SCALE_MAX = 0.5;
+const HEAD_SCALE_MAX = 1;
 
 const limitNumber = (value: number, min: number, max: number) => {
   if (value < min) return min;
