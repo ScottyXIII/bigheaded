@@ -2,6 +2,7 @@ import * as Phaser from 'phaser';
 import PreloaderScene from '@/scenes/preloader-scene';
 import GameScene from '@/scenes/game-scene';
 import isDev from '@/helpers/isDev';
+import DeathScene from './scenes/death-scene';
 
 // 16:9 horizontal sizes
 // - 360p = 640✕360
@@ -32,7 +33,7 @@ const config: Phaser.Types.Core.GameConfig = {
   fps: {
     forceSetTimeOut: true, // force matter js engine speed to be consistent across devices
   },
-  scene: [PreloaderScene, GameScene],
+  scene: [PreloaderScene, GameScene, DeathScene],
 };
 
 export default config;

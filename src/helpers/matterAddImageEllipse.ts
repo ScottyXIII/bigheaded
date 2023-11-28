@@ -4,6 +4,7 @@ import { PhaserMatterImage } from '@/types';
 type AdditionalOptionsType = {
   width: number;
   height: number;
+  collisionCategory: number;
 };
 
 const matterAddImageEllipse = (
