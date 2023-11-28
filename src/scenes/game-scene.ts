@@ -166,11 +166,6 @@ class GameScene extends Phaser.Scene {
     this.player = this.level.spawners.player.getChildren()[0] as Ben3;
     this.goal = this.level.spawners.goal.getChildren()[0] as Skull;
 
-    // keyboard controls
-    this.input.keyboard
-      ?.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE)
-      .on('down', this.jump.bind(this));
-
     // touch tap mobile and mouse leftclick controls
     this.events.on('swipeRelease', this.jump.bind(this));
 
