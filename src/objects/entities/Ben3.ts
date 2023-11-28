@@ -187,6 +187,7 @@ class Ben3 extends Entity {
     const fractionHealth = this.health / HEALTH_MAX;
     const invertedHealth = 1 - fractionHealth;
     const healthScaled = invertedHealth * adjustedScaleMax;
+    const newScale = HEAD_SCALE_MIN + healthScaled;
 
     // newHealth fractionHealth invertedHealth newScale
     // 100       1              0              0.1
@@ -195,7 +196,6 @@ class Ben3 extends Entity {
     // 25        .25            .75            0.4
     // 0         0              1              0.5
 
-    const newScale = HEAD_SCALE_MIN + healthScaled;
     this.headScale = newScale;
   }
 
@@ -227,7 +227,7 @@ class Ben3 extends Entity {
     );
 
     // regenerate health
-    this.setHealth(this.health + 0.1);
+    this.setHealth(this.health + 0.05);
   }
 }
 
