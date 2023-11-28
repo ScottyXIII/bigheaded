@@ -2,7 +2,7 @@ import Phaser from 'phaser';
 import { PhaserMatterImage } from '@/types';
 import GameScene from '@/scenes/game-scene';
 import findOtherBody from '@/helpers/findOtherBody';
-import CollisionCategories from '@/enums/CollisionCategories';
+import { CC } from '@/enums/CollisionCategories';
 
 type AnimationsConfigType = {
   animationKey: string;
@@ -24,14 +24,14 @@ export type EntityConfigType = {
   scale: number;
   // eslint-disable-next-line @typescript-eslint/ban-types
   collideCallback?: Function;
-  collisionCategory?: CollisionCategories;
+  collisionCategory?: CC;
   craftpixOffset: {
     x: number;
     y: number;
   };
 };
 
-const defaultConfig: EntityConfigType = {
+const defaultConfig = {
   name: 'entity',
   spriteSheetKey: 'player',
   animations: [],
@@ -41,6 +41,7 @@ const defaultConfig: EntityConfigType = {
     x: 0,
     y: 0,
   },
+  collisionCategory: CC.default,
 };
 
 class Entity extends Phaser.GameObjects.Container {
@@ -59,8 +60,6 @@ class Entity extends Phaser.GameObjects.Container {
   protected hitbox;
 
   protected target: Phaser.GameObjects.Container | undefined;
-
-  public collisionCategory: CollisionCategories | undefined;
 
   protected craftpixOffset: {
     x: number;
@@ -87,15 +86,14 @@ class Entity extends Phaser.GameObjects.Container {
       craftpixOffset,
     } = { ...defaultConfig, ...config };
 
-    this.scale = scale;
     this.scene = scene;
     this.name = name;
+    this.scale = scale;
     this.craftpixOffset = craftpixOffset;
     this.facing = facing;
     this.sensorData = {
       bottom: new Set(),
     };
-    this.collisionCategory = collisionCategory;
 
     // text
     this.text = this.scene.add
@@ -133,10 +131,6 @@ class Entity extends Phaser.GameObjects.Container {
     ) as PhaserMatterImage;
     this.scene.add.existing(this);
 
-    if (collisionCategory) {
-      this.gameObject.setCollisionCategory(collisionCategory);
-    }
-
     const { bodies: Bodies, body: Body } = scene.matter;
     // @ts-expect-error todo
     const { width, height } = physicsConfig;
@@ -163,6 +157,10 @@ class Entity extends Phaser.GameObjects.Container {
       collideCallback?.(data);
     };
     this.gameObject.setExistingBody(compoundBody);
+
+    this.gameObject.setCollisionCategory(collisionCategory);
+    // console.log(`set the CC to ${collisionCategory} in ${name}`);
+    // this.gameObject.setCollidesWith(CM.player); // set the mask
     this.gameObject.setPosition(x, y);
     this.sprite.setScale(this.scale);
   }

@@ -25,6 +25,7 @@ const convertTiledPolygonToGameObject = (
     body,
     false,
   ) as PhaserMatterImage;
+  gameObject.name = 'staticbody';
   gameObject.setPosition(cx + x, cy + y);
   return gameObject;
 };

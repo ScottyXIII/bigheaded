@@ -3,11 +3,13 @@ import Entity, { EntityConfigType } from '@/objects/entities/Entity';
 import keepUpright, { KeepUprightStratergies } from '@/helpers/keepUpright';
 import moveTowards from '@/helpers/moveTowards';
 import GameScene from '@/scenes/game-scene';
+import { CC } from '@/enums/CollisionCategories';
 
 const KEY = 'hedgehog';
 
 const entityConfig: EntityConfigType = {
   name: KEY,
+  collisionCategory: CC.enemy,
   spriteSheetKey: KEY,
   facing: -1,
   scale: 2,

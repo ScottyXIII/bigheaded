@@ -15,7 +15,8 @@ import Ben3 from '@/objects/entities/Ben3';
 import Bat from '@/objects/entities/Bat';
 import Tomato from '@/objects/entities/Tomato';
 import Hedgehog from '@/objects/entities/Hedgehog';
-import Coin from '@/objects/Coin';
+import Coin from '@/objects/entities/Coin';
+
 import Skull from '@/objects/Skull';
 
 const { getValue: getCoins, setValue: setCoins } = useLocalStorage('coins', 0);
@@ -54,28 +55,28 @@ const levelConfig: LevelConfigType = {
     {
       tiledObjectName: 'hedgehog',
       classFactory: Hedgehog,
-      maxSize: 10,
+      maxSize: 100,
       runChildUpdate: true,
       autoSpawn: true,
     },
     {
       tiledObjectName: 'bat',
       classFactory: Bat,
-      maxSize: 10,
+      maxSize: 100,
       runChildUpdate: true,
       autoSpawn: true,
     },
     {
       tiledObjectName: 'tomato',
       classFactory: Tomato,
-      maxSize: 10,
+      maxSize: 100,
       runChildUpdate: true,
       autoSpawn: true,
     },
     {
       tiledObjectName: 'coin',
       classFactory: Coin,
-      maxSize: 10,
+      maxSize: 1000,
       runChildUpdate: true,
       autoSpawn: true,
     },
