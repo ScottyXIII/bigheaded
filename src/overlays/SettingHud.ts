@@ -46,7 +46,7 @@ const buttonConfig = [
         {
           buttonName: 'isDebugOn',
           icons: [IconEnum.EYEOPEN, IconEnum.EYECLOSED],
-          allowVisibilityChange: isDev,
+          allowVisibilityChange: true,
         },
       ]
     : []),
