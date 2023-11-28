@@ -166,8 +166,8 @@ class Ben3 extends Entity {
     });
     this.healthBar.bar.setScrollFactor(0, 0);
 
-    this.scene.input.on('pointerdown', this.handlePointerDown, this);
-    this.scene.input.on('pointerup', this.handlePointerUp, this);
+    this.scene.events.on('touch-left', this.left.bind(this));
+    this.scene.events.on('touch-right', this.right.bind(this));
 
     this.scene.events.on(
       'swipe',
@@ -178,24 +178,6 @@ class Ben3 extends Entity {
       },
       this,
     );
-  }
-
-  private handlePointerDown(pointer: Phaser.Input.Pointer) {
-    const { width } = this.scene.sys.game.canvas;
-    const cx = width / 2;
-
-    // Check if the initial touch is in the left or right half
-    if (pointer.x < cx) {
-      this.leftHalfTouched = true;
-    } else {
-      this.rightHalfTouched = true;
-    }
-  }
-
-  private handlePointerUp() {
-    // Reset the flags when the pointer is released
-    this.leftHalfTouched = false;
-    this.rightHalfTouched = false;
   }
 
   jump() {
@@ -219,10 +201,12 @@ class Ben3 extends Entity {
   }
 
   left() {
+    console.log('left');
     this.gameObject.setAngularVelocity((-0.02 * this.head.body.mass) / 2);
   }
 
   right() {
+    console.log('right');
     this.gameObject.setAngularVelocity((0.02 * this.head.body.mass) / 2);
   }
 
