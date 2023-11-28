@@ -3,10 +3,10 @@ import { PhaserMatterImage } from '@/types';
 import GameScene from '@/scenes/game-scene';
 import matterAddImageEllipse from '@/helpers/matterAddImageEllipse';
 import Entity, { EntityConfigType } from '@/objects/entities/Entity';
-import keepUpright, { KeepUprightStratergies } from '@/helpers/keepUpright';
 import moveTowards from '@/helpers/moveTowards';
-import { CC, CM, bodyToCC } from '@/enums/CollisionCategories';
+import { CC, CM } from '@/enums/CollisionCategories';
 import HealthBar from '@/overlays/HealthBar';
+import prepareCollisionData from '@/helpers/prepareCollisionData';
 
 const KEY = 'bob3';
 
@@ -14,7 +14,7 @@ const HEALTH_MAX = 100;
 const HEALTH_MIN = 0;
 
 const HEAD_SCALE_MIN = 0.1;
-const HEAD_SCALE_MAX = 0.5;
+const HEAD_SCALE_MAX = 1;
 
 const limitNumber = (value: number, min: number, max: number) => {
   if (value < min) return min;
@@ -22,33 +22,44 @@ const limitNumber = (value: number, min: number, max: number) => {
   return value;
 };
 
-const onCollision = (data: Phaser.Types.Physics.Matter.MatterCollisionData) => {
-  const labelledBodies = [
-    { cc: bodyToCC(data.bodyA), body: data.bodyA },
-    { cc: bodyToCC(data.bodyB), body: data.bodyB },
-  ];
-  const otherBody = labelledBodies.find(({ cc }) => cc !== 'player');
-
-  // sometimes, he collides with himself (both bodies will be "player")
-  if (!otherBody) return;
-
-  const playerBody = labelledBodies.find(({ cc }) => cc === 'player')?.body;
-
-  const { cc, body } = otherBody;
+const onCollision = (
+  data: Phaser.Types.Physics.Matter.MatterCollisionData,
+  // eslint-disable-next-line no-use-before-define
+  player: Ben3,
+) => {
+  const collisionDataObject = prepareCollisionData(data);
 
   // check if player collide with item
-  if (cc === 'item') {
+  if (collisionDataObject.item) {
     // check if player collide with coin
-    if (body.gameObject.name === 'coin') body.gameObject.collect();
+    if (collisionDataObject.item[0].gameObject.name === 'coin')
+      collisionDataObject.item[0].gameObject.collect();
 
     // check if player collide with goal
-    if (body.gameObject.name === 'goal')
-      playerBody?.gameObject.scene.scene.restart();
+    if (collisionDataObject.item[0].gameObject.name === 'goal')
+      player.gameObject.scene.scene.restart(); // TODO: music is bugged, it also messes up player chamfer
   }
 
   // check if player collide with enemy
-  if (cc === 'enemy') {
-    playerBody?.gameObject.setHealth(playerBody.gameObject.health - 10);
+  if (collisionDataObject.enemy) {
+    const newHealth = player.health - 10;
+    player.setHealth(newHealth);
+  }
+};
+
+const onCollisionHead = (
+  data: Phaser.Types.Physics.Matter.MatterCollisionData,
+  // eslint-disable-next-line no-use-before-define
+  player: Ben3,
+) => {
+  const collisionDataObject = prepareCollisionData(data);
+
+  // check if head collide with ground
+  if (collisionDataObject.default) {
+    if (collisionDataObject.default[0].gameObject.name === 'staticbody') {
+      const newHealth = player.health - 10;
+      player.setHealth(newHealth);
+    }
   }
 };
 
@@ -120,15 +131,16 @@ class Ben3 extends Entity {
       collisionCategory: CC.player,
       friction: 0,
     });
-    this.head.name = 'ben3head';
+    this.head.name = 'bob3head';
     this.head.setScale(HEAD_SCALE_MIN);
     this.head.setCollisionCategory(CC.player);
     this.head.setCollidesWith(CM.player); // set the mask
-    // this.head.setOnCollide(
-    //   (data: Phaser.Types.Physics.Matter.MatterCollisionData) => {
-    //     console.log(bodyToCC(data.bodyA), bodyToCC(data.bodyB));
-    //   },
-    // );
+    this.head.setOnCollide(
+      (data: Phaser.Types.Physics.Matter.MatterCollisionData) => {
+        onCollision(data, this);
+        onCollisionHead(data, this);
+      },
+    );
 
     this.neck = scene.matter.add.constraint(
       this.head.body.gameObject,
@@ -169,10 +181,11 @@ class Ben3 extends Entity {
   }
 
   private handlePointerDown(pointer: Phaser.Input.Pointer) {
-    const { width } = this.scene.game.config;
+    const { width } = this.scene.sys.game.canvas;
+    const cx = width / 2;
 
     // Check if the initial touch is in the left or right half
-    if (pointer.x < width / 2) {
+    if (pointer.x < cx) {
       this.leftHalfTouched = true;
     } else {
       this.rightHalfTouched = true;
@@ -221,6 +234,7 @@ class Ben3 extends Entity {
     const fractionHealth = this.health / HEALTH_MAX;
     const invertedHealth = 1 - fractionHealth;
     const healthScaled = invertedHealth * adjustedScaleMax;
+    const newScale = HEAD_SCALE_MIN + healthScaled;
 
     // newHealth fractionHealth invertedHealth newScale
     // 100       1              0              0.1
@@ -229,7 +243,6 @@ class Ben3 extends Entity {
     // 25        .25            .75            0.4
     // 0         0              1              0.5
 
-    const newScale = HEAD_SCALE_MIN + healthScaled;
     this.headScale = newScale;
   }
 
@@ -271,7 +284,7 @@ class Ben3 extends Entity {
     );
 
     // regenerate health
-    this.setHealth(this.health + 0.1);
+    this.setHealth(this.health + 0.05);
   }
 }
 

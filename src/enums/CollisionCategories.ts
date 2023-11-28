@@ -26,5 +26,7 @@ export enum CM {
   ghosty = CC.default,
 }
 
+// [!] at time of writing CM is not used anywhere (yet)
+
 export const bodyToCC = (body: MatterJS.BodyType) =>
-  CC[body.gameObject?.body.collisionFilter.category];
+  CC[body.gameObject?.body?.collisionFilter?.category];
