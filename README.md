@@ -12,7 +12,7 @@
 
 You can press left ALT on the keyboard to toggle the debug shapes (dev mode only)
 
-You can drag matter objects in the scene with the mouse or finger when debug mode is enabled
+You can drag matter objects in the scene with the mouse or finger when debug mode is enabled (dev mode only)
 
 Trello board: https://trello.com/b/njkSeDet/game-off-2023-bigheaded
 
