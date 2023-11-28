@@ -34,6 +34,7 @@ const config: Phaser.Types.Core.GameConfig = {
     forceSetTimeOut: true, // force matter js engine speed to be consistent across devices
   },
   scene: [PreloaderScene, GameScene, DeathScene],
+  input: { activePointers: 2 }, // setup multitouch for mobile
 };
 
 export default config;
