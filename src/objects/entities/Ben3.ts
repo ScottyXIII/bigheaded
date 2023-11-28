@@ -23,7 +23,11 @@ const limitNumber = (value: number, min: number, max: number) => {
   return value;
 };
 
-const onCollision = (data: Phaser.Types.Physics.Matter.MatterCollisionData) => {
+const onCollision = (
+  data: Phaser.Types.Physics.Matter.MatterCollisionData,
+  // eslint-disable-next-line no-use-before-define
+  player: Ben3,
+) => {
   const collisionDataObject = prepareCollisionData(data);
 
   // check if player collide with item
@@ -39,8 +43,8 @@ const onCollision = (data: Phaser.Types.Physics.Matter.MatterCollisionData) => {
 
   // check if player collide with enemy
   if (collisionDataObject.enemy) {
-    const newHealth = collisionDataObject.player[0].gameObject.health - 10;
-    collisionDataObject.player[0].gameObject.setHealth(newHealth);
+    const newHealth = player.health - 10;
+    player.setHealth(newHealth);
   }
 };
 
@@ -50,7 +54,6 @@ const onCollisionHead = (
   player: Ben3,
 ) => {
   const collisionDataObject = prepareCollisionData(data);
-  // console.log('head collide', collisionDataObject);
 
   // check if head collide with ground
   if (collisionDataObject.default) {
@@ -129,7 +132,7 @@ class Ben3 extends Entity {
     this.head.setCollidesWith(CM.player); // set the mask
     this.head.setOnCollide(
       (data: Phaser.Types.Physics.Matter.MatterCollisionData) => {
-        onCollision(data);
+        onCollision(data, this);
         onCollisionHead(data, this);
       },
     );
