@@ -102,10 +102,6 @@ class Ben3 extends Entity {
 
   // private headScaleDirection = 1; // 1 or minus 1
 
-  private leftHalfTouched: boolean = false;
-
-  private rightHalfTouched: boolean = false;
-
   static preload(scene: Phaser.Scene) {
     scene.load.spritesheet({
       key: KEY,
@@ -166,8 +162,13 @@ class Ben3 extends Entity {
     });
     this.healthBar.bar.setScrollFactor(0, 0);
 
-    this.scene.events.on('touch-left', this.left.bind(this));
-    this.scene.events.on('touch-right', this.right.bind(this));
+    this.registerInputControls();
+  }
+
+  registerInputControls() {
+    // Toch controls
+    // this.scene.events.on('touch-left', this.setAngularVelocity.bind);
+    // this.scene.events.on('touch-right', this.setAngularVelocity.bind);
 
     this.scene.events.on(
       'swipe',
@@ -178,6 +179,22 @@ class Ben3 extends Entity {
       },
       this,
     );
+
+    // Keyboard
+    this.scene.input.keyboard?.on(
+      'keydown-A',
+      this.turnDirection.bind(this, -0.02),
+      this,
+    ); // fires continuously
+    this.scene.input.keyboard?.on(
+      'keydown-D',
+      this.turnDirection.bind(this, 0.02),
+      this,
+    );
+
+    this.scene.input.keyboard
+      ?.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE)
+      .on('down', this.jump.bind(this));
   }
 
   jump() {
@@ -200,14 +217,10 @@ class Ben3 extends Entity {
     }
   }
 
-  left() {
-    console.log('left');
-    this.gameObject.setAngularVelocity((-0.02 * this.head.body.mass) / 2);
-  }
-
-  right() {
-    console.log('right');
-    this.gameObject.setAngularVelocity((0.02 * this.head.body.mass) / 2);
+  turnDirection(rateOfChange: number) {
+    this.gameObject.setAngularVelocity(rateOfChange);
+    // Set angular veloctiy on head so it moves with the body when it gets bigger. If we scale rateOfChange with the head it will just spin uncontrollably.
+    this.head.setAngularVelocity(rateOfChange);
   }
 
   setHealth(newHealth: number) {
@@ -233,18 +246,7 @@ class Ben3 extends Entity {
   update(time: number, delta: number) {
     super.update(time, delta);
 
-    if (this.leftHalfTouched) {
-      this.left();
-    }
-
-    if (this.rightHalfTouched) {
-      this.right();
-    }
-
     if (this.sensorData.bottom.size >= 1) {
-      // touching the ground
-      // keepUpright(KeepUprightStratergies.SPRINGY, this.gameObject, 0.05);
-
       if (!this.scene.goal) return;
       moveTowards(this, this.scene.goal.skull, {
         constantMotion: true,
