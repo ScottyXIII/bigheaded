@@ -38,7 +38,7 @@ const onCollision = (
 
     // check if player collide with goal
     if (collisionDataObject.item[0].gameObject.name === 'goal')
-      collisionDataObject.player[0].gameObject.scene.scene.restart(); // TODO: music is bugged, it also messes up player chamfer
+      player.gameObject.scene.scene.restart(); // TODO: music is bugged, it also messes up player chamfer
   }
 
   // check if player collide with enemy
