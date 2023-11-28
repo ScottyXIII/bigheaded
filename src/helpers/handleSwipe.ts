@@ -4,16 +4,27 @@ enum Directions {
   LEFT = 'Left',
   RIGHT = 'Right',
 }
+let hasSwiped = false;
+let swipeDirection: Directions | undefined;
 
 const handleSwipe = (scene: Phaser.Scene, swipeThreshold = 30) => {
   const pointer = scene.input.activePointer;
-  let swipeDirection: Directions | undefined;
+
+  if (!pointer.isDown) {
+    if (hasSwiped) {
+      scene.events.emit('swipeRelease');
+      hasSwiped = false;
+    }
+  }
+
+  if (!pointer.isDown) {
+    hasSwiped = false; // Reset the flag when the pointer is not down
+    return;
+  }
 
   // Calculate the swipe distance
   const deltaX = pointer.upX - pointer.downX;
   const deltaY = pointer.upY - pointer.downY;
-
-  if (!pointer.isDown) return;
 
   // Does the swipe distance exceed the threshold?
   if (Math.abs(deltaX) > swipeThreshold || Math.abs(deltaY) > swipeThreshold) {
@@ -29,6 +40,7 @@ const handleSwipe = (scene: Phaser.Scene, swipeThreshold = 30) => {
       swipeDirection = Directions.UP;
     }
 
+    hasSwiped = true;
     scene.events.emit('swipe', swipeDirection);
   }
 };
