@@ -18,6 +18,7 @@ import Coin from '@/objects/entities/Coin';
 import Skull from '@/objects/Skull';
 import initDebug from '@/helpers/initDebug';
 import isDev from '@/helpers/isDev';
+import touchEvents from '@/helpers/touchEvents';
 
 const { getValue: getCoins, setValue: setCoins } = useLocalStorage('coins', 0);
 const { getValue: getIsSFXMute } = useLocalStorage('isSFXMute', false);
@@ -204,6 +205,7 @@ class GameScene extends Phaser.Scene {
 
     this.parallax.update();
 
+    touchEvents(this);
     smoothMoveCameraTowards(this, this.player.gameObject, 0.8);
   }
 }
