@@ -6,7 +6,7 @@ import useLocalStorage from '@/helpers/useLocalStorage';
 import Parallax, { ParallaxNames } from '@/objects/Parallax';
 import Level, { LevelConfigType } from '@/objects/Level';
 import Audio from '@/objects/Audio';
-import SettingsHud from '@/overlays/SettingHud';
+import SettingsHud from '@/overlays/SettingsHud';
 import CoinHud from '@/overlays/CoinHud';
 
 import Ben3 from '@/objects/entities/Ben3';
@@ -17,6 +17,7 @@ import Coin from '@/objects/entities/Coin';
 
 import Skull from '@/objects/Skull';
 import initDebug from '@/helpers/initDebug';
+import isDev from '@/helpers/isDev';
 
 const { getValue: getCoins, setValue: setCoins } = useLocalStorage('coins', 0);
 const { getValue: getIsSFXMute } = useLocalStorage('isSFXMute', false);
@@ -119,7 +120,6 @@ const soundConfig = [
 ];
 
 class GameScene extends Phaser.Scene {
-  // @ts-expect-error will be needed when debug state is more managed
   private settingsHud: SettingsHud | undefined;
 
   private coinHud: CoinHud | undefined;
@@ -179,8 +179,10 @@ class GameScene extends Phaser.Scene {
     this.settingsHud = new SettingsHud(this);
     this.coinHud = new CoinHud(this, this.coins);
 
-    // this will only activate in dev mode
-    initDebug(this);
+    if (isDev) {
+      const { toggleDebug } = initDebug(this, this.settingsHud);
+      this.settingsHud.registerOnClick('isDebugOn', toggleDebug);
+    }
   }
 
   jump() {

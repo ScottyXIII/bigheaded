@@ -4,17 +4,19 @@
 
 [![Play](.github/images/preview.png)](https://scottyxiii.github.io/bigheaded)
 
-[play the game](https://scottyxiii.github.io/bigheaded)
+[Play the game](https://scottyxiii.github.io/bigheaded)
 
 ## Development
 
 `npm install` then `npm run dev`
 
-trello board: https://trello.com/b/njkSeDet/game-off-2023-bigheaded
+You can press left ALT on the keyboard to toggle the debug shapes (dev mode only)
+
+Trello board: https://trello.com/b/njkSeDet/game-off-2023-bigheaded
 
 [How to use Tiled to edit levels](./Tiled.md)
 
-choose new material icons here https://fonts.google.com/icons?icon.set=Material+Icons
+Choose new material icons here https://fonts.google.com/icons?icon.set=Material+Icons
 
 ## Credits
 

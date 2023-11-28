@@ -53,7 +53,7 @@ class Button extends Phaser.GameObjects.Container {
     this.button.input?.hitArea.setPosition(-hitboxPositionFix, 0);
     this.button.on('pointerdown', onClick);
 
-    if (isDev) scene.input.enableDebug(this.button);
+    if (isDev) scene.input.enableDebug(this.button); // not toggleable atm
 
     scene.tweens.add({
       targets: [this.button],
