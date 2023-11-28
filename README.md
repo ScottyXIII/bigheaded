@@ -40,3 +40,4 @@ Choose new material icons here https://fonts.google.com/icons?icon.set=Material+
 ### Other artwork
 
 - skull: https://pngfre.com/skull-png/skull-png-from-pngfre-33/
+- running animation: https://www.youtube.com/watch?v=_1anDiF31OI
