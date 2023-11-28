@@ -5,8 +5,9 @@ import matterAddImageEllipse from '@/helpers/matterAddImageEllipse';
 import Entity, { EntityConfigType } from '@/objects/entities/Entity';
 import keepUpright, { KeepUprightStratergies } from '@/helpers/keepUpright';
 import moveTowards from '@/helpers/moveTowards';
-import { CC, CM, bodyToCC } from '@/enums/CollisionCategories';
+import { CC, CM } from '@/enums/CollisionCategories';
 import HealthBar from '@/overlays/HealthBar';
+import prepareCollisionData from '@/helpers/prepareCollisionData';
 
 const KEY = 'bob3';
 
@@ -23,32 +24,40 @@ const limitNumber = (value: number, min: number, max: number) => {
 };
 
 const onCollision = (data: Phaser.Types.Physics.Matter.MatterCollisionData) => {
-  const labelledBodies = [
-    { cc: bodyToCC(data.bodyA), body: data.bodyA },
-    { cc: bodyToCC(data.bodyB), body: data.bodyB },
-  ];
-  const otherBody = labelledBodies.find(({ cc }) => cc !== 'player');
-
-  // sometimes, he collides with himself (both bodies will be "player")
-  if (!otherBody) return;
-
-  const playerBody = labelledBodies.find(({ cc }) => cc === 'player')?.body;
-
-  const { cc, body } = otherBody;
+  const collisionDataObject = prepareCollisionData(data);
 
   // check if player collide with item
-  if (cc === 'item') {
+  if (collisionDataObject.item) {
     // check if player collide with coin
-    if (body.gameObject.name === 'coin') body.gameObject.collect();
+    if (collisionDataObject.item[0].gameObject.name === 'coin')
+      collisionDataObject.item[0].gameObject.collect();
 
     // check if player collide with goal
-    if (body.gameObject.name === 'goal')
-      playerBody?.gameObject.scene.scene.restart();
+    if (collisionDataObject.item[0].gameObject.name === 'goal')
+      collisionDataObject.player[0].gameObject.scene.scene.restart(); // TODO: music is bugged
   }
 
   // check if player collide with enemy
-  if (cc === 'enemy') {
-    playerBody?.gameObject.setHealth(playerBody.gameObject.health - 10);
+  if (collisionDataObject.enemy) {
+    const newHealth = collisionDataObject.player[0].gameObject.health - 10;
+    collisionDataObject.player[0].gameObject.setHealth(newHealth);
+  }
+};
+
+const onCollisionHead = (
+  data: Phaser.Types.Physics.Matter.MatterCollisionData,
+  // eslint-disable-next-line no-use-before-define
+  player: Ben3,
+) => {
+  const collisionDataObject = prepareCollisionData(data);
+  // console.log('head collide', collisionDataObject);
+
+  // check if head collide with ground
+  if (collisionDataObject.default) {
+    if (collisionDataObject.default[0].gameObject.name === 'staticbody') {
+      const newHealth = player.health - 10;
+      player.setHealth(newHealth);
+    }
   }
 };
 
@@ -89,8 +98,6 @@ class Ben3 extends Entity {
 
   public headScale = HEAD_SCALE_MIN;
 
-  // private headScaleDirection = 1; // 1 or minus 1
-
   static preload(scene: Phaser.Scene) {
     scene.load.spritesheet({
       key: KEY,
@@ -116,15 +123,16 @@ class Ben3 extends Entity {
       collisionCategory: CC.player,
       friction: 0,
     });
-    this.head.name = 'ben3head';
+    this.head.name = 'bob3head';
     this.head.setScale(HEAD_SCALE_MIN);
     this.head.setCollisionCategory(CC.player);
     this.head.setCollidesWith(CM.player); // set the mask
-    // this.head.setOnCollide(
-    //   (data: Phaser.Types.Physics.Matter.MatterCollisionData) => {
-    //     console.log(bodyToCC(data.bodyA), bodyToCC(data.bodyB));
-    //   },
-    // );
+    this.head.setOnCollide(
+      (data: Phaser.Types.Physics.Matter.MatterCollisionData) => {
+        onCollision(data);
+        onCollisionHead(data, this);
+      },
+    );
 
     this.neck = scene.matter.add.constraint(
       this.head.body.gameObject,
