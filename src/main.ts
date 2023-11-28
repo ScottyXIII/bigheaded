@@ -19,5 +19,7 @@ window.addEventListener('load', () => {
   webFontLoader();
 
   // prevent device sleep / auto lock when web page is open
+  // https://developer.mozilla.org/en-US/docs/Web/API/Screen_Wake_Lock_API
+  // https://caniuse.com/wake-lock it doesn't work in firefox
   if ('wakeLock' in navigator) navigator.wakeLock.request('screen');
 });
