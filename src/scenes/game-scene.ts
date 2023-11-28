@@ -1,26 +1,28 @@
 import * as Phaser from 'phaser';
 
-import toggleDebug from '@/helpers/toggleDebug';
 import smoothMoveCameraTowards from '@/helpers/smoothMoveCameraTowards';
 import useLocalStorage from '@/helpers/useLocalStorage';
-import isDev from '@/helpers/isDev';
-import settingsMenu from '@/helpers/settingsMenu';
 import handleSwipe from '@/helpers/handleSwipe';
 
 import Parallax, { ParallaxNames } from '@/objects/Parallax';
 import Level, { LevelConfigType } from '@/objects/Level';
+import Audio from '@/objects/Audio';
+import SettingsHud from '@/overlays/SettingsHud';
+import CoinHud from '@/overlays/CoinHud';
 
 import Ben3 from '@/objects/entities/Ben3';
 import Bat from '@/objects/entities/Bat';
 import Tomato from '@/objects/entities/Tomato';
 import Hedgehog from '@/objects/entities/Hedgehog';
+import Coin from '@/objects/entities/Coin';
 
-import Coin from '@/objects/Coin';
 import Skull from '@/objects/Skull';
+import initDebug from '@/helpers/initDebug';
+import isDev from '@/helpers/isDev';
 
-import Audio from '@/objects/Audio';
-import Text from '@/objects/Text';
-import CoinHud from '@/overlays/CoinHud';
+const { getValue: getCoins, setValue: setCoins } = useLocalStorage('coins', 0);
+const { getValue: getIsSFXMute } = useLocalStorage('isSFXMute', false);
+const { getValue: getIsMusicMute } = useLocalStorage('isMusicMute', false);
 
 const parallaxName: ParallaxNames = 'supermountaindusk';
 
@@ -54,28 +56,28 @@ const levelConfig: LevelConfigType = {
     {
       tiledObjectName: 'hedgehog',
       classFactory: Hedgehog,
-      maxSize: 10,
+      maxSize: 100,
       runChildUpdate: true,
       autoSpawn: true,
     },
     {
       tiledObjectName: 'bat',
       classFactory: Bat,
-      maxSize: 10,
+      maxSize: 100,
       runChildUpdate: true,
       autoSpawn: true,
     },
     {
       tiledObjectName: 'tomato',
       classFactory: Tomato,
-      maxSize: 10,
+      maxSize: 100,
       runChildUpdate: true,
       autoSpawn: true,
     },
     {
       tiledObjectName: 'coin',
       classFactory: Coin,
-      maxSize: 10,
+      maxSize: 1000,
       runChildUpdate: true,
       autoSpawn: true,
     },
@@ -119,11 +121,11 @@ const soundConfig = [
 ];
 
 class GameScene extends Phaser.Scene {
+  private settingsHud: SettingsHud | undefined;
+
   private coinHud: CoinHud | undefined;
 
   private coins = 0; // this resets to zero every time the scene loads
-
-  private score: Text | undefined; // not really a score
 
   private parallax: Parallax | undefined;
 
@@ -154,9 +156,6 @@ class GameScene extends Phaser.Scene {
   }
 
   create() {
-    if (isDev) this.input.keyboard?.on('keydown-CTRL', () => toggleDebug(this));
-    if (isDev) this.matter.add.mouseSpring();
-
     this.parallax = new Parallax(this, parallaxName);
     this.level = new Level(this, levelConfig);
     this.audio = new Audio(this, soundConfig);
@@ -174,17 +173,17 @@ class GameScene extends Phaser.Scene {
     // touch tap mobile and mouse leftclick controls
     this.input.on('pointerdown', this.jump.bind(this));
 
-    this.score = new Text(this, 10, 50);
-
     // set sfx/music mute from local storage
-    const [isSFXMute] = useLocalStorage('isSFXMute', false);
-    this.audio?.setSFXMute(isSFXMute);
-    const [isMusicMute] = useLocalStorage('isMusicMute', false);
-    this.audio?.setMusicMute(isMusicMute);
+    this.audio?.setSFXMute(getIsSFXMute());
+    this.audio?.setMusicMute(getIsMusicMute());
 
-    settingsMenu(this);
-
+    this.settingsHud = new SettingsHud(this);
     this.coinHud = new CoinHud(this, this.coins);
+
+    if (isDev) {
+      const { toggleDebug } = initDebug(this, this.settingsHud);
+      this.settingsHud.registerOnClick('isDebugOn', toggleDebug);
+    }
   }
 
   jump() {
@@ -198,21 +197,16 @@ class GameScene extends Phaser.Scene {
     this.coins += 1;
     this.coinHud.updateCoinsDisplay(this.coins);
 
-    const [coins, setCoins] = useLocalStorage('coins', 0);
-    setCoins(coins + 1);
+    setCoins(getCoins() + 1); // save to meta balance in ls
   }
 
   update() {
-    if (!this.parallax || !this.level || !this.player || !this.score) return;
+    if (!this.parallax || !this.level || !this.player) return;
 
     this.parallax.update();
 
     smoothMoveCameraTowards(this, this.player.gameObject, 0.8);
     handleSwipe(this);
-
-    const [myNum, setMyNum] = useLocalStorage('testNum', 0);
-    setMyNum(myNum + 1);
-    this.score.textbox.text = String(myNum).padStart(9, '0');
   }
 }
 

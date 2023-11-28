@@ -1,6 +1,5 @@
 import Phaser from 'phaser';
 import googleFont, { FontFamilyEnum, IconEnum } from './googleFont';
-import isDev from './isDev';
 
 const iconButton = (
   scene: Phaser.Scene,
@@ -32,7 +31,6 @@ const iconButton = (
 
   iconBtn.setInteractive({ useHandCursor: true });
   iconBtn.on('pointerdown', onClick);
-  if (isDev) scene.input.enableDebug(iconBtn);
 
   return iconBtn;
 };

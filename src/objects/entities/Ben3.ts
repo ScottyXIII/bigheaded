@@ -5,22 +5,62 @@ import matterAddImageEllipse from '@/helpers/matterAddImageEllipse';
 import Entity, { EntityConfigType } from '@/objects/entities/Entity';
 import keepUpright, { KeepUprightStratergies } from '@/helpers/keepUpright';
 import moveTowards from '@/helpers/moveTowards';
-import CollisionCategories from '@/enums/CollisionCategories';
-import Coin from '@/objects/Coin';
+import { CC, CM } from '@/enums/CollisionCategories';
+import HealthBar from '@/overlays/HealthBar';
+import prepareCollisionData from '@/helpers/prepareCollisionData';
 
-const KEY = 'ben3';
+const KEY = 'bob3';
+
+const HEALTH_MAX = 100;
+const HEALTH_MIN = 0;
 
 const HEAD_SCALE_MIN = 0.1;
-const HEAD_SCALE_MAX = 0.5;
+const HEAD_SCALE_MAX = 1;
+
+const limitNumber = (value: number, min: number, max: number) => {
+  if (value < min) return min;
+  if (value > max) return max;
+  return value;
+};
 
 const onCollision = (
-  data: MatterJS.ICollisionPair & {
-    bodyB: { gameObject: Coin };
-  },
+  data: Phaser.Types.Physics.Matter.MatterCollisionData,
+  // eslint-disable-next-line no-use-before-define
+  player: Ben3,
 ) => {
-  // check if collide with coin
-  if (data.bodyB?.gameObject?.collisionCategory === CollisionCategories.coin) {
-    data.bodyB.gameObject.collect();
+  const collisionDataObject = prepareCollisionData(data);
+
+  // check if player collide with item
+  if (collisionDataObject.item) {
+    // check if player collide with coin
+    if (collisionDataObject.item[0].gameObject.name === 'coin')
+      collisionDataObject.item[0].gameObject.collect();
+
+    // check if player collide with goal
+    if (collisionDataObject.item[0].gameObject.name === 'goal')
+      player.gameObject.scene.scene.restart(); // TODO: music is bugged, it also messes up player chamfer
+  }
+
+  // check if player collide with enemy
+  if (collisionDataObject.enemy) {
+    const newHealth = player.health - 10;
+    player.setHealth(newHealth);
+  }
+};
+
+const onCollisionHead = (
+  data: Phaser.Types.Physics.Matter.MatterCollisionData,
+  // eslint-disable-next-line no-use-before-define
+  player: Ben3,
+) => {
+  const collisionDataObject = prepareCollisionData(data);
+
+  // check if head collide with ground
+  if (collisionDataObject.default) {
+    if (collisionDataObject.default[0].gameObject.name === 'staticbody') {
+      const newHealth = player.health - 10;
+      player.setHealth(newHealth);
+    }
   }
 };
 
@@ -38,7 +78,7 @@ const entityConfig: EntityConfigType = {
     height: 75,
     chamfer: { radius: 30 },
   },
-  collisionCategory: CollisionCategories.player,
+  collisionCategory: CC.player,
   collideCallback: onCollision,
   animations: [
     {
@@ -55,9 +95,11 @@ class Ben3 extends Entity {
 
   protected neck: Phaser.Types.Physics.Matter.MatterConstraintConfig;
 
-  public headScale = HEAD_SCALE_MIN;
+  protected healthBar: HealthBar;
 
-  private headScaleDirection = 1; // 1 or minus 1
+  public health = HEALTH_MAX;
+
+  public headScale = HEAD_SCALE_MIN;
 
   static preload(scene: Phaser.Scene) {
     scene.load.spritesheet({
@@ -76,14 +118,24 @@ class Ben3 extends Entity {
     super(scene, x, y, entityConfig);
     this.scene = scene;
 
-    this.playAnimation('idle');
+    this.playAnimation('idle'); // body animation
 
     this.head = matterAddImageEllipse(scene, x, y, 'head2', undefined, {
       width: 340,
       height: 270,
+      collisionCategory: CC.player,
       friction: 0,
     });
+    this.head.name = 'bob3head';
     this.head.setScale(HEAD_SCALE_MIN);
+    this.head.setCollisionCategory(CC.player);
+    this.head.setCollidesWith(CM.player); // set the mask
+    this.head.setOnCollide(
+      (data: Phaser.Types.Physics.Matter.MatterCollisionData) => {
+        onCollision(data, this);
+        onCollisionHead(data, this);
+      },
+    );
 
     this.neck = scene.matter.add.constraint(
       this.head.body.gameObject,
@@ -97,6 +149,17 @@ class Ben3 extends Entity {
         angularStiffness: 0,
       },
     );
+
+    const { width } = scene.sys.game.canvas;
+    const cx = width / 2;
+    this.healthBar = new HealthBar(scene, cx, 20, {
+      width: 400,
+      height: 20,
+      padding: 5,
+      background: 0x000000,
+      maxHealth: 100,
+    });
+    this.healthBar.bar.setScrollFactor(0, 0);
   }
 
   jump() {
@@ -119,6 +182,26 @@ class Ben3 extends Entity {
     }
   }
 
+  setHealth(newHealth: number) {
+    this.health = limitNumber(newHealth, HEALTH_MIN, HEALTH_MAX);
+    this.healthBar.draw(this.health); // redraw healthbar
+
+    const adjustedScaleMax = HEAD_SCALE_MAX - HEAD_SCALE_MIN;
+    const fractionHealth = this.health / HEALTH_MAX;
+    const invertedHealth = 1 - fractionHealth;
+    const healthScaled = invertedHealth * adjustedScaleMax;
+    const newScale = HEAD_SCALE_MIN + healthScaled;
+
+    // newHealth fractionHealth invertedHealth newScale
+    // 100       1              0              0.1
+    // 75        .75            .25            0.2
+    // 50        .5             .5             0.3
+    // 25        .25            .75            0.4
+    // 0         0              1              0.5
+
+    this.headScale = newScale;
+  }
+
   update(time: number, delta: number) {
     super.update(time, delta);
 
@@ -132,7 +215,7 @@ class Ben3 extends Entity {
         maxSpeedX: 6,
         maxSpeedY: 1,
       });
-      this.playAnimation('idle');
+      this.playAnimation('idle', true);
     } else {
       // airborne
       this.sprite.stop();
@@ -140,15 +223,14 @@ class Ben3 extends Entity {
 
     // head scaling stuff
     this.head.setScale(this.headScale);
-    if (this.headScale > HEAD_SCALE_MAX) this.headScaleDirection = -1;
-    if (this.headScale < HEAD_SCALE_MIN) this.headScaleDirection = 1;
-
-    this.headScale += 0.00001 * this.headScaleDirection * delta;
 
     // scale pointA position proportionally to headScale
     this.neck.pointA = new Phaser.Math.Vector2(0, this.headScale * 140).rotate(
       this.head.rotation,
     );
+
+    // regenerate health
+    this.setHealth(this.health + 0.05);
   }
 }
 

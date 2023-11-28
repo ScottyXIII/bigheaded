@@ -1,20 +1,24 @@
 # Bigheaded
 
-Game Off 2023
+[Game Off 2023](https://itch.io/jam/game-off-2023) game jam entry
 
 [![Play](.github/images/preview.png)](https://scottyxiii.github.io/bigheaded)
 
-[play the game](https://scottyxiii.github.io/bigheaded)
+[Play the game](https://scottyxiii.github.io/bigheaded)
 
 ## Development
 
 `npm install` then `npm run dev`
 
-trello board: https://trello.com/b/njkSeDet/game-off-2023-bigheaded
+You can press `home` on the keyboard to toggle the debug shapes (dev mode only)
+
+You can drag matter objects in the scene with the mouse or finger when debug mode is enabled (dev mode only)
+
+Trello board: https://trello.com/b/njkSeDet/game-off-2023-bigheaded
 
 [How to use Tiled to edit levels](./Tiled.md)
 
-choose new material icons here https://fonts.google.com/icons?icon.set=Material+Icons
+Choose new material icons here https://fonts.google.com/icons?icon.set=Material+Icons
 
 ## Credits
 

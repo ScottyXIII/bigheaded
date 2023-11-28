@@ -8,8 +8,12 @@ const useLocalStorage = (
   defaultValue: string | number | boolean,
 ) => {
   const encryptOn = keysToEncrypt.includes(key);
-  const lsValue = String(window.localStorage.getItem(key));
-  const value = parse(encryptOn ? decode(lsValue) : lsValue) || defaultValue;
+
+  const getValue = () => {
+    const lsValue = String(window.localStorage.getItem(key));
+    const value = parse(encryptOn ? decode(lsValue) : lsValue) ?? defaultValue;
+    return value;
+  };
 
   const setValue = (newValue: string | number | boolean) => {
     const encoded = encryptOn
@@ -18,7 +22,7 @@ const useLocalStorage = (
     window.localStorage.setItem(key, encoded);
   };
 
-  return [value, setValue];
+  return { getValue, setValue };
 };
 
 export default useLocalStorage;

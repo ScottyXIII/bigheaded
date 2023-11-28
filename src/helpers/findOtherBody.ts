@@ -1,9 +1,8 @@
 const findOtherBody = (
-  thisSensorId: number,
-  collisionData: MatterJS.ICollisionPair,
+  thisSensorId: number | undefined,
+  collisionData: Phaser.Types.Physics.Matter.MatterCollisionData,
 ) => {
   const bodies = [collisionData.bodyA, collisionData.bodyB];
-  // @ts-expect-error id does exist!
   const other = bodies.find(({ id }) => id !== thisSensorId);
   return other;
 };

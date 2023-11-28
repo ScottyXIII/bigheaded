@@ -8,7 +8,7 @@ const stringify = (thing: string | number | boolean) => {
 };
 
 const parse = (str?: string) => {
-  if (!str) return undefined;
+  if (str === undefined) return undefined;
   try {
     return JSON.parse(str);
   } catch (err) {

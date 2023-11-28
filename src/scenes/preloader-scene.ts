@@ -2,11 +2,22 @@ import Text from '@/objects/Text';
 import Button from '@/objects/Button';
 import GameScene from '@/scenes/game-scene';
 import googleFont, { FontFamilyEnum } from '@/helpers/googleFont';
-import settingsMenu from '@/helpers/settingsMenu';
+import SettingsHud from '@/overlays/SettingsHud';
 import CoinHud from '@/overlays/CoinHud';
 import useLocalStorage from '@/helpers/useLocalStorage';
+import initDebug from '@/helpers/initDebug';
+import isDev from '@/helpers/isDev';
+
+const { getValue: getCoins } = useLocalStorage('coins', 0);
 
 class PreloaderScene extends Phaser.Scene {
+  private settingsHud: SettingsHud | undefined;
+
+  private coinHud: CoinHud | undefined;
+
+  // @ts-expect-error lesser of all the evils
+  private btn: Button | undefined;
+
   constructor() {
     super('preloader-scene');
   }
@@ -57,19 +68,21 @@ class PreloaderScene extends Phaser.Scene {
       origin: 0.5,
     });
 
-    const btn = new Button(this, cx, cy + 100, {
-      content: 'CONTINUE',
-      width: 300,
+    this.btn = new Button(this, cx, cy + 100, {
+      content: 'START ADVENTURE',
+      width: 400,
       onClick: () => this.scene.start('game-scene'),
     });
 
-    settingsMenu(this);
+    // @ts-expect-error needs class inheritance refactoring
+    this.settingsHud = new SettingsHud(this);
+    this.coinHud = new CoinHud(this, getCoins()); // coins from localstorage
+    this.coinHud.updateCoinsDisplay(getCoins());
 
-    const [coins] = useLocalStorage('coins', 0);
-    const coinHud = new CoinHud(this, coins);
-
-    // eslint-disable-next-line no-console
-    console.log({ btn, coinHud });
+    if (isDev) {
+      const { toggleDebug } = initDebug(this, this.settingsHud);
+      this.settingsHud.registerOnClick('isDebugOn', toggleDebug);
+    }
   }
 }
 
