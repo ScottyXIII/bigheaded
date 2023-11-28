@@ -27,6 +27,10 @@ Choose new material icons here https://fonts.google.com/icons?icon.set=Material+
 - Phaser
 - https://removal.ai/upload
 - stable diffusion
+- ffmpeg
+- HandBrake
+- ComfyUI
+- AnimateDiff
 
 ### Sounds & Music
 
