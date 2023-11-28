@@ -10,7 +10,7 @@
 
 `npm install` then `npm run dev`
 
-You can press left ALT on the keyboard to toggle the debug shapes (dev mode only)
+You can press `home` on the keyboard to toggle the debug shapes (dev mode only)
 
 You can drag matter objects in the scene with the mouse or finger when debug mode is enabled (dev mode only)
 

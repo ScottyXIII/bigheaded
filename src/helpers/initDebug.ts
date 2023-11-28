@@ -18,7 +18,7 @@ const initDebug = (scene: Phaser.Scene, settingsHud: SettingsHud) => {
     // set mouse spring
     mouseSpring.active = newIsDebugOn;
 
-    // set this menu debug hitAreas on / off (not matterjs engine)
+    // set the settings menu debug hitAreas on / off
     settingsHud.setHitAreaDebug(newIsDebugOn);
 
     // set EYE button state
@@ -38,7 +38,7 @@ const initDebug = (scene: Phaser.Scene, settingsHud: SettingsHud) => {
   const isDebugOn = getIsDebugOn(); // value from LS
   setIsDebugOn(isDebugOn);
 
-  scene.input.keyboard?.on('keydown-ALT', () => toggleDebug());
+  scene.input.keyboard?.on('keydown-HOME', () => toggleDebug());
 
   return { getIsDebugOn, setIsDebugOn, toggleDebug };
 };
