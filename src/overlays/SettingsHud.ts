@@ -42,11 +42,15 @@ const buttonConfig = [
     icons: [IconEnum.FULLSCREENON, IconEnum.FULLSCREENOFF],
     allowVisibilityChange: true,
   },
-  {
-    buttonName: 'isDebugOn',
-    icons: [IconEnum.EYEOPEN, IconEnum.EYECLOSED],
-    allowVisibilityChange: isDev,
-  },
+  ...(isDev
+    ? [
+        {
+          buttonName: 'isDebugOn',
+          icons: [IconEnum.EYEOPEN, IconEnum.EYECLOSED],
+          allowVisibilityChange: true,
+        },
+      ]
+    : []),
 ];
 
 type RegistryItem = {
