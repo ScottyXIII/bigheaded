@@ -142,19 +142,21 @@ class Entity extends Phaser.GameObjects.Container {
       label: 'bottom',
     });
 
-    bottom.onCollideCallback = (data: MatterJS.ICollisionPair) =>
-      // @ts-expect-error ???
-      this.sensorData.bottom.add(findOtherBody(bottom.id, data).id);
-    bottom.onCollideEndCallback = (data: MatterJS.ICollisionPair) =>
-      // @ts-expect-error ???
-      this.sensorData.bottom.delete(findOtherBody(bottom.id, data).id);
+    bottom.onCollideCallback = (
+      data: Phaser.Types.Physics.Matter.MatterCollisionData,
+    ) => this.sensorData.bottom.add(findOtherBody(bottom.id, data)?.id || 0);
+    bottom.onCollideEndCallback = (
+      data: Phaser.Types.Physics.Matter.MatterCollisionData,
+    ) => this.sensorData.bottom.delete(findOtherBody(bottom.id, data)?.id || 0);
 
     const compoundBody = Body.create({
       parts: [this.hitbox, bottom],
     });
 
-    this.hitbox.onCollideCallback = (data: MatterJS.ICollisionPair) => {
-      collideCallback?.(data);
+    this.hitbox.onCollideCallback = (
+      data: Phaser.Types.Physics.Matter.MatterCollisionData,
+    ) => {
+      collideCallback?.(data, this);
     };
     this.gameObject.setExistingBody(compoundBody);
 

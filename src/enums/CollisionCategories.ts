@@ -27,4 +27,4 @@ export enum CM {
 }
 
 export const bodyToCC = (body: MatterJS.BodyType) =>
-  CC[body.gameObject?.body.collisionFilter.category];
+  CC[body.gameObject?.body?.collisionFilter?.category];
