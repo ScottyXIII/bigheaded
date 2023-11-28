@@ -76,7 +76,9 @@ const entityConfig: EntityConfigType = {
   physicsConfig: {
     width: 60,
     height: 85,
-    chamfer: { radius: 20 },
+    chamfer: { radius: 15 },
+    friction: 0,
+    frictionStatic: 0,
   },
   collisionCategory: CC.player,
   collideCallback: onCollision,
@@ -230,7 +232,7 @@ class Ben3 extends Entity {
     );
 
     // regenerate health
-    this.setHealth(this.health + 0.05);
+    this.setHealth(this.health + 0.075);
   }
 }
 
