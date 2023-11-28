@@ -17,4 +17,7 @@ window.addEventListener('load', () => {
   const game = new Phaser.Game(config);
 
   webFontLoader();
+
+  // prevent device sleep / auto lock when web page is open
+  if ('wakeLock' in navigator) navigator.wakeLock.request('screen');
 });
