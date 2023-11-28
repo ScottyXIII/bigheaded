@@ -22,6 +22,12 @@ Choose new material icons here https://fonts.google.com/icons?icon.set=Material+
 
 ## Credits
 
+### Tools used
+
+- Phaser
+- https://removal.ai/upload
+- stable diffusion
+
 ### Sounds & Music
 
 - fluffing-a-duck.mp3: https://www.chosic.com/download-audio/27248/
