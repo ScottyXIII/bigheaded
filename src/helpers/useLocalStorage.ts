@@ -11,7 +11,7 @@ const useLocalStorage = (
 
   const getValue = () => {
     const lsValue = String(window.localStorage.getItem(key));
-    const value = parse(encryptOn ? decode(lsValue) : lsValue) || defaultValue;
+    const value = parse(encryptOn ? decode(lsValue) : lsValue) ?? defaultValue;
     return value;
   };
 

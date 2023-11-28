@@ -41,11 +41,15 @@ const buttonConfig = [
     icons: [IconEnum.FULLSCREENON, IconEnum.FULLSCREENOFF],
     allowVisibilityChange: true,
   },
-  {
-    buttonName: 'isDebugOn',
-    icons: [IconEnum.EYEOPEN, IconEnum.EYECLOSED],
-    allowVisibilityChange: isDev,
-  },
+  ...(isDev
+    ? [
+        {
+          buttonName: 'isDebugOn',
+          icons: [IconEnum.EYEOPEN, IconEnum.EYECLOSED],
+          allowVisibilityChange: true,
+        },
+      ]
+    : []),
 ];
 
 type RegistryItem = {
@@ -88,7 +92,6 @@ class SettingsHud {
     this.setButtonState('isSFXMute', getIsSFXMute());
     this.setButtonState('isMusicMute', getIsMusicMute());
     this.setButtonState('isFullscreen', false);
-    this.setButtonState('isDebugOn', scene.matter.world.drawDebug);
 
     // connect click actions
     this.registerOnClick('settings', () => {
@@ -114,14 +117,6 @@ class SettingsHud {
     this.registerOnClick('isFullscreen', () => {
       fullscreenAndLandscape();
       this.setButtonState('isFullscreen', true);
-    });
-    this.registerOnClick('isDebugOn', () => {
-      const oldDrawDebug = scene.matter.world.drawDebug;
-      const newDrawDebug = !oldDrawDebug;
-      this.setButtonState('isDebugOn', newDrawDebug);
-      this.setDebug(newDrawDebug); // set this menu debug on or off (not matterjs engine)
-      scene.matter.world.drawDebug = newDrawDebug;
-      scene.matter.world.debugGraphic.clear();
     });
   }
 
@@ -154,7 +149,7 @@ class SettingsHud {
   }
 
   // turn green hitArea boxes on / off in this menu
-  setDebug(isOn: boolean) {
+  setHitAreaDebug(isOn: boolean) {
     const fnName = isOn ? 'enableDebug' : 'removeDebug';
     this.buttons.forEach(item => {
       this.scene.input[fnName](item.btn);
