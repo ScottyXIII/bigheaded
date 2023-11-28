@@ -14,7 +14,6 @@ const { getValue: getIsSFXMute, setValue: setIsSFXMute } = useLocalStorage(
   'isSFXMute',
   false,
 );
-const { getValue: getIsDebugOn } = useLocalStorage('isDebugOn', false);
 
 const buttonConfig = [
   {
@@ -93,7 +92,6 @@ class SettingsHud {
     this.setButtonState('isSFXMute', getIsSFXMute());
     this.setButtonState('isMusicMute', getIsMusicMute());
     this.setButtonState('isFullscreen', false);
-    this.setButtonState('isDebugOn', getIsDebugOn());
 
     // connect click actions
     this.registerOnClick('settings', () => {
