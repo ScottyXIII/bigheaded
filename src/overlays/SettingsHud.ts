@@ -3,7 +3,7 @@ import { IconEnum } from '@/helpers/googleFont';
 import iconButton from '@/helpers/iconButton';
 import isDev from '@/helpers/isDev';
 import useLocalStorage from '@/helpers/useLocalStorage';
-import GameScene from '@/scenes/game-scene';
+import GameScene from '@/scenes/GameScene';
 
 // get state from LS
 const { getValue: getIsMusicMute, setValue: setIsMusicMute } = useLocalStorage(
@@ -48,6 +48,11 @@ const buttonConfig = [
           icons: [IconEnum.EYEOPEN, IconEnum.EYECLOSED],
           allowVisibilityChange: true,
         },
+        {
+          buttonName: 'sceneSelectorLink',
+          icons: [IconEnum.SCENES],
+          allowVisibilityChange: true,
+        },
       ]
     : []),
 ];
@@ -58,7 +63,7 @@ type RegistryItem = {
 };
 
 class SettingsHud {
-  private scene: GameScene;
+  private scene: GameScene; // scene.audio custom property needed
 
   private isOpen = false;
 
@@ -117,6 +122,9 @@ class SettingsHud {
     this.registerOnClick('isFullscreen', () => {
       fullscreenAndLandscape();
       this.setButtonState('isFullscreen', true);
+    });
+    this.registerOnClick('sceneSelectorLink', () => {
+      scene.scene.start('scene-selector-scene');
     });
   }
 

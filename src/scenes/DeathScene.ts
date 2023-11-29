@@ -1,26 +1,19 @@
 import Text from '@/objects/Text';
-import Button from '@/objects/Button';
+import UIElement from '@/objects/UIElement';
 import googleFont, { FontFamilyEnum } from '@/helpers/googleFont';
+import noNew from '@/helpers/noNew';
 
 class DeathScene extends Phaser.Scene {
-  // @ts-expect-error lesser of all the evils
-  private btn: Button | undefined;
+  public static preload(scene: Phaser.Scene) {
+    UIElement.preload(scene);
+  }
 
   constructor() {
     super('death-scene');
   }
 
   preload() {
-    Button.preload(this);
-
-    const { width, height } = this.sys.game.canvas;
-    const cx = width / 2;
-    const cy = height / 2;
-
-    const message = new Text(this, cx, cy - 20);
-
-    message.textbox.setOrigin(0.5, 0.5);
-    message.textbox.text = 'Oh no! Ben fell over. Try to keep him upright!';
+    DeathScene.preload(this);
   }
 
   create() {
@@ -36,10 +29,14 @@ class DeathScene extends Phaser.Scene {
       origin: 0.5,
     });
 
-    this.btn = new Button(this, cx, cy + 100, {
+    const message = new Text(this, cx, cy - 20);
+    message.textbox.setOrigin(0.5, 0.5);
+    message.textbox.text = 'Oh no! Ben fell over. Try to keep him upright!';
+
+    noNew(UIElement, this, cx, cy + 100, {
       content: 'Restart',
       width: 300,
-      onClick: () => this.scene.start('game-scene'),
+      onClick: () => this.scene.start('main-menu-scene'),
     });
   }
 }

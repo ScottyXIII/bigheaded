@@ -1,5 +1,5 @@
 import Entity, { EntityConfigType } from '@/objects/entities/Entity';
-import GameScene from '@/scenes/game-scene';
+import GameScene from '@/scenes/GameScene';
 import { CC } from '@/enums/CollisionCategories';
 
 const KEY = 'coin';

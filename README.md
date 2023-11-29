@@ -22,6 +22,16 @@ Choose new material icons here https://fonts.google.com/icons?icon.set=Material+
 
 ## Credits
 
+### Tools used
+
+- Phaser
+- https://removal.ai/upload
+- stable diffusion
+- ffmpeg
+- HandBrake
+- ComfyUI
+- AnimateDiff
+
 ### Sounds & Music
 
 - fluffing-a-duck.mp3: https://www.chosic.com/download-audio/27248/
@@ -40,3 +50,4 @@ Choose new material icons here https://fonts.google.com/icons?icon.set=Material+
 ### Other artwork
 
 - skull: https://pngfre.com/skull-png/skull-png-from-pngfre-33/
+- running animation: https://www.youtube.com/watch?v=_1anDiF31OI
