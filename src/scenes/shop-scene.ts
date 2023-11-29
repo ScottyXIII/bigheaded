@@ -10,7 +10,7 @@ class ShopScene extends Phaser.Scene {
   }
 
   constructor() {
-    super('scene-selector-scene');
+    super('shop-scene');
   }
 
   preload() {
@@ -33,7 +33,7 @@ class ShopScene extends Phaser.Scene {
     for (let i = 0; i < items.length; i += 1) {
       const item = items[i];
       noNew(UIElement, this, cx, 150 + i * 75, {
-        uiElementName: UIElementNames.blue_button05,
+        uiElementName: UIElementNames.yellow_button01,
         content: item,
         width: 400,
         // eslint-disable-next-line no-alert

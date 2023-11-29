@@ -5,6 +5,7 @@ import noNew from '@/helpers/noNew';
 const sceneNames = [
   'preloader-scene',
   'main-menu-scene',
+  'shop-scene',
   'game-scene',
   'death-scene',
   'win-scene',
@@ -40,7 +41,7 @@ class SceneSelectorScene extends Phaser.Scene {
 
     for (let i = 0; i < sceneNames.length; i += 1) {
       const sceneName = sceneNames[i];
-      noNew(UIElement, this, cx, 150 + i * 75, {
+      noNew(UIElement, this, cx, 150 + i * 60, {
         uiElementName: UIElementNames.blue_button05,
         content: sceneName,
         width: 400,

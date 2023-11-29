@@ -49,7 +49,7 @@ class MainMenuScene extends Phaser.Scene {
         uiElementName: UIElementNames.yellow_button01,
         content: 'Visit the Shop',
         width: 300,
-        onClick: () => this.scene.start('game-scene'),
+        onClick: () => this.scene.start('shop-scene'),
       });
     }
 
