@@ -1,8 +1,9 @@
 import * as Phaser from 'phaser';
-import PreloaderScene from '@/scenes/preloader-scene';
-import GameScene from '@/scenes/game-scene';
 import isDev from '@/helpers/isDev';
-import DeathScene from './scenes/death-scene';
+import PreloaderScene from '@/scenes/preloader-scene';
+import MainMenuScene from '@/scenes/main-menu-scene';
+import GameScene from '@/scenes/game-scene';
+import DeathScene from '@/scenes/death-scene';
 
 // 16:9 horizontal sizes
 // - 360p = 640✕360
@@ -33,7 +34,7 @@ const config: Phaser.Types.Core.GameConfig = {
   fps: {
     forceSetTimeOut: true, // force matter js engine speed to be consistent across devices
   },
-  scene: [PreloaderScene, GameScene, DeathScene],
+  scene: [PreloaderScene, MainMenuScene, GameScene, DeathScene],
   input: { activePointers: 2 }, // setup multitouch for mobile
 };
 
