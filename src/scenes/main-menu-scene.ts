@@ -55,8 +55,7 @@ class MainMenuScene extends Phaser.Scene {
       uiElementName: UIElementNames.blue_button00,
     });
 
-    const coinHud = new CoinHud(this, getCoins()); // coins from localstorage
-    coinHud.updateCoinsDisplay(getCoins());
+    noNew(CoinHud, this, getCoins()); // coins from localstorage
 
     // @ts-expect-error needs class inheritance refactoring
     const settingsHud = new SettingsHud(this);
