@@ -2,6 +2,7 @@ import * as Phaser from 'phaser';
 
 import smoothMoveCameraTowards from '@/helpers/smoothMoveCameraTowards';
 import useLocalStorage from '@/helpers/useLocalStorage';
+import handleSwipe from '@/helpers/handleSwipe';
 
 import Parallax, { ParallaxNames } from '@/objects/Parallax';
 import Level, { LevelConfigType } from '@/objects/Level';
@@ -170,7 +171,7 @@ class GameScene extends Phaser.Scene {
       .on('down', this.jump.bind(this));
 
     // touch tap mobile and mouse leftclick controls
-    this.input.on('pointerdown', this.jump.bind(this));
+    this.events.on('swipeRelease', this.jump.bind(this));
 
     // set sfx/music mute from local storage
     this.audio?.setSFXMute(getIsSFXMute());
@@ -205,6 +206,7 @@ class GameScene extends Phaser.Scene {
     this.parallax.update();
 
     smoothMoveCameraTowards(this, this.player.gameObject, 0.8);
+    handleSwipe(this);
   }
 }
 
