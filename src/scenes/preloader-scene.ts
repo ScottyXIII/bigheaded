@@ -1,5 +1,5 @@
 import Text from '@/objects/Text';
-import Button from '@/objects/Button';
+import Button, { UIElementEnum } from '@/objects/Button';
 import GameScene from '@/scenes/game-scene';
 import googleFont, { FontFamilyEnum } from '@/helpers/googleFont';
 import SettingsHud from '@/overlays/SettingsHud';
@@ -86,6 +86,20 @@ class PreloaderScene extends Phaser.Scene {
       content: 'START ADVENTURE',
       width: 400,
       onClick: () => this.scene.start('game-scene'),
+    });
+
+    const aaa = new Button(this, cx, cy + 200, {
+      content: 'Shop',
+      width: 300,
+      onClick: () => this.scene.start('game-scene'),
+      uiElement: UIElementEnum.ButtonOrange,
+    });
+
+    const bbb = new Button(this, cx, cy + 300, {
+      content: 'scene selector',
+      width: 300,
+      onClick: () => this.scene.start('game-scene'),
+      uiElement: UIElementEnum.blue_button00,
     });
 
     // @ts-expect-error needs class inheritance refactoring

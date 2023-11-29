@@ -1,9 +1,58 @@
 import isDev from '@/helpers/isDev';
 
+export enum UIElementEnum {
+  PopupBackground400 = 'PopupBackground400',
+  blue_box = 'blue-box',
+  yellow_panel = 'yellow_panel',
+  pause_check_box = 'pause_check_box',
+  ButtonBlueSml = 'ButtonBlueSml',
+  LightBackground = 'LightBackground',
+  btn_01 = 'btn-01',
+  enemy_hp_bar = 'enemy_hp_bar',
+  enemy_hp_fill = 'enemy_hp_fill',
+  blue_button07 = 'blue_button07',
+  yellow_button06 = 'yellow_button06',
+  blue_sliderDown = 'blue_sliderDown',
+  blue_sliderUp = 'blue_sliderUp',
+  button_bg = 'button-bg',
+  blue_button00 = 'blue_button00',
+  yellow_button07 = 'yellow_button07',
+  blue_sliderLeft = 'blue_sliderLeft',
+  blue_sliderRight = 'blue_sliderRight',
+  blue_button13 = 'blue_button13',
+  YellowButtonSml = 'YellowButtonSml',
+  GreenButtonSml = 'GreenButtonSml',
+  yellow_sliderDown = 'yellow_sliderDown',
+  ButtonOrangeFill1 = 'ButtonOrangeFill1',
+  PinkButtonSml = 'PinkButtonSml',
+  RedButtonSml = 'RedButtonSml',
+  ButtonOrange = 'ButtonOrange',
+  ButtonOrangeFill2 = 'ButtonOrangeFill2',
+  yellow_button00 = 'yellow_button00',
+  yellow_button02 = 'yellow_button02',
+  yellow_sliderUp = 'yellow_sliderUp',
+  yellow_button09 = 'yellow_button09',
+  yellow_circle = 'yellow_circle',
+  yellow_button04 = 'yellow_button04',
+  yellow_button13 = 'yellow_button13',
+  yellow_button11 = 'yellow_button11',
+  yellow_sliderLeft = 'yellow_sliderLeft',
+  yellow_sliderRight = 'yellow_sliderRight',
+  blue_button05 = 'blue_button05',
+  yellow_button01 = 'yellow_button01',
+  yellow_button08 = 'yellow_button08',
+  yellow_button10 = 'yellow_button10',
+  yellow_button03 = 'yellow_button03',
+  yellow_button05 = 'yellow_button05',
+  yellow_button12 = 'yellow_button12',
+  hp_fill = 'hp_fill',
+}
+
 type ButtonOptionsType = {
   content: string;
   width: number;
   onClick: () => void;
+  uiElement?: UIElementEnum;
 };
 
 class Button extends Phaser.GameObjects.Container {
@@ -27,18 +76,14 @@ class Button extends Phaser.GameObjects.Container {
 
     this.scene = scene;
 
-    const { content, width, onClick } = options;
+    const {
+      content,
+      width,
+      onClick,
+      uiElement = UIElementEnum.button_bg,
+    } = options;
 
-    this.button = scene.add.nineslice(
-      x,
-      y,
-      'ui',
-      'button-bg',
-      128,
-      110,
-      64,
-      64,
-    );
+    this.button = scene.add.nineslice(x, y, 'ui', uiElement, 128, 110, 64, 64);
 
     const text = scene.add.text(x, y, content, {
       font: '25px Arial',
