@@ -163,9 +163,6 @@ class GameScene extends Phaser.Scene {
     this.player = this.level.spawners.player.getChildren()[0] as Ben3;
     this.goal = this.level.spawners.goal.getChildren()[0] as Skull;
 
-    // touch tap mobile and mouse leftclick controls
-    this.events.on('swipeRelease', this.jump.bind(this));
-
     // set sfx/music mute from local storage
     this.audio?.setSFXMute(getIsSFXMute());
     this.audio?.setMusicMute(getIsMusicMute());
