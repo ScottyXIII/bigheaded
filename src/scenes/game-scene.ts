@@ -174,9 +174,9 @@ class GameScene extends Phaser.Scene {
     this.audio?.setSFXMute(getIsSFXMute());
     this.audio?.setMusicMute(getIsMusicMute());
 
-    this.settingsHud = new SettingsHud(this);
-    this.coinHud = new CoinHud(this, this.coins);
+    this.coinHud = new CoinHud(this, this.coins); // not coins from LS
 
+    this.settingsHud = new SettingsHud(this);
     if (isDev) {
       const { toggleDebug } = initDebug(this, this.settingsHud);
       this.settingsHud.registerOnClick('isDebugOn', toggleDebug);

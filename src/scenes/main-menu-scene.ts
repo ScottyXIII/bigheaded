@@ -41,25 +41,20 @@ class MainMenuScene extends Phaser.Scene {
       onClick: () => this.scene.start('game-scene'),
     });
 
-    noNew(UIElement, this, cx, cy + 200, {
-      content: 'Shop',
-      width: 300,
-      onClick: () => this.scene.start('game-scene'),
-      uiElementName: UIElementNames.ButtonOrange,
-    });
+    const localStorageCoins = getCoins();
+    if (localStorageCoins > 0) {
+      noNew(CoinHud, this, localStorageCoins);
 
-    noNew(UIElement, this, cx, cy + 300, {
-      content: 'scene selector',
-      width: 300,
-      onClick: () => this.scene.start('game-scene'),
-      uiElementName: UIElementNames.blue_button00,
-    });
-
-    noNew(CoinHud, this, getCoins()); // coins from localstorage
+      noNew(UIElement, this, cx, cy + 250, {
+        content: 'Shop',
+        width: 300,
+        onClick: () => this.scene.start('game-scene'),
+        uiElementName: UIElementNames.ButtonOrange,
+      });
+    }
 
     // @ts-expect-error needs class inheritance refactoring
     const settingsHud = new SettingsHud(this);
-
     if (isDev) {
       const { toggleDebug } = initDebug(this, settingsHud);
       settingsHud.registerOnClick('isDebugOn', toggleDebug);
