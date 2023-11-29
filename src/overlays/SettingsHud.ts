@@ -2,9 +2,7 @@ import fullscreenAndLandscape from '@/helpers/fullscreen';
 import { IconEnum } from '@/helpers/googleFont';
 import iconButton from '@/helpers/iconButton';
 import isDev from '@/helpers/isDev';
-import noNew from '@/helpers/noNew';
 import useLocalStorage from '@/helpers/useLocalStorage';
-import UIElement, { UIElementNames } from '@/objects/UIElement';
 import GameScene from '@/scenes/game-scene';
 
 // get state from LS
@@ -50,6 +48,11 @@ const buttonConfig = [
           icons: [IconEnum.EYEOPEN, IconEnum.EYECLOSED],
           allowVisibilityChange: true,
         },
+        {
+          buttonName: 'sceneSelectorLink',
+          icons: [IconEnum.SCENES],
+          allowVisibilityChange: true,
+        },
       ]
     : []),
 ];
@@ -60,7 +63,7 @@ type RegistryItem = {
 };
 
 class SettingsHud {
-  private scene: GameScene;
+  private scene: GameScene; // scene.audio custom property needed
 
   private isOpen = false;
 
@@ -71,7 +74,7 @@ class SettingsHud {
   constructor(scene: GameScene) {
     this.scene = scene;
 
-    const { width, height } = scene.sys.game.canvas;
+    const { width } = scene.sys.game.canvas;
 
     this.buttons = buttonConfig.map(({ buttonName, icons }, i) => {
       const btn = iconButton(scene, width - 48, 48 + 48 * 2 * i, {
@@ -120,15 +123,9 @@ class SettingsHud {
       fullscreenAndLandscape();
       this.setButtonState('isFullscreen', true);
     });
-
-    if (isDev) {
-      noNew(UIElement, scene, 100, height - 100, {
-        content: 'scene selector',
-        width: 300,
-        onClick: () => scene.scene.start('scene-selector-scene'), // TODO: make the scene
-        uiElementName: UIElementNames.blue_button00,
-      });
-    }
+    this.registerOnClick('sceneSelectorLink', () => {
+      scene.scene.start('scene-selector-scene');
+    });
   }
 
   setMenuOpen(isOpen: boolean) {

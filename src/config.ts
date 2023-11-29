@@ -2,6 +2,7 @@ import * as Phaser from 'phaser';
 import isDev from '@/helpers/isDev';
 import PreloaderScene from '@/scenes/preloader-scene';
 import MainMenuScene from '@/scenes/main-menu-scene';
+import SceneSelectorScene from '@/scenes/scene-selector-scene';
 import GameScene from '@/scenes/game-scene';
 import DeathScene from '@/scenes/death-scene';
 
@@ -34,7 +35,13 @@ const config: Phaser.Types.Core.GameConfig = {
   fps: {
     forceSetTimeOut: true, // force matter js engine speed to be consistent across devices
   },
-  scene: [PreloaderScene, MainMenuScene, GameScene, DeathScene],
+  scene: [
+    PreloaderScene,
+    MainMenuScene,
+    SceneSelectorScene,
+    GameScene,
+    DeathScene,
+  ],
   input: { activePointers: 2 }, // setup multitouch for mobile
 };
 
