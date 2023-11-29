@@ -2,7 +2,6 @@ import * as Phaser from 'phaser';
 
 import smoothMoveCameraTowards from '@/helpers/smoothMoveCameraTowards';
 import useLocalStorage from '@/helpers/useLocalStorage';
-import handleSwipe from '@/helpers/handleSwipe';
 
 import Parallax, { ParallaxNames } from '@/objects/Parallax';
 import Level, { LevelConfigType } from '@/objects/Level';
@@ -174,6 +173,8 @@ class GameScene extends Phaser.Scene {
       const { toggleDebug } = initDebug(this, this.settingsHud);
       this.settingsHud.registerOnClick('isDebugOn', toggleDebug);
     }
+
+    this.input.addPointer(2); // allow multi-touch
   }
 
   jump() {
@@ -197,7 +198,6 @@ class GameScene extends Phaser.Scene {
 
     touchEvents(this);
     smoothMoveCameraTowards(this, this.player.gameObject, 0.8);
-    handleSwipe(this);
   }
 }
 
