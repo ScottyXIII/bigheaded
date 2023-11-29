@@ -3,7 +3,6 @@ import { PhaserMatterImage } from '@/types';
 import GameScene from '@/scenes/GameScene';
 import matterAddImageEllipse from '@/helpers/matterAddImageEllipse';
 import Entity, { EntityConfigType } from '@/objects/entities/Entity';
-import keepUpright, { KeepUprightStratergies } from '@/helpers/keepUpright';
 import moveTowards from '@/helpers/moveTowards';
 import { CC, CM } from '@/enums/CollisionCategories';
 import HealthBar from '@/overlays/HealthBar';
@@ -162,6 +161,38 @@ class Ben3 extends Entity {
       maxHealth: 100,
     });
     this.healthBar.bar.setScrollFactor(0, 0);
+
+    this.registerInputControls();
+  }
+
+  registerInputControls() {
+    // Toch controls
+    this.scene.events.on(
+      'touch-left-half',
+      this.turnDirection.bind(this, -0.02),
+    );
+    this.scene.events.on(
+      'touch-right-half',
+      this.turnDirection.bind(this, 0.02),
+    );
+
+    this.scene.events.on('touch-right', this.jump.bind(this));
+
+    // Keyboard
+    this.scene.input.keyboard?.on(
+      'keydown-A',
+      this.turnDirection.bind(this, -0.02),
+      this,
+    ); // fires continuously
+    this.scene.input.keyboard?.on(
+      'keydown-D',
+      this.turnDirection.bind(this, 0.02),
+      this,
+    );
+
+    this.scene.input.keyboard
+      ?.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE)
+      .on('down', this.jump.bind(this));
   }
 
   jump() {
@@ -182,6 +213,12 @@ class Ben3 extends Entity {
         y: -0.05 * this.head.body.mass,
       });
     }
+  }
+
+  turnDirection(angularVelocity: number) {
+    this.gameObject.setAngularVelocity(angularVelocity);
+    // Set angular veloctiy on head so it moves with the body when it gets bigger. If we scale angularVelocity with the head it will just spin uncontrollably.
+    this.head.setAngularVelocity(angularVelocity);
   }
 
   setHealth(newHealth: number) {
@@ -211,9 +248,6 @@ class Ben3 extends Entity {
     super.update(time, delta);
 
     if (this.sensorData.bottom.size >= 1) {
-      // touching the ground
-      keepUpright(KeepUprightStratergies.SPRINGY, this.gameObject, 0.05);
-
       if (!this.scene.goal) return;
       moveTowards(this, this.scene.goal.skull, {
         constantMotion: true,
