@@ -1,6 +1,6 @@
 import * as Phaser from 'phaser';
 import { PhaserMatterImage } from '@/types';
-import GameScene from '@/scenes/game-scene';
+import GameScene from '@/scenes/GameScene';
 import matterAddImageEllipse from '@/helpers/matterAddImageEllipse';
 import Entity, { EntityConfigType } from '@/objects/entities/Entity';
 import keepUpright, { KeepUprightStratergies } from '@/helpers/keepUpright';

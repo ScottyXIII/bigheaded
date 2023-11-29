@@ -1,13 +1,13 @@
 import * as Phaser from 'phaser';
 import isDev from '@/helpers/isDev';
-import PreloaderScene from '@/scenes/preloader-scene';
-import MainMenuScene from '@/scenes/main-menu-scene';
-import ShopScene from '@/scenes/shop-scene';
-import GameScene from '@/scenes/game-scene';
-import DeathScene from '@/scenes/death-scene';
-import WinScene from '@/scenes/win-scene';
-import SceneSelectorScene from '@/scenes/scene-selector-scene';
-import UIDemoScene from '@/scenes/ui-demo-scene';
+import PreloaderScene from '@/scenes/PreloaderScene';
+import MainMenuScene from '@/scenes/MainMenuScene';
+import ShopScene from '@/scenes/ShopScene';
+import GameScene from '@/scenes/GameScene';
+import DeathScene from '@/scenes/DeathScene';
+import WinScene from '@/scenes/WinScene';
+import SceneSelectorScene from '@/scenes/SceneSelectorScene';
+import UIDemoScene from '@/scenes/UIDemoScene';
 
 // 16:9 horizontal sizes
 // - 360p = 640✕360

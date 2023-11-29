@@ -3,7 +3,7 @@ import { IconEnum } from '@/helpers/googleFont';
 import iconButton from '@/helpers/iconButton';
 import isDev from '@/helpers/isDev';
 import useLocalStorage from '@/helpers/useLocalStorage';
-import GameScene from '@/scenes/game-scene';
+import GameScene from '@/scenes/GameScene';
 
 // get state from LS
 const { getValue: getIsMusicMute, setValue: setIsMusicMute } = useLocalStorage(
