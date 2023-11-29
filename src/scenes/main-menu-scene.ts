@@ -5,17 +5,11 @@ import CoinHud from '@/overlays/CoinHud';
 import useLocalStorage from '@/helpers/useLocalStorage';
 import initDebug from '@/helpers/initDebug';
 import isDev from '@/helpers/isDev';
+import noNew from '@/helpers/noNew';
 
 const { getValue: getCoins } = useLocalStorage('coins', 0);
 
 class MainMenuScene extends Phaser.Scene {
-  private settingsHud: SettingsHud | undefined;
-
-  private coinHud: CoinHud | undefined;
-
-  // @ts-expect-error lesser of all the evils
-  private btn: UIElement | undefined;
-
   public static preload(scene: Phaser.Scene) {
     UIElement.preload(scene);
   }
@@ -41,36 +35,35 @@ class MainMenuScene extends Phaser.Scene {
       origin: 0.5,
     });
 
-    this.btn = new UIElement(this, cx, cy + 100, {
+    noNew(UIElement, this, cx, cy + 100, {
       content: 'START ADVENTURE',
       width: 400,
       onClick: () => this.scene.start('game-scene'),
     });
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const aaa = new UIElement(this, cx, cy + 200, {
+    noNew(UIElement, this, cx, cy + 200, {
       content: 'Shop',
       width: 300,
       onClick: () => this.scene.start('game-scene'),
       uiElementName: UIElementNames.ButtonOrange,
     });
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const bbb = new UIElement(this, cx, cy + 300, {
+    noNew(UIElement, this, cx, cy + 300, {
       content: 'scene selector',
       width: 300,
       onClick: () => this.scene.start('game-scene'),
       uiElementName: UIElementNames.blue_button00,
     });
 
+    const coinHud = new CoinHud(this, getCoins()); // coins from localstorage
+    coinHud.updateCoinsDisplay(getCoins());
+
     // @ts-expect-error needs class inheritance refactoring
-    this.settingsHud = new SettingsHud(this);
-    this.coinHud = new CoinHud(this, getCoins()); // coins from localstorage
-    this.coinHud.updateCoinsDisplay(getCoins());
+    const settingsHud = new SettingsHud(this);
 
     if (isDev) {
-      const { toggleDebug } = initDebug(this, this.settingsHud);
-      this.settingsHud.registerOnClick('isDebugOn', toggleDebug);
+      const { toggleDebug } = initDebug(this, settingsHud);
+      settingsHud.registerOnClick('isDebugOn', toggleDebug);
     }
   }
 }
