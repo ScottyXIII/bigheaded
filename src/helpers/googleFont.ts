@@ -30,16 +30,17 @@ export const webFontLoader = () => {
 // choose new icons here https://fonts.google.com/icons?icon.set=Material+Icons
 export enum IconEnum {
   SETTINGS = '\ue8b8',
-  FULLSCREENON = '\ue5d1',
-  FULLSCREENOFF = '\ue5d0',
+  CLOSE = '\ue5cd',
+  REFRESH = '\ue5d5',
   SFXON = '\ue050',
   SFXOFF = '\ue04f',
   MUSICON = '\ue405',
   MUSICOFF = '\ue440',
-  REFRESH = '\ue5d5',
-  CLOSE = '\ue5cd',
+  FULLSCREENON = '\ue5d1',
+  FULLSCREENOFF = '\ue5d0',
   EYEOPEN = '\ue8f4',
   EYECLOSED = '\ue8f5',
+  SCENES = '\ue413',
 }
 
 const googleFont = (
