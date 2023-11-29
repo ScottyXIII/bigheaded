@@ -1,4 +1,4 @@
-import Button, { UIElementEnum } from '@/objects/Button';
+import UIElement, { UIElementNames } from '@/objects/UIElement';
 import googleFont, { FontFamilyEnum } from '@/helpers/googleFont';
 import SettingsHud from '@/overlays/SettingsHud';
 import CoinHud from '@/overlays/CoinHud';
@@ -14,10 +14,10 @@ class MainMenuScene extends Phaser.Scene {
   private coinHud: CoinHud | undefined;
 
   // @ts-expect-error lesser of all the evils
-  private btn: Button | undefined;
+  private btn: UIElement | undefined;
 
   public static preload(scene: Phaser.Scene) {
-    Button.preload(scene);
+    UIElement.preload(scene);
   }
 
   constructor() {
@@ -41,26 +41,26 @@ class MainMenuScene extends Phaser.Scene {
       origin: 0.5,
     });
 
-    this.btn = new Button(this, cx, cy + 100, {
+    this.btn = new UIElement(this, cx, cy + 100, {
       content: 'START ADVENTURE',
       width: 400,
       onClick: () => this.scene.start('game-scene'),
     });
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const aaa = new Button(this, cx, cy + 200, {
+    const aaa = new UIElement(this, cx, cy + 200, {
       content: 'Shop',
       width: 300,
       onClick: () => this.scene.start('game-scene'),
-      uiElement: UIElementEnum.ButtonOrange,
+      uiElementName: UIElementNames.ButtonOrange,
     });
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const bbb = new Button(this, cx, cy + 300, {
+    const bbb = new UIElement(this, cx, cy + 300, {
       content: 'scene selector',
       width: 300,
       onClick: () => this.scene.start('game-scene'),
-      uiElement: UIElementEnum.blue_button00,
+      uiElementName: UIElementNames.blue_button00,
     });
 
     // @ts-expect-error needs class inheritance refactoring

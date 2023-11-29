@@ -1,6 +1,6 @@
 import isDev from '@/helpers/isDev';
 
-export enum UIElementEnum {
+export enum UIElementNames {
   PopupBackground400 = 'PopupBackground400',
   blue_box = 'blue-box',
   yellow_panel = 'yellow_panel',
@@ -52,10 +52,10 @@ type ButtonOptionsType = {
   content: string;
   width: number;
   onClick: () => void;
-  uiElement?: UIElementEnum;
+  uiElementName?: UIElementNames;
 };
 
-class Button extends Phaser.GameObjects.Container {
+class UIElement extends Phaser.GameObjects.Container {
   public button: Phaser.GameObjects.NineSlice;
 
   static preload(scene: Phaser.Scene) {
@@ -80,10 +80,19 @@ class Button extends Phaser.GameObjects.Container {
       content,
       width,
       onClick,
-      uiElement = UIElementEnum.button_bg,
+      uiElementName = UIElementNames.button_bg,
     } = options;
 
-    this.button = scene.add.nineslice(x, y, 'ui', uiElement, 128, 110, 64, 64);
+    this.button = scene.add.nineslice(
+      x,
+      y,
+      'ui',
+      uiElementName,
+      128,
+      110,
+      64,
+      64,
+    );
 
     const text = scene.add.text(x, y, content, {
       font: '25px Arial',
@@ -111,4 +120,4 @@ class Button extends Phaser.GameObjects.Container {
   }
 }
 
-export default Button;
+export default UIElement;

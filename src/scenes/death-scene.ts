@@ -1,13 +1,13 @@
 import Text from '@/objects/Text';
-import Button from '@/objects/Button';
+import UIElement from '@/objects/UIElement';
 import googleFont, { FontFamilyEnum } from '@/helpers/googleFont';
 
 class DeathScene extends Phaser.Scene {
   // @ts-expect-error lesser of all the evils
-  private btn: Button | undefined;
+  private btn: UIElement | undefined;
 
   public static preload(scene: Phaser.Scene) {
-    Button.preload(scene);
+    UIElement.preload(scene);
   }
 
   constructor() {
@@ -35,7 +35,7 @@ class DeathScene extends Phaser.Scene {
     message.textbox.setOrigin(0.5, 0.5);
     message.textbox.text = 'Oh no! Ben fell over. Try to keep him upright!';
 
-    this.btn = new Button(this, cx, cy + 100, {
+    this.btn = new UIElement(this, cx, cy + 100, {
       content: 'Restart',
       width: 300,
       onClick: () => this.scene.start('main-menu-scene'),
