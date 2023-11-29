@@ -1,6 +1,6 @@
 import * as Phaser from 'phaser';
 import { PhaserMatterImage } from '@/types';
-import GameScene from '@/scenes/game-scene';
+import GameScene from '@/scenes/GameScene';
 import matterAddImageEllipse from '@/helpers/matterAddImageEllipse';
 import Entity, { EntityConfigType } from '@/objects/entities/Entity';
 import keepUpright, { KeepUprightStratergies } from '@/helpers/keepUpright';
@@ -38,7 +38,7 @@ const onCollision = (
 
     // check if player collide with goal
     if (collisionDataObject.item[0].gameObject.name === 'goal')
-      player.gameObject.scene.scene.restart(); // TODO: music is bugged, it also messes up player chamfer
+      player.gameObject.scene.scene.start('win-scene');
   }
 
   // check if player collide with enemy
@@ -194,6 +194,7 @@ class Ben3 extends Entity {
     const healthScaled = invertedHealth * adjustedScaleMax;
     const newScale = HEAD_SCALE_MIN + healthScaled;
 
+    // if the min = 0.1 and the max = 0.5
     // newHealth fractionHealth invertedHealth newScale
     // 100       1              0              0.1
     // 75        .75            .25            0.2
@@ -202,6 +203,8 @@ class Ben3 extends Entity {
     // 0         0              1              0.5
 
     this.headScale = newScale;
+
+    if (this.health === 0) this.scene.scene.start('death-scene');
   }
 
   update(time: number, delta: number) {

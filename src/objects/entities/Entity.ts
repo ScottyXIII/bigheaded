@@ -1,6 +1,6 @@
 import Phaser from 'phaser';
 import { PhaserMatterImage } from '@/types';
-import GameScene from '@/scenes/game-scene';
+import GameScene from '@/scenes/GameScene';
 import findOtherBody from '@/helpers/findOtherBody';
 import { CC } from '@/enums/CollisionCategories';
 

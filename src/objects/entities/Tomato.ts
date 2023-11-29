@@ -2,7 +2,7 @@ import * as Phaser from 'phaser';
 import Entity, { EntityConfigType } from '@/objects/entities/Entity';
 import keepUpright, { KeepUprightStratergies } from '@/helpers/keepUpright';
 import moveTowards from '@/helpers/moveTowards';
-import GameScene from '@/scenes/game-scene';
+import GameScene from '@/scenes/GameScene';
 import { CC } from '@/enums/CollisionCategories';
 
 const KEY = 'tomato';

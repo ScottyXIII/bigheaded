@@ -137,7 +137,7 @@ class GameScene extends Phaser.Scene {
 
   public goal: Skull | undefined;
 
-  public static preloadExternal(scene: Phaser.Scene) {
+  public static preload(scene: Phaser.Scene) {
     Parallax.preload(scene, parallaxName);
     Level.preload(scene, levelConfig);
     Audio.preload(scene, soundConfig);
@@ -149,10 +149,7 @@ class GameScene extends Phaser.Scene {
   }
 
   preload() {
-    Parallax.preload(this, parallaxName);
-    Level.preload(this, levelConfig);
-    Audio.preload(this, soundConfig);
-    Coin.preload(this);
+    GameScene.preload(this);
   }
 
   create() {
@@ -177,9 +174,9 @@ class GameScene extends Phaser.Scene {
     this.audio?.setSFXMute(getIsSFXMute());
     this.audio?.setMusicMute(getIsMusicMute());
 
-    this.settingsHud = new SettingsHud(this);
-    this.coinHud = new CoinHud(this, this.coins);
+    this.coinHud = new CoinHud(this, this.coins); // not coins from LS
 
+    this.settingsHud = new SettingsHud(this);
     if (isDev) {
       const { toggleDebug } = initDebug(this, this.settingsHud);
       this.settingsHud.registerOnClick('isDebugOn', toggleDebug);
