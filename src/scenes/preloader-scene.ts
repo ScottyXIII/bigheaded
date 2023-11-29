@@ -7,6 +7,7 @@ import CoinHud from '@/overlays/CoinHud';
 import useLocalStorage from '@/helpers/useLocalStorage';
 import initDebug from '@/helpers/initDebug';
 import isDev from '@/helpers/isDev';
+import DeathScene from './death-scene';
 
 const { getValue: getCoins } = useLocalStorage('coins', 0);
 
@@ -43,6 +44,7 @@ class PreloaderScene extends Phaser.Scene {
     });
 
     this.load.on('fileprogress', (file: { src: string }) => {
+      console.log(file);
       const parts = file.src.split('/');
       message2.textbox.text = parts[parts.length - 1];
     });
@@ -52,7 +54,8 @@ class PreloaderScene extends Phaser.Scene {
       message2.textbox.text = '';
     });
 
-    GameScene.preloadExternal(this);
+    GameScene.preload(this);
+    DeathScene.preload(this);
   }
 
   create() {
