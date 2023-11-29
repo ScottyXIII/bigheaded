@@ -36,7 +36,11 @@ class UIDemoScene extends Phaser.Scene {
         content: uiElementName,
         width,
         // eslint-disable-next-line no-alert
-        onClick: () => alert(`UIElementName: ${uiElementName}`),
+        onClick: () => {
+          // eslint-disable-next-line no-alert
+          alert(`UIElementName: ${uiElementName}`);
+          this.scene.start('scene-selector-scene');
+        },
       });
     }
   }
