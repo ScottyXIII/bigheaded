@@ -5,10 +5,11 @@ import noNew from '@/helpers/noNew';
 const sceneNames = [
   'preloader-scene',
   'main-menu-scene',
-  'scene-selector-scene',
   'game-scene',
   'death-scene',
-];
+  'scene-selector-scene',
+  'ui-demo-scene',
+]; // TODO: get from config.ts
 
 class SceneSelectorScene extends Phaser.Scene {
   public static preload(scene: Phaser.Scene) {
