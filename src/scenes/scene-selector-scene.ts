@@ -39,7 +39,7 @@ class SceneSelectorScene extends Phaser.Scene {
 
     for (let i = 0; i < sceneNames.length; i += 1) {
       const sceneName = sceneNames[i];
-      noNew(UIElement, this, cx, 200 + i * 80, {
+      noNew(UIElement, this, cx, 150 + i * 75, {
         uiElementName: UIElementNames.ButtonOrange,
         content: sceneName,
         width: 400,
