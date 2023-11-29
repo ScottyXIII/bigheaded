@@ -38,7 +38,7 @@ class DeathScene extends Phaser.Scene {
     this.btn = new Button(this, cx, cy + 100, {
       content: 'Restart',
       width: 300,
-      onClick: () => this.scene.start('game-scene'),
+      onClick: () => this.scene.start('main-menu-scene'),
     });
   }
 }
