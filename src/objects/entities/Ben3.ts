@@ -15,7 +15,7 @@ const HEALTH_MAX = 100;
 const HEALTH_MIN = 0;
 
 const HEAD_SCALE_MIN = 0.1;
-const HEAD_SCALE_MAX = 1;
+const HEAD_SCALE_MAX = 0.75;
 
 const limitNumber = (value: number, min: number, max: number) => {
   if (value < min) return min;
@@ -70,22 +70,24 @@ const entityConfig: EntityConfigType = {
   facing: 1,
   scale: 1,
   craftpixOffset: {
-    x: 0,
+    x: -10,
     y: 0,
   },
   physicsConfig: {
-    width: 75,
+    width: 30,
     height: 75,
-    chamfer: { radius: 30 },
+    chamfer: { radius: 10 },
+    friction: 0,
+    frictionStatic: 0,
   },
   collisionCategory: CC.player,
   collideCallback: onCollision,
   animations: [
     {
       animationKey: 'idle',
-      fps: 5,
+      fps: 30,
       start: 0,
-      end: 3,
+      end: 29,
     },
   ],
 };
@@ -104,10 +106,10 @@ class Ben3 extends Entity {
   static preload(scene: Phaser.Scene) {
     scene.load.spritesheet({
       key: KEY,
-      url: './object/ben3/body-animation.png',
+      url: './object/ben3/run.png',
       frameConfig: {
-        frameWidth: 75,
-        frameHeight: 75,
+        frameWidth: 60,
+        frameHeight: 85,
       },
     });
 
@@ -145,7 +147,7 @@ class Ben3 extends Entity {
       {
         pointA: { x: 0, y: this.headScale * 140 },
         pointB: { x: 0, y: -75 / 2 - 5 },
-        damping: 0,
+        damping: 0.5,
         angularStiffness: 0,
       },
     );
@@ -213,12 +215,12 @@ class Ben3 extends Entity {
       moveTowards(this, this.scene.goal.skull, {
         constantMotion: true,
         maxSpeedX: 6,
-        maxSpeedY: 1,
+        maxSpeedY: 0.75,
       });
-      this.playAnimation('idle', true);
+      this.playAnimation('idle');
     } else {
       // airborne
-      this.sprite.stop();
+      this.sprite.anims.pause();
     }
 
     // head scaling stuff
@@ -230,7 +232,7 @@ class Ben3 extends Entity {
     );
 
     // regenerate health
-    this.setHealth(this.health + 0.05);
+    this.setHealth(this.health + 0.075);
   }
 }
 
