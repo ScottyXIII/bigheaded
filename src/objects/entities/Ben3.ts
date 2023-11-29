@@ -169,18 +169,16 @@ class Ben3 extends Entity {
 
   registerInputControls() {
     // Toch controls
-    this.scene.events.on('touch-left', this.turnDirection.bind(this, -0.02));
-    this.scene.events.on('touch-right', this.turnDirection.bind(this, 0.02));
-
     this.scene.events.on(
-      'swipe',
-      (swipeDirection: string) => {
-        if (swipeDirection === 'up') {
-          this.jump();
-        }
-      },
-      this,
+      'touch-left-half',
+      this.turnDirection.bind(this, -0.02),
     );
+    this.scene.events.on(
+      'touch-right-half',
+      this.turnDirection.bind(this, 0.02),
+    );
+
+    this.scene.events.on('touch-right', this.jump.bind(this));
 
     // Keyboard
     this.scene.input.keyboard?.on(
