@@ -2,11 +2,12 @@ import * as Phaser from 'phaser';
 import isDev from '@/helpers/isDev';
 import PreloaderScene from '@/scenes/preloader-scene';
 import MainMenuScene from '@/scenes/main-menu-scene';
-import SceneSelectorScene from '@/scenes/scene-selector-scene';
+import ShopScene from '@/scenes/shop-scene';
 import GameScene from '@/scenes/game-scene';
 import DeathScene from '@/scenes/death-scene';
-import UIDemoScene from './scenes/ui-demo-scene';
-import WinScene from './scenes/win-scene';
+import WinScene from '@/scenes/win-scene';
+import SceneSelectorScene from '@/scenes/scene-selector-scene';
+import UIDemoScene from '@/scenes/ui-demo-scene';
 
 // 16:9 horizontal sizes
 // - 360p = 640✕360
@@ -40,6 +41,7 @@ const config: Phaser.Types.Core.GameConfig = {
   scene: [
     PreloaderScene,
     MainMenuScene,
+    ShopScene,
     GameScene,
     DeathScene,
     WinScene,

@@ -1,7 +1,9 @@
 import Text from '@/objects/Text';
 import MainMenuScene from '@/scenes/main-menu-scene';
+import ShopScene from '@/scenes/shop-scene';
 import GameScene from '@/scenes/game-scene';
 import DeathScene from '@/scenes/death-scene';
+import WinScene from '@/scenes/win-scene';
 
 // the files come as the following types:
 // - ImageFile2
@@ -51,6 +53,8 @@ class PreloaderScene extends Phaser.Scene {
     MainMenuScene.preload(this);
     GameScene.preload(this);
     DeathScene.preload(this);
+    WinScene.preload(this);
+    ShopScene.preload(this);
   }
 
   create() {
