@@ -2,7 +2,7 @@ import Phaser from 'phaser';
 import { PhaserMatterImage } from '@/types';
 import GameScene from '@/scenes/GameScene';
 import findOtherBody from '@/helpers/findOtherBody';
-import { CC } from '@/enums/CollisionCategories';
+import { CC, CM } from '@/enums/CollisionCategories';
 
 type AnimationsConfigType = {
   animationKey: string;
@@ -16,7 +16,7 @@ export type EntityConfigType = {
   name: string;
   spriteSheetKey: string;
   animations: AnimationsConfigType[];
-  physicsConfig?: MatterJS.IChamferableBodyDefinition & {
+  physicsConfig: MatterJS.IChamferableBodyDefinition & {
     width: number;
     height: number;
   };
@@ -25,6 +25,7 @@ export type EntityConfigType = {
   // eslint-disable-next-line @typescript-eslint/ban-types
   collideCallback?: Function;
   collisionCategory?: CC;
+  collisionMask?: CM;
   craftpixOffset: {
     x: number;
     y: number;
@@ -42,6 +43,7 @@ const defaultConfig = {
     y: 0,
   },
   collisionCategory: CC.default,
+  collisionMask: CM.everything,
 };
 
 class Entity extends Phaser.GameObjects.Container {
@@ -51,7 +53,7 @@ class Entity extends Phaser.GameObjects.Container {
 
   public facing: number;
 
-  protected text: Phaser.GameObjects.Text | undefined;
+  public text: Phaser.GameObjects.Text;
 
   protected sprite: Phaser.GameObjects.Sprite;
 
@@ -82,6 +84,7 @@ class Entity extends Phaser.GameObjects.Container {
       facing,
       scale,
       collisionCategory,
+      collisionMask,
       collideCallback,
       craftpixOffset,
     } = { ...defaultConfig, ...config };
@@ -97,7 +100,7 @@ class Entity extends Phaser.GameObjects.Container {
 
     // text
     this.text = this.scene.add
-      .text(0, 0 - 25, this.name, {
+      .text(0, 0 - physicsConfig.height / 2 - 15, this.name, {
         font: '12px Arial',
         align: 'center',
         color: 'white',
@@ -132,7 +135,6 @@ class Entity extends Phaser.GameObjects.Container {
     this.scene.add.existing(this);
 
     const { bodies: Bodies, body: Body } = scene.matter;
-    // @ts-expect-error todo
     const { width, height } = physicsConfig;
     this.hitbox = Bodies.rectangle(0, 0, width, height, physicsConfig);
 
@@ -141,6 +143,7 @@ class Entity extends Phaser.GameObjects.Container {
       isSensor: true,
       label: 'bottom',
     });
+    bottom.collisionFilter.mask = CM.groundsensor;
 
     bottom.onCollideCallback = (
       data: Phaser.Types.Physics.Matter.MatterCollisionData,
@@ -162,7 +165,7 @@ class Entity extends Phaser.GameObjects.Container {
 
     this.gameObject.setCollisionCategory(collisionCategory);
     // console.log(`set the CC to ${collisionCategory} in ${name}`);
-    // this.gameObject.setCollidesWith(CM.player); // set the mask
+    this.gameObject.setCollidesWith(collisionMask); // set the mask
     this.gameObject.setPosition(x, y);
     this.sprite.setScale(this.scale);
   }

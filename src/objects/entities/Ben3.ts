@@ -26,7 +26,7 @@ const limitNumber = (value: number, min: number, max: number) => {
 const onCollision = (
   data: Phaser.Types.Physics.Matter.MatterCollisionData,
   // eslint-disable-next-line no-use-before-define
-  player: Ben3,
+  player: Bob3,
 ) => {
   const collisionDataObject = prepareCollisionData(data);
 
@@ -51,7 +51,7 @@ const onCollision = (
 const onCollisionHead = (
   data: Phaser.Types.Physics.Matter.MatterCollisionData,
   // eslint-disable-next-line no-use-before-define
-  player: Ben3,
+  player: Bob3,
 ) => {
   const collisionDataObject = prepareCollisionData(data);
 
@@ -92,7 +92,7 @@ const entityConfig: EntityConfigType = {
   ],
 };
 
-class Ben3 extends Entity {
+class Bob3 extends Entity {
   protected head: PhaserMatterImage;
 
   protected neck: Phaser.Types.Physics.Matter.MatterConstraintConfig;
@@ -204,7 +204,12 @@ class Ben3 extends Entity {
 
     this.headScale = newScale;
 
-    if (this.health === 0) this.scene.scene.start('death-scene');
+    if (this.health === 0) {
+      this.scene.scene.pause();
+      setTimeout(() => {
+        this.scene.scene.start('death-scene');
+      }, 3_000);
+    }
   }
 
   update(time: number, delta: number) {
@@ -234,9 +239,12 @@ class Ben3 extends Entity {
       this.head.rotation,
     );
 
+    // move name label text into position
+    this.text.y = -70 - this.headScale * 260;
+
     // regenerate health
     this.setHealth(this.health + 0.075);
   }
 }
 
-export default Ben3;
+export default Bob3;
