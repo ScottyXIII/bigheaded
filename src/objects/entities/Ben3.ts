@@ -38,7 +38,7 @@ const onCollision = (
 
     // check if player collide with goal
     if (collisionDataObject.item[0].gameObject.name === 'goal')
-      player.gameObject.scene.scene.start('main-menu-scene');
+      player.gameObject.scene.scene.start('win-scene');
   }
 
   // check if player collide with enemy
