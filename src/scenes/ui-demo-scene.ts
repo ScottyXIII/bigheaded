@@ -22,7 +22,7 @@ class UIDemoScene extends Phaser.Scene {
       const paddingLeft = 5;
       const width = 300;
       const gapX = 20;
-      const gapY = 100;
+      const gapY = 110;
       const elCenterX = width / 2;
       const columns = 4;
       const x = i % columns;
