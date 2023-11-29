@@ -122,7 +122,7 @@ class SettingsHud {
     });
 
     if (isDev) {
-      noNew(UIElement, this, 100, height - 100, {
+      noNew(UIElement, scene, 100, height - 100, {
         content: 'scene selector',
         width: 300,
         onClick: () => scene.scene.start('scene-selector-scene'), // TODO: make the scene
