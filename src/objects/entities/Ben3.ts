@@ -217,10 +217,10 @@ class Ben3 extends Entity {
     }
   }
 
-  turnDirection(rateOfChange: number) {
-    this.gameObject.setAngularVelocity(rateOfChange);
-    // Set angular veloctiy on head so it moves with the body when it gets bigger. If we scale rateOfChange with the head it will just spin uncontrollably.
-    this.head.setAngularVelocity(rateOfChange);
+  turnDirection(angularVelocity: number) {
+    this.gameObject.setAngularVelocity(angularVelocity);
+    // Set angular veloctiy on head so it moves with the body when it gets bigger. If we scale angularVelocity with the head it will just spin uncontrollably.
+    this.head.setAngularVelocity(angularVelocity);
   }
 
   setHealth(newHealth: number) {
