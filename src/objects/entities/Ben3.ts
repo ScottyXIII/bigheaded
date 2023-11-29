@@ -102,8 +102,6 @@ class Ben3 extends Entity {
 
   public headScale = HEAD_SCALE_MIN;
 
-  // private headScaleDirection = 1; // 1 or minus 1
-
   static preload(scene: Phaser.Scene) {
     scene.load.spritesheet({
       key: KEY,
@@ -264,8 +262,6 @@ class Ben3 extends Entity {
 
     // head scaling stuff
     this.head.setScale(this.headScale);
-
-    // this.headScale = HEAD_SCALE_MAX;
 
     // scale pointA position proportionally to headScale
     this.neck.pointA = new Phaser.Math.Vector2(0, this.headScale * 140).rotate(
