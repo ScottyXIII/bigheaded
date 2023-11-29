@@ -11,6 +11,15 @@ import DeathScene from './death-scene';
 
 const { getValue: getCoins } = useLocalStorage('coins', 0);
 
+// the files come as the following types:
+// - ImageFile2
+// - SpriteSheetFile2
+// - AudioFile2
+// - TilemapJSONFile2
+// - etc
+// but i couldnt find much info online
+type FileProgressType = { src: string; percentComplete: number };
+
 class PreloaderScene extends Phaser.Scene {
   private settingsHud: SettingsHud | undefined;
 
@@ -43,10 +52,12 @@ class PreloaderScene extends Phaser.Scene {
       message1.textbox.text = `${percent}%`;
     });
 
-    this.load.on('fileprogress', (file: { src: string }) => {
-      console.log(file);
-      const parts = file.src.split('/');
-      message2.textbox.text = parts[parts.length - 1];
+    this.load.on('fileprogress', (file: FileProgressType) => {
+      const { src, percentComplete } = file;
+      const parts = src.split('/');
+      const filename = parts[parts.length - 1];
+      const percent = Math.floor(percentComplete * 100);
+      message2.textbox.text = `${filename} (${percent}%)`;
     });
 
     this.load.on('complete', () => {
