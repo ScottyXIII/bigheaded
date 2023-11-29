@@ -1,7 +1,6 @@
 import UIElement, { UIElementNames } from '@/objects/UIElement';
 import googleFont, { FontFamilyEnum } from '@/helpers/googleFont';
 import SettingsHud from '@/overlays/SettingsHud';
-import CoinHud from '@/overlays/CoinHud';
 import useLocalStorage from '@/helpers/useLocalStorage';
 import initDebug from '@/helpers/initDebug';
 import isDev from '@/helpers/isDev';
@@ -42,10 +41,8 @@ class MainMenuScene extends Phaser.Scene {
     });
 
     const localStorageCoins = getCoins();
-    if (localStorageCoins > 0) {
-      noNew(CoinHud, this, localStorageCoins);
-
-      noNew(UIElement, this, cx, cy + 250, {
+    if (localStorageCoins > 1_000) {
+      noNew(UIElement, this, cx, cy + 220, {
         uiElementName: UIElementNames.yellow_button01,
         content: 'Visit the Shop',
         width: 300,
