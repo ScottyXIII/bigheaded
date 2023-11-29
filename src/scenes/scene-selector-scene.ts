@@ -7,6 +7,7 @@ const sceneNames = [
   'main-menu-scene',
   'game-scene',
   'death-scene',
+  'win-scene',
   'scene-selector-scene',
   'ui-demo-scene',
 ]; // TODO: get from config.ts

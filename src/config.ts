@@ -6,6 +6,7 @@ import SceneSelectorScene from '@/scenes/scene-selector-scene';
 import GameScene from '@/scenes/game-scene';
 import DeathScene from '@/scenes/death-scene';
 import UIDemoScene from './scenes/ui-demo-scene';
+import WinScene from './scenes/win-scene';
 
 // 16:9 horizontal sizes
 // - 360p = 640✕360
@@ -41,6 +42,7 @@ const config: Phaser.Types.Core.GameConfig = {
     MainMenuScene,
     GameScene,
     DeathScene,
+    WinScene,
     SceneSelectorScene,
     UIDemoScene,
   ],
