@@ -220,7 +220,7 @@ class Ben3 extends Entity {
       this.playAnimation('idle');
     } else {
       // airborne
-      this.sprite.stop();
+      this.sprite.anims.pause();
     }
 
     // head scaling stuff
