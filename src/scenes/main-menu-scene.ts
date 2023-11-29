@@ -46,7 +46,7 @@ class MainMenuScene extends Phaser.Scene {
       noNew(CoinHud, this, localStorageCoins);
 
       noNew(UIElement, this, cx, cy + 250, {
-        uiElementName: UIElementNames.ButtonOrange,
+        uiElementName: UIElementNames.yellow_button01,
         content: 'Visit the Shop',
         width: 300,
         onClick: () => this.scene.start('game-scene'),
