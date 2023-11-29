@@ -3,10 +3,11 @@ const touchEvents = (scene: Phaser.Scene) => {
   const { width } = scene.sys.game.canvas;
   const halfWidth = width / 2; // half screen.
   const quarterWidth = width / 4; // quarter screen.
+  const deadZone = width - 100;
 
   if (pointer.isDown) {
     // right half of screen touch
-    if (pointer.x > halfWidth) {
+    if (pointer.x > halfWidth && pointer.x < deadZone) {
       scene.events.emit('touch-right');
       return;
     }
