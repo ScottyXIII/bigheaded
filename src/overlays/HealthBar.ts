@@ -48,7 +48,7 @@ class HealthBar {
 
   draw(value: number) {
     this.bar.clear();
-
+    this.bar.setDepth(100);
     // draw the health bar track (background)
     this.bar.fillStyle(this.background, 0.5);
     this.bar.fillRect(
