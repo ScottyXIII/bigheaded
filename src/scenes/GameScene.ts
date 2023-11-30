@@ -118,6 +118,11 @@ const soundConfig = [
     filePath: './audio/sfx/coin.mp3',
     loop: false,
   },
+  {
+    key: 'gameover',
+    filePath: './audio/sfx/gameover.mp3',
+    loop: false,
+  },
 ];
 
 class GameScene extends Phaser.Scene {

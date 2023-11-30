@@ -217,9 +217,10 @@ class Bob3 extends Entity {
 
     if (this.health === 0) {
       this.scene.scene.pause();
+      this.scene.audio?.playAudio('gameover');
       setTimeout(() => {
         this.scene.scene.start('death-scene');
-      }, 3_000);
+      }, 1_000);
     }
   }
 
