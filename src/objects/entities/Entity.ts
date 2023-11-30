@@ -16,7 +16,7 @@ export type EntityConfigType = {
   name: string;
   spriteSheetKey: string;
   animations: AnimationsConfigType[];
-  physicsConfig?: MatterJS.IChamferableBodyDefinition & {
+  physicsConfig: MatterJS.IChamferableBodyDefinition & {
     width: number;
     height: number;
   };
@@ -132,9 +132,8 @@ class Entity extends Phaser.GameObjects.Container {
     this.scene.add.existing(this);
 
     const { bodies: Bodies, body: Body } = scene.matter;
-    // @ts-expect-error todo
-    const { width, height } = physicsConfig;
-    this.hitbox = Bodies.rectangle(0, 0, width, height, physicsConfig);
+    const { width, height, ...otherPhysics } = physicsConfig;
+    this.hitbox = Bodies.rectangle(0, 0, width, height, otherPhysics);
 
     // sensors
     const bottom = Bodies.rectangle(0, height / 2, width - 2, 15, {
