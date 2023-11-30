@@ -28,6 +28,8 @@ class Audio {
         config.soundConfig ?? {},
       );
     }
+
+    scene.events.on('shutdown', this.onShutdown.bind(this));
   }
 
   static preload(scene: Phaser.Scene, configs: AudioConfigType[]) {
@@ -58,6 +60,12 @@ class Audio {
       this.audio[key].loop = this.audioConfig[key].loop;
       this.audio[key].play();
     }
+  }
+
+  onShutdown() {
+    Object.entries(this.audioConfig).forEach(([key]) => {
+      this.audio[key].destroy();
+    });
   }
 
   // update(time: number, delta: number) {}

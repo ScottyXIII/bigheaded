@@ -193,6 +193,8 @@ class Ben3 extends Entity {
     this.scene.input.keyboard
       ?.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE)
       .on('down', this.jump.bind(this));
+
+    this.scene.events.on('shutdown', this.onShutdown);
   }
 
   jump() {
@@ -242,8 +244,6 @@ class Ben3 extends Entity {
     this.headScale = newScale;
 
     if (this.health === 0) this.scene.scene.start('death-scene');
-
-    this.scene.events.on('shutdown', this.onShutdown);
   }
 
   onShutdown() {
