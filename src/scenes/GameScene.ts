@@ -18,7 +18,7 @@ import Coin from '@/objects/entities/Coin';
 import Skull from '@/objects/Skull';
 import initDebug from '@/helpers/initDebug';
 import isDev from '@/helpers/isDev';
-import touchEvents from '@/helpers/touchEvents';
+import Control from '@/objects/Control';
 
 const { getValue: getCoins, setValue: setCoins } = useLocalStorage('coins', 0);
 const { getValue: getIsSFXMute } = useLocalStorage('isSFXMute', false);
@@ -135,6 +135,8 @@ class GameScene extends Phaser.Scene {
 
   public player: Bob3 | undefined;
 
+  public control: Control | undefined;
+
   public goal: Skull | undefined;
 
   public static preload(scene: Phaser.Scene) {
@@ -153,6 +155,7 @@ class GameScene extends Phaser.Scene {
   }
 
   create() {
+    this.control = new Control(this);
     this.parallax = new Parallax(this, parallaxName);
     this.level = new Level(this, levelConfig);
     this.audio = new Audio(this, soundConfig);
@@ -173,8 +176,6 @@ class GameScene extends Phaser.Scene {
       const { toggleDebug } = initDebug(this, this.settingsHud);
       this.settingsHud.registerOnClick('isDebugOn', toggleDebug);
     }
-
-    this.input.addPointer(2); // allow multi-touch
   }
 
   collectCoin() {
@@ -187,11 +188,11 @@ class GameScene extends Phaser.Scene {
   }
 
   update() {
-    if (!this.parallax || !this.level || !this.player) return;
+    if (!this.parallax || !this.control || !this.player) return;
 
     this.parallax.update();
+    this.control.update();
 
-    touchEvents(this);
     smoothMoveCameraTowards(this, this.player.gameObject, 0.8);
   }
 }
