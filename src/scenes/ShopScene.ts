@@ -13,9 +13,11 @@ const { getValue: getPurchased, setValue: setPurchased } = useLocalStorage(
 
 const items = [
   { name: 'Coin Multiplier x2', price: 100 },
+  { name: 'Health Regeneration', price: 1_000 },
+  { name: 'Kevlar Body Armour', price: 1_000 },
   { name: 'Move Speed Boost', price: 1_000 },
   { name: 'Jump Distance Boost', price: 10_000 },
-  { name: 'Jetpack', price: 100_000 },
+  { name: 'NASA Jetpack', price: 100_000 },
 ];
 
 class ShopScene extends Phaser.Scene {
@@ -62,7 +64,7 @@ class ShopScene extends Phaser.Scene {
       itemButtons.push(
         noNew(UIElement, this, cx, 150 + i * 75, {
           uiElementName: UIElementNames.yellow_button01,
-          content: `Buy ${name} 🪙 ${Intl.NumberFormat().format(price)}`,
+          content: `Get ${name} 🪙 ${Intl.NumberFormat().format(price)}`,
           width: 600,
           color: '#000',
           onClick: () => {
