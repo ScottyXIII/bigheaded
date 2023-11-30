@@ -161,48 +161,7 @@ class Ben3 extends Entity {
       maxHealth: 100,
     });
     this.healthBar.bar.setScrollFactor(0, 0);
-
-    // this.registerInputControls();
   }
-
-  // registerInputControls() {
-  //   // Toch controls
-  //   this.scene.events.on(
-  //     'touch-left-half',
-  //     this.turnDirection.bind(this, -0.02),
-  //   );
-  //   this.scene.events.on(
-  //     'touch-right-half',
-  //     this.turnDirection.bind(this, 0.02),
-  //   );
-
-  //   this.scene.events.on('touch-right', this.jump.bind(this));
-
-  //   // Keyboard
-  //   this.scene.input.keyboard?.on(
-  //     'keydown-A',
-  //     this.turnDirection.bind(this, -0.02),
-  //     this,
-  //   ); // fires continuously
-  //   this.scene.input.keyboard?.on(
-  //     'keydown-D',
-  //     this.turnDirection.bind(this, 0.02),
-  //     this,
-  //   );
-
-  //   const sp = this.scene.input.keyboard
-  //     ?.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE)
-  //     .on('down', this.jump.bind(this));
-
-  //   this.scene.events.on('shutdown', () => {
-  //     console.log('shut it down!');
-  //     console.log('sp', sp);
-
-  //     this.scene.events.off('touch-left-half');
-  //     this.scene.events.off('touch-right-half');
-  //     this.scene.events.off('touch-right');
-  //   });
-  // }
 
   jump() {
     if (this.sensorData.bottom.size >= 1) {
