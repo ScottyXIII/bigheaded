@@ -36,9 +36,6 @@ class Audio {
       );
     }
 
-    scene.events.on('shutdown', this.onShutdown.bind(this));
-  }
-
     // boy better know and it's shutdown all known keys
     scene.events.on('shutdown', () => {
       for (let i = 0; i < configs.length; i += 1) {
@@ -71,11 +68,6 @@ class Audio {
       this.audio[key].play();
     }
   }
-
-  onShutdown() {
-    Object.entries(this.audioConfig).forEach(([key]) => {
-      this.audio[key].destroy();
-    });
 
   stopAudio(key: string) {
     this.audio[key]?.stop();
