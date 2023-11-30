@@ -163,42 +163,6 @@ class Ben3 extends Entity {
     this.healthBar.bar.setScrollFactor(0, 0);
   }
 
-  create() {
-    this.registerInputControls();
-  }
-
-  registerInputControls() {
-    // touch controls
-    this.scene.events.on(
-      'touch-left-half',
-      this.turnDirection.bind(this, -0.02),
-    );
-    this.scene.events.on(
-      'touch-right-half',
-      this.turnDirection.bind(this, 0.02),
-    );
-
-    this.scene.events.on('touch-right', this.jump.bind(this));
-
-    // Keyboard
-    this.scene.input.keyboard?.on(
-      'keydown-A',
-      this.turnDirection.bind(this, -0.02),
-      this,
-    ); // fires continuously
-    this.scene.input.keyboard?.on(
-      'keydown-D',
-      this.turnDirection.bind(this, 0.02),
-      this,
-    );
-
-    this.scene.input.keyboard
-      ?.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE)
-      .on('down', this.jump.bind(this));
-
-    this.scene.events.on('shutdown', this.onShutdown);
-  }
-
   jump() {
     if (this.sensorData.bottom.size >= 1) {
       this.scene.audio?.playAudio('jump');
@@ -220,9 +184,14 @@ class Ben3 extends Entity {
   }
 
   turnDirection(angularVelocity: number) {
-    this.gameObject.setAngularVelocity(angularVelocity);
-    // Set angular veloctiy on head so it moves with the body when it gets bigger. If we scale angularVelocity with the head it will just spin uncontrollably.
-    this.head.setAngularVelocity(angularVelocity);
+    const { body: Body } = this.scene.matter;
+
+    // Set angular velocity on torso
+    Body.setAngularVelocity(this.gameObject.body, angularVelocity);
+
+    // Set angular veloctiy on head so it moves with the body when it gets bigger.
+    // If we scale angularVelocity with the head it will just spin uncontrollably.
+    Body.setAngularVelocity(this.head.body, angularVelocity);
   }
 
   setHealth(newHealth: number) {
@@ -246,13 +215,6 @@ class Ben3 extends Entity {
     this.headScale = newScale;
 
     if (this.health === 0) this.scene.scene.start('death-scene');
-  }
-
-  onShutdown() {
-    this.removeListener('keydown-A');
-    this.removeListener('keydown-D');
-    this.removeListener('touch-right');
-    this.removeListener('down');
   }
 
   update(time: number, delta: number) {
@@ -281,6 +243,14 @@ class Ben3 extends Entity {
 
     // regenerate health
     this.setHealth(this.health + 0.075);
+
+    // apply jump control
+    if (this.scene.control?.jump) this.jump();
+
+    // apply balance control
+    if (this.scene.control?.balance) {
+      this.turnDirection(this.scene.control.balance * 0.02);
+    }
   }
 }
 
