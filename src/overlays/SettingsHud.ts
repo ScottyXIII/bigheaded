@@ -138,6 +138,10 @@ class SettingsHud {
 
       if (allowVisibilityChange) item.btn.visible = isOpen;
     });
+
+    // pause / resume game
+    if (isOpen) this.scene.matter.world.pause();
+    else this.scene.matter.world.resume();
   }
 
   registerOnClick(buttonName: string, onClickHandler: () => void) {
