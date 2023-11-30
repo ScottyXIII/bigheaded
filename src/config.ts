@@ -48,7 +48,7 @@ const config: Phaser.Types.Core.GameConfig = {
     SceneSelectorScene,
     UIDemoScene,
   ],
-  input: { activePointers: 2 }, // setup multitouch for mobile
+  input: { activePointers: 3 }, // setup 1 mouse + 2 multitouch points for mobile
 };
 
 export default config;
