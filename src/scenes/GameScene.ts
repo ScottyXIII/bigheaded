@@ -18,7 +18,6 @@ import Coin from '@/objects/entities/Coin';
 import Skull from '@/objects/Skull';
 import initDebug from '@/helpers/initDebug';
 import isDev from '@/helpers/isDev';
-import touchEvents from '@/helpers/touchEvents';
 import Control from '@/objects/Control';
 
 const { getValue: getCoins, setValue: setCoins } = useLocalStorage('coins', 0);
@@ -201,7 +200,6 @@ class GameScene extends Phaser.Scene {
     this.parallax.update();
     this.control?.update();
 
-    touchEvents(this);
     smoothMoveCameraTowards(this, this.player.gameObject, 0.8);
   }
 }
