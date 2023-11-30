@@ -31,7 +31,7 @@ class DeathScene extends Phaser.Scene {
 
     const message = new Text(this, cx, cy - 20);
     message.textbox.setOrigin(0.5, 0.5);
-    message.textbox.text = 'Oh no! Ben fell over. Try to keep him upright!';
+    message.textbox.text = 'Oh no! Bob fell over. Try to keep him upright!';
 
     noNew(UIElement, this, cx, cy + 100, {
       content: 'Restart',

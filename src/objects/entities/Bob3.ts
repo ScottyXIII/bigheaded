@@ -106,14 +106,14 @@ class Bob3 extends Entity {
   static preload(scene: Phaser.Scene) {
     scene.load.spritesheet({
       key: KEY,
-      url: './object/ben3/run.png',
+      url: './object/bob3/run.png',
       frameConfig: {
         frameWidth: 60,
         frameHeight: 85,
       },
     });
 
-    scene.load.image('head2', './object/ben3/head3.png');
+    scene.load.image('head2', './object/bob3/head3.png');
   }
 
   constructor(scene: GameScene, x: number, y: number) {

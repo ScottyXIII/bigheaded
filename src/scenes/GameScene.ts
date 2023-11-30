@@ -9,7 +9,7 @@ import Audio from '@/objects/Audio';
 import SettingsHud from '@/overlays/SettingsHud';
 import CoinHud from '@/overlays/CoinHud';
 
-import Ben3 from '@/objects/entities/Ben3';
+import Bob3 from '@/objects/entities/Bob3';
 import Bat from '@/objects/entities/Bat';
 import Tomato from '@/objects/entities/Tomato';
 import Hedgehog from '@/objects/entities/Hedgehog';
@@ -41,7 +41,7 @@ const levelConfig: LevelConfigType = {
   spawnerConfig: [
     {
       tiledObjectName: 'player',
-      classFactory: Ben3,
+      classFactory: Bob3,
       maxSize: 1,
       runChildUpdate: true,
       autoSpawn: true,
@@ -133,7 +133,7 @@ class GameScene extends Phaser.Scene {
 
   public level: Level | undefined;
 
-  public player: Ben3 | undefined;
+  public player: Bob3 | undefined;
 
   public goal: Skull | undefined;
 
@@ -159,7 +159,7 @@ class GameScene extends Phaser.Scene {
 
     this.audio.playAudio('music1');
 
-    this.player = this.level.spawners.player.getChildren()[0] as Ben3;
+    this.player = this.level.spawners.player.getChildren()[0] as Bob3;
     this.goal = this.level.spawners.goal.getChildren()[0] as Skull;
 
     // set sfx/music mute from local storage
