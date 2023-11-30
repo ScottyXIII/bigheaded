@@ -2,10 +2,20 @@ import Text from '@/objects/Text';
 import UIElement from '@/objects/UIElement';
 import googleFont, { FontFamilyEnum } from '@/helpers/googleFont';
 import noNew from '@/helpers/noNew';
+import Audio from '@/objects/Audio';
+
+const soundConfig = [
+  {
+    key: 'congratulations',
+    filePath: './audio/sfx/congratulations.mp3',
+    loop: false,
+  },
+];
 
 class WinScene extends Phaser.Scene {
   public static preload(scene: Phaser.Scene) {
     UIElement.preload(scene);
+    Audio.preload(scene, soundConfig);
   }
 
   constructor() {
@@ -17,6 +27,9 @@ class WinScene extends Phaser.Scene {
   }
 
   create() {
+    const audio = new Audio(this, soundConfig);
+    audio.playAudio('congratulations');
+
     const { width, height } = this.sys.game.canvas;
     const cx = width / 2;
     const cy = height / 2;
