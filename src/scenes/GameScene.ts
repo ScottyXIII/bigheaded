@@ -92,21 +92,10 @@ const soundConfig = [
     isMusic: true,
   },
   {
-    key: 'music2',
-    filePath: './audio/music/sneaky-snitch.mp3',
-    loop: true,
-    isMusic: true,
-  },
-  {
     key: 'music3',
     filePath: './audio/music/spook.mp3',
     loop: true,
     isMusic: true,
-  },
-  {
-    key: 'punch',
-    filePath: './audio/sfx/punch.wav',
-    loop: false,
   },
   {
     key: 'jump',
@@ -165,14 +154,13 @@ class GameScene extends Phaser.Scene {
     this.level = new Level(this, levelConfig);
     this.audio = new Audio(this, soundConfig);
 
+    // set sfx/music mute from local storage
+    this.audio.setSFXMute(getIsSFXMute());
+    this.audio.setMusicMute(getIsMusicMute());
     this.audio.playAudio('music1');
 
     this.player = this.level.spawners.player.getChildren()[0] as Bob3;
     this.goal = this.level.spawners.goal.getChildren()[0] as Skull;
-
-    // set sfx/music mute from local storage
-    this.audio?.setSFXMute(getIsSFXMute());
-    this.audio?.setMusicMute(getIsMusicMute());
 
     this.coinHud = new CoinHud(this, this.coins); // not coins from LS
 

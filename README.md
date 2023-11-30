@@ -42,6 +42,7 @@ Choose new material icons here https://fonts.google.com/icons?icon.set=Material+
 - coin.mp3: https://pixabay.com/sound-effects/coin-c-02-102844/
 - gameover.mp3: https://pixabay.com/sound-effects/negative-beeps-6008/
 - dramatic.mp3: https://pixabay.com/sound-effects/dramatic-synth-echo-43970/
+- congratulations.mp3: https://pixabay.com/sound-effects/congratulations-deep-voice-172193/
 
 ### Parallax artwork
 
