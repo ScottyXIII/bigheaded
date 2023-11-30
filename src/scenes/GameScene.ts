@@ -98,11 +98,6 @@ const soundConfig = [
     isMusic: true,
   },
   {
-    key: 'punch',
-    filePath: './audio/sfx/punch.wav',
-    loop: false,
-  },
-  {
     key: 'jump',
     filePath: './audio/sfx/jump.mp3',
     loop: false,
