@@ -176,8 +176,6 @@ class GameScene extends Phaser.Scene {
       const { toggleDebug } = initDebug(this, this.settingsHud);
       this.settingsHud.registerOnClick('isDebugOn', toggleDebug);
     }
-
-    // this.input.addPointer(2); // allow multi-touch
   }
 
   jump() {
