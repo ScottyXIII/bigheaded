@@ -19,6 +19,13 @@ class Audio {
 
   private audioConfig: Record<string, AudioConfigType> = {};
 
+  static preload(scene: Phaser.Scene, configs: AudioConfigType[]) {
+    for (let i = 0; i < configs.length; i += 1) {
+      const config: AudioConfigType = configs[i];
+      scene.load.audio(config.key, config.filePath);
+    }
+  }
+
   constructor(scene: Phaser.Scene, configs: AudioConfigType[]) {
     for (let i = 0; i < configs.length; i += 1) {
       const config: AudioConfigType = configs[i];
@@ -28,13 +35,15 @@ class Audio {
         config.soundConfig ?? {},
       );
     }
-  }
 
-  static preload(scene: Phaser.Scene, configs: AudioConfigType[]) {
-    for (let i = 0; i < configs.length; i += 1) {
-      const config: AudioConfigType = configs[i];
-      scene.load.audio(config.key, config.filePath);
-    }
+    // boy better know and it's shutdown all known keys
+    scene.events.on('shutdown', () => {
+      for (let i = 0; i < configs.length; i += 1) {
+        const config: AudioConfigType = configs[i];
+        const { key } = config;
+        this.stopAudio(key);
+      }
+    });
   }
 
   setSFXMute(mute: boolean) {
@@ -58,6 +67,10 @@ class Audio {
       this.audio[key].loop = this.audioConfig[key].loop;
       this.audio[key].play();
     }
+  }
+
+  stopAudio(key: string) {
+    this.audio[key]?.stop();
   }
 
   // update(time: number, delta: number) {}
