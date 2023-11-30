@@ -41,10 +41,11 @@ class MainMenuScene extends Phaser.Scene {
     });
 
     const localStorageCoins = getCoins();
-    if (localStorageCoins > 1_000) {
+    if (localStorageCoins > 0) {
       noNew(UIElement, this, cx, cy + 220, {
         uiElementName: UIElementNames.yellow_button01,
         content: 'Visit the Shop',
+        color: '#000',
         width: 300,
         onClick: () => this.scene.start('shop-scene'),
       });

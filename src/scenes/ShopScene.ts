@@ -12,9 +12,10 @@ const { getValue: getPurchased, setValue: setPurchased } = useLocalStorage(
 );
 
 const items = [
-  { name: 'Coins x2', price: 10 },
-  { name: 'Speed Boost', price: 100 },
-  { name: 'Jump Distance Boost', price: 1_000 },
+  { name: 'Coin Multiplier x2', price: 100 },
+  { name: 'Move Speed Boost', price: 1_000 },
+  { name: 'Jump Distance Boost', price: 10_000 },
+  { name: 'Jetpack', price: 100_000 },
 ];
 
 class ShopScene extends Phaser.Scene {
@@ -61,8 +62,8 @@ class ShopScene extends Phaser.Scene {
       itemButtons.push(
         noNew(UIElement, this, cx, 150 + i * 75, {
           uiElementName: UIElementNames.yellow_button01,
-          content: `${name} - 🪙 ${price}`,
-          width: 500,
+          content: `Buy ${name} 🪙 ${Intl.NumberFormat().format(price)}`,
+          width: 600,
           color: '#000',
           onClick: () => {
             updateCoinsRelative(-price);
@@ -74,7 +75,8 @@ class ShopScene extends Phaser.Scene {
     noNew(UIElement, this, cx, height - 100, {
       uiElementName: UIElementNames.yellow_button01,
       content: 'BACK',
-      width: 400,
+      color: '#000',
+      width: 200,
       onClick: () => {
         this.scene.start('main-menu-scene');
       },
@@ -84,8 +86,8 @@ class ShopScene extends Phaser.Scene {
     if (isDev) {
       noNew(UIElement, this, 100, 80, {
         uiElementName: UIElementNames.blue_button00,
-        content: 'zero',
-        width: 120,
+        content: 'reset',
+        width: 150,
         onClick: () => {
           setCoins(0);
           this.coinHud?.updateCoinsDisplay(0);
@@ -94,7 +96,7 @@ class ShopScene extends Phaser.Scene {
       noNew(UIElement, this, 100, 150, {
         uiElementName: UIElementNames.blue_button00,
         content: '+1000',
-        width: 120,
+        width: 150,
         onClick: () => {
           updateCoinsRelative(1000);
         },
