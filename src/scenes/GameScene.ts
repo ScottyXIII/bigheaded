@@ -155,8 +155,8 @@ class GameScene extends Phaser.Scene {
     this.audio = new Audio(this, soundConfig);
 
     // set sfx/music mute from local storage
-    this.audio?.setSFXMute(getIsSFXMute());
-    this.audio?.setMusicMute(getIsMusicMute());
+    this.audio.setSFXMute(getIsSFXMute());
+    this.audio.setMusicMute(getIsMusicMute());
     this.audio.playAudio('music1');
 
     this.player = this.level.spawners.player.getChildren()[0] as Ben3;
