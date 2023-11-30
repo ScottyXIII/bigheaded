@@ -217,13 +217,6 @@ class Ben3 extends Entity {
     if (this.health === 0) this.scene.scene.start('death-scene');
   }
 
-  onShutdown() {
-    this.removeListener('keydown-A');
-    this.removeListener('keydown-D');
-    this.removeListener('touch-right');
-    this.removeListener('down');
-  }
-
   update(time: number, delta: number) {
     super.update(time, delta);
 
