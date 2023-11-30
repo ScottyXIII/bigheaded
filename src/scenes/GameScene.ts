@@ -19,6 +19,7 @@ import Skull from '@/objects/Skull';
 import initDebug from '@/helpers/initDebug';
 import isDev from '@/helpers/isDev';
 import touchEvents from '@/helpers/touchEvents';
+import Control from '@/objects/Control';
 
 const { getValue: getCoins, setValue: setCoins } = useLocalStorage('coins', 0);
 const { getValue: getIsSFXMute } = useLocalStorage('isSFXMute', false);
@@ -133,6 +134,8 @@ class GameScene extends Phaser.Scene {
 
   public level: Level | undefined;
 
+  public control: Control | undefined;
+
   public player: Ben3 | undefined;
 
   public goal: Skull | undefined;
@@ -153,6 +156,7 @@ class GameScene extends Phaser.Scene {
   }
 
   create() {
+    this.control = new Control(this);
     this.parallax = new Parallax(this, parallaxName);
     this.level = new Level(this, levelConfig);
     this.audio = new Audio(this, soundConfig);
@@ -174,7 +178,7 @@ class GameScene extends Phaser.Scene {
       this.settingsHud.registerOnClick('isDebugOn', toggleDebug);
     }
 
-    this.input.addPointer(2); // allow multi-touch
+    // this.input.addPointer(2); // allow multi-touch
   }
 
   jump() {
@@ -195,6 +199,7 @@ class GameScene extends Phaser.Scene {
     if (!this.parallax || !this.level || !this.player) return;
 
     this.parallax.update();
+    this.control?.update();
 
     touchEvents(this);
     smoothMoveCameraTowards(this, this.player.gameObject, 0.8);
