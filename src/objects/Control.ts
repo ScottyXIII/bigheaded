@@ -5,14 +5,14 @@ class Control {
 
   private zones: Record<string, number>;
 
+  private key: Record<string, Phaser.Input.Keyboard.Key> | undefined;
+
   public balance = 0;
 
   public jump = false;
 
   constructor(scene: Phaser.Scene) {
     this.scene = scene;
-
-    scene.input.addPointer(2); // allow multi-touch
 
     const { width } = scene.sys.game.canvas;
     this.zones = {
@@ -21,81 +21,45 @@ class Control {
       deadZone: width - 100,
     };
 
+    // all devices have pointer (mouse or touchscreen)
     // some devices have keyboards
+    // we register keys on mount
     const { keyboard } = scene.input;
     if (keyboard) {
-      keyboard.on('keydown-A', this.setLeft);
-      keyboard.on('keydown-D', this.setRight);
-      keyboard.on('keydown-SPACE', this.setJumpOn);
-
-      keyboard.on('keyup-A', this.setCenter);
-      keyboard.on('keyup-D', this.setCenter);
-      keyboard.on('keyup-SPACE', this.setJumpOff);
-
-      scene.events.on('shutdown', () => {
-        keyboard.off('keydown-A');
-        keyboard.off('keydown-D');
-        keyboard.off('keydown-SPACE');
-
-        keyboard.off('keyup-A');
-        keyboard.off('keyup-D');
-        keyboard.off('keyup-SPACE');
-      });
+      this.key = {
+        left: keyboard.addKey('A'),
+        right: keyboard.addKey('D'),
+        jump: keyboard.addKey('SPACE'),
+      };
     }
   }
 
-  private setJumpOn() {
-    this.jump = true;
-  }
-
-  private setJumpOff() {
-    this.jump = false;
-  }
-
-  private setLeft() {
-    this.balance = -1;
-  }
-
-  private setCenter() {
-    this.balance = 0;
-  }
-
-  private setRight() {
-    this.balance = +1;
-  }
-
-  // all devices have pointer (mouse or touchscreen)
   // this needs to be called in the scene update (every frame)
-  public update() {
+  update() {
     const { isDown, x } = this.scene.input.activePointer;
+    const { quarterWidth, halfWidth, deadZone } = this.zones;
 
-    console.log('update Control', this.balance, this.jump);
+    // touch booleans
+    const isPointerLeft = x < quarterWidth && isDown;
+    const isPointerRight = x >= quarterWidth && x < halfWidth && isDown;
+    const isPointerJump = x >= halfWidth && x < deadZone && isDown;
 
-    // right half of screen touch
-    if (x > this.zones.halfWidth && x < this.zones.deadZone) {
-      if (isDown) {
-        this.setJumpOn();
-      } else {
-        this.setJumpOff();
-      }
-      return;
-    }
+    // keyboard booleans
+    const isKeyLeft = this.key?.left.isDown || false;
+    const isKeyRight = this.key?.right.isDown || false;
+    const isKeyJump = this.key?.jump.isDown || false;
 
-    // left half of screen touch
-    if (x < this.zones.quarterWidth) {
-      if (isDown) {
-        this.setLeft();
-      } else {
-        this.setCenter();
-      }
-    } else {
-      // eslint-disable-next-line no-lonely-if
-      if (isDown) {
-        this.setRight();
-      } else {
-        this.setCenter();
-      }
-    }
+    // combined booleans
+    const isLeft = isPointerLeft || isKeyLeft;
+    const isRight = isPointerRight || isKeyRight;
+    const isJump = isPointerJump || isKeyJump;
+
+    // final logic
+    if (isLeft) this.balance = -1;
+    else if (isRight) this.balance = 1;
+    else this.balance = 0;
+    if (isJump) this.jump = true;
+    else this.jump = false;
   }
 }
 
