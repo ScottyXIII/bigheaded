@@ -184,11 +184,7 @@ class Ben3 extends Entity {
   }
 
   turnDirection(angularVelocity: number) {
-    // console.log({ angularVelocity }, this.scene.matter);
-
     const { body: Body } = this.scene.matter;
-    // this.gameObject.setAngularVelocity(angularVelocity);
-    // this.head.setAngularVelocity(angularVelocity);
 
     // Set angular velocity on torso
     Body.setAngularVelocity(this.gameObject.body, angularVelocity);
