@@ -174,12 +174,9 @@ class GameScene extends Phaser.Scene {
       this.settingsHud.registerOnClick('isDebugOn', toggleDebug);
     }
 
-    this.input.addPointer(2); // allow multi-touch
-  }
+    this.events.on('shutdown', this.onShutdown);
 
-  jump() {
-    if (!this.level || !this.player || !this.audio) return;
-    this.player.jump();
+    this.input.addPointer(2); // allow multi-touch
   }
 
   collectCoin() {
@@ -198,6 +195,10 @@ class GameScene extends Phaser.Scene {
 
     touchEvents(this);
     smoothMoveCameraTowards(this, this.player.gameObject, 0.8);
+  }
+
+  onShutdown() {
+    this.audio?.stopAll();
   }
 }
 
