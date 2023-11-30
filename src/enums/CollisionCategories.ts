@@ -23,7 +23,7 @@ export enum CM {
   enemy = CC.default | CC.player, // enemies collide with ground and player, but not each other or items
   item = CC.default | CC.player | CC.item, // items collide with ground, player and other items, but not enemies
 
-  ghosty = CC.default,
+  groundsensor = CC.default, // only collide with ground staticbody (or anything in default category)
 }
 
 // [!] at time of writing CM is not used anywhere (yet)
