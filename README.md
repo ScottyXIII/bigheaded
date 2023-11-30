@@ -40,6 +40,7 @@ Choose new material icons here https://fonts.google.com/icons?icon.set=Material+
 - punch.wav: https://www.chosic.com/
 - jump.mp3: https://pixabay.com/sound-effects/toy-button-105724/
 - coin.mp3: https://pixabay.com/sound-effects/coin-c-02-102844/
+- congratulations.mp3: https://pixabay.com/sound-effects/congratulations-deep-voice-172193/
 
 ### Parallax artwork
 
