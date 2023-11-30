@@ -174,8 +174,6 @@ class GameScene extends Phaser.Scene {
       this.settingsHud.registerOnClick('isDebugOn', toggleDebug);
     }
 
-    this.events.on('shutdown', this.onShutdown);
-
     this.input.addPointer(2); // allow multi-touch
   }
 
@@ -195,10 +193,6 @@ class GameScene extends Phaser.Scene {
 
     touchEvents(this);
     smoothMoveCameraTowards(this, this.player.gameObject, 0.8);
-  }
-
-  onShutdown() {
-    this.audio?.stopAll();
   }
 }
 
