@@ -178,11 +178,6 @@ class GameScene extends Phaser.Scene {
     controlsTutorial(this);
   }
 
-  jump() {
-    if (!this.level || !this.player || !this.audio) return;
-    this.player.jump();
-  }
-
   collectCoin() {
     if (!this.coinHud) return;
 

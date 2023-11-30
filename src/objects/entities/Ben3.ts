@@ -161,12 +161,14 @@ class Ben3 extends Entity {
       maxHealth: 100,
     });
     this.healthBar.bar.setScrollFactor(0, 0);
+  }
 
+  create() {
     this.registerInputControls();
   }
 
   registerInputControls() {
-    // Toch controls
+    // touch controls
     this.scene.events.on(
       'touch-left-half',
       this.turnDirection.bind(this, -0.02),
@@ -193,6 +195,8 @@ class Ben3 extends Entity {
     this.scene.input.keyboard
       ?.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE)
       .on('down', this.jump.bind(this));
+
+    this.scene.events.on('shutdown', this.onShutdown);
   }
 
   jump() {
@@ -242,6 +246,13 @@ class Ben3 extends Entity {
     this.headScale = newScale;
 
     if (this.health === 0) this.scene.scene.start('death-scene');
+  }
+
+  onShutdown() {
+    this.removeListener('keydown-A');
+    this.removeListener('keydown-D');
+    this.removeListener('touch-right');
+    this.removeListener('down');
   }
 
   update(time: number, delta: number) {
