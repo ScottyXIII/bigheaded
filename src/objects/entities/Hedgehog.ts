@@ -15,7 +15,7 @@ const entityConfig: EntityConfigType = {
   scale: 2,
   craftpixOffset: {
     x: 0,
-    y: 0,
+    y: -10,
   },
   physicsConfig: {
     width: 70,
@@ -66,7 +66,7 @@ class Hedgehog extends Entity {
     moveTowards(this, this.scene.player, {
       constantMotion: true,
       maxSpeedX: 1,
-      maxSpeedY: 2,
+      maxSpeedY: 1,
     });
   }
 }
