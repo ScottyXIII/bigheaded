@@ -135,8 +135,8 @@ class Entity extends Phaser.GameObjects.Container {
     this.scene.add.existing(this);
 
     const { bodies: Bodies, body: Body } = scene.matter;
-    const { width, height } = physicsConfig;
-    this.hitbox = Bodies.rectangle(0, 0, width, height, physicsConfig);
+    const { width, height, ...otherPhysics } = physicsConfig;
+    this.hitbox = Bodies.rectangle(0, 0, width, height, otherPhysics);
 
     // sensors
     const bottom = Bodies.rectangle(0, height / 2, width - 2, 15, {

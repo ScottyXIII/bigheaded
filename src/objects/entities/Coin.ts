@@ -18,7 +18,7 @@ const entityConfig: EntityConfigType = {
   physicsConfig: {
     width: 15,
     height: 15,
-    chamfer: { radius: 20 },
+    chamfer: { radius: 5 },
   },
   animations: [
     {
