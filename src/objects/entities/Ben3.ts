@@ -80,6 +80,7 @@ const entityConfig: EntityConfigType = {
     frictionStatic: 0,
   },
   collisionCategory: CC.player,
+  collisionMask: CM.player,
   collideCallback: onCollision,
   animations: [
     {
@@ -181,12 +182,12 @@ class Bob3 extends Entity {
     // Keyboard
     this.scene.input.keyboard?.on(
       'keydown-A',
-      this.turnDirection.bind(this, -0.02),
+      this.turnDirection.bind(this, -0.06),
       this,
     ); // fires continuously
     this.scene.input.keyboard?.on(
       'keydown-D',
-      this.turnDirection.bind(this, 0.02),
+      this.turnDirection.bind(this, 0.06),
       this,
     );
 
