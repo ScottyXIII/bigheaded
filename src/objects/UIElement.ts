@@ -53,6 +53,7 @@ type ButtonOptionsType = {
   width: number;
   onClick: () => void;
   uiElementName?: UIElementNames;
+  color?: string;
 };
 
 class UIElement extends Phaser.GameObjects.Container {
@@ -81,6 +82,7 @@ class UIElement extends Phaser.GameObjects.Container {
       width,
       onClick,
       uiElementName = UIElementNames.button_bg,
+      color = '#FFF',
     } = options;
 
     this.button = scene.add.nineslice(
@@ -97,6 +99,7 @@ class UIElement extends Phaser.GameObjects.Container {
     const text = scene.add.text(x, y, content, {
       font: '25px Arial',
       align: 'center',
+      color,
     });
     text.setOrigin(0.5, 0.5);
     text.setWordWrapWidth(width - 100);

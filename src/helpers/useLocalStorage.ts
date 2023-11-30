@@ -1,11 +1,11 @@
 import { encode, decode } from '@/helpers/safeBase64';
 import { stringify, parse } from '@/helpers/safeJSON';
 
-const keysToEncrypt = ['coins'];
+const keysToEncrypt = ['coins', 'purchased'];
 
 const useLocalStorage = (
   key: string,
-  defaultValue: string | number | boolean,
+  defaultValue: string | number | boolean | object,
 ) => {
   const encryptOn = keysToEncrypt.includes(key);
 
@@ -15,7 +15,7 @@ const useLocalStorage = (
     return value;
   };
 
-  const setValue = (newValue: string | number | boolean) => {
+  const setValue = (newValue: string | number | boolean | object) => {
     const encoded = encryptOn
       ? encode(stringify(newValue))
       : stringify(newValue);
