@@ -143,6 +143,7 @@ class Entity extends Phaser.GameObjects.Container {
       isSensor: true,
       label: 'bottom',
     });
+    // sensor can only collide with ground staticbodies / bodies in default category
     bottom.collisionFilter.mask = CM.groundsensor;
 
     bottom.onCollideCallback = (
