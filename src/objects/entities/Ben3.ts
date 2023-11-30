@@ -288,6 +288,14 @@ class Ben3 extends Entity {
 
     // regenerate health
     this.setHealth(this.health + 0.075);
+
+    // apply jump control
+    if (this.scene.control?.jump) this.jump();
+
+    // apply balance control
+    if (this.scene.control?.balance) {
+      this.turnDirection(this.scene.control.balance * 0.02);
+    }
   }
 }
 

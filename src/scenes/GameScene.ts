@@ -193,11 +193,10 @@ class GameScene extends Phaser.Scene {
   }
 
   update() {
-    if (!this.parallax || !this.level || !this.player) return;
+    if (!this.parallax || !this.player || !this.control) return;
 
     this.parallax.update();
-    this.control?.update();
-    console.log(this.control?.balance, this.control?.jump);
+    this.control.update();
 
     smoothMoveCameraTowards(this, this.player.gameObject, 0.8);
   }
