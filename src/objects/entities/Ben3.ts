@@ -161,7 +161,9 @@ class Ben3 extends Entity {
       maxHealth: 100,
     });
     this.healthBar.bar.setScrollFactor(0, 0);
+  }
 
+  create() {
     this.registerInputControls();
   }
 
