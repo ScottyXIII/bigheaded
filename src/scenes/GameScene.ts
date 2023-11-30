@@ -19,6 +19,7 @@ import Skull from '@/objects/Skull';
 import initDebug from '@/helpers/initDebug';
 import isDev from '@/helpers/isDev';
 import touchEvents from '@/helpers/touchEvents';
+import controlsTutorial from '@/overlays/controlsTutorial';
 
 const { getValue: getCoins, setValue: setCoins } = useLocalStorage('coins', 0);
 const { getValue: getIsSFXMute } = useLocalStorage('isSFXMute', false);
@@ -174,7 +175,7 @@ class GameScene extends Phaser.Scene {
       this.settingsHud.registerOnClick('isDebugOn', toggleDebug);
     }
 
-    this.input.addPointer(2); // allow multi-touch
+    controlsTutorial(this);
   }
 
   jump() {

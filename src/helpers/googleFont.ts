@@ -43,8 +43,7 @@ export enum IconEnum {
   SCENES = '\ue413',
   TOUCHSWIPE = '\ue9ec',
   TOUCHTAP = '\ue913',
-  KEYBOARD = '\ue312',
-  MOUSE = '\ue323',
+  HORIZONTALARROWS = '\uea18',
 }
 
 const googleFont = (
