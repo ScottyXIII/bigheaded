@@ -1,12 +1,13 @@
 import Entity, { EntityConfigType } from '@/objects/entities/Entity';
 import GameScene from '@/scenes/GameScene';
-import { CC } from '@/enums/CollisionCategories';
+import { CC, CM } from '@/enums/CollisionCategories';
 
 const KEY = 'coin';
 
 const entityConfig: EntityConfigType = {
   name: KEY,
   collisionCategory: CC.item,
+  collisionMask: CM.item,
   spriteSheetKey: KEY,
   facing: 1,
   scale: 1,

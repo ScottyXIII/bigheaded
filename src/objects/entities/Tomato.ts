@@ -3,13 +3,14 @@ import Entity, { EntityConfigType } from '@/objects/entities/Entity';
 import keepUpright, { KeepUprightStratergies } from '@/helpers/keepUpright';
 import moveTowards from '@/helpers/moveTowards';
 import GameScene from '@/scenes/GameScene';
-import { CC } from '@/enums/CollisionCategories';
+import { CC, CM } from '@/enums/CollisionCategories';
 
 const KEY = 'tomato';
 
 const entityConfig: EntityConfigType = {
   name: KEY,
   collisionCategory: CC.enemy,
+  collisionMask: CM.enemy,
   spriteSheetKey: KEY,
   facing: -1,
   scale: 1.5,
