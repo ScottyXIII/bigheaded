@@ -181,6 +181,7 @@ class GameScene extends Phaser.Scene {
   }
 
   update() {
+    // test
     if (!this.parallax || !this.control || !this.player) return;
 
     this.parallax.update();
