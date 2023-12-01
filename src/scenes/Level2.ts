@@ -18,7 +18,6 @@ import Coin from '@/objects/entities/Coin';
 import Skull from '@/objects/Skull';
 import initDebug from '@/helpers/initDebug';
 import isDev from '@/helpers/isDev';
-import controlsTutorial from '@/overlays/controlsTutorial';
 import Control from '@/objects/Control';
 
 const { getValue: getCoins, setValue: setCoins } = useLocalStorage('coins', 0);
@@ -29,7 +28,7 @@ const parallaxName: ParallaxNames = 'supermountaindusk';
 
 const levelConfig: LevelConfigType = {
   tilesetPng: './level/tileset/sd-tileset64a.png',
-  tiledMapJson: './level/tiled-level/level-1.json',
+  tiledMapJson: './level/tiled-level/level-2.json',
   tileWidth: 64,
   tileHeight: 64,
   tileMargin: 0,
@@ -115,12 +114,12 @@ const soundConfig = [
   },
 ];
 
-class GameScene extends Phaser.Scene {
+class level2 extends Phaser.Scene {
   private settingsHud: SettingsHud | undefined;
 
   private coinHud: CoinHud | undefined;
 
-  private coins = 0; // this doesnt reset to zero every time the scene loads
+  private coins = 0; // this resets to zero every time the scene loads
 
   private parallax: Parallax | undefined;
 
@@ -142,15 +141,14 @@ class GameScene extends Phaser.Scene {
   }
 
   constructor() {
-    super('game-scene');
+    super('level2');
   }
 
   preload() {
-    GameScene.preload(this);
+    level2.preload(this);
   }
 
   create() {
-    this.coins = 0; // reset coins when scene resets
     this.control = new Control(this);
     this.parallax = new Parallax(this, parallaxName);
     this.level = new Level(this, levelConfig);
@@ -166,13 +164,12 @@ class GameScene extends Phaser.Scene {
 
     this.coinHud = new CoinHud(this, this.coins); // not coins from LS
 
+    // @ts-expect-error needs base class extents inherientence refactor
     this.settingsHud = new SettingsHud(this);
     if (isDev) {
       const { toggleDebug } = initDebug(this, this.settingsHud);
       this.settingsHud.registerOnClick('isDebugOn', toggleDebug);
     }
-
-    controlsTutorial(this);
   }
 
   collectCoin() {
@@ -194,4 +191,4 @@ class GameScene extends Phaser.Scene {
   }
 }
 
-export default GameScene;
+export default level2;
