@@ -115,7 +115,7 @@ class ShopScene extends Phaser.Scene {
 
     // clear old buttons
     if (this.itemButtons)
-      this.itemButtons.forEach(({ button }) => button.button.destroy());
+      this.itemButtons.forEach(({ button }) => button.destroy());
 
     // draw buttons
     const purchased = getPurchased();

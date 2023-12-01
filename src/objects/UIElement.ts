@@ -59,6 +59,8 @@ type ButtonOptionsType = {
 class UIElement extends Phaser.GameObjects.Container {
   public button: Phaser.GameObjects.NineSlice;
 
+  private tween: Phaser.Tweens.Tween;
+
   static preload(scene: Phaser.Scene) {
     scene.load.atlas(
       'ui',
@@ -112,7 +114,7 @@ class UIElement extends Phaser.GameObjects.Container {
 
     if (isDev) scene.input.enableDebug(this.button); // not toggleable atm
 
-    scene.tweens.add({
+    this.tween = scene.tweens.add({
       targets: [this.button],
       width: width + 20,
       duration: 300,
@@ -120,6 +122,11 @@ class UIElement extends Phaser.GameObjects.Container {
       yoyo: true,
       repeat: -1,
     });
+  }
+
+  destroy() {
+    this.tween.destroy();
+    this.button.destroy();
   }
 }
 
