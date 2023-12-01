@@ -12,6 +12,7 @@ import useLocalStorage from '@/helpers/useLocalStorage';
 const { getValue: getPurchased } = useLocalStorage('purchased', {
   REGEN: false,
   ARMOR: false,
+  JUMPD: false,
 });
 
 const KEY = 'Bob';
@@ -181,17 +182,20 @@ class Bob3 extends Entity {
 
     this.scene.audio?.playAudio('jump');
 
+    const { JUMPD } = getPurchased();
+    const xPower = JUMPD ? 0.02 : 0;
+
     const { body: Body } = this.scene.matter;
 
     const { centerX, centerY } = this.gameObject.getBounds();
     const position = { x: centerX, y: centerY };
     Body.applyForce(this.gameObject.body, position, {
-      x: 0,
+      x: xPower,
       y: -0.05 * this.gameObject.body.mass,
     });
 
     Body.applyForce(this.head.body, this.head.getCenter(), {
-      x: 0,
+      x: xPower,
       y: -0.05 * this.head.body.mass,
     });
   }
