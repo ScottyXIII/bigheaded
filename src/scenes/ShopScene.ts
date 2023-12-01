@@ -12,7 +12,7 @@ const { getValue: getPurchased, setValue: setPurchased } = useLocalStorage(
     COINM: false,
     REGEN: false,
     ARMOR: false,
-    SPEED: false,
+    // SPEED: false,
     JUMPD: false,
     // JETPK: false,
   },
@@ -30,7 +30,7 @@ const items = [
   { id: 'COINM', label: 'Coin Multiplier x10', price: 100 },
   { id: 'REGEN', label: 'Health Regeneration', price: 1_000 },
   { id: 'ARMOR', label: 'Kevlar Body Armour', price: 1_000 },
-  { id: 'SPEED', label: 'Move Speed Boost', price: 1_000 },
+  // { id: 'SPEED', label: 'Move Speed Boost', price: 1_000 },
   { id: 'JUMPD', label: 'Jump Distance Boost', price: 2_000 },
   // { id: 'JETPK', label: 'NASA Jetpack', price: 100_000 },
 ];
