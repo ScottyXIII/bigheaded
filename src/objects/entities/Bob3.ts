@@ -25,7 +25,7 @@ const limitNumber = (value: number, min: number, max: number) => {
 const onCollision = (
   data: Phaser.Types.Physics.Matter.MatterCollisionData,
   // eslint-disable-next-line no-use-before-define
-  player: Ben3,
+  player: Bob3,
 ) => {
   const collisionDataObject = prepareCollisionData(data);
 
@@ -50,7 +50,7 @@ const onCollision = (
 const onCollisionHead = (
   data: Phaser.Types.Physics.Matter.MatterCollisionData,
   // eslint-disable-next-line no-use-before-define
-  player: Ben3,
+  player: Bob3,
 ) => {
   const collisionDataObject = prepareCollisionData(data);
 
@@ -80,6 +80,7 @@ const entityConfig: EntityConfigType = {
     frictionStatic: 0,
   },
   collisionCategory: CC.player,
+  collisionMask: CM.player,
   collideCallback: onCollision,
   animations: [
     {
@@ -91,7 +92,7 @@ const entityConfig: EntityConfigType = {
   ],
 };
 
-class Ben3 extends Entity {
+class Bob3 extends Entity {
   protected head: PhaserMatterImage;
 
   protected neck: Phaser.Types.Physics.Matter.MatterConstraintConfig;
@@ -107,14 +108,14 @@ class Ben3 extends Entity {
   static preload(scene: Phaser.Scene) {
     scene.load.spritesheet({
       key: KEY,
-      url: './object/ben3/run.png',
+      url: './object/bob3/run.png',
       frameConfig: {
         frameWidth: 60,
         frameHeight: 85,
       },
     });
 
-    scene.load.image('head2', './object/ben3/head3.png');
+    scene.load.image('head2', './object/bob3/head3.png');
   }
 
   constructor(scene: GameScene, x: number, y: number) {
@@ -217,7 +218,13 @@ class Ben3 extends Entity {
 
     this.headScale = newScale;
 
-    if (this.health === 0) this.scene.scene.start('death-scene');
+    if (this.health === 0) {
+      this.scene.scene.pause();
+      this.scene.audio?.playAudio('gameover');
+      setTimeout(() => {
+        this.scene.scene.start('death-scene');
+      }, 1_000);
+    }
   }
 
   update(time: number, delta: number) {
@@ -249,6 +256,10 @@ class Ben3 extends Entity {
       this.head.rotation,
     );
 
+    // move name label text into position
+    this.text.y = -70 - this.headScale * 260;
+    this.text.text = String(this.sensorData.bottom.size); // debug bottom sensor count
+
     // regenerate health
     this.setHealth(this.health + 0.075);
 
@@ -262,4 +273,4 @@ class Ben3 extends Entity {
   }
 }
 
-export default Ben3;
+export default Bob3;

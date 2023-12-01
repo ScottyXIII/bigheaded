@@ -3,19 +3,20 @@ import Entity, { EntityConfigType } from '@/objects/entities/Entity';
 import keepUpright, { KeepUprightStratergies } from '@/helpers/keepUpright';
 import moveTowards from '@/helpers/moveTowards';
 import GameScene from '@/scenes/GameScene';
-import { CC } from '@/enums/CollisionCategories';
+import { CC, CM } from '@/enums/CollisionCategories';
 
 const KEY = 'hedgehog';
 
 const entityConfig: EntityConfigType = {
   name: KEY,
   collisionCategory: CC.enemy,
+  collisionMask: CM.enemy,
   spriteSheetKey: KEY,
   facing: -1,
   scale: 2,
   craftpixOffset: {
     x: 0,
-    y: 0,
+    y: -10,
   },
   physicsConfig: {
     width: 70,
@@ -66,7 +67,7 @@ class Hedgehog extends Entity {
     moveTowards(this, this.scene.player, {
       constantMotion: true,
       maxSpeedX: 1,
-      maxSpeedY: 2,
+      maxSpeedY: 1,
     });
   }
 }
