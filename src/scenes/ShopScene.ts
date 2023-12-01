@@ -128,8 +128,8 @@ class ShopScene extends Phaser.Scene {
     const purchased = getPurchased();
     this.itemButtons = items.map(({ id, label, price }, i) => {
       const isPurchased = purchased[id];
-      const transactionType = !purchased[id] ? 'Get' : 'Refund';
-      const buttonType = !purchased[id]
+      const transactionType = !isPurchased ? 'Get' : 'Refund';
+      const buttonType = !isPurchased
         ? UIElementNames.yellow_button01
         : UIElementNames.blue_button00;
       const content = `${transactionType} ${label} ${currencyFormat(price)}`;
@@ -139,6 +139,12 @@ class ShopScene extends Phaser.Scene {
         width: 600,
         color: '#000',
         onClick: () => {
+          const coins = getCoins();
+          if (coins - price < 0 && !isPurchased) {
+            // eslint-disable-next-line no-alert
+            alert("You don't have enough coins yet!");
+            return;
+          }
           updateCoinsRelative(!isPurchased ? -price : price);
           setPurchasedById(id, !isPurchased);
           this.drawItems();
