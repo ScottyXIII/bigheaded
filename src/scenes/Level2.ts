@@ -176,7 +176,7 @@ class level2 extends Phaser.Scene {
   }
 
   nextScene() {
-    this.scene.start('level-3');
+    this.scene.start('level3');
   }
 
   update() {

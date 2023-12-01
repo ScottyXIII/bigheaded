@@ -184,7 +184,7 @@ class GameScene extends Phaser.Scene {
   }
 
   nextScene() {
-    this.scene.start('level-2');
+    this.scene.start('level2');
   }
 
   update() {
