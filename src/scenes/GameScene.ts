@@ -183,6 +183,10 @@ class GameScene extends Phaser.Scene {
     setCoins(getCoins() + 1); // save to meta balance in ls
   }
 
+  nextScene() {
+    this.scene.start('level2');
+  }
+
   update() {
     if (!this.parallax || !this.control || !this.player) return;
 

@@ -8,7 +8,7 @@ import { CC, CM } from '@/enums/CollisionCategories';
 import HealthBar from '@/overlays/HealthBar';
 import prepareCollisionData from '@/helpers/prepareCollisionData';
 
-const KEY = 'bob3';
+const KEY = 'Bob';
 
 const HEALTH_MAX = 100;
 const HEALTH_MIN = 0;
@@ -37,7 +37,8 @@ const onCollision = (
 
     // check if player collide with goal
     if (collisionDataObject.item[0].gameObject.name === 'goal')
-      player.gameObject.scene.scene.start('win-scene');
+      // @ts-expect-error no time!
+      player.gameObject.scene.nextScene();
   }
 
   // check if player collide with enemy
@@ -260,7 +261,7 @@ class Bob3 extends Entity {
 
     // move name label text into position
     this.text.y = -70 - this.headScale * 260;
-    this.text.text = String(this.sensorData.bottom.size); // debug bottom sensor count
+    // this.text.text = String(this.sensorData.bottom.size); // debug bottom sensor count
 
     // regenerate health
     this.setHealth(this.health + 0.075);

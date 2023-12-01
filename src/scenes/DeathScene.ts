@@ -47,7 +47,7 @@ class DeathScene extends Phaser.Scene {
     message.textbox.text = 'Oh no! Bob fell over. Try to keep him upright!';
 
     noNew(UIElement, this, cx, cy + 100, {
-      content: 'Restart',
+      content: 'Continue',
       width: 300,
       onClick: () => this.scene.start('main-menu-scene'),
     });
