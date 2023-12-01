@@ -8,7 +8,8 @@ class CoinHud {
         fontFamily: 'monospace',
         fontSize: '26px',
       })
-      .setScrollFactor(0);
+      .setScrollFactor(0)
+      .setDepth(100);
 
     this.updateCoinsDisplay(value);
   }

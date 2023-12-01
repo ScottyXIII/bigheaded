@@ -103,6 +103,8 @@ class Bob3 extends Entity {
 
   public headScale = HEAD_SCALE_MIN;
 
+  private isJumping = false;
+
   static preload(scene: Phaser.Scene) {
     scene.load.spritesheet({
       key: KEY,
@@ -165,23 +167,24 @@ class Bob3 extends Entity {
   }
 
   jump() {
-    if (this.sensorData.bottom.size >= 1) {
-      this.scene.audio?.playAudio('jump');
+    if (this.isJumping) return;
+    this.isJumping = true;
 
-      const { body: Body } = this.scene.matter;
+    this.scene.audio?.playAudio('jump');
 
-      const { centerX, centerY } = this.gameObject.getBounds();
-      const position = { x: centerX, y: centerY };
-      Body.applyForce(this.gameObject.body, position, {
-        x: 0,
-        y: -0.05 * this.gameObject.body.mass,
-      });
+    const { body: Body } = this.scene.matter;
 
-      Body.applyForce(this.head.body, this.head.getCenter(), {
-        x: 0,
-        y: -0.05 * this.head.body.mass,
-      });
-    }
+    const { centerX, centerY } = this.gameObject.getBounds();
+    const position = { x: centerX, y: centerY };
+    Body.applyForce(this.gameObject.body, position, {
+      x: 0,
+      y: -0.05 * this.gameObject.body.mass,
+    });
+
+    Body.applyForce(this.head.body, this.head.getCenter(), {
+      x: 0,
+      y: -0.05 * this.head.body.mass,
+    });
   }
 
   turnDirection(angularVelocity: number) {
@@ -228,6 +231,11 @@ class Bob3 extends Entity {
     super.update(time, delta);
 
     if (!this.scene.matter.world.enabled) return; // do nothing if paused
+
+    // rest jump on landing
+    if (this.isJumping && this.sensorData.bottom.size >= 1) {
+      this.isJumping = false;
+    }
 
     if (this.sensorData.bottom.size >= 1) {
       if (!this.scene.goal) return;

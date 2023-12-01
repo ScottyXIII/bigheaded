@@ -18,7 +18,6 @@ import Coin from '@/objects/entities/Coin';
 import Skull from '@/objects/Skull';
 import initDebug from '@/helpers/initDebug';
 import isDev from '@/helpers/isDev';
-import controlsTutorial from '@/overlays/controlsTutorial';
 import Control from '@/objects/Control';
 
 const { getValue: getCoins, setValue: setCoins } = useLocalStorage('coins', 0);
@@ -29,7 +28,7 @@ const parallaxName: ParallaxNames = 'supermountaindusk';
 
 const levelConfig: LevelConfigType = {
   tilesetPng: './level/tileset/sd-tileset64a.png',
-  tiledMapJson: './level/tiled-level/level-1.json',
+  tiledMapJson: './level/tiled-level/level-3.json',
   tileWidth: 64,
   tileHeight: 64,
   tileMargin: 0,
@@ -115,7 +114,7 @@ const soundConfig = [
   },
 ];
 
-class GameScene extends Phaser.Scene {
+class Level3 extends Phaser.Scene {
   private settingsHud: SettingsHud | undefined;
 
   private coinHud: CoinHud | undefined;
@@ -142,11 +141,11 @@ class GameScene extends Phaser.Scene {
   }
 
   constructor() {
-    super('game-scene');
+    super('level3');
   }
 
   preload() {
-    GameScene.preload(this);
+    Level3.preload(this);
   }
 
   create() {
@@ -165,13 +164,12 @@ class GameScene extends Phaser.Scene {
 
     this.coinHud = new CoinHud(this, this.coins); // not coins from LS
 
+    // @ts-expect-error needs base class extents inherientence refactor
     this.settingsHud = new SettingsHud(this);
     if (isDev) {
       const { toggleDebug } = initDebug(this, this.settingsHud);
       this.settingsHud.registerOnClick('isDebugOn', toggleDebug);
     }
-
-    controlsTutorial(this);
   }
 
   collectCoin() {
@@ -193,4 +191,4 @@ class GameScene extends Phaser.Scene {
   }
 }
 
-export default GameScene;
+export default Level3;

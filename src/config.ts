@@ -4,6 +4,8 @@ import PreloaderScene from '@/scenes/PreloaderScene';
 import MainMenuScene from '@/scenes/MainMenuScene';
 import ShopScene from '@/scenes/ShopScene';
 import GameScene from '@/scenes/GameScene';
+import Level2 from '@/scenes/Level2';
+import Level3 from '@/scenes/level3';
 import DeathScene from '@/scenes/DeathScene';
 import WinScene from '@/scenes/WinScene';
 import SceneSelectorScene from '@/scenes/SceneSelectorScene';
@@ -43,6 +45,8 @@ const config: Phaser.Types.Core.GameConfig = {
     MainMenuScene,
     ShopScene,
     GameScene,
+    Level2,
+    Level3,
     DeathScene,
     WinScene,
     SceneSelectorScene,
