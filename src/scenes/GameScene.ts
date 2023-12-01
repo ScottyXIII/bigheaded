@@ -120,7 +120,7 @@ class GameScene extends Phaser.Scene {
 
   private coinHud: CoinHud | undefined;
 
-  private coins = 0; // this resets to zero every time the scene loads
+  private coins = 0; // this doesnt reset to zero every time the scene loads
 
   private parallax: Parallax | undefined;
 
@@ -150,6 +150,7 @@ class GameScene extends Phaser.Scene {
   }
 
   create() {
+    this.coins = 0; // reset coins when scene resets
     this.control = new Control(this);
     this.parallax = new Parallax(this, parallaxName);
     this.level = new Level(this, levelConfig);
