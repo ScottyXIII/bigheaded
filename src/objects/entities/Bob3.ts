@@ -11,6 +11,7 @@ import useLocalStorage from '@/helpers/useLocalStorage';
 
 const { getValue: getPurchased } = useLocalStorage('purchased', {
   REGEN: false,
+  ARMOR: false,
 });
 
 const KEY = 'Bob';
@@ -48,7 +49,9 @@ const onCollision = (
 
   // check if player collide with enemy
   if (collisionDataObject.enemy) {
-    const newHealth = player.health - 10;
+    const { ARMOR } = getPurchased();
+    const damage = ARMOR ? 5 : 10;
+    const newHealth = player.health - damage;
     player.setHealth(newHealth);
   }
 };
