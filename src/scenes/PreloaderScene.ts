@@ -6,6 +6,8 @@ import DeathScene from '@/scenes/DeathScene';
 import WinScene from '@/scenes/WinScene';
 import SceneSelectorScene from '@/scenes/SceneSelectorScene';
 import UIDemoScene from '@/scenes/UIDemoScene';
+import level2 from './Level2';
+import level3 from './level3';
 
 // the files come as the following types:
 // - ImageFile2
@@ -54,6 +56,8 @@ class PreloaderScene extends Phaser.Scene {
 
     MainMenuScene.preload(this);
     GameScene.preload(this);
+    level2.preload(this);
+    level3.preload(this);
     DeathScene.preload(this);
     WinScene.preload(this);
     ShopScene.preload(this);
