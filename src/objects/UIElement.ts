@@ -53,10 +53,13 @@ type ButtonOptionsType = {
   width: number;
   onClick: () => void;
   uiElementName?: UIElementNames;
+  color?: string;
 };
 
 class UIElement extends Phaser.GameObjects.Container {
   public button: Phaser.GameObjects.NineSlice;
+
+  private tween: Phaser.Tweens.Tween;
 
   static preload(scene: Phaser.Scene) {
     scene.load.atlas(
@@ -81,6 +84,7 @@ class UIElement extends Phaser.GameObjects.Container {
       width,
       onClick,
       uiElementName = UIElementNames.button_bg,
+      color = '#FFF',
     } = options;
 
     this.button = scene.add.nineslice(
@@ -97,6 +101,7 @@ class UIElement extends Phaser.GameObjects.Container {
     const text = scene.add.text(x, y, content, {
       font: '25px Arial',
       align: 'center',
+      color,
     });
     text.setOrigin(0.5, 0.5);
     text.setWordWrapWidth(width - 100);
@@ -109,7 +114,7 @@ class UIElement extends Phaser.GameObjects.Container {
 
     if (isDev) scene.input.enableDebug(this.button); // not toggleable atm
 
-    scene.tweens.add({
+    this.tween = scene.tweens.add({
       targets: [this.button],
       width: width + 20,
       duration: 300,
@@ -117,6 +122,11 @@ class UIElement extends Phaser.GameObjects.Container {
       yoyo: true,
       repeat: -1,
     });
+  }
+
+  destroy() {
+    this.tween.destroy();
+    this.button.destroy();
   }
 }
 

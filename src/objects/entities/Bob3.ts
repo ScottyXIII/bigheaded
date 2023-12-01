@@ -7,6 +7,13 @@ import moveTowards from '@/helpers/moveTowards';
 import { CC, CM } from '@/enums/CollisionCategories';
 import HealthBar from '@/overlays/HealthBar';
 import prepareCollisionData from '@/helpers/prepareCollisionData';
+import useLocalStorage from '@/helpers/useLocalStorage';
+
+const { getValue: getPurchased } = useLocalStorage('purchased', {
+  REGEN: false,
+  ARMOR: false,
+  JUMPD: false,
+});
 
 const KEY = 'Bob';
 
@@ -43,7 +50,9 @@ const onCollision = (
 
   // check if player collide with enemy
   if (collisionDataObject.enemy) {
-    const newHealth = player.health - 10;
+    const { ARMOR } = getPurchased();
+    const damage = ARMOR ? 5 : 10;
+    const newHealth = player.health - damage;
     player.setHealth(newHealth);
   }
 };
@@ -173,17 +182,20 @@ class Bob3 extends Entity {
 
     this.scene.audio?.playAudio('jump');
 
+    const { JUMPD } = getPurchased();
+    const xPower = JUMPD ? 0.02 : 0;
+
     const { body: Body } = this.scene.matter;
 
     const { centerX, centerY } = this.gameObject.getBounds();
     const position = { x: centerX, y: centerY };
     Body.applyForce(this.gameObject.body, position, {
-      x: 0,
+      x: xPower,
       y: -0.05 * this.gameObject.body.mass,
     });
 
     Body.applyForce(this.head.body, this.head.getCenter(), {
-      x: 0,
+      x: xPower,
       y: -0.05 * this.head.body.mass,
     });
   }
@@ -264,7 +276,9 @@ class Bob3 extends Entity {
     // this.text.text = String(this.sensorData.bottom.size); // debug bottom sensor count
 
     // regenerate health
-    this.setHealth(this.health + 0.075);
+    const { REGEN } = getPurchased();
+    const healthToGain = REGEN ? 0.07 : 0.02;
+    this.setHealth(this.health + healthToGain);
 
     // apply jump control
     if (this.scene.control?.jump) this.jump();

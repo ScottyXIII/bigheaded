@@ -32,7 +32,3 @@ create 3 layers
 - `spawner` Object Layer - this holds the markers such as player, goal, bat, tomato, ball, etc
 - `staticbody` Object Layer - static bodies must be drawn with polygon tool here
 - `solidground` Tile Layer - for drawing the tiles
-
-## Texture Packer
-
-https://www.codeandweb.com/texturepacker/ to create spritesheet atlases

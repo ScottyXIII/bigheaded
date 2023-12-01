@@ -1,5 +1,5 @@
 // it really can stringify anything (except circular references)
-const stringify = (thing: string | number | boolean) => {
+const stringify = (thing: string | number | boolean | object) => {
   try {
     return JSON.stringify(thing);
   } catch (err) {
