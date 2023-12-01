@@ -6,6 +6,7 @@ import isDev from '@/helpers/isDev';
 import noNew from '@/helpers/noNew';
 import UIElement, { UIElementNames } from '@/objects/UIElement';
 import Audio from '@/objects/Audio';
+import CoinHud from '@/overlays/CoinHud';
 
 const { getValue: getCoins } = useLocalStorage('coins', 0);
 const { getValue: getIsSFXMute } = useLocalStorage('isSFXMute', false);
@@ -21,6 +22,8 @@ const soundConfig = [
 ];
 
 class MainMenuScene extends Phaser.Scene {
+  private coinHud: CoinHud | undefined;
+
   public audio: Audio | undefined;
 
   public static preload(scene: Phaser.Scene) {
@@ -37,6 +40,8 @@ class MainMenuScene extends Phaser.Scene {
   }
 
   create() {
+    this.coinHud = new CoinHud(this, getCoins());
+
     this.audio = new Audio(this, soundConfig);
 
     // set sfx/music mute from local storage
