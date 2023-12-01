@@ -19,6 +19,7 @@ import Skull from '@/objects/Skull';
 import initDebug from '@/helpers/initDebug';
 import isDev from '@/helpers/isDev';
 import Control from '@/objects/Control';
+import googleFont, { FontFamilyEnum } from '@/helpers/googleFont';
 
 const { getValue: getCoins, setValue: setCoins } = useLocalStorage('coins', 0);
 const { getValue: getIsSFXMute } = useLocalStorage('isSFXMute', false);
@@ -143,6 +144,10 @@ class Level3 extends Phaser.Scene {
   }
 
   create() {
+    const { width, height } = this.sys.game.canvas;
+    const cx = width / 2;
+    const cy = height / 2;
+
     this.control = new Control(this);
     this.parallax = new Parallax(this, parallaxName);
     this.level = new Level(this, levelConfig);
@@ -164,6 +169,16 @@ class Level3 extends Phaser.Scene {
       const { toggleDebug } = initDebug(this, this.settingsHud);
       this.settingsHud.registerOnClick('isDebugOn', toggleDebug);
     }
+
+    const levelName = googleFont(this, cx, cy, {
+      color: '#ffffff99',
+      fontSize: 64,
+      origin: 0.5,
+      text: 'Level 3',
+      fontFamily: FontFamilyEnum.BAGEL,
+    });
+    levelName.setScrollFactor(0);
+    setTimeout(() => levelName.destroy(), 4_000);
   }
 
   collectCoin() {
