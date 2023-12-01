@@ -141,7 +141,7 @@ class Level3 extends Phaser.Scene {
   }
 
   constructor() {
-    super('level2');
+    super('level3');
   }
 
   preload() {
