@@ -1,4 +1,3 @@
-import Phaser from 'phaser';
 import googleFont, { FontFamilyEnum, IconEnum } from './googleFont';
 
 const iconButton = (
