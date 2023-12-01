@@ -7,8 +7,15 @@ import moveTowards from '@/helpers/moveTowards';
 import { CC, CM } from '@/enums/CollisionCategories';
 import HealthBar from '@/overlays/HealthBar';
 import prepareCollisionData from '@/helpers/prepareCollisionData';
+import useLocalStorage from '@/helpers/useLocalStorage';
 
-const KEY = 'bob3';
+const { getValue: getPurchased } = useLocalStorage('purchased', {
+  REGEN: false,
+  ARMOR: false,
+  JUMPD: false,
+});
+
+const KEY = 'Bob';
 
 const HEALTH_MAX = 100;
 const HEALTH_MIN = 0;
@@ -37,12 +44,15 @@ const onCollision = (
 
     // check if player collide with goal
     if (collisionDataObject.item[0].gameObject.name === 'goal')
-      player.gameObject.scene.scene.start('win-scene');
+      // @ts-expect-error no time!
+      player.gameObject.scene.nextScene();
   }
 
   // check if player collide with enemy
   if (collisionDataObject.enemy) {
-    const newHealth = player.health - 10;
+    const { ARMOR } = getPurchased();
+    const damage = ARMOR ? 5 : 10;
+    const newHealth = player.health - damage;
     player.setHealth(newHealth);
   }
 };
@@ -172,17 +182,20 @@ class Bob3 extends Entity {
 
     this.scene.audio?.playAudio('jump');
 
+    const { JUMPD } = getPurchased();
+    const xPower = JUMPD ? 0.02 : 0;
+
     const { body: Body } = this.scene.matter;
 
     const { centerX, centerY } = this.gameObject.getBounds();
     const position = { x: centerX, y: centerY };
     Body.applyForce(this.gameObject.body, position, {
-      x: 0,
+      x: xPower,
       y: -0.05 * this.gameObject.body.mass,
     });
 
     Body.applyForce(this.head.body, this.head.getCenter(), {
-      x: 0,
+      x: xPower,
       y: -0.05 * this.head.body.mass,
     });
   }
@@ -230,6 +243,8 @@ class Bob3 extends Entity {
   update(time: number, delta: number) {
     super.update(time, delta);
 
+    if (!this.scene.matter.world.enabled) return; // do nothing if paused
+
     // rest jump on landing
     if (this.isJumping && this.sensorData.bottom.size >= 1) {
       this.isJumping = false;
@@ -258,10 +273,12 @@ class Bob3 extends Entity {
 
     // move name label text into position
     this.text.y = -70 - this.headScale * 260;
-    this.text.text = String(this.sensorData.bottom.size); // debug bottom sensor count
+    // this.text.text = String(this.sensorData.bottom.size); // debug bottom sensor count
 
     // regenerate health
-    this.setHealth(this.health + 0.075);
+    const { REGEN } = getPurchased();
+    const healthToGain = REGEN ? 0.07 : 0.02;
+    this.setHealth(this.health + healthToGain);
 
     // apply jump control
     if (this.scene.control?.jump) this.jump();

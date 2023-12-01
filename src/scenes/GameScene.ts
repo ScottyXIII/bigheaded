@@ -18,11 +18,15 @@ import Coin from '@/objects/entities/Coin';
 import Skull from '@/objects/Skull';
 import initDebug from '@/helpers/initDebug';
 import isDev from '@/helpers/isDev';
+import controlsTutorial from '@/overlays/controlsTutorial';
 import Control from '@/objects/Control';
 
 const { getValue: getCoins, setValue: setCoins } = useLocalStorage('coins', 0);
 const { getValue: getIsSFXMute } = useLocalStorage('isSFXMute', false);
 const { getValue: getIsMusicMute } = useLocalStorage('isMusicMute', false);
+const { getValue: getPurchased } = useLocalStorage('purchased', {
+  COINM: false,
+});
 
 const parallaxName: ParallaxNames = 'supermountaindusk';
 
@@ -119,7 +123,7 @@ class GameScene extends Phaser.Scene {
 
   private coinHud: CoinHud | undefined;
 
-  private coins = 0; // this resets to zero every time the scene loads
+  private coins = 0; // this doesnt reset to zero every time the scene loads
 
   private parallax: Parallax | undefined;
 
@@ -149,6 +153,7 @@ class GameScene extends Phaser.Scene {
   }
 
   create() {
+    this.coins = 0; // reset coins when scene resets
     this.control = new Control(this);
     this.parallax = new Parallax(this, parallaxName);
     this.level = new Level(this, levelConfig);
@@ -169,15 +174,21 @@ class GameScene extends Phaser.Scene {
       const { toggleDebug } = initDebug(this, this.settingsHud);
       this.settingsHud.registerOnClick('isDebugOn', toggleDebug);
     }
+
+    controlsTutorial(this);
   }
 
   collectCoin() {
     if (!this.coinHud) return;
-
-    this.coins += 1;
+    const { COINM } = getPurchased();
+    const coinsCollected = COINM ? 10 : 1;
+    this.coins += coinsCollected;
     this.coinHud.updateCoinsDisplay(this.coins);
+    setCoins(getCoins() + coinsCollected); // save to meta balance in ls
+  }
 
-    setCoins(getCoins() + 1); // save to meta balance in ls
+  nextScene() {
+    this.scene.start('level2');
   }
 
   update() {

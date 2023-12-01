@@ -3,12 +3,43 @@ import googleFont, { FontFamilyEnum } from '@/helpers/googleFont';
 import CoinHud from '@/overlays/CoinHud';
 import noNew from '@/helpers/noNew';
 import useLocalStorage from '@/helpers/useLocalStorage';
+import isDev from '@/helpers/isDev';
 
-const { getValue: getCoins } = useLocalStorage('coins', 0);
+const { getValue: getCoins, setValue: setCoins } = useLocalStorage('coins', 0);
+const { getValue: getPurchased, setValue: setPurchased } = useLocalStorage(
+  'purchased',
+  {
+    COINM: false,
+    REGEN: false,
+    ARMOR: false,
+    // SPEED: false,
+    JUMPD: false,
+    // JETPK: false,
+  },
+);
 
-const items = ['item 1', 'item 2', 'item 3'];
+const currencyFormat = (value: number) =>
+  `🪙 ${Intl.NumberFormat().format(value)}`;
+
+const setPurchasedById = (id: string, newPurchsed: boolean) => {
+  const purchased = getPurchased();
+  setPurchased({ ...purchased, [id]: newPurchsed });
+};
+
+const items = [
+  { id: 'COINM', label: 'Coin Multiplier x10', price: 100 },
+  { id: 'REGEN', label: 'Health Regeneration', price: 1_000 },
+  { id: 'ARMOR', label: 'Kevlar Body Armour', price: 1_000 },
+  // { id: 'SPEED', label: 'Move Speed Boost', price: 1_000 },
+  { id: 'JUMPD', label: 'Jump Distance Boost', price: 2_000 },
+  // { id: 'JETPK', label: 'NASA Jetpack', price: 100_000 },
+];
 
 class ShopScene extends Phaser.Scene {
+  private coinHud: CoinHud | undefined;
+
+  private itemButtons: { button: UIElement }[] | undefined;
+
   public static preload(scene: Phaser.Scene) {
     UIElement.preload(scene);
   }
@@ -34,22 +65,100 @@ class ShopScene extends Phaser.Scene {
       origin: 0.5,
     });
 
-    const localStorageCoins = getCoins();
-    noNew(CoinHud, this, localStorageCoins);
+    this.coinHud = new CoinHud(this, getCoins());
 
-    for (let i = 0; i < items.length; i += 1) {
-      const item = items[i];
-      noNew(UIElement, this, cx, 150 + i * 75, {
-        uiElementName: UIElementNames.yellow_button01,
-        content: item,
-        width: 400,
+    const updateCoinsRelative = (changeBy: number) => {
+      const coins = getCoins();
+      const newCoins = coins + changeBy;
+      setCoins(newCoins);
+      this.coinHud?.updateCoinsDisplay(newCoins);
+    };
+
+    // back button
+    noNew(UIElement, this, cx, height - 100, {
+      uiElementName: UIElementNames.yellow_button01,
+      content: 'BACK',
+      color: '#000',
+      width: 200,
+      onClick: () => {
+        this.scene.start('main-menu-scene');
+      },
+    });
+
+    // debug
+    if (isDev) {
+      noNew(UIElement, this, 100, 80, {
+        uiElementName: UIElementNames.blue_button00,
+        content: 'reset',
+        width: 150,
         onClick: () => {
-          // eslint-disable-next-line no-alert
-          alert('Under construction!');
-          this.scene.start('main-menu-scene');
+          setCoins(0);
+          this.coinHud?.updateCoinsDisplay(0);
+        },
+      });
+      noNew(UIElement, this, 100, 150, {
+        uiElementName: UIElementNames.blue_button00,
+        content: '+1000',
+        width: 150,
+        onClick: () => {
+          updateCoinsRelative(1000);
         },
       });
     }
+
+    this.drawItems();
+  }
+
+  drawItems() {
+    const { width } = this.sys.game.canvas;
+    const cx = width / 2;
+
+    const updateCoinsRelative = (changeBy: number) => {
+      const coins = getCoins();
+      const newCoins = coins + changeBy;
+      setCoins(newCoins);
+      this.coinHud?.updateCoinsDisplay(newCoins);
+    };
+
+    // clear old buttons
+    if (this.itemButtons)
+      this.itemButtons.forEach(({ button }) => button.destroy());
+
+    // draw buttons
+    const purchased = getPurchased();
+    this.itemButtons = items.map(({ id, label, price }, i) => {
+      const isPurchased = purchased[id];
+      const transactionType = !isPurchased ? 'Get' : 'Refund';
+      const buttonType = !isPurchased
+        ? UIElementNames.yellow_button01
+        : UIElementNames.blue_button00;
+      const content = `${transactionType} ${label} ${currencyFormat(price)}`;
+      const button = new UIElement(this, cx, 150 + i * 75, {
+        uiElementName: buttonType,
+        content,
+        width: 600,
+        color: '#000',
+        onClick: () => {
+          const coins = getCoins();
+          if (coins - price < 0 && !isPurchased) {
+            // eslint-disable-next-line no-alert
+            alert("You don't have enough coins yet!");
+            return;
+          }
+          updateCoinsRelative(!isPurchased ? -price : price);
+          setPurchasedById(id, !isPurchased);
+          this.drawItems();
+        },
+      });
+
+      return {
+        id,
+        label,
+        price,
+        isPurchased,
+        button,
+      };
+    });
   }
 }
 
