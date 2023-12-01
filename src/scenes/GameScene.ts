@@ -31,6 +31,7 @@ const { getValue: getPurchased } = useLocalStorage('purchased', {
 const parallaxName: ParallaxNames = 'supermountaindusk';
 
 const levelConfig: LevelConfigType = {
+  key: 'level1',
   tilesetPng: './level/tileset/sd-tileset64a.png',
   tiledMapJson: './level/tiled-level/level-1.json',
   tileWidth: 64,

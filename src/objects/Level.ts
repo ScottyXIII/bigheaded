@@ -16,6 +16,7 @@ type SpawnerConfigType = {
 };
 
 export type LevelConfigType = {
+  key: string;
   tilesetPng: string;
   tiledMapJson: string;
   tileWidth: number;
@@ -38,9 +39,9 @@ class Level {
   public spawners: SpawnersObjType = {};
 
   static preload(scene: Phaser.Scene, levelConfig: LevelConfigType) {
-    const { tilesetPng, tiledMapJson, spawnerConfig } = levelConfig;
+    const { key, tilesetPng, tiledMapJson, spawnerConfig } = levelConfig;
     scene.load.image('tileSheet', tilesetPng);
-    scene.load.tilemapTiledJSON('level1', tiledMapJson);
+    scene.load.tilemapTiledJSON(key, tiledMapJson);
     for (let i = 0; i < spawnerConfig.length; i += 1) {
       const { classFactory } = spawnerConfig[i];
       // @ts-expect-error preload static bug - perhaps separate out the preload into new functions to not pollute strong typed classes
@@ -50,6 +51,7 @@ class Level {
 
   constructor(scene: Phaser.Scene, levelConfig: LevelConfigType) {
     const {
+      key,
       tileWidth,
       tileHeight,
       tileMargin,
@@ -59,7 +61,7 @@ class Level {
     } = levelConfig;
 
     // load tiles
-    this.level = scene.make.tilemap({ key: 'level1' });
+    this.level = scene.make.tilemap({ key });
     this.level.addTilesetImage(
       'tiles', // this has to match the name of the tilesheet in Tiled
       'tileSheet',
