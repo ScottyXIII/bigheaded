@@ -24,6 +24,9 @@ import Control from '@/objects/Control';
 const { getValue: getCoins, setValue: setCoins } = useLocalStorage('coins', 0);
 const { getValue: getIsSFXMute } = useLocalStorage('isSFXMute', false);
 const { getValue: getIsMusicMute } = useLocalStorage('isMusicMute', false);
+const { getValue: getPurchased } = useLocalStorage('purchased', {
+  COINM: false,
+});
 
 const parallaxName: ParallaxNames = 'supermountaindusk';
 
@@ -177,11 +180,11 @@ class GameScene extends Phaser.Scene {
 
   collectCoin() {
     if (!this.coinHud) return;
-
-    this.coins += 1;
+    const { COINM } = getPurchased();
+    const coinsCollected = COINM ? 10 : 1;
+    this.coins += coinsCollected;
     this.coinHud.updateCoinsDisplay(this.coins);
-
-    setCoins(getCoins() + 1); // save to meta balance in ls
+    setCoins(getCoins() + coinsCollected); // save to meta balance in ls
   }
 
   nextScene() {

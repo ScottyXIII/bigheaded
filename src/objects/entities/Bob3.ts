@@ -7,6 +7,11 @@ import moveTowards from '@/helpers/moveTowards';
 import { CC, CM } from '@/enums/CollisionCategories';
 import HealthBar from '@/overlays/HealthBar';
 import prepareCollisionData from '@/helpers/prepareCollisionData';
+import useLocalStorage from '@/helpers/useLocalStorage';
+
+const { getValue: getPurchased } = useLocalStorage('purchased', {
+  REGEN: false,
+});
 
 const KEY = 'Bob';
 
@@ -264,7 +269,9 @@ class Bob3 extends Entity {
     // this.text.text = String(this.sensorData.bottom.size); // debug bottom sensor count
 
     // regenerate health
-    this.setHealth(this.health + 0.075);
+    const { REGEN } = getPurchased();
+    const healthToGain = REGEN ? 0.07 : 0.02;
+    this.setHealth(this.health + healthToGain);
 
     // apply jump control
     if (this.scene.control?.jump) this.jump();
