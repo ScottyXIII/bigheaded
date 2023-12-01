@@ -18,6 +18,7 @@ import Coin from '@/objects/entities/Coin';
 import Skull from '@/objects/Skull';
 import initDebug from '@/helpers/initDebug';
 import isDev from '@/helpers/isDev';
+import controlsTutorial from '@/overlays/controlsTutorial';
 import Control from '@/objects/Control';
 
 const { getValue: getCoins, setValue: setCoins } = useLocalStorage('coins', 0);
@@ -169,6 +170,8 @@ class GameScene extends Phaser.Scene {
       const { toggleDebug } = initDebug(this, this.settingsHud);
       this.settingsHud.registerOnClick('isDebugOn', toggleDebug);
     }
+
+    controlsTutorial(this);
   }
 
   collectCoin() {

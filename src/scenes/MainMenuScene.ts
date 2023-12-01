@@ -50,7 +50,7 @@ class MainMenuScene extends Phaser.Scene {
 
     googleFont(this, cx, cy - 100, {
       fontFamily: FontFamilyEnum.BAGEL,
-      text: 'BigHeaded',
+      text: 'Bigheaded',
       color: '#FFF',
       fontSize: 128,
       origin: 0.5,

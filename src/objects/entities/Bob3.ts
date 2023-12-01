@@ -230,6 +230,8 @@ class Bob3 extends Entity {
   update(time: number, delta: number) {
     super.update(time, delta);
 
+    if (!this.scene.matter.world.enabled) return; // do nothing if paused
+
     // rest jump on landing
     if (this.isJumping && this.sensorData.bottom.size >= 1) {
       this.isJumping = false;
