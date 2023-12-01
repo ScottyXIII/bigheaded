@@ -113,6 +113,13 @@ class ShopScene extends Phaser.Scene {
     const { width } = this.sys.game.canvas;
     const cx = width / 2;
 
+    const updateCoinsRelative = (changeBy: number) => {
+      const coins = getCoins();
+      const newCoins = coins + changeBy;
+      setCoins(newCoins);
+      this.coinHud?.updateCoinsDisplay(newCoins);
+    };
+
     // clear old buttons
     if (this.itemButtons)
       this.itemButtons.forEach(({ button }) => button.destroy());
@@ -132,7 +139,7 @@ class ShopScene extends Phaser.Scene {
         width: 600,
         color: '#000',
         onClick: () => {
-          // updateCoinsRelative(-price);
+          updateCoinsRelative(!isPurchased ? -price : price);
           setPurchasedById(id, !isPurchased);
           this.drawItems();
         },
