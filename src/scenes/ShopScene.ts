@@ -8,20 +8,37 @@ import isDev from '@/helpers/isDev';
 const { getValue: getCoins, setValue: setCoins } = useLocalStorage('coins', 0);
 const { getValue: getPurchased, setValue: setPurchased } = useLocalStorage(
   'purchased',
-  0,
+  {
+    COIN2: false,
+    REGEN: false,
+    ARMOR: false,
+    SPEED: false,
+    JUMPD: false,
+    JETPK: false,
+  },
 );
 
+const currencyFormat = (value: number) =>
+  `🪙 ${Intl.NumberFormat().format(value)}`;
+
+const setPurchasedById = (id: string, newPurchsed: boolean) => {
+  const purchased = getPurchased();
+  setPurchased({ ...purchased, [id]: newPurchsed });
+};
+
 const items = [
-  { name: 'Coin Multiplier x2', price: 100 },
-  { name: 'Health Regeneration', price: 1_000 },
-  { name: 'Kevlar Body Armour', price: 1_000 },
-  { name: 'Move Speed Boost', price: 1_000 },
-  { name: 'Jump Distance Boost', price: 10_000 },
-  { name: 'NASA Jetpack', price: 100_000 },
+  { id: 'COIN2', label: 'Coin Multiplier x2', price: 100 },
+  { id: 'REGEN', label: 'Health Regeneration', price: 1_000 },
+  { id: 'ARMOR', label: 'Kevlar Body Armour', price: 1_000 },
+  { id: 'SPEED', label: 'Move Speed Boost', price: 1_000 },
+  { id: 'JUMPD', label: 'Jump Distance Boost', price: 10_000 },
+  { id: 'JETPK', label: 'NASA Jetpack', price: 100_000 },
 ];
 
 class ShopScene extends Phaser.Scene {
   private coinHud: CoinHud | undefined;
+
+  private itemButtons: { button: UIElement }[] | undefined;
 
   public static preload(scene: Phaser.Scene) {
     UIElement.preload(scene);
@@ -57,23 +74,7 @@ class ShopScene extends Phaser.Scene {
       this.coinHud?.updateCoinsDisplay(newCoins);
     };
 
-    const itemButtons = [];
-
-    for (let i = 0; i < items.length; i += 1) {
-      const { name, price } = items[i];
-      itemButtons.push(
-        noNew(UIElement, this, cx, 150 + i * 75, {
-          uiElementName: UIElementNames.yellow_button01,
-          content: `Get ${name} 🪙 ${Intl.NumberFormat().format(price)}`,
-          width: 600,
-          color: '#000',
-          onClick: () => {
-            updateCoinsRelative(-price);
-          },
-        }),
-      );
-    }
-
+    // back button
     noNew(UIElement, this, cx, height - 100, {
       uiElementName: UIElementNames.yellow_button01,
       content: 'BACK',
@@ -104,6 +105,47 @@ class ShopScene extends Phaser.Scene {
         },
       });
     }
+
+    this.drawItems();
+  }
+
+  drawItems() {
+    const { width } = this.sys.game.canvas;
+    const cx = width / 2;
+
+    // clear old buttons
+    if (this.itemButtons)
+      this.itemButtons.forEach(({ button }) => button.destroy());
+
+    // draw buttons
+    const purchased = getPurchased();
+    this.itemButtons = items.map(({ id, label, price }, i) => {
+      const isPurchased = purchased[id];
+      const transactionType = !purchased[id] ? 'Get' : 'Refund';
+      const buttonType = !purchased[id]
+        ? UIElementNames.yellow_button01
+        : UIElementNames.blue_button00;
+      const content = `${transactionType} ${label} ${currencyFormat(price)}`;
+      const button = new UIElement(this, cx, 150 + i * 75, {
+        uiElementName: buttonType,
+        content,
+        width: 600,
+        color: '#000',
+        onClick: () => {
+          // updateCoinsRelative(-price);
+          setPurchasedById(id, !isPurchased);
+          this.drawItems();
+        },
+      });
+
+      return {
+        id,
+        label,
+        price,
+        isPurchased,
+        button,
+      };
+    });
   }
 }
 
