@@ -92,12 +92,6 @@ const soundConfig = [
     isMusic: true,
   },
   {
-    key: 'music3',
-    filePath: './audio/music/spook.mp3',
-    loop: true,
-    isMusic: true,
-  },
-  {
     key: 'jump',
     filePath: './audio/sfx/jump.mp3',
     loop: false,
@@ -179,6 +173,10 @@ class Level3 extends Phaser.Scene {
     this.coinHud.updateCoinsDisplay(this.coins);
 
     setCoins(getCoins() + 1); // save to meta balance in ls
+  }
+
+  nextScene() {
+    this.scene.start('win-scene');
   }
 
   update() {
