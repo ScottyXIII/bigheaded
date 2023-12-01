@@ -1,5 +1,5 @@
 import fullscreenAndLandscape from '@/helpers/fullscreen';
-import { IconEnum } from '@/helpers/googleFont';
+import googleFont, { FontFamilyEnum, IconEnum } from '@/helpers/googleFont';
 import iconButton from '@/helpers/iconButton';
 import isDev from '@/helpers/isDev';
 import useLocalStorage from '@/helpers/useLocalStorage';
@@ -65,6 +65,8 @@ type RegistryItem = {
 class SettingsHud {
   private scene: GameScene; // scene.audio custom property needed
 
+  private pausedText: Phaser.GameObjects.Text;
+
   private isOpen = false;
 
   private buttons: { buttonName: string; btn: Phaser.GameObjects.Text }[];
@@ -74,7 +76,19 @@ class SettingsHud {
   constructor(scene: GameScene) {
     this.scene = scene;
 
-    const { width } = scene.sys.game.canvas;
+    const { width, height } = scene.sys.game.canvas;
+    const cx = width / 2;
+    const cy = height / 2;
+
+    this.pausedText = googleFont(scene, cx, cy, {
+      fontFamily: FontFamilyEnum.BAGEL,
+      text: 'Paused',
+      color: '#FFF',
+      fontSize: 128,
+      origin: 0.5,
+    });
+    this.pausedText.setDepth(100);
+    this.pausedText.visible = false;
 
     this.buttons = buttonConfig.map(({ buttonName, icons }, i) => {
       const btn = iconButton(scene, width - 48, 48 + 48 * 2 * i, {
@@ -140,8 +154,13 @@ class SettingsHud {
     });
 
     // pause / resume game
-    if (isOpen) this.scene.matter.world.pause();
-    else this.scene.matter.world.resume();
+    if (isOpen && !!this.scene.player) {
+      this.scene.matter.world.pause();
+      this.pausedText.visible = true;
+    } else {
+      this.scene.matter.world.resume();
+      this.pausedText.visible = false;
+    }
   }
 
   registerOnClick(buttonName: string, onClickHandler: () => void) {
