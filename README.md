@@ -18,7 +18,13 @@ Trello board: https://trello.com/b/njkSeDet/game-off-2023-bigheaded
 
 [How to use Tiled to edit levels](./Tiled.md)
 
+Texture Packer: https://www.codeandweb.com/texturepacker/ to create spritesheet atlases
+
 Choose new material icons here https://fonts.google.com/icons?icon.set=Material+Icons
+
+Merges into `main` branch will trigger the [CI](https://github.com/ScottyXIII/bigheaded/actions) and automatically deploy to [github pages](https://scottyxiii.github.io/bigheaded)
+
+To deploy to itch.io, use `npm run build` and zip up the contents of newly created `dist/` directory for upload. This is needed for publication on itch.io.
 
 ## Credits
 
