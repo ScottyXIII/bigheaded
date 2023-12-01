@@ -1,16 +1,31 @@
-import UIElement, { UIElementNames } from '@/objects/UIElement';
 import googleFont, { FontFamilyEnum } from '@/helpers/googleFont';
 import SettingsHud from '@/overlays/SettingsHud';
 import useLocalStorage from '@/helpers/useLocalStorage';
 import initDebug from '@/helpers/initDebug';
 import isDev from '@/helpers/isDev';
 import noNew from '@/helpers/noNew';
+import UIElement, { UIElementNames } from '@/objects/UIElement';
+import Audio from '@/objects/Audio';
 
 const { getValue: getCoins } = useLocalStorage('coins', 0);
+const { getValue: getIsSFXMute } = useLocalStorage('isSFXMute', false);
+const { getValue: getIsMusicMute } = useLocalStorage('isMusicMute', false);
+
+const soundConfig = [
+  {
+    key: 'music2',
+    filePath: './audio/music/sneaky-snitch.mp3',
+    loop: true,
+    isMusic: true,
+  },
+];
 
 class MainMenuScene extends Phaser.Scene {
+  public audio: Audio | undefined;
+
   public static preload(scene: Phaser.Scene) {
     UIElement.preload(scene);
+    Audio.preload(scene, soundConfig);
   }
 
   constructor() {
@@ -22,13 +37,20 @@ class MainMenuScene extends Phaser.Scene {
   }
 
   create() {
+    this.audio = new Audio(this, soundConfig);
+
+    // set sfx/music mute from local storage
+    this.audio.setSFXMute(getIsSFXMute());
+    this.audio.setMusicMute(getIsMusicMute());
+    this.audio.playAudio('music2');
+
     const { width, height } = this.sys.game.canvas;
     const cx = width / 2;
     const cy = height / 2;
 
     googleFont(this, cx, cy - 100, {
       fontFamily: FontFamilyEnum.BAGEL,
-      text: 'BigHeaded',
+      text: 'Bigheaded',
       color: '#FFF',
       fontSize: 128,
       origin: 0.5,

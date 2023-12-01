@@ -9,7 +9,7 @@ import Audio from '@/objects/Audio';
 import SettingsHud from '@/overlays/SettingsHud';
 import CoinHud from '@/overlays/CoinHud';
 
-import Ben3 from '@/objects/entities/Ben3';
+import Bob3 from '@/objects/entities/Bob3';
 import Bat from '@/objects/entities/Bat';
 import Tomato from '@/objects/entities/Tomato';
 import Hedgehog from '@/objects/entities/Hedgehog';
@@ -18,6 +18,7 @@ import Coin from '@/objects/entities/Coin';
 import Skull from '@/objects/Skull';
 import initDebug from '@/helpers/initDebug';
 import isDev from '@/helpers/isDev';
+import controlsTutorial from '@/overlays/controlsTutorial';
 import Control from '@/objects/Control';
 
 const { getValue: getCoins, setValue: setCoins } = useLocalStorage('coins', 0);
@@ -41,7 +42,7 @@ const levelConfig: LevelConfigType = {
   spawnerConfig: [
     {
       tiledObjectName: 'player',
-      classFactory: Ben3,
+      classFactory: Bob3,
       maxSize: 1,
       runChildUpdate: true,
       autoSpawn: true,
@@ -92,21 +93,10 @@ const soundConfig = [
     isMusic: true,
   },
   {
-    key: 'music2',
-    filePath: './audio/music/sneaky-snitch.mp3',
-    loop: true,
-    isMusic: true,
-  },
-  {
     key: 'music3',
     filePath: './audio/music/spook.mp3',
     loop: true,
     isMusic: true,
-  },
-  {
-    key: 'punch',
-    filePath: './audio/sfx/punch.wav',
-    loop: false,
   },
   {
     key: 'jump',
@@ -116,6 +106,11 @@ const soundConfig = [
   {
     key: 'coin',
     filePath: './audio/sfx/coin.mp3',
+    loop: false,
+  },
+  {
+    key: 'gameover',
+    filePath: './audio/sfx/gameover.mp3',
     loop: false,
   },
 ];
@@ -133,9 +128,9 @@ class GameScene extends Phaser.Scene {
 
   public level: Level | undefined;
 
-  public control: Control | undefined;
+  public player: Bob3 | undefined;
 
-  public player: Ben3 | undefined;
+  public control: Control | undefined;
 
   public goal: Skull | undefined;
 
@@ -160,14 +155,13 @@ class GameScene extends Phaser.Scene {
     this.level = new Level(this, levelConfig);
     this.audio = new Audio(this, soundConfig);
 
+    // set sfx/music mute from local storage
+    this.audio.setSFXMute(getIsSFXMute());
+    this.audio.setMusicMute(getIsMusicMute());
     this.audio.playAudio('music1');
 
-    this.player = this.level.spawners.player.getChildren()[0] as Ben3;
+    this.player = this.level.spawners.player.getChildren()[0] as Bob3;
     this.goal = this.level.spawners.goal.getChildren()[0] as Skull;
-
-    // set sfx/music mute from local storage
-    this.audio?.setSFXMute(getIsSFXMute());
-    this.audio?.setMusicMute(getIsMusicMute());
 
     this.coinHud = new CoinHud(this, this.coins); // not coins from LS
 
@@ -176,6 +170,8 @@ class GameScene extends Phaser.Scene {
       const { toggleDebug } = initDebug(this, this.settingsHud);
       this.settingsHud.registerOnClick('isDebugOn', toggleDebug);
     }
+
+    controlsTutorial(this);
   }
 
   collectCoin() {

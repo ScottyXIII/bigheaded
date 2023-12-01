@@ -41,6 +41,9 @@ export enum IconEnum {
   EYEOPEN = '\ue8f4',
   EYECLOSED = '\ue8f5',
   SCENES = '\ue413',
+  TOUCHSWIPE = '\ue9ec',
+  TOUCHTAP = '\ue913',
+  HORIZONTALARROWS = '\uea18',
 }
 
 const googleFont = (

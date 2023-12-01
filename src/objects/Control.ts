@@ -18,7 +18,6 @@ class Control {
     this.zones = {
       halfWidth: width / 2, // half screen.
       quarterWidth: width / 4, // quarter screen.
-      deadZone: width - 100,
     };
 
     // all devices have pointer (mouse or touchscreen)
@@ -37,12 +36,12 @@ class Control {
   // this needs to be called in the scene update (every frame)
   update() {
     const { isDown, x } = this.scene.input.activePointer;
-    const { quarterWidth, halfWidth, deadZone } = this.zones;
+    const { quarterWidth, halfWidth } = this.zones;
 
     // touch booleans
     const isPointerLeft = x < quarterWidth && isDown;
     const isPointerRight = x >= quarterWidth && x < halfWidth && isDown;
-    const isPointerJump = x >= halfWidth && x < deadZone && isDown;
+    const isPointerJump = x >= halfWidth && isDown;
 
     // keyboard booleans
     const isKeyLeft = this.key?.left.isDown || false;
