@@ -28,7 +28,7 @@ const parallaxName: ParallaxNames = 'supermountaindusk';
 
 const levelConfig: LevelConfigType = {
   tilesetPng: './level/tileset/sd-tileset64a.png',
-  tiledMapJson: './level/tiled-level/test-64c.json',
+  tiledMapJson: './level/tiled-level/level-1.json',
   tileWidth: 64,
   tileHeight: 64,
   tileMargin: 0,
@@ -181,7 +181,6 @@ class GameScene extends Phaser.Scene {
   }
 
   update() {
-    // test
     if (!this.parallax || !this.control || !this.player) return;
 
     this.parallax.update();
