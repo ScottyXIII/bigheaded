@@ -227,6 +227,8 @@ class Bob3 extends Entity {
   update(time: number, delta: number) {
     super.update(time, delta);
 
+    if (!this.scene.matter.world.enabled) return; // do nothing if paused
+
     if (this.sensorData.bottom.size >= 1) {
       if (!this.scene.goal) return;
       moveTowards(this, this.scene.goal.skull, {
