@@ -14,6 +14,9 @@ class Control {
   constructor(scene: Phaser.Scene) {
     this.scene = scene;
 
+    // reset
+    scene.input.activePointer.isDown = false;
+
     const { width } = scene.sys.game.canvas;
     this.zones = {
       halfWidth: width / 2, // half screen.
