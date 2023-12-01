@@ -22,8 +22,6 @@ const soundConfig = [
 ];
 
 class MainMenuScene extends Phaser.Scene {
-  private coinHud: CoinHud | undefined;
-
   public audio: Audio | undefined;
 
   public static preload(scene: Phaser.Scene) {
@@ -40,7 +38,7 @@ class MainMenuScene extends Phaser.Scene {
   }
 
   create() {
-    this.coinHud = new CoinHud(this, getCoins());
+    noNew(CoinHud, this, getCoins());
 
     this.audio = new Audio(this, soundConfig);
 
