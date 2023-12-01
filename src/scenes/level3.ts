@@ -164,6 +164,7 @@ class Level3 extends Phaser.Scene {
 
     this.coinHud = new CoinHud(this, this.coins); // not coins from LS
 
+    // @ts-expect-error needs base class extents inherientence refactor
     this.settingsHud = new SettingsHud(this);
     if (isDev) {
       const { toggleDebug } = initDebug(this, this.settingsHud);

@@ -7,6 +7,8 @@ const sceneNames = [
   'main-menu-scene',
   'shop-scene',
   'game-scene',
+  'level2',
+  'level3',
   'death-scene',
   'win-scene',
   // 'scene-selector-scene',
