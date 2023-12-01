@@ -28,6 +28,7 @@ const { getValue: getIsMusicMute } = useLocalStorage('isMusicMute', false);
 const parallaxName: ParallaxNames = 'supermountaindusk';
 
 const levelConfig: LevelConfigType = {
+  key: 'level3',
   tilesetPng: './level/tileset/sd-tileset64a.png',
   tiledMapJson: './level/tiled-level/level-3.json',
   tileWidth: 64,
