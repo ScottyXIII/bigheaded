@@ -82,9 +82,21 @@ const touchTutorial = (scene: Phaser.Scene) => {
     icon: IconEnum.TOUCHTAP,
   });
 
+  const div = scene.add.rectangle(
+    width * 0.5,
+    height * 0.5,
+    10,
+    height * 0.85,
+    0xffffff,
+    0.6,
+  );
+  div.setScrollFactor(0);
+  div.setDepth(100);
+
   setTimeout(() => {
     swipe.destroy();
     tap.destroy();
+    div.destroy();
   }, onScreenDuration);
 };
 
