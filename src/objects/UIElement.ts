@@ -64,8 +64,8 @@ class UIElement extends Phaser.GameObjects.Container {
   static preload(scene: Phaser.Scene) {
     scene.load.atlas(
       'ui',
-      'https://labs.phaser.io/assets/ui/nine-slice.png',
-      'https://labs.phaser.io/assets/ui/nine-slice.json',
+      'ui/nine-slice.png',
+      'ui/nine-slice.json',
     );
   }
 
